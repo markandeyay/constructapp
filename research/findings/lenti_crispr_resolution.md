@@ -12,7 +12,7 @@ Several NCBI records are reviewable as derivative candidates, especially complet
 
 | Accession | Status | Direct Citation Path | Sequence Represents | Caveats |
 | --- | --- | --- | --- | --- |
-| `KX151730.1` | Review-only CRISPR derivative candidate | NCBI GenBank record `Cloning vector px330_DBH-FLPo, complete sequence` links to Sun and Ray 2016, PMID `27441631`; the record name includes `px330`; Hsu et al. 2013 describes `PX330` as a bicistronic U6-sgRNA and CBh-hSpCas9 vector, DOI `10.1038/nbt.2647`. | Complete circular CRISPR/Cas9 plasmid derivative carrying a DBH-targeting sgRNA module and FLPo-related payload context. | Not canonical `PX330`; accession is a later application-specific derivative. It is suitable only if PMR explicitly allows reviewed derivatives and labels it as a derivative, not as the canonical Zhang `PX330`. |
+| `KX151730.1` | Review-only CRISPR derivative candidate | NCBI GenBank record `Cloning vector px330_DBH-FLPo, complete sequence` links to Sun and Ray 2016, PMID `27441631`; the record name includes `px330`; Hsu et al. 2013 describes `PX330` as a bicistronic U6-sgRNA and CBh-hSpCas9 vector, DOI `10.1038/nbt.2647`. | Complete circular CRISPR/Cas9 plasmid derivative carrying a DBH-targeting sgRNA module and FLPo-related payload context. | Not canonical `PX330`; accession is a later application-specific derivative. It is suitable only if Construct explicitly allows reviewed derivatives and labels it as a derivative, not as the canonical Zhang `PX330`. |
 | `KX151731.1` | Review-only CRISPR derivative candidate | NCBI GenBank record `Cloning vector px330_DBH-p2a-FLPo, complete sequence` links to Sun and Ray 2016, PMID `27441631`; the record name includes `px330`; Hsu et al. 2013 describes `PX330` architecture. | Complete circular CRISPR/Cas9 plasmid derivative carrying a DBH-p2a-FLPo sgRNA context. | Same caveat as `KX151730.1`: it is a later derivative and should not be silently substituted for canonical `PX330`. |
 | `MQ170688.1` | Not recommended without legal/provenance review | NCBI summary identifies `Sequence 534 from Patent WO2021171048` with note `pX330-Flag-WT SpCas9 (without sgRNA; with silent mutations)`. | Patent-submitted linear synthetic construct related to `pX330`. | Patent sequence, linear, modified, and not a primary methods-paper plasmid record. Poor seed candidate under current policy. |
 | `MP725430.1` | Not recommended without legal/provenance review | NCBI summary identifies `Sequence 50 from Patent EP3684172` with note `pX330-GFP plasmid nucleic acid sequence`. | Patent-submitted `pX330-GFP`-related sequence. | Patent sequence and derivative; not a canonical CRISPR seed. |
@@ -39,20 +39,20 @@ There is a defensible reviewed-derivative path, but not an immediate no-signoff 
 
 The strongest reviewable CRISPR candidates are `KX151730.1` and `KX151731.1` because they are complete circular GenBank records, explicitly `px330`-named, and linked to a peer-reviewed paper. They still require a human decision because they are DBH/FLPo application derivatives rather than canonical `PX330`, `pX330-U6-Chimeric_BB-CBh-hSpCas9`, `pX458`, or `pX459`.
 
-The strongest reviewable lentiviral candidates are the complete circular `pLenti6` records `LT009455.1` through `LT009459.1`. They still require a human decision because they are BCCM/LMBP repository lentiviral derivatives and not the canonical corpus targets previously named in PMR's representative examples.
+The strongest reviewable lentiviral candidates are the complete circular `pLenti6` records `LT009455.1` through `LT009459.1`. They still require a human decision because they are BCCM/LMBP repository lentiviral derivatives and not the canonical corpus targets previously named in Construct's representative examples.
 
 No accession-backed candidate found here is strong enough to add unilaterally as a canonical `lentiviral_or_retroviral_transfer_vector` or `crispr_vector` seed under the current policy.
 
 ## Caveats
 
-- NCBI records can be public and complete while still being biologically non-canonical for PMR's seed purpose.
+- NCBI records can be public and complete while still being biologically non-canonical for Construct's seed purpose.
 - A later derivative can validate parser coverage for some structural features, but it changes the benchmark claim from `canonical vector seed` to `reviewed derivative seed`.
 - Patent records may be present in NCBI but remain poor default calibration seeds because they add legal/provenance complexity and may not be complete circular plasmids.
 - Addgene remains the clearer source for canonical Zhang lab plasmid identities, but Addgene-only sequence use remains blocked unless licensing/intended-use policy is approved.
 
 ## Questions For Human Review
 
-1. Should PMR allow a `reviewed_genbank_derivative` seed lane distinct from canonical curated seeds?
+1. Should Construct allow a `reviewed_genbank_derivative` seed lane distinct from canonical curated seeds?
 2. If yes, may `KX151730.1` and `KX151731.1` be used as `crispr_vector` derivative seeds with explicit non-canonical labels?
 3. If yes, may `LT009455.1` through `LT009459.1` be used as lentiviral transfer-vector derivative seeds even though they are not the requested canonical Zhang/Addgene lentiviral CRISPR vectors?
 4. Should patent-derived records such as `MQ170688.1` and `MP725430.1` be categorically excluded from parser-calibration seeds?

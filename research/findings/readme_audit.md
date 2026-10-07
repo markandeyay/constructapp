@@ -8,13 +8,13 @@ The README is directionally useful but stale in several important ways. It under
 
 ## Accurate Content
 
-- Product description correctly frames PlasmidAI as plain-English plasmid design with annotated map, validation, and export ambitions.
+- Product description correctly frames Construct as plain-English plasmid design with annotated map, validation, and export ambitions.
 - Phase R, Phase 1, and Phase 3 gate status are broadly correct.
 - Phase 0 scale limitation and Addgene/legal dependency are honestly represented.
 - Phase 2 is correctly described as scaffolding/plumbing without fine-tuned generation gate closure.
 - Phase 4 is correctly described as implemented foundation with gate still open for production/auth/deployment/primer/synthesis work.
 - The two-file contract (`SYSTEM_DESIGN.md` plus `PROGRESS.md`) is correctly introduced.
-- Worktree guidance for `C:\Users\yalam\PMR` and `C:\Users\yalam\PMR-opencode` is useful.
+- Worktree guidance for the Construct and Construct-opencode worktrees is useful.
 - Sequential frontend verification note is correct because `.next` can collide.
 
 ## Stale Or Incorrect Content

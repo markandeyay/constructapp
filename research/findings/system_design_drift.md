@@ -1,7 +1,7 @@
 # SYSTEM_DESIGN Drift Audit
 
 - Date: 2026-06-13
-- Branch/worktree: `demo-readiness` at `C:\Users\yalam\PMR`
+- Branch/worktree: `demo-readiness` in the Construct worktree
 - Scope: drift between `SYSTEM_DESIGN.md`, current implementation, `PROGRESS.md`, and relevant `research/findings/` policy docs.
 - Constraint: `SYSTEM_DESIGN.md` was not edited.
 

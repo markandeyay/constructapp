@@ -234,7 +234,7 @@ Scope: consolidated pending decisions for AUDIT-1 on `demo-readiness`, drawn fro
 - Decision needed: Whether the platform operates as a regulated-like biosecurity checkpoint before provider handoff, and what current U.S. nucleic-acid screening framework controls after the May 5, 2025 Executive Order directive.
 - Why it matters: The decision affects product obligations, validation policy, user messaging, audit logging, and whether the platform blocks or merely warns before synthesis handoff.
 - Current evidence/context: `PROGRESS.md` flags this as unresolved. `model_rollout.md` and `outcome_training_signal.md` both require biosecurity review status before canary/promotion/training use.
-- Practical options: Treat PMR as an internal pre-screening checkpoint with conservative blocks; defer legally mandated screening to synthesis providers but keep audit warnings; require external policy/legal review before synthesis handoff; disable provider handoff until the framework is clarified.
+- Practical options: Treat Construct as an internal pre-screening checkpoint with conservative blocks; defer legally mandated screening to synthesis providers but keep audit warnings; require external policy/legal review before synthesis handoff; disable provider handoff until the framework is clarified.
 
 ### V-6. Decide canonical base 1 for circular plasmids
 

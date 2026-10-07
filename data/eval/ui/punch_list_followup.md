@@ -1,7 +1,7 @@
 # Demo Punch List Follow-Up
 
 Date: 2026-06-20  
-Branch/worktree: `demo-punch-list` in `C:\Users\yalam\PMR-opencode`  
+Branch/worktree: `demo-punch-list` in the Construct-opencode worktree  
 Scope: follow-up on `data/eval/ui/demo_walkthrough.md`, UX/a11y audits, current Next 16 frontend, and frontend E2E coverage.
 
 ## Active Items

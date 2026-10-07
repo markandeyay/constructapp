@@ -74,7 +74,7 @@ HF_HUB_CACHE None
 Hugging Face cache root:
 
 ```text
-C:\Users\yalam\.cache\huggingface\hub
+~\.cache\huggingface\hub
 ```
 
 Cached artifacts after tests:
@@ -99,7 +99,7 @@ Result:
 
 ```text
 repo HuggingFaceBio/Carbon-500M
-cache C:\Users\yalam\.cache\huggingface\hub
+cache ~\.cache\huggingface\hub
 cuda_available False
 tokenizer_load_s 5.67
 model_load_s 31.86
@@ -130,7 +130,7 @@ Result:
 
 ```text
 repo zhihan1996/DNABERT-2-117M
-cache C:\Users\yalam\.cache\huggingface\hub
+cache ~\.cache\huggingface\hub
 cuda_available False
 tokenizer_load_s 1.77
 ImportError: This modeling file requires the following packages that were not found in your environment: einops. Run `pip install einops`
@@ -180,7 +180,7 @@ Do not spend GPU, do not fine-tune, and do not benchmark Carbon-3B/Evo 2 locally
 
 - Should GEN-2 install `einops` to complete a DNABERT-2 CPU embedding smoke test, or is Carbon-500M sufficient for this phase?
 - Should GPU authorization be considered later for Carbon-3B or Evo 2 benchmarking, or should GEN-2 remain CPU-only?
-- Is Apache-2.0 acceptable for Carbon model weights in the intended PMR/PlasmidAI deployment context, pending normal legal review?
+- Is Apache-2.0 acceptable for Carbon model weights in the intended Construct deployment context, pending normal legal review?
 - Should GEN-2 pin a specific Carbon-500M commit hash now, or wait until the implementation branch begins?
 
 ## Sources
@@ -190,4 +190,4 @@ Do not spend GPU, do not fine-tune, and do not benchmark Carbon-3B/Evo 2 locally
 3. Hugging Face model card, `zhihan1996/DNABERT-2-117M`, https://huggingface.co/zhihan1996/DNABERT-2-117M.
 4. Zhou et al., "DNABERT-2: Efficient Foundation Model and Benchmark For Multi-Species Genome", https://arxiv.org/abs/2306.15006.
 5. MAGICS-LAB DNABERT_2 repository, https://github.com/MAGICS-LAB/DNABERT_2.
-6. Prior PMR findings, `research/findings/sequence_models.md`.
+6. Prior Construct findings, `research/findings/sequence_models.md`.

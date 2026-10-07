@@ -218,8 +218,8 @@ Scope: `PROGRESS.md` at `b8df563` on branch `cleanup-loose-ends`. Phase 2 fine-t
     - Superseded by: Phase 1 gate is met.
     - Disposition: remove active phrasing.
 
-11. `Local .env uses POSTGRES_PORT=55432` conflicting with `PMR-opencode` alternate ports note.
-    - Superseded by: worktree-specific `.env` note for PMR-opencode.
+11. `Local .env uses POSTGRES_PORT=55432` conflicting with `Construct-opencode` alternate ports note.
+    - Superseded by: worktree-specific `.env` note for Construct-opencode.
     - Disposition: replace with a single local-env caveat.
 
 12. `Phase 5 foundation is merged...` as blocker phrasing.

@@ -15,8 +15,12 @@ BLOCKED worktree checkout in C:\Users\yalam\constructapp denied by the local
   same git history and pushes to origin, so no work is lost. Operator action
   needed to materialize the tree at the canonical path. See progress/WP-00.md.
 
+BLOCKED WP-01 rebrand committed, pytest green (381 passed, 1 skipped), but check_services.py fails: pinning compose name to construct means running plasmidai-* containers and plasmidai_* volumes are not adopted. Operator must migrate services, see progress/WP-01.md.
+
 ## Spec challenges
 (none yet)
+LICENSE carries a personal copyright holder (Markandeya Yalamanchi). WP-01 left it untouched on purpose. Operator decision needed.
+The immutable spec file itself contains the old names (lines 17, 248, 251, 270, 271, 299, 307, 319), so the literal gate-2 grep cannot reach zero while it is in the tree.
 
 ## Cross-WP requests
 (none yet)

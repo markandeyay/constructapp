@@ -10,7 +10,7 @@
 - API launched with `make serve-api` from the repo root.
 - Web app launched with `npm run dev` from `apps/web`.
 - Browser URL: `http://127.0.0.1:3000`.
-- API log: `C:\tmp\pmr-serve-api.log`.
+- API log: `C:\tmp\construct-serve-api.log`.
 
 ## What Worked
 

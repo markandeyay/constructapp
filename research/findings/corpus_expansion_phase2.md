@@ -2,9 +2,9 @@
 
 ## Summary
 
-The highest-yield, lowest-implementation-risk candidate for CORPUS-2 is an NCBI RefSeq plasmid ingestion lane, followed by a stricter GenBank engineered-vector lane. RefSeq is not a vector-specific database, so it should not replace engineered-vector curation, but it gives the largest public, stable, provenance-preserving plasmid sequence expansion available through the same NCBI tooling already used by PMR.
+The highest-yield, lowest-implementation-risk candidate for CORPUS-2 is an NCBI RefSeq plasmid ingestion lane, followed by a stricter GenBank engineered-vector lane. RefSeq is not a vector-specific database, so it should not replace engineered-vector curation, but it gives the largest public, stable, provenance-preserving plasmid sequence expansion available through the same NCBI tooling already used by Construct.
 
-Recommended CORPUS-2 target: ingest NCBI `srcdb_refseq[PROP]` plasmid records first as a broad public plasmid pretraining/evaluation corpus, then run separate GenBank engineered-vector presets for cloning/expression/reporter/shuttle vectors. Keep non-NCBI sources behind explicit license/provenance gates unless their terms clearly allow PMR's intended training use.
+Recommended CORPUS-2 target: ingest NCBI `srcdb_refseq[PROP]` plasmid records first as a broad public plasmid pretraining/evaluation corpus, then run separate GenBank engineered-vector presets for cloning/expression/reporter/shuttle vectors. Keep non-NCBI sources behind explicit license/provenance gates unless their terms clearly allow Construct's intended training use.
 
 Key finding: the current 206-record local corpus is tiny relative to public NCBI plasmid-scale records. Read-only Entrez count probes on 2026-06-02 found about 71k RefSeq plasmid-title records in the 1 kb to 50 kb range, about 38k RefSeq complete plasmid-title records, about 55k broad GenBank plasmid-title records after WGS/TSA/CON exclusions, and about 10k GenBank engineered-vector-title records.
 
@@ -12,7 +12,7 @@ Key finding: the current 206-record local corpus is tiny relative to public NCBI
 
 - Current local corpus baseline for this task: 206 records after a single Entrez query expansion.
 - Earlier project findings show why this is insufficient for generation: broad `plasmid complete sequence` style queries admit many natural clinical/environmental plasmids, and older quality reports showed high `unknown` profile rates and sparse promoter/terminator annotations.
-- Existing PMR notes already recommend moving from broad vector-title matching to component-gated Entrez queries and preserving raw GenBank artifacts before parsing.
+- Existing Construct notes already recommend moving from broad vector-title matching to component-gated Entrez queries and preserving raw GenBank artifacts before parsing.
 - Generation prep needs two different public data lanes: broad sequence diversity for plasmid-length sequence modeling, and smaller high-confidence engineered-vector data for component/layout validity.
 
 ## Candidate Sources
@@ -74,7 +74,7 @@ Sources:
 
 ### High-Quality Depositor/Lab Queries In NCBI
 
-Depositor or lab names are useful for discovery but are weak primary filters. NCBI sample-record/search notes already observed in PMR research indicate direct-submission institution/address text is not a clean structured field in ordinary sequence search and may appear in comments or references.
+Depositor or lab names are useful for discovery but are weak primary filters. NCBI sample-record/search notes already observed in Construct research indicate direct-submission institution/address text is not a clean structured field in ordinary sequence search and may appear in comments or references.
 
 Count probe on 2026-06-02:
 
@@ -87,7 +87,7 @@ Recommendation: use this as a review queue, not an automatic training source. Re
 
 ### Publication-Linked Molecular Cloning Queries
 
-Publication-linked queries are useful because many engineered vectors are deposited with methods papers or vector-resource papers. The prior PMR strategy proposed `Nucleic Acids Res`, `Methods Mol Biol`, `Gene`, `BioTechniques`, and `Plasmid` as candidate journals.
+Publication-linked queries are useful because many engineered vectors are deposited with methods papers or vector-resource papers. The prior Construct strategy proposed `Nucleic Acids Res`, `Methods Mol Biol`, `Gene`, `BioTechniques`, and `Plasmid` as candidate journals.
 
 Count probe on 2026-06-02:
 
@@ -175,10 +175,10 @@ Source:
 1. Implement CORPUS-2 as `ncbi_refseq_plasmid_broad` using Entrez/E-utilities with `srcdb_refseq[PROP]`, concrete sequence validation, dedupe by accession/version and sequence hash, and stored raw GenBank/FASTA artifacts.
 2. Add `source_lane`, `license_status`, `terms_ref`, `training_use_allowed`, `commercial_use_allowed`, and `review_required` metadata before mixing records from different sources.
 3. Keep broad RefSeq plasmids separate from engineered-vector records in evaluation and training manifests.
-4. Implement `ncbi_genbank_engineered_vector` as the next lane using vector-title plus component gates from existing PMR strategy notes.
+4. Implement `ncbi_genbank_engineered_vector` as the next lane using vector-title plus component gates from existing Construct strategy notes.
 5. Add `ncbi_genbank_methods_publication` and `ncbi_genbank_depositor_audit` as later review queues, not as automatic bulk training lanes.
 6. Add small curated profile-balancing lanes for SEVA and yeast vectors only after the NCBI lanes are stable and legal review confirms acceptable use.
-7. Exclude iGEM, Addgene direct downloads, and DNASU from implementation until explicit source terms or agreements allow the intended PMR training use.
+7. Exclude iGEM, Addgene direct downloads, and DNASU from implementation until explicit source terms or agreements allow the intended Construct training use.
 
 ## Estimated Yield
 
@@ -201,7 +201,7 @@ These are live metadata estimates, not fetched/parsed corpus counts. NCBI counts
 
 - NCBI GenBank states it places no restrictions on use or distribution of GenBank data, but also states submitters may claim patent, copyright, or other IP rights and NCBI cannot assess those claims or grant unrestricted permissions.
 - RefSeq uses NCBI public access and is accessible through RefSeq FTP/NCBI tooling, but it inherits the need to preserve accession, source database, taxonomy, publication, and submitter/provenance metadata.
-- Addgene remains excluded from direct implementation unless the approved Developers Portal scope and data access license explicitly allow the intended PMR training use.
+- Addgene remains excluded from direct implementation unless the approved Developers Portal scope and data access license explicitly allow the intended Construct training use.
 - SEVA is scientifically open and explicitly asks contributors to adhere to open access, but it flags possible IP restrictions for commercial/industrial use. Treat as review-required for commercial model training.
 - SGD site content appears CC BY 4.0 from the site footer, but SGD should not be treated as a primary plasmid sequence source. Use NCBI accessions for sequences.
 - iGEM Registry pages establish public browsing and a large documented-parts corpus, but the accessible pages reviewed here did not confirm bulk sequence training rights. Exclude until terms are confirmed.
@@ -210,8 +210,8 @@ These are live metadata estimates, not fetched/parsed corpus counts. NCBI counts
 ## Questions For Human
 
 - Should CORPUS-2 optimize for broad public plasmid sequence pretraining first, or engineered-vector generation only? If engineered-vector-only, use GenBank vector-title/component gates before RefSeq.
-- Can PMR treat NCBI GenBank/RefSeq records as training-eligible by default while preserving submitter-IP caveats, or should commercial training require a legal-reviewed allowlist?
+- Can Construct treat NCBI GenBank/RefSeq records as training-eligible by default while preserving submitter-IP caveats, or should commercial training require a legal-reviewed allowlist?
 - Is commercial model training in scope for Phase 2? This changes whether SEVA, iGEM, Addgene, and DNASU can be used at all.
 - Should RefSeq natural plasmids be allowed into generation pretraining if generated outputs are intended to be engineered vectors, or should they be restricted to representation learning/evaluation only?
 - Should CORPUS-2 include potentially sensitive natural plasmid classes such as antimicrobial-resistance plasmids, or should those be filtered/downweighted for biosecurity and product-scope reasons?
-- Does PMR have or expect an Addgene Developers Portal license that permits bulk sequence use for training? If yes, Addgene likely becomes the best high-context engineered-vector source, but only under that agreement.
+- Does Construct have or expect an Addgene Developers Portal license that permits bulk sequence use for training? If yes, Addgene likely becomes the best high-context engineered-vector source, but only under that agreement.
