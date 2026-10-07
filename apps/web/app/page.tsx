@@ -35,8 +35,8 @@ const EXAMPLE_PROMPTS = [
   "a yeast shuttle vector with URA3 selection and centromere maintenance"
 ];
 
-const DISMISSED_OUTCOME_PROMPTS_KEY = "plasmidai:dismissed-outcome-prompts";
-const REPORTED_OUTCOMES_KEY = "plasmidai:reported-outcomes";
+const DISMISSED_OUTCOME_PROMPTS_KEY = "construct:dismissed-outcome-prompts";
+const REPORTED_OUTCOMES_KEY = "construct:reported-outcomes";
 const INITIAL_EXPORT_STATUS: Record<ExportFormat, ExportStatus> = { genbank: "idle", fasta: "idle" };
 const INITIAL_EXPORT_ERRORS: Record<ExportFormat, string | null> = { genbank: null, fasta: null };
 
@@ -687,7 +687,6 @@ export default function Page() {
             <div className="fixed inset-0 z-40">
               <button type="button" tabIndex={-1} aria-label="Close settings" onClick={() => setSettingsOpen(false)} className="absolute inset-0 bg-ink/30" />
               <div className="absolute right-md top-14 w-64 rounded-md border border-line bg-paper p-md shadow-floating" role="dialog" aria-label="Settings">
-                <BrandAttribution />
                 <p className="mt-sm text-caption text-slate">Connection: <span className="text-sage">Connected</span></p>
                 <p className="mt-2xs text-caption text-slate">Model: {modelVersion ?? "unknown"}</p>
               </div>
@@ -938,14 +937,6 @@ function PendingPromptFetchMessage() {
   );
 }
 
-function BrandAttribution() {
-  return (
-    <footer className="mt-md border-t border-line px-2xs py-sm" aria-label="Attribution">
-      <p className="text-caption text-slate">by PMR Labs</p>
-    </footer>
-  );
-}
-
 function JobProgressCard({ jobId, state, elapsedMs }: { jobId: string | null; state: UiState; elapsedMs: number }) {
   const elapsedSeconds = Math.max(0, Math.round(elapsedMs / 1000));
   const label = state === "submitting" ? "Starting design job" : "Designing and validating plasmid";
@@ -1174,7 +1165,6 @@ function SidebarContent({
               </div>
             </div>
           )}
-          <BrandAttribution />
         </div>
 
         <div className="flex w-[56px] flex-col items-center gap-sm py-md md:flex lg:hidden">
@@ -1213,7 +1203,6 @@ function SidebarContent({
               <path fill="currentColor" d="M3 3h10v2H3V3zm0 4h10v2H3V7zm0 4h7v2H3v-2z" />
             </svg>
           </button>
-          <BrandAttribution />
         </div>
       </nav>
     );
@@ -1262,7 +1251,6 @@ function SidebarContent({
           </div>
         </div>
       )}
-      <BrandAttribution />
     </div>
   );
 }

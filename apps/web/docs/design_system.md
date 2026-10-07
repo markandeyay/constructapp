@@ -1,8 +1,8 @@
-# PlasmidAI Web Design System
+# Construct Web Design System
 
 Scope: visual tokens for `apps/web`. Light mode only. Audience: PhD-track researchers and biotech professionals. Direction: sterile-modern, restrained, sharp, and product-grade. The layout is the v2 three-pane workspace; this document covers the visual system only.
 
-The code keeps the existing Tailwind accent token name `coral` for cascade compatibility. Its value is now the PlasmidAI green accent, not coral.
+The code keeps the existing Tailwind accent token name `coral` for cascade compatibility. Its value is now the Construct green accent, not coral.
 
 ---
 

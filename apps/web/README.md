@@ -1,4 +1,4 @@
-# PlasmidAI Web
+# Construct Web
 
 Next.js 16 frontend for the Phase 4 design workspace. It provides a chat-style interface, plasmid map rendering, outcome reporting, and export actions against the FastAPI backend.
 

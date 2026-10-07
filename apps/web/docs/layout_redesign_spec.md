@@ -1,6 +1,6 @@
 # Plasmid-Centered Layout Redesign Spec
 
-Status: SPEC — for IMPL-2 to implement on branch `visual-redesign`.
+Status: SPEC, for IMPL-2 to implement on branch `visual-redesign`.
 Author: LAYOUT-1.
 Scope: `apps/web/app/page.tsx` layout, `apps/web/components/plasmid-map-view.tsx` container sizing, and the supporting panel chrome. Does NOT touch `services/api/`, the API client (`apps/web/lib/api`), or any business logic in handlers. IMPL-2 reorganizes WHERE components live; handlers, state, and props are preserved as-is.
 
@@ -20,11 +20,11 @@ The composer is a horizontal dock anchored to the bottom edge of the viewport ac
 
 Rationale, evaluated against the five options:
 
-- (a) Bottom drawer that expands mid-conversation — Rejected in favor of a persistent dock. A drawer that hides the composer until "expanded" fights the conversational nature of the tool: refinement is the primary action, and hiding the entry point reduces the perceived responsiveness that a research tool needs during long polling loops. The "bottom" instinct is correct; the "drawer" framing is not. Keep it bottom, keep it always-present.
-- (b) Left sidebar narrower than current — Rejected. A vertical sidebar competes with the map for horizontal space, which is exactly what we are trying to give the map. It also forces a portrait composer that is awkward for multi-line prompts.
-- (c) Right sidebar — Rejected for the same horizontal-competition reason, and because the right side must remain available for the inspector panels (export, outcome, validation).
-- (d) Floating panel — Rejected. A floating composer overlays the map and forces stacking-order management. It also breaks keyboard flow because a floating element signals "temporary."
-- (e) Modal overlay with persistent thread visible elsewhere — Rejected. Modal-on-modal conflicts with the existing `OutcomeReportModal`, and a conversation tool's input is not a one-shot interaction.
+- (a) Bottom drawer that expands mid-conversation, Rejected in favor of a persistent dock. A drawer that hides the composer until "expanded" fights the conversational nature of the tool: refinement is the primary action, and hiding the entry point reduces the perceived responsiveness that a research tool needs during long polling loops. The "bottom" instinct is correct; the "drawer" framing is not. Keep it bottom, keep it always-present.
+- (b) Left sidebar narrower than current, Rejected. A vertical sidebar competes with the map for horizontal space, which is exactly what we are trying to give the map. It also forces a portrait composer that is awkward for multi-line prompts.
+- (c) Right sidebar, Rejected for the same horizontal-competition reason, and because the right side must remain available for the inspector panels (export, outcome, validation).
+- (d) Floating panel, Rejected. A floating composer overlays the map and forces stacking-order management. It also breaks keyboard flow because a floating element signals "temporary."
+- (e) Modal overlay with persistent thread visible elsewhere, Rejected. Modal-on-modal conflicts with the existing `OutcomeReportModal`, and a conversation tool's input is not a one-shot interaction.
 
 The bottom dock matches the human's stated default ("bottom is a strong default"), matches the chat/composer pattern researchers already know from ChatGPT/Claude, and crucially leaves the entire upper viewport free for the map to dominate. The composer is the floor; the map is the stage above it.
 
@@ -48,7 +48,7 @@ This is the load-bearing structural decision and it directly serves the centerpi
 
 Why a slide-up overlay rather than a separate page or a persistent column: a separate page breaks the "map stays in view while I read the thread" need; a persistent column re-introduces the horizontal competition we rejected for the composer. The overlay is the only option that both (a) gives the thread real estate when wanted and (b) yields that real estate back to the map the instant it is not wanted.
 
-**Question for the human (Q1):** The auto-open-on-busy / auto-collapse-on-complete behavior is a recommended default, not a hard cascade risk. If you prefer the thread to ONLY open on explicit user action (no auto-open during polling), say so — the structure above works either way; only the timing rules change. Context to decide: researchers running long jobs may prefer passive progress in the thread, but others may find auto-open intrusive when they want to watch the map. Decide based on whether this tool is used "watch the job run" style or "fire and come back later" style.
+**Question for the human (Q1):** The auto-open-on-busy / auto-collapse-on-complete behavior is a recommended default, not a hard cascade risk. If you prefer the thread to ONLY open on explicit user action (no auto-open during polling), say so, the structure above works either way; only the timing rules change. Context to decide: researchers running long jobs may prefer passive progress in the thread, but others may find auto-open intrusive when they want to watch the map. Decide based on whether this tool is used "watch the job run" style or "fire and come back later" style.
 
 ---
 
@@ -77,7 +77,7 @@ SeqViz currently keys off `h-[360px] sm:h-[440px] lg:h-[520px]` on the inner `da
 
 The empty-state ("No construct loaded") placeholder replaces its fixed `h-64 sm:h-80 lg:h-96` with `h-full` so the placeholder canvas matches the populated map's footprint.
 
-Width treatment: the center canvas is `min-w-0` (the current code already uses `minmax(0,1fr)` — preserve that flexbox correctness) so the map cannot push the inspector off-screen.
+Width treatment: the center canvas is `min-w-0` (the current code already uses `minmax(0,1fr)`, preserve that flexbox correctness) so the map cannot push the inspector off-screen.
 
 ---
 
@@ -107,7 +107,7 @@ Two-region layout: the left rail collapses into a hamburger in the top app bar; 
 - Inspector as slide-over: 320px wide, pushes from right, with a scrim. Exports / outcome / validation / my-outcomes all live here so they remain reachable (E2E depends on `region "Export actions"` and `button "GenBank"` being reachable; in tablet they are reachable via the Inspect button).
 - Thread overlay rises from the composer and spans full content width.
 
-### Mobile (under 768) — map and chat alternate as primary views
+### Mobile (under 768), map and chat alternate as primary views
 This is the second structural decision (flagged for human review, see Q2).
 
 Mobile uses a single primary surface with a segmented control in the top app bar offering two views: **Map** (default after a result lands) and **Chat**. A bottom composer dock is always pinned to the bottom regardless of which view is active, because the composer is the action surface for refinement and must never be hidden behind a tab switch.
@@ -124,21 +124,21 @@ Mobile uses a single primary surface with a segmented control in the top app bar
 
 **Question for the human (Q2):** The mobile Map/Chat segmented toggle is a recommended default but is a genuine cascade risk: the current E2E test (`design-workspace.spec.ts`, "small viewport..." test) assumes a linear scroll where the map link and the export region are on the same page without a view switch. Two options:
   (i) Keep the Map/Chat segmented control as described, and have VERIFY-1 update the small-viewport E2E to add `More` sheet open + the segmented control hops as needed.
-  (ii) On mobile, instead of a toggle, stack Map-then-Chat in a single scroll (map first, composer pinned at bottom, inspector as bottom sheet) — preserving a linear page so the existing E2E selectors keep working with minimal changes.
+  (ii) On mobile, instead of a toggle, stack Map-then-Chat in a single scroll (map first, composer pinned at bottom, inspector as bottom sheet), preserving a linear page so the existing E2E selectors keep working with minimal changes.
 Both are defensible. (i) is more app-like and matches the "map is centerpiece" spirit on mobile; (ii) is lower-risk for tests and closer to the current behavior. Please pick. Default if you do not answer: (ii) the single-scroll stack, because it preserves E2E reachability and the composer is already pinned at the bottom so the map still reads as the top-of-page centerpiece.
 
 ---
 
 ## 5. Auxiliary panels placement
 
-- **Top app bar (new):** 48px tall on desktop/tablet, 56px on mobile. Holds, left-to-right: brand mark ("PlasmidAI"), the `Design workspace` heading (relocated from the left `<section>` so the landmark E2E assertion `heading "Design workspace"` still passes), the mobile Map/Chat segmented control (mobile only), the Inspect button (tablet only) / More pill (mobile only), and a thread-toggle button mirroring the composer's "Show conversation" affordance. This is the only fixed top chrome.
-- **Left rail (desktop):** collapsed icon rail (56px) by default expanding to 240px. Hosts the session list when it exists. NOTE: the current app has no session-list UI — `sessionId` is held in state but there is no session browser. The left rail's session list is therefore a forward-looking slot: IMPL-2 should render the rail with the thread-toggle and map-nav icons now, and leave a clearly-marked placeholder region for a future session list. Do NOT build a session list; just allocate the space. The current scope has no multi-session UI to place.
+- **Top app bar (new):** 48px tall on desktop/tablet, 56px on mobile. Holds, left-to-right: brand mark ("Construct"), the `Design workspace` heading (relocated from the left `<section>` so the landmark E2E assertion `heading "Design workspace"` still passes), the mobile Map/Chat segmented control (mobile only), the Inspect button (tablet only) / More pill (mobile only), and a thread-toggle button mirroring the composer's "Show conversation" affordance. This is the only fixed top chrome.
+- **Left rail (desktop):** collapsed icon rail (56px) by default expanding to 240px. Hosts the session list when it exists. NOTE: the current app has no session-list UI, `sessionId` is held in state but there is no session browser. The left rail's session list is therefore a forward-looking slot: IMPL-2 should render the rail with the thread-toggle and map-nav icons now, and leave a clearly-marked placeholder region for a future session list. Do NOT build a session list; just allocate the space. The current scope has no multi-session UI to place.
 - **Right inspector (desktop/tablet-as-slide-over/mobile-as-bottom-sheet):** top-to-bottom order inside the inspector:
-  1. `RightRailJobNotice` (only while busy) — keep its `role="status"` semantics.
+  1. `RightRailJobNotice` (only while busy), keep its `role="status"` semantics.
   2. Validation summary (compact: overall badge + check count + link to open thread at the full report). The full `ValidationReportPanel` per-check rendering remains inline in the thread as today.
   3. `ExportActions` (full region; on mobile the slim mirror row is pinned under the map, and the full region is omitted from the More sheet to avoid duplicate-on-screen buttons).
-  4. `OutcomePanel` (the "Report outcome" / "Review or edit outcome" button — E2E-asserted; must remain a `button` with that exact label).
-  5. `MyOutcomesPanel` (`region "My reported outcomes"` — E2E-asserted; preserve the `aria-label`).
+  4. `OutcomePanel` (the "Report outcome" / "Review or edit outcome" button, E2E-asserted; must remain a `button` with that exact label).
+  5. `MyOutcomesPanel` (`region "My reported outcomes"`, E2E-asserted; preserve the `aria-label`).
   - `PendingPromptFetchMessage` (the error case for fetching pending prompts) renders at the top of the inspector when present.
 - **PendingOutcomeToast:** Confirmed as-is for positioning. The current classes are `fixed left-4 right-4 top-4` on small screens and `sm:bottom-4 sm:w-[calc(100%-2rem)] sm:max-w-md` (so bottom-right from `sm` upward). Keep this exactly. It is viewport-fixed and therefore independent of the new layout grid; it overlays cleanly on top of both the map and the composer. The E2E `getByLabel("Pending outcome prompt")` selector keeps working. No change.
 - **OutcomeReportModal:** Unchanged. Rendered at the page root, portal-style, full-screen scrim + dialog. The E2E asserts `dialog heading "What happened in the lab?"`. Keep the dialog semantics and heading. Independent of layout grid.
@@ -152,7 +152,7 @@ Mapping each existing component (as named/used in `apps/web/app/page.tsx` and `a
 | Component (current name / selector) | Large desktop (1440+) | Mobile (<768) |
 |---|---|---|
 | `Design workspace` heading (`#design-workspace-title`, E2E-asserted) | Top app bar, centered-left after brand | Top app bar, after brand |
-| Conversation message thread (the `messages.map` block in `page.tsx`) | Slide-up overlay from bottom composer dock, ~55% viewport height, summoned by thread toggle; auto-opens while busy | Chat view (segmented control) — full-screen surface above the pinned composer |
+| Conversation message thread (the `messages.map` block in `page.tsx`) | Slide-up overlay from bottom composer dock, ~55% viewport height, summoned by thread toggle; auto-opens while busy | Chat view (segmented control), full-screen surface above the pinned composer |
 | Composer textarea + submit (`#goal`, submit button, example chips, clarification banner, poll-timeout controls) | Bottom composer dock, full content width, persistent | Bottom composer dock, full width, persistent (always pinned, both Map and Chat views) |
 | `RightRailJobNotice` (busy-state notice) | Right inspector, top | "More" bottom sheet, top |
 | `PlasmidMapView` (the `#plasmid-map` section) | Center canvas, container ~620px tall, ~960px wide | Map view primary surface, container ~50-55% viewport height, full width |
@@ -180,13 +180,13 @@ Mapping each existing component (as named/used in `apps/web/app/page.tsx` and `a
 - The `button "Report outcome"` assertion (small-viewport test, before the dialog): the button lives in the "More" bottom sheet on mobile. The existing test does NOT click "More" first. If Q2 answer is (ii) single-scroll stack, the `OutcomePanel` stays on-page and the assertion passes unchanged. If Q2 answer is (i) segmented toggle, VERIFY-1 must update the small-viewport test to open the More sheet before clicking "Report outcome".
 - The `dialog heading "What happened in the lab?"` assertion is unaffected (modal unchanged).
 - The `"Pending outcome prompt"` toast assertion is unaffected (toast positioning unchanged).
-- The `"My reported outcomes"` region assertion is unaffected (aria-label preserved); on mobile it is inside the More sheet — if Q2 is (i), VERIFY-1 must open More before asserting; if Q2 is (ii), unchanged.
+- The `"My reported outcomes"` region assertion is unaffected (aria-label preserved); on mobile it is inside the More sheet, if Q2 is (i), VERIFY-1 must open More before asserting; if Q2 is (ii), unchanged.
 - The `"Submit a design to render the annotated plasmid."` empty-state assertion is unaffected (text preserved inside the empty-state branch of `PlasmidMapView`).
 
 ---
 
 ## Questions for the human
 
-**Q1 — Thread auto-open timing (low cascade risk):** Should the conversation thread auto-open during busy states (`submitting`/`polling`) and auto-collapse ~1.5s after completion, or should it open ONLY on explicit user action with no auto behavior? Recommended default if no answer: auto-open on busy, auto-collapse on complete, EXCEPT in poll_timeout where it stays open. Context: this is a timing/UX rule, not a structural one; either answer works with the layout above.
+**Q1, Thread auto-open timing (low cascade risk):** Should the conversation thread auto-open during busy states (`submitting`/`polling`) and auto-collapse ~1.5s after completion, or should it open ONLY on explicit user action with no auto behavior? Recommended default if no answer: auto-open on busy, auto-collapse on complete, EXCEPT in poll_timeout where it stays open. Context: this is a timing/UX rule, not a structural one; either answer works with the layout above.
 
-**Q2 — Mobile layout structure (HIGH cascade risk for E2E):** On mobile, should the layout use (i) a Map/Chat segmented control with the inspector in a "More" bottom sheet (more app-like, centerpiece-first, but forces E2E updates for the small-viewport test), or (ii) a single-scroll stack with the map at top, composer pinned at bottom, inspector panels as a bottom sheet opened on demand (lower-risk, keeps existing E2E selectors working with minimal changes)? Recommended default if no answer: (ii) single-scroll stack, because it preserves E2E reachability and the composer-pinned-at-bottom already makes the map the top-of-page centerpiece on mobile.
+**Q2, Mobile layout structure (HIGH cascade risk for E2E):** On mobile, should the layout use (i) a Map/Chat segmented control with the inspector in a "More" bottom sheet (more app-like, centerpiece-first, but forces E2E updates for the small-viewport test), or (ii) a single-scroll stack with the map at top, composer pinned at bottom, inspector panels as a bottom sheet opened on demand (lower-risk, keeps existing E2E selectors working with minimal changes)? Recommended default if no answer: (ii) single-scroll stack, because it preserves E2E reachability and the composer-pinned-at-bottom already makes the map the top-of-page centerpiece on mobile.

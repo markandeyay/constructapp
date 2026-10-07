@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PlasmidAI",
+  title: "Construct",
   description: "Natural-language plasmid design workspace"
 };
 
