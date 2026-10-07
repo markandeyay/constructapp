@@ -22,7 +22,7 @@ Approved policy for the first run:
    ```powershell
    git checkout master
    git pull
-   $env:COMPOSE_PROJECT_NAME='pmr'
+   $env:COMPOSE_PROJECT_NAME='construct'
    & 'C:\Program Files (x86)\GnuWin32\bin\make.exe' test
    ```
 
