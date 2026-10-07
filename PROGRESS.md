@@ -3,6 +3,8 @@
 ## Claimed
 WP-00 CLAIMED by orchestrator at 2026-10-07T00:00:00Z
 WP-01 CLAIMED by wp01-rebrand at 2026-10-07T00:00:00Z
+WP-02 CLAIMED by wp02-contract at 2026-10-07T22:48:16Z
+WP-09 CLAIMED by wp09-harness at 2026-10-07T22:48:59Z
 
 ## Done
 WP-00 DONE by orchestrator at 2026-10-07T00:00:00Z
@@ -25,6 +27,10 @@ ORCHESTRATOR self-check on WP-01 found two gaps the package under-reported, both
   retired brand names verbatim, so section 2.3 forbids it as a committed file. It is read
   from the operator path outside the tree and the copy there is byte identical.
 
+WP-09 DONE by wp09-harness at 2026-10-07T22:56:34Z
+  Per-capability gold runner (tests/gold/runner.py) asserts overall, the named check, and no unexpected FAIL; adds eval-capabilities (no DB), eval-plasmid, and eval-all/eval-check running both halves.
+  pytest 411 passed 1 skipped; eval-check still fails honestly on the empty corpus. Detail in progress/WP-09.md.
+
 ## Blocked
 BLOCKED worktree checkout in C:\Users\yalam\constructapp denied by the local
   permission classifier. Build proceeds in a scratchpad clone that shares the
@@ -40,6 +46,7 @@ The immutable spec file itself contains the old names (lines 17, 248, 251, 270, 
 
 ## Cross-WP requests
 (none yet)
+WP-09 to WP-02: the gold runner (tests/gold/runner.py) resolves validators via CAPABILITY_REGISTRY in packages.core.capability_registry (also tries packages.core.schemas.registry, packages.core.registry). Each CapabilitySpec should expose `validator` (or `validator_factory()`) and optionally `design_model` (pydantic model the case `input` is parsed into). If absent, gold cases report UNEVALUABLE, never pass.
 
 ## Defaults taken, per section 17
 Q1 local directory was not empty, it held the spec only. Reconciled by git init

@@ -1,0 +1,96 @@
+{
+  "accuracy": null,
+  "capabilities": [
+    {
+      "accuracy": null,
+      "capability": "aav",
+      "correct": 0,
+      "disagreements": [],
+      "known_bad": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "known_good": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "malformed": 0,
+      "tier_a": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "tier_b": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "total": 0,
+      "unknown_check_reports": 0
+    },
+    {
+      "accuracy": null,
+      "capability": "assembly",
+      "correct": 0,
+      "disagreements": [],
+      "known_bad": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "known_good": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "malformed": 0,
+      "tier_a": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "tier_b": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "total": 0,
+      "unknown_check_reports": 0
+    },
+    {
+      "accuracy": null,
+      "capability": "grna",
+      "correct": 0,
+      "disagreements": [],
+      "known_bad": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "known_good": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "malformed": 0,
+      "tier_a": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "tier_b": {
+        "accuracy": null,
+        "correct": 0,
+        "total": 0
+      },
+      "total": 0,
+      "unknown_check_reports": 0
+    }
+  ],
+  "correct": 0,
+  "disagreement_count": 0,
+  "gold_root": "tests/gold",
+  "total": 0
+}
