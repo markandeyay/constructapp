@@ -1,0 +1,27 @@
+{
+  "id": "promoter.cmv",
+  "name": "CMV immediate early enhancer and promoter",
+  "category": "promoter",
+  "length_bp": 663,
+  "sequence": "ACGCGTGGAGCTAGTTATTAATAGTAATCAATTACGGGGTCATTAGTTCATAGCCCATATATGGAGTTCCGCGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAATGACGTATGTTCCCATAGTAACGTCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGTGATGCGGTTTTGGCAGTACATCAATGGGCGTGGATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAGACACCGGGACCGATCCAGCCTCC",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": "ubiquitous",
+  "source": "GenBank AF396260.1, regulatory (promoter) feature 150..812",
+  "notes": "Strong, ubiquitous expression. Can silence over time in some tissues (Appendix B). The annotated feature is longer than the roughly 584 bp enhancer plus promoter core because it runs on through the transcription start and 5' untranslated region of the CMV immediate early gene. The sense strand contains 17 ATG trinucleotide(s).",
+  "citation": "GenBank AF396260.1",
+  "provenance": {
+    "accession": "AF396260.1",
+    "record_title": "Cloning vector pAAV-MCS, complete sequence.",
+    "feature_type": "regulatory",
+    "feature_note": "CMV",
+    "coordinates": [
+      150,
+      812
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

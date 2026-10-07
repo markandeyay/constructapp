@@ -1,0 +1,27 @@
+{
+  "id": "promoter.cbh",
+  "name": "CBh promoter (hybrid CMV enhancer and chicken beta-actin)",
+  "category": "promoter",
+  "length_bp": 799,
+  "sequence": "CGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAGTAACGCCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGTCGAGGTGAGCCCCACGTTCTGCTTCACTCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTTTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGAGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCGAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCTGAGCAAGAGGTAAGGGTTTAAGGGATGGTTGGTTGGTGGGGTATTAATGTTTAATTACCTGGAGCACCTGCCTGAAATCACTTTTTTTCAGGTTGG",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": "ubiquitous",
+  "source": "GenBank KU341333.1, regulatory (promoter) feature 442..1240",
+  "notes": "Hybrid, ubiquitous (Appendix B). The CBh promoter is described in a 2011 Human Gene Therapy paper as a hybrid form of the chicken beta-actin promoter of roughly 800 bp. The sense strand contains 12 ATG trinucleotide(s). Literature describing the element: doi:10.1089/hum.2010.245 (the sequence itself comes from the GenBank record, not from the paper).",
+  "citation": "GenBank KU341333.1",
+  "provenance": {
+    "accession": "KU341333.1",
+    "record_title": "Synthetic plasmid pCas9n-sgPdx1, complete sequence.",
+    "feature_type": "regulatory",
+    "feature_note": "CBh promoter",
+    "coordinates": [
+      442,
+      1240
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

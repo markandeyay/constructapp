@@ -1,0 +1,27 @@
+{
+  "id": "promoter.efs",
+  "name": "EFS, short EF-1 alpha core promoter",
+  "category": "promoter",
+  "length_bp": 212,
+  "sequence": "GGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAG",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": "ubiquitous",
+  "source": "GenBank MT891328.1, regulatory (promoter) feature 529..740",
+  "notes": "The compact ubiquitous option. Weaker than CAG. Valuable when capacity is tight (Appendix B). Annotated in the source record as the EF-1alpha core promoter. The sense strand contains 1 ATG trinucleotide(s).",
+  "citation": "GenBank MT891328.1",
+  "provenance": {
+    "accession": "MT891328.1",
+    "record_title": "Cloning vector (181)_P_EFS-mRuby3, complete sequence.",
+    "feature_type": "regulatory",
+    "feature_note": "EF-1alpha core promoter",
+    "coordinates": [
+      529,
+      740
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "itr.aav2_itr_left",
+  "name": "AAV2 inverted terminal repeat, left (5' ITR)",
+  "category": "itr",
+  "length_bp": 145,
+  "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": null,
+  "source": "GenBank NC_001401.2, repeat_region feature 1..145",
+  "notes": "Left ITR as it appears on the reference genome plus strand. Contains the A, B, C and D regions (145 nt; the larger figure in Appendix B includes the D sequence). The reference record also annotates a flip oriented DNA feature at 42..83. The sense strand contains 0 ATG trinucleotide(s). Literature describing the element: doi:10.1128/JVI.45.2.555-564.1983 (the sequence itself comes from the GenBank record, not from the paper).",
+  "citation": "RefSeq NC_001401.2",
+  "provenance": {
+    "accession": "NC_001401.2",
+    "record_title": "Adeno-associated virus - 2, complete genome.",
+    "feature_type": "repeat_region",
+    "feature_note": "inverted terminal repeat",
+    "coordinates": [
+      1,
+      145
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "itr.aav2_itr_right",
+  "name": "AAV2 inverted terminal repeat, right (3' ITR)",
+  "category": "itr",
+  "length_bp": 145,
+  "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": null,
+  "source": "GenBank NC_001401.2, repeat_region feature 4535..4679",
+  "notes": "Right ITR as it appears on the reference genome plus strand. Its reverse complement matches the left ITR at 128 of 145 positions (88.3 percent) because the left ITR carries the flip orientation of the B and C arms and the right ITR the flop orientation, so each ITR must be compared with its own reference record, not with the other one. Placing it 3' of the cassette in this orientation gives the inverted arrangement that check aav.itr_orientation tests for. The reference record annotates a flop oriented DNA feature at 4597..4638. The sense strand contains 1 ATG trinucleotide(s). Literature describing the element: doi:10.1128/JVI.45.2.555-564.1983 (the sequence itself comes from the GenBank record, not from the paper).",
+  "citation": "RefSeq NC_001401.2",
+  "provenance": {
+    "accession": "NC_001401.2",
+    "record_title": "Adeno-associated virus - 2, complete genome.",
+    "feature_type": "repeat_region",
+    "feature_note": "inverted terminal repeat",
+    "coordinates": [
+      4535,
+      4679
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

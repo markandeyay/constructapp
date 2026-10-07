@@ -1,0 +1,27 @@
+{
+  "id": "intron.chimeric",
+  "name": "Chimeric intron (human beta-globin donor, immunoglobulin acceptor)",
+  "category": "intron",
+  "length_bp": 141,
+  "sequence": "CACCTGTGGAGAGAAAGGCAAAGTGGATGTCAGTAAGACCAATAGGTGCCTATCAGAAACGCAAGAGTCTTCTCTGTCTCGACAAGCCCAGTTTCTATGTGGTCTCCTTAAACCTGTCTTGTAACCTTGATACTTACCTGC",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": null,
+  "source": "GenBank KT345943.1, intron feature 17..157",
+  "notes": "Optional (Appendix B). Annotated beta-globin-IgG-chimeric intron in the source record. The sense strand contains 2 ATG trinucleotide(s).",
+  "citation": "GenBank KT345943.1",
+  "provenance": {
+    "accession": "KT345943.1",
+    "record_title": "Cloning vector pAAV-hSyn-mCherry-hSyn-9(5), complete sequence.",
+    "feature_type": "intron",
+    "feature_note": "beta-globin-IgG-chimeric intron",
+    "coordinates": [
+      17,
+      157
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "promoter.mecp2_mini",
+  "name": "MeCP2 mini promoter (meP229)",
+  "category": "promoter",
+  "length_bp": 225,
+  "sequence": "CAATTGAGGGCGTCACCGCTAAGGCTCCGCCCCAGCCTGGGCTCCACAACCAATGAAGGGTAATCTCGACAAAGAGCAAGGGGTGGGGCGCGGGCGCGCAGGTGCAGCAGCACACAGGCTGGTCGGGAGGGCGGGGCGCGACGTCTGCCGTGCGGGGTCCCGGCATCGGTTGCGCGCGCGCTCCCTCCTCTCGGAGAGAGGGCTGTGGTAAAACCCGTCCGGAAA",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": "cns_neuron",
+  "source": "GenBank PY026695.1, misc_feature feature 1..225",
+  "notes": "Compact, neuronal (Appendix B). Lowest-confidence source in the registry: a patent sequence record (US 12359219 B2) rather than a vector deposit, annotated meP229 although the record is 225 bp long. It matches the 3' end of the patent's meP426 record (PY026693.1) exactly, see PROVENANCE.md. The sense strand contains 1 ATG trinucleotide(s).",
+  "citation": "GenBank PY026695.1 (patent US 12359219 B2)",
+  "provenance": {
+    "accession": "PY026695.1",
+    "record_title": "Sequence 24 from patent US 12359219 B2.",
+    "feature_type": "misc_feature",
+    "feature_note": "meP229 Promoter",
+    "coordinates": [
+      1,
+      225
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

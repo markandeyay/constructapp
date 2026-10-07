@@ -1,0 +1,27 @@
+{
+  "id": "polya.bgh",
+  "name": "Bovine growth hormone polyadenylation signal",
+  "category": "polya",
+  "length_bp": 225,
+  "sequence": "CTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTGGGGTGGGGCAGGACAGCAAGGGGGAGGATTGGGAAGACAATAGCAGGCATGCTGGGGATGCGGTGGGCTCTATGG",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": null,
+  "source": "GenBank ON785708.1, regulatory (polyA_signal_sequence) feature 3786..4010",
+  "notes": "Common default polyadenylation signal (Appendix B). The sense strand contains 4 ATG trinucleotide(s).",
+  "citation": "GenBank ON785708.1",
+  "provenance": {
+    "accession": "ON785708.1",
+    "record_title": "Cloning Vector AAV-CAG-TPP1, complete sequence.",
+    "feature_type": "regulatory",
+    "feature_note": "bovine growth hormone polyadenylation signal",
+    "coordinates": [
+      3786,
+      4010
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

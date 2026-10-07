@@ -1,0 +1,27 @@
+{
+  "id": "enhancer.wpre",
+  "name": "Woodchuck hepatitis virus posttranscriptional regulatory element",
+  "category": "enhancer",
+  "length_bp": 589,
+  "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": null,
+  "source": "GenBank MH282432.1, regulatory (enhancer) feature 2868..3456",
+  "notes": "Boosts expression. Optional, and the obvious cut when over budget (Appendix B). The sense strand contains 6 ATG trinucleotide(s). Literature describing the element: doi:10.1128/JVI.73.4.2886-2892.1999 (the sequence itself comes from the GenBank record, not from the paper).",
+  "citation": "GenBank MH282432.1",
+  "provenance": {
+    "accession": "MH282432.1",
+    "record_title": "Vector pAAV-hSyn1-GCaMP6s-P2A-mRuby3, complete sequence.",
+    "feature_type": "regulatory",
+    "feature_note": "WPRE",
+    "coordinates": [
+      2868,
+      3456
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "polya.sv40",
+  "name": "SV40 polyadenylation signal",
+  "category": "polya",
+  "length_bp": 135,
+  "sequence": "AACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATC",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": null,
+  "source": "GenBank KX449554.1, regulatory (polyA_signal_sequence) feature 4852..4986",
+  "notes": "Smaller alternative to bGH (Appendix B). The sense strand contains 3 ATG trinucleotide(s).",
+  "citation": "GenBank KX449554.1",
+  "provenance": {
+    "accession": "KX449554.1",
+    "record_title": "Cloning vector pAAV2neo-1.3HBV(adr), complete sequence.",
+    "feature_type": "regulatory",
+    "feature_note": "SV40 polyadenylation signal",
+    "coordinates": [
+      4852,
+      4986
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

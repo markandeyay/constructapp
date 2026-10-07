@@ -1,0 +1,27 @@
+{
+  "id": "promoter.gfap",
+  "name": "GfaABC1D astrocyte promoter",
+  "category": "promoter",
+  "length_bp": 691,
+  "sequence": "GATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGCAAGCT",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": "cns_astrocyte",
+  "source": "GenBank PZ285974.1, regulatory (promoter) feature 1214..1904",
+  "notes": "Astrocyte-specific (Appendix B lists GFAP at roughly 680 bp). Annotated gfaABC1D promoter in the source record. The sense strand contains 8 ATG trinucleotide(s). Literature describing the element: doi:10.1002/glia.20622 (the sequence itself comes from the GenBank record, not from the paper).",
+  "citation": "GenBank PZ285974.1",
+  "provenance": {
+    "accession": "PZ285974.1",
+    "record_title": "Synthetic construct clone pZac2.1-GfaABC1D-mCherry, complete sequence.",
+    "feature_type": "regulatory",
+    "feature_note": "gfaABC1D promoter",
+    "coordinates": [
+      1214,
+      1904
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}

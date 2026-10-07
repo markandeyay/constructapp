@@ -1,0 +1,27 @@
+{
+  "id": "promoter.hsyn1",
+  "name": "Human synapsin I promoter (hSyn1)",
+  "category": "promoter",
+  "length_bp": 472,
+  "sequence": "CTGCAGAGGGCCCTGCGTATGAGTGCAAGTGGGTTTTAGGACCAGGATGAGGCGGGGTGGGGGTGCCTACCTGACGACCGACCCCGACCCACTGGACAAGCACCCAACCCCCATTCCCCAAATTGCGCATCCCCTATCAGAGAGGGGGAGGGGAAACAGGATGCGGCGAGGCGCGTGCGCACTGCCAGCTTCAGCACCGCGGACAGTGCCTTCGCCCCCGCCTGGCGGCGCGCGCCACCGCCGCCTCAGCACTGAAGGCGCGCTGACGTCACTCGCCGGTCCCCCGCAAACTCCCCTTCCCGGCCACCTTGGTCGCGTCCGCGCCGCCGCCGGCCCAGCCGGACCGCACCACGCGAGGCGCGAGATAGGGGGGCACGGGCGCGACCATCTGCGCTGCGGCGCCGGCGACTCAGCGCTGCCTCAGTCTGCGGTGGGCAGCGGAGGAGTCGTGTCGTGCCTGAGAGCGCAGTCG",
+  "host_compatibility": [
+    "mammalian_general"
+  ],
+  "tissue_specificity": "cns_neuron",
+  "source": "GenBank MH282432.1, regulatory (promoter) feature 216..687",
+  "notes": "Neuron-specific (Appendix B). The source annotation cites a 2003 Gene Therapy paper for neuron specific expression. The sense strand contains 3 ATG trinucleotide(s). Literature describing the element: doi:10.1038/sj.gt.3301905 (the sequence itself comes from the GenBank record, not from the paper).",
+  "citation": "GenBank MH282432.1",
+  "provenance": {
+    "accession": "MH282432.1",
+    "record_title": "Vector pAAV-hSyn1-GCaMP6s-P2A-mRuby3, complete sequence.",
+    "feature_type": "regulatory",
+    "feature_note": "hSyn promoter; human synapsin I promoter, confers neuron-specific expression (author citation omitted)",
+    "coordinates": [
+      216,
+      687
+    ],
+    "strand": 1,
+    "retrieved_on": "2026-10-07",
+    "retrieved_via": "NCBI E-utilities efetch, db=nuccore, rettype=gb, tool=construct-build"
+  }
+}
