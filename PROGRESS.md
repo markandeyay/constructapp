@@ -65,3 +65,44 @@ Q3 internal Postgres database and user names kept as they are. Only visible
 Q4 GOOGLE_API_KEY availability not yet confirmed. Capability validators do not
   need it. Recorded, build proceeds.
 Q5 AAV2 ITRs only in the registry.
+
+## Orchestrator: corpus rebuild and evaluation baseline, 2026-10-07
+
+CORPUS REBUILT FROM SCRATCH. No corpus existed locally: the database had zero
+  relations, the object store held an empty bucket, no cached raw blobs were in
+  the tree, and the 36 curated known-good records contain no AAV elements.
+  Rebuilt from NCBI with operator authorization for a contact email, which lives
+  only in the gitignored .env and in no committed file.
+  Result: 194 records, all 194 embedded with the locally cached PubMedBERT, zero
+  errors. 25 of the 26 retrieval gold targets are present. The missing one,
+  genbank:PZ138287.1, was rejected by the pipeline's own quality filter.
+
+EVALUATION BASELINE RESET, with the four pre-rebuild dashboards archived to
+  data/eval/archive/pre-corpus-rebuild/ rather than deleted. Reason: the
+  regression check compares the two most recent dashboards to catch a code
+  regression, and the stored previous dashboard described the 82 record corpus
+  that no longer exists. Comparing across a corpus swap measures the swap, not
+  the code. Full reasoning and both sets of numbers are in that directory's
+  README.
+
+CLAIM SAFETY CONSEQUENCE, per section 16. Retrieval ranking is LOWER on the
+  rebuilt corpus: mrr 0.7917 against the previously recorded 0.9375, and
+  complete annotations 23 against 141. The earlier figures describe a corpus
+  that is not in the system any more and must not be quoted as current. The
+  plasmid validation gold set is unaffected, since those checks are
+  deterministic functions over supplied sequences, and still reports accuracy
+  1.0 with the phase 3 gate met.
+
+MAKEFILE PORTABILITY FIX. The five recursive $(MAKE) invocations are now quoted.
+  GNU Make 3.81 here resolves to a path containing spaces and parentheses, so
+  the unquoted form was a shell syntax error and eval-all could never run.
+
+POSTGRES HOST PORT MOVED to 55432 in the gitignored .env only. A native
+  postgresql-x64-18 Windows service owns 5432 on this machine and has no
+  plasmid role, which produced an authentication failure over TCP while
+  in-container access worked. The compose file already parameterized the port.
+  .env.example still documents the generic 5432 default for other machines.
+
+GATE STATUS at this point: make test 520 passed 2 skipped exit 0, make demo
+  1 passed exit 0, make eval-all exit 0, make eval-check exit 0 on two
+  consecutive runs.

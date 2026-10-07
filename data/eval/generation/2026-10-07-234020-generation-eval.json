@@ -1,0 +1,1862 @@
+{
+  "eval_version": "phase2-generation-eval-v1",
+  "generated_at": "2026-10-07T23:40:20.337395+00:00",
+  "gold_path": "data\\eval\\generation_gold.jsonl",
+  "generator_mode": "fake",
+  "generator_version": "fake-template-generator-v1",
+  "constraint_engine_mode": "stub",
+  "constraint_engine_version": "stub-constraint-engine-v0",
+  "gate_eligible": false,
+  "metrics": {
+    "gold_cases": 15,
+    "unsupported_cases": 2,
+    "scored_cases": 13,
+    "candidates": 13,
+    "syntactic_valid_rate": 1.0,
+    "sane_length_rate": 1.0,
+    "component_complete_rate": 0.5384615384615384,
+    "stub_constraint_pass_rate": 1.0,
+    "novel_rate": 0.0,
+    "phase2_gate_proxy_rate": 0.5384615384615384,
+    "strict_generation_success_rate": 0.0,
+    "case_phase2_gate_proxy_rate": 0.5384615384615384,
+    "case_strict_success_rate": 0.0
+  },
+  "cases": [
+    {
+      "id": "gen-bacterial-cloning-puc",
+      "query": "I need a simple high-copy cloning vector for routine plasmid cloning in E. coli.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Escherichia coli",
+        "cell_line": null,
+        "vector_type": "bacterial_cloning_vector",
+        "genes": [],
+        "tags": [],
+        "promoter_type": null,
+        "inducer": null,
+        "markers": [
+          "ampicillin"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "routine plasmid cloning",
+        "cloning_method": null,
+        "constraints": [],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "genbank:AY428809.1",
+          "name": "Cloning vector pSUP202, complete sequence",
+          "score": 0.7983488560707073,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pUC19",
+        "curated:pUC18"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "genbank:AY428809.1"
+          ],
+          "template_id": "genbank:AY428809.1",
+          "length_bp": 7830,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "bacterial_cloning_vector",
+          "reannotated_feature_count": 5,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "bacterial_cloning_vector",
+              "matched": true,
+              "evidence": "bacterial_cloning_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "bla"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "bacterial_cloning_vector",
+              "matched": true,
+              "evidence": "bacterial_cloning_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampicillin"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "MCS",
+              "matched": false,
+              "evidence": null
+            }
+          ],
+          "component_complete": false,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "genbank:AY428809.1"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": false,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": false,
+      "strict_case_passed": false,
+      "notes": "Supported parser/corpus case for cloning-vector component recovery. Successful generation should preserve a high-copy E. coli origin, AmpR/bla selection, and an annotated MCS suitable for routine subcloning; exact pUC18 versus pUC19 MCS orientation is not biologically material for this request."
+    },
+    {
+      "id": "gen-bacterial-expression-gst",
+      "query": "Which plasmid would you use for GST-tagged bacterial protein expression in E. coli?",
+      "unsupported": false,
+      "spec": {
+        "organism": "Escherichia coli",
+        "cell_line": null,
+        "vector_type": "bacterial_expression_vector",
+        "genes": [],
+        "tags": [
+          "GST"
+        ],
+        "promoter_type": "lac/IPTG-inducible",
+        "inducer": "IPTG",
+        "markers": [
+          "ampicillin"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "bacterial protein expression",
+        "cloning_method": null,
+        "constraints": [],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "curated:pGEX-4T-1",
+          "name": "pGEX-4T-1",
+          "score": 0.7453572972225341,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers",
+            "promoters",
+            "tags"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pGEX-4T-1"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "curated:pGEX-4T-1"
+          ],
+          "template_id": "curated:pGEX-4T-1",
+          "length_bp": 4969,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "bacterial_expression_vector",
+          "reannotated_feature_count": 8,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "bacterial_expression_vector",
+              "matched": true,
+              "evidence": "bacterial_expression_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "bla"
+            },
+            {
+              "kind": "promoter",
+              "requested": "lac/IPTG-inducible",
+              "matched": true,
+              "evidence": "lac promoter"
+            },
+            {
+              "kind": "tag",
+              "requested": "GST",
+              "matched": true,
+              "evidence": "glutathione s transferase"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "bacterial_expression_vector",
+              "matched": true,
+              "evidence": "bacterial_expression_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampicillin"
+            },
+            {
+              "kind": "expected_promoter",
+              "requested": "lac/IPTG-inducible",
+              "matched": true,
+              "evidence": "lac/IPTG-inducible"
+            },
+            {
+              "kind": "expected_tag",
+              "requested": "GST",
+              "matched": true,
+              "evidence": "GST"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "GOI",
+              "matched": true,
+              "evidence": "GOI"
+            }
+          ],
+          "component_complete": true,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "curated:pGEX-4T-1"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": true,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": true,
+      "strict_case_passed": false,
+      "notes": "Supported parser/corpus case for bacterial-expression and GST-tag evidence. A biologically acceptable candidate keeps E. coli propagation, AmpR, an IPTG/lac-family expression control region, and an in-frame GST fusion region or equivalent GST tag evidence."
+    },
+    {
+      "id": "gen-yeast-shuttle-prs",
+      "query": "I need a yeast shuttle vector with a selectable marker for yeast transformation and maintenance.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Saccharomyces cerevisiae",
+        "cell_line": null,
+        "vector_type": "yeast_shuttle_vector",
+        "genes": [],
+        "tags": [],
+        "promoter_type": null,
+        "inducer": null,
+        "markers": [],
+        "source": null,
+        "publication_doi": null,
+        "application": "yeast transformation and maintenance",
+        "cloning_method": null,
+        "constraints": [
+          "selectable marker feature required"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "curated:pRS415",
+          "name": "pRS415",
+          "score": 0.8259931102987013,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pRS415",
+        "curated:pRS416",
+        "genbank:AF041805.1",
+        "genbank:AF041806.1",
+        "genbank:AF041807.1"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "curated:pRS415"
+          ],
+          "template_id": "curated:pRS415",
+          "length_bp": 6021,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "yeast_shuttle_vector",
+          "reannotated_feature_count": 7,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "yeast_shuttle_vector",
+              "matched": true,
+              "evidence": "yeast_shuttle_vector"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "yeast_shuttle_vector",
+              "matched": true,
+              "evidence": "yeast_shuttle_vector"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            }
+          ],
+          "component_complete": true,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "curated:pRS415"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": true,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": true,
+      "strict_case_passed": false,
+      "notes": "Supported parser/corpus case for yeast-shuttle maintenance and generic selection-marker feature evidence. A successful candidate should support both bacterial propagation and yeast maintenance/selection rather than being a bacteria-only cloning plasmid."
+    },
+    {
+      "id": "gen-known-backbone-marker-combo-pbr322",
+      "query": "Generate an E. coli cloning plasmid on a pBR322-style backbone that keeps both ampicillin and tetracycline selection.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Escherichia coli",
+        "cell_line": null,
+        "vector_type": "bacterial_cloning_vector",
+        "genes": [],
+        "tags": [],
+        "promoter_type": null,
+        "inducer": null,
+        "markers": [
+          "ampicillin",
+          "tetracycline"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "dual-marker bacterial cloning",
+        "cloning_method": null,
+        "constraints": [
+          "retain pMB1-family bacterial replication",
+          "retain two bacterial selectable markers"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "genbank:AY428809.1",
+          "name": "Cloning vector pSUP202, complete sequence",
+          "score": 0.7634592056274414,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pBR322"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "genbank:AY428809.1"
+          ],
+          "template_id": "genbank:AY428809.1",
+          "length_bp": 7830,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "bacterial_cloning_vector",
+          "reannotated_feature_count": 5,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "bacterial_cloning_vector",
+              "matched": true,
+              "evidence": "bacterial_cloning_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "bla"
+            },
+            {
+              "kind": "marker",
+              "requested": "tetracycline",
+              "matched": true,
+              "evidence": "tet"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "bacterial_cloning_vector",
+              "matched": true,
+              "evidence": "bacterial_cloning_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampicillin"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "tetracycline",
+              "matched": true,
+              "evidence": "tetracycline"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            }
+          ],
+          "component_complete": true,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "genbank:AY428809.1"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": true,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": true,
+      "strict_case_passed": false,
+      "notes": "Novel marker-combination-on-known-backbone scenario grounded in pBR322. Successful generation should not collapse to an AmpR-only pUC-like plasmid; it must retain pMB1-family bacterial propagation and both AmpR/bla and TetR/tet marker evidence."
+    },
+    {
+      "id": "gen-known-backbone-lowcopy-marker-combo-pacyc",
+      "query": "Generate a low-copy E. coli cloning vector derived from a pACYC-style backbone with tetracycline selection and a second bacterial marker region retained.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Escherichia coli",
+        "cell_line": null,
+        "vector_type": "bacterial_cloning_vector",
+        "genes": [],
+        "tags": [],
+        "promoter_type": null,
+        "inducer": null,
+        "markers": [
+          "tetracycline"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "low-copy bacterial cloning",
+        "cloning_method": null,
+        "constraints": [
+          "low-copy p15A-family origin required",
+          "second bacterial marker region should remain annotated if parser support is available"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "genbank:AY428809.1",
+          "name": "Cloning vector pSUP202, complete sequence",
+          "score": 0.7751963138580322,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pACYC184"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "genbank:AY428809.1"
+          ],
+          "template_id": "genbank:AY428809.1",
+          "length_bp": 7830,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "bacterial_cloning_vector",
+          "reannotated_feature_count": 5,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "bacterial_cloning_vector",
+              "matched": true,
+              "evidence": "bacterial_cloning_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "tetracycline",
+              "matched": true,
+              "evidence": "tet"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "bacterial_cloning_vector",
+              "matched": true,
+              "evidence": "bacterial_cloning_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "tetracycline",
+              "matched": true,
+              "evidence": "tetracycline"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            }
+          ],
+          "component_complete": true,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "genbank:AY428809.1"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": true,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": true,
+      "strict_case_passed": false,
+      "notes": "Known-backbone marker-retention case using pACYC184 while avoiding a hard chloramphenicol parser requirement because the current project explicitly deferred precise CAT CDS curation. Biologically acceptable generation should preserve low-copy p15A-family propagation and TetR evidence, with the second marker region noted for future constraint/parser scoring when supported."
+    },
+    {
+      "id": "gen-promoter-swap-phagemid-t7t3",
+      "query": "Design an E. coli cloning phagemid where the insert site is flanked by T7 and T3 promoter sites instead of a plain pUC MCS.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Escherichia coli",
+        "cell_line": null,
+        "vector_type": "bacterial_cloning_vector",
+        "genes": [],
+        "tags": [],
+        "promoter_type": "T7",
+        "inducer": null,
+        "markers": [
+          "ampicillin"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "promoter-flanked cloning insert site",
+        "cloning_method": null,
+        "constraints": [
+          "T7/T3 promoter-flanked MCS acceptable",
+          "phagemid/f1 origin acceptable"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "curated:pUC18",
+          "name": "pUC18",
+          "score": 0.8048390978766563,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pBluescript-II-SK-plus",
+        "curated:pBluescript-II-SK-minus"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "curated:pUC18"
+          ],
+          "template_id": "curated:pUC18",
+          "length_bp": 2686,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "bacterial_cloning_vector",
+          "reannotated_feature_count": 4,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "bacterial_cloning_vector",
+              "matched": true,
+              "evidence": "bacterial_cloning_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampr"
+            },
+            {
+              "kind": "promoter",
+              "requested": "T7",
+              "matched": false,
+              "evidence": null
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "bacterial_cloning_vector",
+              "matched": true,
+              "evidence": "bacterial_cloning_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampicillin"
+            },
+            {
+              "kind": "expected_promoter",
+              "requested": "T7",
+              "matched": false,
+              "evidence": null
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "MCS",
+              "matched": true,
+              "evidence": "MCS"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "promoter",
+              "matched": true,
+              "evidence": "promoter"
+            }
+          ],
+          "component_complete": false,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "curated:pUC18"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": false,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": false,
+      "strict_case_passed": false,
+      "notes": "Promoter-swap-on-known-cloning-backbone scenario. A successful real generator should include a pUC-family bacterial cloning backbone with AmpR, MCS, and promoter site evidence around the insert region; either SK orientation is acceptable because the request does not constrain strand orientation."
+    },
+    {
+      "id": "gen-promoter-swap-mammalian-sv40",
+      "query": "Generate a transient mammalian expression plasmid using an SV40 promoter/enhancer style expression cassette and bacterial ampicillin selection.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Homo sapiens",
+        "cell_line": "HEK293",
+        "vector_type": "mammalian_expression_vector",
+        "genes": [],
+        "tags": [],
+        "promoter_type": "SV40",
+        "inducer": null,
+        "markers": [
+          "ampicillin"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "transient mammalian expression",
+        "cloning_method": null,
+        "constraints": [
+          "mammalian promoter/enhancer cassette required",
+          "bacterial propagation marker required"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "genbank:U47121.2",
+          "name": "Cloning vector pSI, mammalian expression vector, complete sequence",
+          "score": 0.6717722611563062,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers",
+            "promoters"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "genbank:U47121.2"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "genbank:U47121.2"
+          ],
+          "template_id": "genbank:U47121.2",
+          "length_bp": 3632,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "mammalian_expression_vector",
+          "reannotated_feature_count": 7,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "mammalian_expression_vector",
+              "matched": true,
+              "evidence": "mammalian_expression_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampr"
+            },
+            {
+              "kind": "promoter",
+              "requested": "SV40",
+              "matched": true,
+              "evidence": "SV40"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "mammalian_expression_vector",
+              "matched": true,
+              "evidence": "mammalian_expression_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampicillin"
+            },
+            {
+              "kind": "expected_promoter",
+              "requested": "SV40",
+              "matched": true,
+              "evidence": "SV40"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "promoter",
+              "matched": true,
+              "evidence": "promoter"
+            }
+          ],
+          "component_complete": true,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "genbank:U47121.2"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": true,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": true,
+      "strict_case_passed": false,
+      "notes": "Promoter-swap mammalian-expression case grounded in the expanded corpus pSI-style SV40 record. Success means a mammalian expression profile with SV40 promoter/enhancer evidence plus bacterial propagation/selection, not merely a bacterial cloning plasmid carrying AmpR."
+    },
+    {
+      "id": "gen-new-cassette-egfp-cmv",
+      "query": "Generate a mammalian reporter/expression plasmid carrying a CMV-driven EGFP cassette with mammalian G418 selection and bacterial kanamycin propagation.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Homo sapiens",
+        "cell_line": "HEK293T",
+        "vector_type": "mammalian_reporter_vector",
+        "genes": [
+          "EGFP"
+        ],
+        "tags": [
+          "EGFP"
+        ],
+        "promoter_type": "CMV",
+        "inducer": null,
+        "markers": [
+          "neomycin/G418",
+          "kanamycin"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "mammalian fluorescent reporter expression",
+        "cloning_method": null,
+        "constraints": [
+          "CMV promoter upstream of EGFP reporter cassette",
+          "mammalian and bacterial selection expected"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "curated:pEGFP-N1",
+          "name": "pEGFP-N1",
+          "score": 0.7926957730832362,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers",
+            "promoters",
+            "genes",
+            "tags"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pEGFP-N1"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "curated:pEGFP-N1"
+          ],
+          "template_id": "curated:pEGFP-N1",
+          "length_bp": 4733,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "mammalian_reporter_vector",
+          "reannotated_feature_count": 7,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "mammalian_reporter_vector",
+              "matched": true,
+              "evidence": "mammalian_reporter_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "neomycin/G418",
+              "matched": true,
+              "evidence": "neomycin"
+            },
+            {
+              "kind": "marker",
+              "requested": "kanamycin",
+              "matched": false,
+              "evidence": null
+            },
+            {
+              "kind": "promoter",
+              "requested": "CMV",
+              "matched": true,
+              "evidence": "CMV"
+            },
+            {
+              "kind": "gene",
+              "requested": "EGFP",
+              "matched": true,
+              "evidence": "EGFP"
+            },
+            {
+              "kind": "tag",
+              "requested": "EGFP",
+              "matched": true,
+              "evidence": "EGFP"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "mammalian_reporter_vector",
+              "matched": true,
+              "evidence": "mammalian_reporter_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "neomycin/G418",
+              "matched": true,
+              "evidence": "neomycin/G418"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "kanamycin",
+              "matched": false,
+              "evidence": null
+            },
+            {
+              "kind": "expected_promoter",
+              "requested": "CMV",
+              "matched": true,
+              "evidence": "CMV"
+            },
+            {
+              "kind": "expected_tag",
+              "requested": "EGFP",
+              "matched": true,
+              "evidence": "EGFP"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "promoter",
+              "matched": true,
+              "evidence": "promoter"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "GOI",
+              "matched": true,
+              "evidence": "GOI"
+            }
+          ],
+          "component_complete": false,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "curated:pEGFP-N1"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": false,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": false,
+      "strict_case_passed": false,
+      "notes": "New cassette insertion / mammalian reporter case grounded in pEGFP-N1. Successful generation should include a coherent CMV-EGFP reporter cassette, mammalian NeoR/G418 selection, and bacterial KanR/NeoR propagation marker evidence."
+    },
+    {
+      "id": "gen-new-cassette-luciferase-promoterless",
+      "query": "Generate a promoterless mammalian firefly luciferase reporter backbone for inserting a regulatory element upstream of luciferase.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Homo sapiens",
+        "cell_line": null,
+        "vector_type": "mammalian_reporter_vector",
+        "genes": [
+          "luciferase"
+        ],
+        "tags": [],
+        "promoter_type": null,
+        "inducer": null,
+        "markers": [
+          "ampicillin"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "mammalian luciferase reporter assay",
+        "cloning_method": null,
+        "constraints": [
+          "promoterless reporter backbone preferred",
+          "upstream cloning site required"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "curated:pGL4-10-luc2",
+          "name": "pGL4.10[luc2]",
+          "score": 0.7891344788928517,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers",
+            "genes"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pGL3-Basic",
+        "curated:pGL4-10-luc2",
+        "genbank:AF058756.1"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "curated:pGL4-10-luc2"
+          ],
+          "template_id": "curated:pGL4-10-luc2",
+          "length_bp": 4242,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "mammalian_reporter_vector",
+          "reannotated_feature_count": 7,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "mammalian_reporter_vector",
+              "matched": true,
+              "evidence": "mammalian_reporter_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampr"
+            },
+            {
+              "kind": "gene",
+              "requested": "luciferase",
+              "matched": true,
+              "evidence": "luciferase"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "mammalian_reporter_vector",
+              "matched": true,
+              "evidence": "mammalian_reporter_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampicillin"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "GOI",
+              "matched": true,
+              "evidence": "GOI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "MCS",
+              "matched": true,
+              "evidence": "MCS"
+            }
+          ],
+          "component_complete": true,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "curated:pGL4-10-luc2"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": true,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": true,
+      "strict_case_passed": false,
+      "notes": "New cassette insertion target for reporter assays. Biological acceptability is a promoterless or upstream-cloning-site luciferase reporter backbone with bacterial AmpR propagation; the generator should not add an unwanted constitutive mammalian promoter when the assay depends on inserting a regulatory element."
+    },
+    {
+      "id": "gen-bacterial-expression-t7-amp",
+      "query": "Generate a simple E. coli T7 expression plasmid with ampicillin resistance and an MCS for inserting a protein-coding sequence.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Escherichia coli",
+        "cell_line": null,
+        "vector_type": "bacterial_expression_vector",
+        "genes": [],
+        "tags": [],
+        "promoter_type": "T7",
+        "inducer": null,
+        "markers": [
+          "ampicillin"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "T7-driven bacterial protein expression",
+        "cloning_method": null,
+        "constraints": [
+          "T7 promoter required",
+          "MCS or cloning region required"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "genbank:AF147463.1",
+          "name": "T7 Expression vector pNam, complete sequence",
+          "score": 0.8200582647393065,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers",
+            "promoters"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "genbank:AF147463.1",
+        "genbank:AF087042.1"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "genbank:AF147463.1"
+          ],
+          "template_id": "genbank:AF147463.1",
+          "length_bp": 6278,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "bacterial_expression_vector",
+          "reannotated_feature_count": 7,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "bacterial_expression_vector",
+              "matched": true,
+              "evidence": "bacterial_expression_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "bla"
+            },
+            {
+              "kind": "promoter",
+              "requested": "T7",
+              "matched": true,
+              "evidence": "T7"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "bacterial_expression_vector",
+              "matched": true,
+              "evidence": "bacterial_expression_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "ampicillin",
+              "matched": true,
+              "evidence": "ampicillin"
+            },
+            {
+              "kind": "expected_promoter",
+              "requested": "T7",
+              "matched": true,
+              "evidence": "T7"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": false,
+              "evidence": null
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "promoter",
+              "matched": true,
+              "evidence": "promoter"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "MCS",
+              "matched": true,
+              "evidence": "MCS"
+            }
+          ],
+          "component_complete": false,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "genbank:AF147463.1"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": false,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": false,
+      "strict_case_passed": false,
+      "notes": "Bacterial expression case using expanded-corpus T7/AmpR records. A successful candidate should look like a real E. coli expression plasmid with T7 control, bacterial propagation, AmpR, and a cloning region, rather than a generic cloning-only vector."
+    },
+    {
+      "id": "gen-bacterial-shuttle-broadhost-tet",
+      "query": "Generate a broad-host-range E. coli to Pseudomonas shuttle vector with tetracycline resistance and lacZ alpha blue-white screening.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Escherichia coli",
+        "cell_line": null,
+        "vector_type": "general_shuttle_vector",
+        "genes": [
+          "lacZ alpha"
+        ],
+        "tags": [],
+        "promoter_type": null,
+        "inducer": null,
+        "markers": [
+          "tetracycline"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "broad-host-range bacterial shuttle cloning",
+        "cloning_method": null,
+        "constraints": [
+          "broad-host-range shuttle profile required",
+          "lacZ alpha screening region expected"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "genbank:U07168.1",
+          "name": "Cloning vector pUCP26, Escherichia-Pseudomonas shuttle vector with tetracycline efflux protein (tet) and LacZ alpha peptide (lacZ alpha) genes, complete sequence",
+          "score": 0.7782260443894865,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers",
+            "genes"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "genbank:U07168.1"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "genbank:U07168.1"
+          ],
+          "template_id": "genbank:U07168.1",
+          "length_bp": 4977,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "general_shuttle_vector",
+          "reannotated_feature_count": 8,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "general_shuttle_vector",
+              "matched": true,
+              "evidence": "general_shuttle_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "tetracycline",
+              "matched": true,
+              "evidence": "tet"
+            },
+            {
+              "kind": "gene",
+              "requested": "lacZ alpha",
+              "matched": true,
+              "evidence": "lacZ alpha"
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "general_shuttle_vector",
+              "matched": true,
+              "evidence": "general_shuttle_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "tetracycline",
+              "matched": true,
+              "evidence": "tetracycline"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "MCS",
+              "matched": true,
+              "evidence": "MCS"
+            }
+          ],
+          "component_complete": true,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "genbank:U07168.1"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": true,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": true,
+      "strict_case_passed": false,
+      "notes": "Bacterial cloning/shuttle edge within supported profiles, grounded in pUCP26 retrieval evidence. Success means preserving shuttle-vector identity and TetR/lacZ-alpha cloning evidence; this differentiates real generation from simply returning a pUC cloning vector."
+    },
+    {
+      "id": "gen-yeast-shuttle-ura3-specific",
+      "query": "Generate a yeast centromere shuttle plasmid for Saccharomyces cerevisiae that uses URA3 rather than LEU2 selection.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Saccharomyces cerevisiae",
+        "cell_line": null,
+        "vector_type": "yeast_shuttle_vector",
+        "genes": [],
+        "tags": [],
+        "promoter_type": null,
+        "inducer": null,
+        "markers": [
+          "URA3"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "URA3-selected yeast maintenance",
+        "cloning_method": null,
+        "constraints": [
+          "CEN/ARS yeast maintenance expected",
+          "URA3 selection required; LEU2-only vector not acceptable"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "curated:pRS416",
+          "name": "pRS416",
+          "score": 0.8627561330795288,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pRS416"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "curated:pRS416"
+          ],
+          "template_id": "curated:pRS416",
+          "length_bp": 4898,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "yeast_shuttle_vector",
+          "reannotated_feature_count": 7,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "yeast_shuttle_vector",
+              "matched": true,
+              "evidence": "yeast_shuttle_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "URA3",
+              "matched": false,
+              "evidence": null
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "yeast_shuttle_vector",
+              "matched": true,
+              "evidence": "yeast_shuttle_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "URA3",
+              "matched": false,
+              "evidence": null
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            }
+          ],
+          "component_complete": false,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "curated:pRS416"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": false,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": false,
+      "strict_case_passed": false,
+      "notes": "Yeast shuttle marker-specific case. Successful generation should distinguish URA3 pRS416-like selection from LEU2 pRS415-like selection and retain bacterial propagation plus yeast maintenance components."
+    },
+    {
+      "id": "gen-yeast-shuttle-leu2-specific",
+      "query": "Generate a yeast centromere shuttle plasmid for Saccharomyces cerevisiae that uses LEU2 selection and supports bacterial propagation.",
+      "unsupported": false,
+      "spec": {
+        "organism": "Saccharomyces cerevisiae",
+        "cell_line": null,
+        "vector_type": "yeast_shuttle_vector",
+        "genes": [],
+        "tags": [],
+        "promoter_type": null,
+        "inducer": null,
+        "markers": [
+          "LEU2"
+        ],
+        "source": null,
+        "publication_doi": null,
+        "application": "LEU2-selected yeast maintenance",
+        "cloning_method": null,
+        "constraints": [
+          "CEN/ARS yeast maintenance expected",
+          "LEU2 selection required"
+        ],
+        "clarification_needed": false,
+        "clarification_question": null
+      },
+      "templates": [
+        {
+          "id": "curated:pRS415",
+          "name": "pRS415",
+          "score": 0.861120811767628,
+          "matched_fields": [
+            "semantic",
+            "vector_type",
+            "organism",
+            "markers"
+          ]
+        }
+      ],
+      "acceptable_template_ids": [
+        "curated:pRS415",
+        "genbank:AF041805.1",
+        "genbank:AF041806.1",
+        "genbank:AF041807.1"
+      ],
+      "candidates": [
+        {
+          "candidate_index": 1,
+          "model_version": "fake-template-generator-v1",
+          "parent_template_ids": [
+            "curated:pRS415"
+          ],
+          "template_id": "curated:pRS415",
+          "length_bp": 6021,
+          "syntactic_valid": true,
+          "syntax_error": null,
+          "sane_length": true,
+          "reannotated_profile": "yeast_shuttle_vector",
+          "reannotated_feature_count": 7,
+          "component_checks": [
+            {
+              "kind": "vector_type",
+              "requested": "yeast_shuttle_vector",
+              "matched": true,
+              "evidence": "yeast_shuttle_vector"
+            },
+            {
+              "kind": "marker",
+              "requested": "LEU2",
+              "matched": false,
+              "evidence": null
+            },
+            {
+              "kind": "expected_vector_type",
+              "requested": "yeast_shuttle_vector",
+              "matched": true,
+              "evidence": "yeast_shuttle_vector"
+            },
+            {
+              "kind": "expected_marker",
+              "requested": "LEU2",
+              "matched": false,
+              "evidence": null
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "ORI",
+              "matched": true,
+              "evidence": "ORI"
+            },
+            {
+              "kind": "expected_feature_type",
+              "requested": "marker",
+              "matched": true,
+              "evidence": "marker"
+            }
+          ],
+          "component_complete": false,
+          "validation_report": {
+            "overall": "PASS",
+            "checks": [
+              {
+                "name": "phase2_spike_stub",
+                "status": "PASS",
+                "message": "Phase 2 plumbing spike stub only; no biological validation performed.",
+                "region": null,
+                "failure_context": null
+              }
+            ],
+            "generated_by_model_version": "stub-constraint-engine-v0"
+          },
+          "constraint_passed": true,
+          "novelty": {
+            "novel": false,
+            "copy_matches": [
+              "curated:pRS415"
+            ],
+            "parent_template_copy": true
+          },
+          "phase2_gate_proxy_passed": false,
+          "strict_generation_success": false
+        }
+      ],
+      "case_passed": false,
+      "strict_case_passed": false,
+      "notes": "Yeast shuttle marker-specific companion to the URA3 case. Success means preserving yeast-maintenance and LEU2 evidence while still carrying bacterial propagation/selection features needed for shuttle-vector handling."
+    },
+    {
+      "id": "gen-unsupported-lentiviral-crispr-puro",
+      "query": "Generate a lentiviral CRISPR transfer vector with U6 sgRNA, Cas9, puromycin selection, and a mammalian promoter.",
+      "unsupported": true,
+      "candidates": [],
+      "case_passed": null
+    },
+    {
+      "id": "gen-unsupported-aav-packaging",
+      "query": "Generate an AAV transfer plasmid with ITRs and a CAG-driven fluorescent reporter for mammalian delivery.",
+      "unsupported": true,
+      "candidates": [],
+      "case_passed": null
+    }
+  ]
+}
