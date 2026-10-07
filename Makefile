@@ -1,4 +1,4 @@
-.PHONY: build-training-data demo derive-training-signal design e2e-test embed-corpus eval-all eval-check eval-generation eval-retrieval finetune-smoke generate-validation-gold ingest-addgene ingest-all ingest-curated ingest-genbank lint list-models parse-sample quality-report refresh-corpus register-model reprocess serve-api serve-local serve-web services-down setup shadow-eval spike-generation test validate-sample
+.PHONY: eval-capabilities eval-plasmid build-training-data demo derive-training-signal design e2e-test embed-corpus eval-all eval-check eval-generation eval-retrieval finetune-smoke generate-validation-gold ingest-addgene ingest-all ingest-curated ingest-genbank lint list-models parse-sample quality-report refresh-corpus register-model reprocess serve-api serve-local serve-web services-down setup shadow-eval spike-generation test validate-sample
 
 PYTHON ?= python
 MODE ?= dev
@@ -10,6 +10,9 @@ FAKE ?= 0
 TOP_K ?= 5
 API_HOST ?= 127.0.0.1
 API_PORT ?= 8000
+CAPABILITY_GOLD ?= tests/gold
+CAPABILITY_GOLD_OUT ?= data/eval/capabilities
+CAPABILITY_GOLD_REQUIRE ?= 0
 EVAL_GOLD ?= data/eval/retrieval_gold.jsonl
 EVAL_OUT ?= data/eval/retrieval
 TRAINING_OUT ?= data/training/phase2
@@ -98,16 +101,46 @@ build-training-data:
 eval-generation:
 	$(PYTHON) -m packages.generation.eval --gold-path $(GENERATION_GOLD) --output-dir $(GENERATION_OUT) --top-k $(GENERATION_TOP_K) --generator $(GENERATION_GENERATOR) --carbon-max-new-tokens $(CARBON_MAX_NEW_TOKENS) $(if $(filter 1 true TRUE yes YES,$(FAKE)),--fake-embedder,) $(if $(filter offline OFFLINE,$(MODE)),--local-files-only,)
 
-eval-all:
-	$(MAKE) eval-retrieval
-	$(MAKE) eval-generation GENERATION_GENERATOR=fake
-	$(MAKE) validate-sample MODE=gold
-	$(MAKE) quality-report
+# Capability gold sets (section 9). Pure deterministic validators, no database,
+# no network. Runs on its own so its verdict is never hidden by a corpus failure.
+eval-capabilities:
+	$(PYTHON) -m tests.gold.runner --gold-root $(CAPABILITY_GOLD) --output-dir $(CAPABILITY_GOLD_OUT) $(if $(filter 1 true TRUE yes YES,$(CAPABILITY_GOLD_REQUIRE)),--require-cases,)
+
+# The plasmid pipeline evaluation. Needs a populated Postgres corpus
+# (retrieval, generation) and fails loudly when the corpus is absent.
+eval-plasmid:
+	"$(MAKE)" eval-retrieval
+	"$(MAKE)" eval-generation GENERATION_GENERATOR=fake
+	"$(MAKE)" validate-sample MODE=gold
+	"$(MAKE)" quality-report
 	$(PYTHON) -m packages.eval.continuous dashboard --output-dir $(EVAL_DASHBOARD_OUT) --retrieval-top5-drop $(EVAL_RETRIEVAL_TOP5_DROP) --retrieval-mrr-drop $(EVAL_RETRIEVAL_MRR_DROP) --validation-accuracy-drop $(EVAL_VALIDATION_ACCURACY_DROP) --complete-annotation-drop $(EVAL_COMPLETE_ANNOTATION_DROP) --parse-error-increase $(EVAL_PARSE_ERROR_INCREASE)
 
+# Every capability, every case. Both halves always run so each verdict is visible;
+# the target fails if either half failed.
+eval-all:
+	@cap=0; pla=0; \
+	"$(MAKE)" eval-capabilities || cap=1; \
+	"$(MAKE)" eval-plasmid || pla=1; \
+	echo ""; echo "eval-all summary:"; \
+	if [ $$cap -eq 0 ]; then echo "  capability gold sets (no database): PASS"; else echo "  capability gold sets (no database): FAIL"; fi; \
+	if [ $$pla -eq 0 ]; then echo "  plasmid pipeline (needs corpus):    PASS"; else echo "  plasmid pipeline (needs corpus):    FAIL (see output above)"; fi; \
+	[ $$cap -eq 0 ] && [ $$pla -eq 0 ]
+
+# Fails the build on any regression. The capability gold sets are checked
+# independently of the corpus; a corpus failure is reported, never hidden, and
+# the regression thresholds are not evaluated against missing results.
 eval-check:
-	$(MAKE) eval-all
-	$(PYTHON) -m packages.eval.continuous check --output-dir $(EVAL_DASHBOARD_OUT) --retrieval-top5-drop $(EVAL_RETRIEVAL_TOP5_DROP) --retrieval-mrr-drop $(EVAL_RETRIEVAL_MRR_DROP) --validation-accuracy-drop $(EVAL_VALIDATION_ACCURACY_DROP) --complete-annotation-drop $(EVAL_COMPLETE_ANNOTATION_DROP) --parse-error-increase $(EVAL_PARSE_ERROR_INCREASE)
+	@cap=0; pla=0; reg=0; \
+	"$(MAKE)" eval-capabilities || cap=1; \
+	"$(MAKE)" eval-plasmid || pla=1; \
+	if [ $$pla -eq 0 ]; then \
+	$(PYTHON) -m packages.eval.continuous check --output-dir $(EVAL_DASHBOARD_OUT) --retrieval-top5-drop $(EVAL_RETRIEVAL_TOP5_DROP) --retrieval-mrr-drop $(EVAL_RETRIEVAL_MRR_DROP) --validation-accuracy-drop $(EVAL_VALIDATION_ACCURACY_DROP) --complete-annotation-drop $(EVAL_COMPLETE_ANNOTATION_DROP) --parse-error-increase $(EVAL_PARSE_ERROR_INCREASE) || reg=1; \
+	fi; \
+	echo ""; echo "eval-check summary:"; \
+	if [ $$cap -eq 0 ]; then echo "  capability gold sets (no database): PASS"; else echo "  capability gold sets (no database): FAIL"; fi; \
+	if [ $$pla -eq 0 ]; then echo "  plasmid pipeline (needs corpus):    PASS"; else echo "  plasmid pipeline (needs corpus):    FAIL, regression check NOT run (see output above)"; fi; \
+	if [ $$pla -eq 0 ]; then if [ $$reg -eq 0 ]; then echo "  regression thresholds:              PASS"; else echo "  regression thresholds:              FAIL"; fi; fi; \
+	[ $$cap -eq 0 ] && [ $$pla -eq 0 ] && [ $$reg -eq 0 ]
 
 shadow-eval:
 	$(PYTHON) -m packages.generation.rollout_eval --gold data/eval/retrieval_gold.jsonl --limit $(or $(N),20) --output-dir data/eval/shadow
