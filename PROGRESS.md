@@ -5,6 +5,7 @@ WP-00 CLAIMED by orchestrator at 2026-10-07T00:00:00Z
 WP-01 CLAIMED by wp01-rebrand at 2026-10-07T00:00:00Z
 WP-02 CLAIMED by wp02-contract at 2026-10-07T22:48:16Z
 WP-09 CLAIMED by wp09-harness at 2026-10-07T22:48:59Z
+WP-04 CLAIMED by wp04-assembly at 2026-10-07T23:40:00Z
 
 ## Done
 WP-00 DONE by orchestrator at 2026-10-07T00:00:00Z
