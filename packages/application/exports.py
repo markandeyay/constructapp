@@ -17,8 +17,8 @@ ExportFormat = Literal["genbank", "fasta"]
 
 SUPPORTED_EXPORT_FORMATS = frozenset({"genbank", "fasta"})
 EXPORT_RECORD_ID = "annotated_sequence"
-KEYWORD_PREFIX = "PMR_EXPORT"
-FASTA_METADATA_PREFIX = "pmr_meta="
+KEYWORD_PREFIX = "CONSTRUCT_EXPORT"
+FASTA_METADATA_PREFIX = "construct_meta="
 
 GENBANK_FEATURE_TYPES = {
     "ORI": "rep_origin",
@@ -58,7 +58,7 @@ def _export_genbank(sequence: AnnotatedSequence) -> str:
         Seq(sequence.sequence),
         id=EXPORT_RECORD_ID,
         name=EXPORT_RECORD_ID,
-        description="PMR annotated sequence export",
+        description="Construct annotated sequence export",
     )
     record.annotations["molecule_type"] = "DNA"
     record.annotations["topology"] = str(sequence.topology)
@@ -89,7 +89,7 @@ def _read_genbank(payload: str) -> AnnotatedSequence:
     if metadata is None:
         return parse_seqrecord(record)
 
-    features = [_seqfeature_to_feature(feature) for feature in record.features if "pmr_feature_type" in feature.qualifiers]
+    features = [_seqfeature_to_feature(feature) for feature in record.features if "construct_type" in feature.qualifiers]
     return AnnotatedSequence(
         sequence=str(record.seq).upper(),
         topology=metadata["topology"],
@@ -119,24 +119,24 @@ def _feature_to_seqfeature(feature: AnnotatedFeature) -> SeqFeature:
         qualifiers={
             "label": [feature.name],
             "note": [feature.name],
-            "pmr_feature_type": [str(feature.type)],
-            "pmr_feature_name": [feature.name],
-            "pmr_confidence": [f"{feature.confidence:.6f}"],
-            "pmr_strand": [str(feature.strand)],
+            "construct_type": [str(feature.type)],
+            "construct_name": [feature.name],
+            "construct_confidence": [f"{feature.confidence:.6f}"],
+            "construct_strand": [str(feature.strand)],
         },
     )
 
 
 def _seqfeature_to_feature(feature: SeqFeature) -> AnnotatedFeature:
     qualifiers = feature.qualifiers
-    name = _qualifier_value(qualifiers, "pmr_feature_name") or _qualifier_value(qualifiers, "label") or str(feature.type)
+    name = _qualifier_value(qualifiers, "construct_name") or _qualifier_value(qualifiers, "label") or str(feature.type)
     return AnnotatedFeature(
-        type=_qualifier_value(qualifiers, "pmr_feature_type"),
+        type=_qualifier_value(qualifiers, "construct_type"),
         start=int(feature.location.start),
         end=int(feature.location.end),
-        strand=int(_qualifier_value(qualifiers, "pmr_strand", default=str(feature.location.strand or 0))),
+        strand=int(_qualifier_value(qualifiers, "construct_strand", default=str(feature.location.strand or 0))),
         name=name,
-        confidence=float(_qualifier_value(qualifiers, "pmr_confidence", default="0.0")),
+        confidence=float(_qualifier_value(qualifiers, "construct_confidence", default="0.0")),
     )
 
 

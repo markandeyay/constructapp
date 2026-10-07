@@ -241,7 +241,7 @@ def test_ingestion_rejects_cached_blob_for_different_accession() -> None:
 def test_ingestion_filters_obvious_natural_or_partial_records_without_error() -> None:
     raw = load_fixture("minimal.gb").replace(
         "Minimal plasmid complete sequence",
-        "UNVERIFIED: Staphylococcus aureus strain PMR plasmid pPMR, partial sequence",
+        "UNVERIFIED: Staphylococcus aureus strain Construct plasmid pConstruct, partial sequence",
     )
     key = raw_cache_key("MIN0001.1")
     client = FakeNCBIClient({"MIN0001.1": raw})
@@ -259,7 +259,7 @@ def test_ingestion_filters_obvious_natural_or_partial_records_without_error() ->
             "accession": "MIN0001.1",
             "id": "genbank:MIN0001.1",
             "reason": "unverified_record",
-            "name": "UNVERIFIED: Staphylococcus aureus strain PMR plasmid pPMR, partial sequence",
+            "name": "UNVERIFIED: Staphylococcus aureus strain Construct plasmid pConstruct, partial sequence",
         }
     ]
     assert repository.plasmids == {}
@@ -268,7 +268,7 @@ def test_ingestion_filters_obvious_natural_or_partial_records_without_error() ->
 def test_engineered_vector_filter_routes_broad_refseq_unless_title_is_engineered() -> None:
     plasmid = map_genbank_text_to_plasmid(load_fixture("minimal.gb"), raw_ref="raw/genbank/MIN0001.1.gb")
     broad_refseq = plasmid.model_copy(update={"id": "genbank:NZ_CP000001.1"})
-    engineered_refseq = broad_refseq.model_copy(update={"name": "Synthetic cloning vector pPMR complete sequence"})
+    engineered_refseq = broad_refseq.model_copy(update={"name": "Synthetic cloning vector pConstruct complete sequence"})
 
     assert engineered_vector_filter_reason(broad_refseq) == "broad_refseq_natural_plasmid"
     assert engineered_vector_filter_reason(engineered_refseq) is None

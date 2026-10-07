@@ -10,7 +10,7 @@ from statistics import median
 from typing import Any
 
 
-_correlation_id: ContextVar[str | None] = ContextVar("pmr_correlation_id", default=None)
+_correlation_id: ContextVar[str | None] = ContextVar("construct_correlation_id", default=None)
 
 
 class JsonFormatter(logging.Formatter):
@@ -25,7 +25,7 @@ class JsonFormatter(logging.Formatter):
         correlation_id = getattr(record, "correlation_id", None) or get_correlation_id()
         if correlation_id:
             payload["correlation_id"] = correlation_id
-        fields = getattr(record, "pmr_fields", None)
+        fields = getattr(record, "construct_fields", None)
         if isinstance(fields, dict):
             payload.update(fields)
         return json.dumps(payload, sort_keys=True, default=str)
@@ -44,7 +44,7 @@ def configure_logging(*, production: bool | None = None) -> None:
     else:
         handler.setFormatter(logging.Formatter("%(levelname)s %(name)s %(message)s"))
     root.addHandler(handler)
-    root.setLevel(os.environ.get("PMR_LOG_LEVEL", "INFO"))
+    root.setLevel(os.environ.get("CONSTRUCT_LOG_LEVEL", "INFO"))
 
 
 def set_correlation_id(correlation_id: str) -> Token[str | None]:
@@ -65,7 +65,7 @@ def log_event(logger: logging.Logger, event: str, **fields: Any) -> None:
         event,
         extra={
             "correlation_id": correlation_id,
-            "pmr_fields": {"event": event, **fields},
+            "construct_fields": {"event": event, **fields},
         },
     )
 
@@ -138,7 +138,7 @@ class MetricsCollector:
 
 
 def _json_logging_enabled() -> bool:
-    return os.environ.get("PMR_LOG_FORMAT", "").lower() == "json" or os.environ.get("PMR_ENV", "").lower() == "production"
+    return os.environ.get("CONSTRUCT_LOG_FORMAT", "").lower() == "json" or os.environ.get("CONSTRUCT_ENV", "").lower() == "production"
 
 
 def _latency_summary(values: list[float]) -> dict[str, float]:

@@ -55,7 +55,7 @@ def test_fasta_roundtrip_preserves_sequence_and_topology_metadata() -> None:
     restored = read_annotated_sequence(payload, format="fasta")
 
     assert payload.startswith(">annotated_sequence ")
-    assert "pmr_meta=" in payload
+    assert "construct_meta=" in payload
     assert restored.sequence == annotated.sequence
     assert restored.topology == annotated.topology
     assert restored.vector_profile == annotated.vector_profile

@@ -1,4 +1,4 @@
-# PlasmidAI 5-Minute Demo Script
+# Construct 5-Minute Demo Script
 
 Audience: YC partners, early investors, and scientific collaborators.
 
@@ -52,7 +52,7 @@ Screen: `Design workspace` with the left chat column and right-side `Plasmid map
 
 Say:
 
-"PlasmidAI is a design workspace for molecular biologists. The first wedge is simple: describe the construct, retrieve a grounded template from real plasmid records, generate an annotated candidate, run deterministic validation checks, and export a file a bench scientist can inspect."
+"Construct is a design workspace for molecular biologists. The first wedge is simple: describe the construct, retrieve a grounded template from real plasmid records, generate an annotated candidate, run deterministic validation checks, and export a file a bench scientist can inspect."
 
 Point out:
 
@@ -188,7 +188,7 @@ Investor talk track:
 
 Collaborator talk track:
 
-"The exported record includes PMR metadata and feature qualifiers so auditability survives outside the browser."
+"The exported record includes Construct metadata and feature qualifiers so auditability survives outside the browser."
 
 ### 3:50-4:45 - Later Outcome Submission
 

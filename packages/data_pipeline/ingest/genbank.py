@@ -142,7 +142,7 @@ class GenbankIngestionConfig:
     query: str = DEFAULT_QUERY
     email: str = ""
     api_key: str | None = None
-    tool: str = "pmr-plasmid-design"
+    tool: str = "construct-plasmid-design"
     database_url: str = "postgresql://plasmid:plasmid@localhost:5432/plasmid_design"
     object_store_endpoint: str = "http://localhost:9000"
     object_store_bucket: str = "plasmid-design-local"
@@ -169,7 +169,7 @@ class GenbankIngestionConfig:
             query=genbank_query_for_mode(mode, dotenv),
             email=env("NCBI_EMAIL", "", dotenv),
             api_key=api_key,
-            tool=env("NCBI_TOOL", "pmr-plasmid-design", dotenv),
+            tool=env("NCBI_TOOL", "construct-plasmid-design", dotenv),
             database_url=env("DATABASE_URL", "postgresql://plasmid:plasmid@localhost:5432/plasmid_design", dotenv),
             object_store_endpoint=env("OBJECT_STORE_ENDPOINT", "http://localhost:9000", dotenv),
             object_store_bucket=env("OBJECT_STORE_BUCKET", "plasmid-design-local", dotenv),

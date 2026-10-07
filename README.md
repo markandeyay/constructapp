@@ -1,12 +1,12 @@
-# PlasmidAI
+# Construct
 
-PlasmidAI is an AI-assisted plasmid design system: a researcher describes an experimental goal in natural language, the system grounds the request in real plasmid records, proposes an annotated candidate design, validates it against deterministic molecular-biology constraints, renders the plasmid map, and exports files that can move into normal cloning and review workflows.
+Construct is an AI-assisted plasmid design system: a researcher describes an experimental goal in natural language, the system grounds the request in real plasmid records, proposes an annotated candidate design, validates it against deterministic molecular-biology constraints, renders the plasmid map, and exports files that can move into normal cloning and review workflows.
 
 Two runnable surfaces matter today: `make serve-local` for the interactive local app, and `make demo` for deterministic end-to-end verification.
 
 ## What It Does
 
-PlasmidAI turns any design request into a validated plasmid artifact through a single workflow:
+Construct turns any design request into a validated plasmid artifact through a single workflow:
 
 1. A researcher describes the construct they want, such as a host, expression goal, selectable marker, reporter, cloning workflow, or template preference.
 2. The system parses the request into structured intent and retrieves relevant plasmids from an indexed corpus built from curated records and NCBI GenBank.
@@ -41,7 +41,7 @@ Outcome capture links a design, model version, user-reported lab result, consent
 
 ## Validation
 
-PlasmidAI uses a curated validation gold set to check whether the deterministic engine recognizes both good and bad constructs. The current curated set contains 36 known-good constructs and 52 known-bad constructs with 100% combined accuracy.
+Construct uses a curated validation gold set to check whether the deterministic engine recognizes both good and bad constructs. The current curated set contains 36 known-good constructs and 52 known-bad constructs with 100% combined accuracy.
 
 Known-good records are tiered:
 
@@ -63,8 +63,8 @@ Requirements:
 Clone and set up the project:
 
 ```bash
-git clone https://github.com/markandeyay/PlasmidAI.git
-cd PlasmidAI
+git clone https://github.com/markandeyay/constructapp.git
+cd constructapp
 cp .env.example .env
 make setup
 ```

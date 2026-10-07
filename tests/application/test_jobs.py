@@ -153,7 +153,7 @@ def test_celery_job_queue_enqueues_without_executing() -> None:
     assert record.status == JOB_STATUS_QUEUED
     assert app.sent == [
         (
-            "pmr.jobs.run",
+            "construct.jobs.run",
             {
                 "job_id": record.job_id,
                 "session_id": "session-10",
@@ -258,7 +258,7 @@ def test_register_job_task_uses_celery_decorator_and_build_app_reads_redis_url(m
         },
     )
 
-    assert registered_app.name == "pmr.jobs.run"
+    assert registered_app.name == "construct.jobs.run"
     assert task is registered_app.wrapped
 
     built = build_celery_app(
@@ -266,6 +266,6 @@ def test_register_job_task_uses_celery_decorator_and_build_app_reads_redis_url(m
         celery_factory=lambda *args, **kwargs: {"args": args, "kwargs": kwargs},
     )
 
-    assert built["args"] == ("pmr-worker",)
+    assert built["args"] == ("construct-worker",)
     assert built["kwargs"]["broker"] == "redis://redis.internal:6379/5"
     assert built["kwargs"]["backend"] == "redis://redis.internal:6379/5"

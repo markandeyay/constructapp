@@ -8,7 +8,7 @@ from packages.application.observability import MetricsCollector, reset_correlati
 from packages.application.jobs import JobHandler, JobRecord, JobStore
 
 
-DEFAULT_JOB_TASK_NAME = "pmr.jobs.run"
+DEFAULT_JOB_TASK_NAME = "construct.jobs.run"
 DEFAULT_REDIS_URL = "redis://localhost:6379/0"
 
 
@@ -16,7 +16,7 @@ def build_celery_app(*, redis_url: str | None = None, celery_factory: Callable[.
     factory = celery_factory or _import_celery_factory()
     broker_url = redis_url or os.environ.get("REDIS_URL", DEFAULT_REDIS_URL)
     return factory(
-        "pmr-worker",
+        "construct-worker",
         broker=broker_url,
         backend=broker_url,
         include=("services.worker.celery_app",),

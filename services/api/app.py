@@ -199,7 +199,7 @@ def create_app(
     """Build the FastAPI app with injectable collaborators for tests."""
 
     configure_logging()
-    logger = logging.getLogger("pmr.api")
+    logger = logging.getLogger("construct.api")
     store = session_store or InMemorySessionStore()
     queue = job_queue or InMemoryJobQueue()
     designs = design_store or InMemoryDesignStore()
@@ -209,7 +209,7 @@ def create_app(
     limiter = rate_limiter or InMemoryRateLimiter()
     limits = rate_limit_config or RateLimitConfig()
 
-    app = FastAPI(title="PMR API", version="0.1.0")
+    app = FastAPI(title="Construct API", version="0.1.0")
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse:
@@ -755,8 +755,8 @@ def _model_registry_snapshot(registry: Any) -> dict[str, Any]:
 
 
 def _metrics_to_text(snapshot: dict[str, Any]) -> str:
-    lines = ["# TYPE pmr_info gauge", "pmr_info 1"]
-    for name, value in _flatten_metric_values("pmr", snapshot):
+    lines = ["# TYPE construct_info gauge", "construct_info 1"]
+    for name, value in _flatten_metric_values("construct", snapshot):
         lines.append(f"{name} {value}")
     return "\n".join(lines) + "\n"
 

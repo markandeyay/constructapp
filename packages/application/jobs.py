@@ -23,7 +23,7 @@ JOB_STATUSES = {
     JOB_STATUS_SUCCEEDED,
     JOB_STATUS_FAILED,
 }
-LOGGER = logging.getLogger("pmr.worker")
+LOGGER = logging.getLogger("construct.worker")
 
 
 @dataclass(frozen=True)

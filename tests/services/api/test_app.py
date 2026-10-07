@@ -263,7 +263,7 @@ def test_metrics_support_json_and_plaintext(api_client: tuple[TestClient, InMemo
     assert body["queue"]["status"] == "ok"
     assert body["model_registry"]["status"] == "ok"
     assert text_response.status_code == 200
-    assert "pmr_requests_count" in text_response.text
+    assert "construct_requests_count" in text_response.text
 
 
 def test_design_dispatches_job_and_poll_returns_synchronous_result(
