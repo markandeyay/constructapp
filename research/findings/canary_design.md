@@ -1,3 +1,5 @@
+> Historical design or research note, kept for the record and not current. Current truth lives in `README.md`, `docs/demo.md` and `PROGRESS.md`.
+
 # Generation Canary Deployment Design
 
 - Date: 2026-06-10

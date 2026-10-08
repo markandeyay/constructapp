@@ -1,3 +1,5 @@
+> Historical design or research note, kept for the record and not current. Current truth lives in `README.md`, `docs/demo.md` and `PROGRESS.md`.
+
 # README Audit
 
 Scope: root `README.md` at `b8df563`, checked against `PROGRESS.md`, `SYSTEM_DESIGN.md`, and current repository structure.

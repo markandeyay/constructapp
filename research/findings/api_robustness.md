@@ -1,3 +1,5 @@
+> Historical design or research note, kept for the record and not current. Current truth lives in `README.md`, `docs/demo.md` and `PROGRESS.md`.
+
 # API Robustness Audit
 
 Scope: application-layer FastAPI/service code, frontend API client behavior, and existing application/API tests on `phase4-polish`. Excluded: `packages/validation/`, validation gold sets, and performance work.

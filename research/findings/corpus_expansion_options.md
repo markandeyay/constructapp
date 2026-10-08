@@ -1,3 +1,5 @@
+> Historical design or research note, kept for the record and not current. Current truth lives in `README.md`, `docs/demo.md` and `PROGRESS.md`.
+
 # Corpus Expansion Options for Phase 2 Authorization
 
 Date: 2026-06-17

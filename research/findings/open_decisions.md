@@ -1,3 +1,5 @@
+> Historical design or research note, kept for the record and not current. Current truth lives in `README.md`, `docs/demo.md` and `PROGRESS.md`.
+
 # Open Decisions Register
 
 Scope: consolidated pending decisions for AUDIT-1 on `demo-readiness`, drawn from `PROGRESS.md` and recent `research/findings/` documents. This file intentionally records decisions still requiring human approval; it does not change policy by itself.
