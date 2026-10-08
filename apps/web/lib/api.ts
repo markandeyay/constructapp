@@ -1,5 +1,15 @@
 import { API_BASE_URL } from "@/lib/config";
 import type {
+  AavDesignResponse,
+  AavParts,
+  AavRequestBody,
+  AssemblyDesignResponse,
+  AssemblyRequestBody,
+  GrnaDesignResponse,
+  GrnaReference,
+  GrnaRequestBody
+} from "@/lib/capabilities";
+import type {
   ApiErrorEnvelope,
   ApiFieldError,
   JobAcceptedResponse,
@@ -116,6 +126,26 @@ export async function getPendingOutcomePrompts(): Promise<PendingOutcomePrompt[]
   return response.prompts;
 }
 
+export async function getAavParts(): Promise<AavParts> {
+  return request<AavParts>("/v1/aav/parts", { method: "GET" });
+}
+
+export async function designAav(body: AavRequestBody): Promise<AavDesignResponse> {
+  return request<AavDesignResponse>("/v1/aav/design", { method: "POST", body: JSON.stringify(body) });
+}
+
+export async function designAssembly(body: AssemblyRequestBody): Promise<AssemblyDesignResponse> {
+  return request<AssemblyDesignResponse>("/v1/assembly/design", { method: "POST", body: JSON.stringify(body) });
+}
+
+export async function getGrnaReference(): Promise<GrnaReference> {
+  return request<GrnaReference>("/v1/grna/reference", { method: "GET" });
+}
+
+export async function designGrna(body: GrnaRequestBody): Promise<GrnaDesignResponse> {
+  return request<GrnaDesignResponse>("/v1/grna/design", { method: "POST", body: JSON.stringify(body) });
+}
+
 async function request<T>(path: string, init: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...init,
@@ -135,7 +165,11 @@ async function parseApiError(response: Response): Promise<ApiError> {
   const text = await response.text();
   if (text) {
     try {
-      const body = JSON.parse(text) as Partial<ApiErrorEnvelope>;
+      const body = JSON.parse(text) as Partial<ApiErrorEnvelope> & { detail?: unknown };
+      const detail = capabilityErrorDetail(body.detail);
+      if (!body.error?.message && detail) {
+        return new ApiError(detail, { status: response.status });
+      }
       if (body.error?.message) {
         return new ApiError(body.error.message, {
           status: response.status,
@@ -150,6 +184,28 @@ async function parseApiError(response: Response): Promise<ApiError> {
     }
   }
   return new ApiError(`API request failed with ${response.status}`, { status: response.status });
+}
+
+// The capability routes report a rejected request as `{ "detail": ... }`, either a
+// message string or a list of field errors, rather than the workspace envelope.
+function capabilityErrorDetail(detail: unknown): string | null {
+  if (typeof detail === "string" && detail.trim()) {
+    return detail;
+  }
+  if (Array.isArray(detail)) {
+    const parts = detail
+      .map((item) => {
+        if (item && typeof item === "object") {
+          const record = item as { loc?: unknown[]; msg?: unknown };
+          const where = Array.isArray(record.loc) ? record.loc.filter((part) => part !== "body").join(".") : "";
+          return typeof record.msg === "string" ? (where ? `${where}: ${record.msg}` : record.msg) : null;
+        }
+        return null;
+      })
+      .filter((part): part is string => Boolean(part));
+    return parts.length ? parts.join("; ") : null;
+  }
+  return null;
 }
 
 function sleep(ms: number): Promise<void> {

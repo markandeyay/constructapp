@@ -1,0 +1,183 @@
+{
+ "categories": {
+  "itr": [
+   {
+    "id": "itr.aav2_itr_left",
+    "name": "AAV2 inverted terminal repeat, left (5' ITR)",
+    "length_bp": 145,
+    "tissue_specificity": null,
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank NC_001401.2, repeat_region feature 1..145",
+    "citation": "RefSeq NC_001401.2",
+    "notes": "Left ITR as it appears on the reference genome plus strand. Contains the A, B, C and D regions (145 nt; the larger figure in Appendix B includes the D sequence). The reference record also annotates a flip oriented DNA feature at 42..83. The sense strand contains 0 ATG trinucleotide(s). Literature describing the element: doi:10.1128/JVI.45.2.555-564.1983 (the sequence itself comes from the GenBank record, not from the paper)."
+   },
+   {
+    "id": "itr.aav2_itr_right",
+    "name": "AAV2 inverted terminal repeat, right (3' ITR)",
+    "length_bp": 145,
+    "tissue_specificity": null,
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank NC_001401.2, repeat_region feature 4535..4679",
+    "citation": "RefSeq NC_001401.2",
+    "notes": "Right ITR as it appears on the reference genome plus strand. Its reverse complement matches the left ITR at 128 of 145 positions (88.3 percent) because the left ITR carries the flip orientation of the B and C arms and the right ITR the flop orientation, so each ITR must be compared with its own reference record, not with the other one. Placing it 3' of the cassette in this orientation gives the inverted arrangement that check aav.itr_orientation tests for. The reference record annotates a flop oriented DNA feature at 4597..4638. The sense strand contains 1 ATG trinucleotide(s). Literature describing the element: doi:10.1128/JVI.45.2.555-564.1983 (the sequence itself comes from the GenBank record, not from the paper)."
+   }
+  ],
+  "promoter": [
+   {
+    "id": "promoter.cag",
+    "name": "CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)",
+    "length_bp": 1639,
+    "tissue_specificity": "ubiquitous",
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank ON785708.1, regulatory (promoter) feature 221..1859",
+    "citation": "GenBank ON785708.1",
+    "notes": "Strong, ubiquitous expression. Large, so often the first element cut when over budget (Appendix B). The source feature is an unnamed promoter annotation; its identity as the CMV enhancer plus chicken beta-actin promoter plus intron architecture was established by alignment to independently annotated records, see PROVENANCE.md. The sense strand contains 18 ATG trinucleotide(s). Literature describing the element: doi:10.1016/0378-1119(91)90434-d (the sequence itself comes from the GenBank record, not from the paper)."
+   },
+   {
+    "id": "promoter.cbh",
+    "name": "CBh promoter (hybrid CMV enhancer and chicken beta-actin)",
+    "length_bp": 799,
+    "tissue_specificity": "ubiquitous",
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank KU341333.1, regulatory (promoter) feature 442..1240",
+    "citation": "GenBank KU341333.1",
+    "notes": "Hybrid, ubiquitous (Appendix B). The CBh promoter is described in a 2011 Human Gene Therapy paper as a hybrid form of the chicken beta-actin promoter of roughly 800 bp. The sense strand contains 12 ATG trinucleotide(s). Literature describing the element: doi:10.1089/hum.2010.245 (the sequence itself comes from the GenBank record, not from the paper)."
+   },
+   {
+    "id": "promoter.cmv",
+    "name": "CMV immediate early enhancer and promoter",
+    "length_bp": 663,
+    "tissue_specificity": "ubiquitous",
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank AF396260.1, regulatory (promoter) feature 150..812",
+    "citation": "GenBank AF396260.1",
+    "notes": "Strong, ubiquitous expression. Can silence over time in some tissues (Appendix B). The annotated feature is longer than the roughly 584 bp enhancer plus promoter core because it runs on through the transcription start and 5' untranslated region of the CMV immediate early gene. The sense strand contains 17 ATG trinucleotide(s)."
+   },
+   {
+    "id": "promoter.ef1a",
+    "name": "EF-1 alpha promoter, full length",
+    "length_bp": 1184,
+    "tissue_specificity": "ubiquitous",
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank MT586119.1, regulatory (promoter) feature 593..1776",
+    "citation": "GenBank MT586119.1",
+    "notes": "Ubiquitous, durable expression (Appendix B). Contains the EFS core promoter sequence within it. The sense strand contains 11 ATG trinucleotide(s). Literature describing the element: doi:10.1016/0378-1119(90)90091-5 (the sequence itself comes from the GenBank record, not from the paper)."
+   },
+   {
+    "id": "promoter.efs",
+    "name": "EFS, short EF-1 alpha core promoter",
+    "length_bp": 212,
+    "tissue_specificity": "ubiquitous",
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank MT891328.1, regulatory (promoter) feature 529..740",
+    "citation": "GenBank MT891328.1",
+    "notes": "The compact ubiquitous option. Weaker than CAG. Valuable when capacity is tight (Appendix B). Annotated in the source record as the EF-1alpha core promoter. The sense strand contains 1 ATG trinucleotide(s)."
+   },
+   {
+    "id": "promoter.gfap",
+    "name": "GfaABC1D astrocyte promoter",
+    "length_bp": 691,
+    "tissue_specificity": "cns_astrocyte",
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank PZ285974.1, regulatory (promoter) feature 1214..1904",
+    "citation": "GenBank PZ285974.1",
+    "notes": "Astrocyte-specific (Appendix B lists GFAP at roughly 680 bp). Annotated gfaABC1D promoter in the source record. The sense strand contains 8 ATG trinucleotide(s). Literature describing the element: doi:10.1002/glia.20622 (the sequence itself comes from the GenBank record, not from the paper)."
+   },
+   {
+    "id": "promoter.hsyn1",
+    "name": "Human synapsin I promoter (hSyn1)",
+    "length_bp": 472,
+    "tissue_specificity": "cns_neuron",
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank MH282432.1, regulatory (promoter) feature 216..687",
+    "citation": "GenBank MH282432.1",
+    "notes": "Neuron-specific (Appendix B). The source annotation cites a 2003 Gene Therapy paper for neuron specific expression. The sense strand contains 3 ATG trinucleotide(s). Literature describing the element: doi:10.1038/sj.gt.3301905 (the sequence itself comes from the GenBank record, not from the paper)."
+   },
+   {
+    "id": "promoter.mecp2_mini",
+    "name": "MeCP2 mini promoter (meP229)",
+    "length_bp": 225,
+    "tissue_specificity": "cns_neuron",
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank PY026695.1, misc_feature feature 1..225",
+    "citation": "GenBank PY026695.1 (patent US 12359219 B2)",
+    "notes": "Compact, neuronal (Appendix B). Lowest-confidence source in the registry: a patent sequence record (US 12359219 B2) rather than a vector deposit, annotated meP229 although the record is 225 bp long. It matches the 3' end of the patent's meP426 record (PY026693.1) exactly, see PROVENANCE.md. The sense strand contains 1 ATG trinucleotide(s)."
+   }
+  ],
+  "polya": [
+   {
+    "id": "polya.bgh",
+    "name": "Bovine growth hormone polyadenylation signal",
+    "length_bp": 225,
+    "tissue_specificity": null,
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank ON785708.1, regulatory (polyA_signal_sequence) feature 3786..4010",
+    "citation": "GenBank ON785708.1",
+    "notes": "Common default polyadenylation signal (Appendix B). The sense strand contains 4 ATG trinucleotide(s)."
+   },
+   {
+    "id": "polya.sv40",
+    "name": "SV40 polyadenylation signal",
+    "length_bp": 135,
+    "tissue_specificity": null,
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank KX449554.1, regulatory (polyA_signal_sequence) feature 4852..4986",
+    "citation": "GenBank KX449554.1",
+    "notes": "Smaller alternative to bGH (Appendix B). The sense strand contains 3 ATG trinucleotide(s)."
+   }
+  ],
+  "enhancer": [
+   {
+    "id": "enhancer.wpre",
+    "name": "Woodchuck hepatitis virus posttranscriptional regulatory element",
+    "length_bp": 589,
+    "tissue_specificity": null,
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank MH282432.1, regulatory (enhancer) feature 2868..3456",
+    "citation": "GenBank MH282432.1",
+    "notes": "Boosts expression. Optional, and the obvious cut when over budget (Appendix B). The sense strand contains 6 ATG trinucleotide(s). Literature describing the element: doi:10.1128/JVI.73.4.2886-2892.1999 (the sequence itself comes from the GenBank record, not from the paper)."
+   }
+  ],
+  "intron": [
+   {
+    "id": "intron.chimeric",
+    "name": "Chimeric intron (human beta-globin donor, immunoglobulin acceptor)",
+    "length_bp": 141,
+    "tissue_specificity": null,
+    "host_compatibility": [
+     "mammalian_general"
+    ],
+    "source": "GenBank KT345943.1, intron feature 17..157",
+    "citation": "GenBank KT345943.1",
+    "notes": "Optional (Appendix B). Annotated beta-globin-IgG-chimeric intron in the source record. The sense strand contains 2 ATG trinucleotide(s)."
+   }
+  ]
+ },
+ "total": 14
+}

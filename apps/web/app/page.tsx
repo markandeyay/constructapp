@@ -1,11 +1,25 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { ApiError, createSession, exportDesign, getOutcome, getPendingOutcomePrompts, pollJob, submitDesign, submitRefinement } from "@/lib/api";
+import { AavForm, AssemblyForm, CapabilitySelector, GrnaForm } from "@/components/capability-forms";
+import { CapabilityExportActions } from "@/components/capability-exports";
+import { CapabilityResultPane } from "@/components/capability-result-pane";
 import { ExportActions, type ExportFormat, type ExportStatus } from "@/components/export-actions";
 import { OutcomeReportModal } from "@/components/outcome-report-modal";
 import { PlasmidMapView } from "@/components/plasmid-map-view";
-import type { AnnotatedSequence, JobResultPayload, JobStatusResponse, OutcomeReport, PendingOutcomePrompt, ValidationCheck, ValidationReport } from "@/lib/types";
+import { ValidationReportPanel, normalizeStatus } from "@/components/validation-report";
+import {
+  CAPABILITY_OPTIONS,
+  adaptReport,
+  outcomeDesignId,
+  outcomeReport,
+  outcomeSummary,
+  type CapabilityKind,
+  type CapabilityOutcome
+} from "@/lib/capabilities";
+import { useCapabilityWorkspace } from "@/lib/use-capabilities";
+import type { AnnotatedSequence, JobResultPayload, JobStatusResponse, OutcomeReport, PendingOutcomePrompt, ValidationReport } from "@/lib/types";
 
 type UiState = "idle" | "submitting" | "polling" | "poll_timeout" | "ready" | "awaiting_clarification" | "error";
 type PendingPromptStatus = "loading" | "ready" | "error";
@@ -124,7 +138,43 @@ export default function Page() {
     return rows;
   }, [messages]);
 
+  const handleCapabilitySubmitted = useCallback((kind: CapabilityKind, summary: string) => {
+    setMessages((current) => [...current, { id: crypto.randomUUID(), role: "user", kind: "prompt", text: summary }]);
+    setAppStatus(`Running the ${capabilityLabel(kind)} design.`);
+  }, []);
+  const handleCapabilityCompleted = useCallback((outcome: CapabilityOutcome) => {
+    const text = outcomeSummary(outcome);
+    setMessages((current) => [
+      ...current,
+      {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        kind: "result",
+        text,
+        result: {
+          design_id: outcomeDesignId(outcome),
+          capability: outcome.kind,
+          recommendation_text: text,
+          validation_report: adaptReport(outcomeReport(outcome))
+        }
+      }
+    ]);
+    setAppStatus(`${capabilityLabel(outcome.kind)} design complete.`);
+  }, []);
+  const handleCapabilityFailed = useCallback((kind: CapabilityKind, message: string) => {
+    setMessages((current) => [...current, { id: crypto.randomUUID(), role: "system", kind: "error", text: message }]);
+    setAppStatus(`${capabilityLabel(kind)} design failed. ${message}`);
+  }, []);
+  const workspace = useCapabilityWorkspace({
+    onSubmitted: handleCapabilitySubmitted,
+    onCompleted: handleCapabilityCompleted,
+    onFailed: handleCapabilityFailed
+  });
+  const isPlasmid = workspace.capability === "plasmid";
+  const capabilityOutcome = isPlasmid ? null : (workspace.outcomes[workspace.capability] ?? null);
+
   function handleNewDesign() {
+    workspace.clearOutcomes();
     setSessionId(null);
     setMessages([
       {
@@ -180,7 +230,16 @@ export default function Page() {
   const annotatedSequence = selectedResult?.annotated_sequence ?? null;
   const designId = selectedResult?.design_id ?? selectedResult?.design?.design_id ?? null;
   const modelVersion = selectedResult?.validation_report?.generated_by_model_version ?? selectedResult?.design?.validation_report?.generated_by_model_version ?? null;
-  const shownValidationReport = selectedResult?.validation_report ?? null;
+  const capabilityReport = useMemo(
+    () => (capabilityOutcome ? adaptReport(outcomeReport(capabilityOutcome)) : null),
+    [capabilityOutcome]
+  );
+  const shownValidationReport = isPlasmid ? (selectedResult?.validation_report ?? null) : capabilityReport;
+  const displayDesignId = isPlasmid ? designId : capabilityOutcome ? outcomeDesignId(capabilityOutcome) : null;
+  const capabilityMessageId = useMemo(
+    () => (isPlasmid ? null : ([...messages].reverse().find((message) => message.result?.capability === workspace.capability)?.id ?? null)),
+    [isPlasmid, messages, workspace.capability]
+  );
   const isBusy = state === "submitting" || state === "polling";
   const isPollTimeoutRecovery = state === "poll_timeout" && Boolean(activeJobId);
   const activeClarification = useMemo(
@@ -296,6 +355,13 @@ export default function Page() {
       setMobileTab("map");
     }
   }, [annotatedSequence, isDesktop]);
+
+  const capabilityDesignId = capabilityOutcome ? outcomeDesignId(capabilityOutcome) : null;
+  useEffect(() => {
+    if (!isDesktop && capabilityDesignId) {
+      setMobileTab("map");
+    }
+  }, [capabilityDesignId, isDesktop]);
 
   useEffect(() => {
     if (!isDesktop && state === "awaiting_clarification") {
@@ -489,7 +555,7 @@ export default function Page() {
   }
 
   function handleOpenFullReport() {
-    const targetId = selectedResultMessageId;
+    const targetId = isPlasmid ? selectedResultMessageId : capabilityMessageId;
     const scrollToResult = () => {
       if (!targetId) {
         return;
@@ -571,6 +637,43 @@ export default function Page() {
     }
   }
 
+  const mapPane = isPlasmid ? (
+    <PlasmidMapView
+      annotatedSequence={annotatedSequence as AnnotatedSequence | null}
+      waitingForClarification={state === "awaiting_clarification"}
+    />
+  ) : (
+    <CapabilityResultPane
+      capability={workspace.capability as Exclude<CapabilityKind, "plasmid">}
+      outcome={capabilityOutcome}
+      onApplyPlan={workspace.applyPlan}
+      onUseAsFragments={workspace.aavAsFragments}
+    />
+  );
+  const capabilityForm: ReactNode =
+    workspace.capability === "aav" ? (
+      <AavForm
+        form={workspace.aavForm}
+        setForm={workspace.setAavForm}
+        parts={workspace.aavParts}
+        partsFailed={workspace.aavPartsFailed}
+        busy={workspace.busy}
+        error={workspace.formError}
+        onSubmit={workspace.submit}
+      />
+    ) : workspace.capability === "assembly" ? (
+      <AssemblyForm form={workspace.assemblyForm} setForm={workspace.setAssemblyForm} busy={workspace.busy} error={workspace.formError} onSubmit={workspace.submit} />
+    ) : workspace.capability === "guide_rna" ? (
+      <GrnaForm
+        form={workspace.grnaForm}
+        setForm={workspace.setGrnaForm}
+        reference={workspace.grnaReference}
+        busy={workspace.busy}
+        error={workspace.formError}
+        onSubmit={workspace.submit}
+      />
+    ) : null;
+
   return (
     <main className="flex h-screen flex-col bg-cream font-sans text-ink">
       <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{appStatus}</p>
@@ -581,13 +684,13 @@ export default function Page() {
       {isDesktop ? (
         <>
           <header className="hidden h-12 items-center gap-sm border-b border-line bg-paper px-md md:flex" role="banner">
-            <span className="font-serif text-h2 tracking-tight text-ink">Plasmid<span className="text-coral">AI</span></span>
+            <span className="font-serif text-h2 tracking-tight text-ink">Construct</span>
             <span className="mx-2xs hidden h-6 w-px bg-line-strong md:block" aria-hidden />
             <h1 id="design-workspace-title" className="font-serif text-h3 text-ink">Design workspace</h1>
             <div className="mx-auto flex items-center gap-xs" aria-live="polite">
-              {designId ? (
+              {displayDesignId ? (
                 <>
-                  <span className="text-small text-slate">{designId.length > 12 ? `${designId.slice(0, 12)}\u2026` : designId}</span>
+                  <span className="text-small text-slate">{displayDesignId.length > 12 ? `${displayDesignId.slice(0, 12)}\u2026` : displayDesignId}</span>
                   {shownValidationReport ? (
                     <span className={`rounded-pill border px-xs py-2xs text-caption font-semibold uppercase tracking-[0.06em] ${overallBadgeClass(shownValidationReport)}`}>{overallLabel(shownValidationReport)}</span>
                   ) : null}
@@ -638,13 +741,12 @@ export default function Page() {
 
             <div className="flex min-h-0 min-w-0 flex-col bg-cream">
               <div className="min-h-0 flex-1 overflow-y-auto p-sm md:p-md">
-                <PlasmidMapView
-                  annotatedSequence={annotatedSequence as AnnotatedSequence | null}
-                  waitingForClarification={state === "awaiting_clarification"}
-                />
+                {mapPane}
               </div>
               <ToolsStrip
                 layout="row"
+                capability={workspace.capability}
+                capabilityOutcome={capabilityOutcome}
                 designId={designId}
                 isBusy={isBusy}
                 validationReport={shownValidationReport}
@@ -679,6 +781,10 @@ export default function Page() {
                 onStartOver={handleStartOverAfterTimeout}
                 onViewMap={() => undefined}
                 retryableError={retryableError}
+                capability={workspace.capability}
+                onCapabilityChange={workspace.setCapability}
+                capabilityForm={capabilityForm}
+                capabilityBusy={workspace.busy}
               />
             </aside>
           </div>
@@ -696,7 +802,7 @@ export default function Page() {
       ) : (
         <>
           <header className="relative flex h-[52px] items-center gap-sm border-b border-line bg-paper px-md md:hidden" role="banner">
-            <span className="font-serif text-h2 tracking-tight text-ink">Plasmid<span className="text-coral">AI</span></span>
+            <span className="font-serif text-h2 tracking-tight text-ink">Construct</span>
             <h1 id="design-workspace-title" className="sr-only">Design workspace</h1>
             <button
               type="button"
@@ -734,13 +840,12 @@ export default function Page() {
             {mobileTab === "map" ? (
               <div className="flex h-full min-h-0 flex-col bg-cream">
                 <div className="min-h-0 flex-1 overflow-y-auto p-sm">
-                  <PlasmidMapView
-                    annotatedSequence={annotatedSequence as AnnotatedSequence | null}
-                    waitingForClarification={state === "awaiting_clarification"}
-                  />
+                  {mapPane}
                 </div>
                 <ToolsStrip
                   layout="stack"
+                  capability={workspace.capability}
+                  capabilityOutcome={capabilityOutcome}
                   designId={designId}
                   isBusy={isBusy}
                   validationReport={shownValidationReport}
@@ -771,6 +876,10 @@ export default function Page() {
                   onStartOver={handleStartOverAfterTimeout}
                   onViewMap={() => setMobileTab("map")}
                   retryableError={retryableError}
+                  capability={workspace.capability}
+                  onCapabilityChange={workspace.setCapability}
+                  capabilityForm={capabilityForm}
+                  capabilityBusy={workspace.busy}
                 />
               </div>
             )}
@@ -828,8 +937,8 @@ export default function Page() {
               <span className="h-2 w-2 shrink-0 rounded-pill bg-honey" aria-hidden="true" />
               <span className="truncate">Polling timed out</span>
             </>
-          ) : designId ? (
-            <span className="truncate">Design ready · {designId}</span>
+          ) : displayDesignId ? (
+            <span className="truncate">Design ready · {displayDesignId}</span>
           ) : (
             <span>Idle</span>
           )}
@@ -838,7 +947,9 @@ export default function Page() {
           <span className={`h-2 w-2 rounded-pill ${appStatus ? "bg-clay" : "bg-sage"}`} aria-hidden="true" />
           {appStatus ? "Offline" : "Connected"}
         </span>
-        <span className="hidden sm:inline">Model: {modelVersion ?? "unknown"}</span>
+        <span className="hidden sm:inline">
+          {isPlasmid ? `Model: ${modelVersion ?? "unknown"}` : `Validator: ${shownValidationReport?.validator_version ?? "unknown"}`}
+        </span>
       </footer>
 
       <OutcomeReportModal
@@ -1001,38 +1112,6 @@ function ResultNote({ title, text }: { title: string; text: string }) {
   );
 }
 
-function ValidationReportPanel({ report }: { report: ValidationReport }) {
-  const checks = report.checks ?? [];
-  const overall = report.overall ?? (checks.some((check) => normalizeStatus(check.status) === "FAIL") ? "FAIL" : "PASS");
-  return (
-    <section className="mt-md rounded-md border border-line bg-mist p-md" aria-label="Validation report">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-caption font-semibold uppercase tracking-[0.06em] text-slate">Validation report</h3>
-        <StatusBadge status={overall} />
-      </div>
-      {report.generated_by_model_version ? (
-        <p className="mt-2xs text-xs text-slate">Model: {report.generated_by_model_version}</p>
-      ) : null}
-      {checks.length ? (
-        <div className="mt-sm space-y-sm">
-          {checks.map((check, index) => (
-            <div key={`${checkTitle(check)}-${index}`} className="rounded-md border border-line bg-paper p-md">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="text-sm font-medium text-ink">{checkTitle(check)}</p>
-                <StatusBadge status={check.status ?? "PASS"} />
-              </div>
-              {check.message ? <p className="mt-2xs text-small leading-5 text-slate">{check.message}</p> : null}
-              {regionLabel(check) ? <p className="mt-2xs text-xs text-slate">Region: {regionLabel(check)}</p> : null}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p className="mt-sm text-small text-slate">No individual checks were returned.</p>
-      )}
-    </section>
-  );
-}
-
 function PartialResultNotice({ result }: { result: JobResultPayload }) {
   const hasEvidence = Boolean(result.retrieved_templates?.length || result.validation_report);
   if (!hasEvidence) {
@@ -1046,23 +1125,6 @@ function PartialResultNotice({ result }: { result: JobResultPayload }) {
       </p>
     </section>
   );
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const normalized = normalizeStatus(status);
-  const className =
-    normalized === "PASS"
-      ? "border-sage/40 bg-sage/10 text-sage"
-      : normalized === "WARN"
-        ? "border-honey/40 bg-honey/10 text-honey"
-        : normalized === "FAIL"
-          ? "border-clay/40 bg-clay/10 text-clay"
-          : "border-line-strong bg-mist text-slate";
-  return <span className={`rounded-pill border px-xs py-2xs text-caption font-semibold uppercase tracking-[0.06em] ${className}`}>{normalized}</span>;
-}
-
-function normalizeStatus(status: string | undefined): string {
-  return (status ?? "UNKNOWN").toUpperCase();
 }
 
 function overallLabel(report: ValidationReport): string {
@@ -1268,6 +1330,8 @@ function truncateSnippet(text: string): string {
 
 function ToolsStrip({
   layout,
+  capability,
+  capabilityOutcome,
   designId,
   isBusy,
   validationReport,
@@ -1279,6 +1343,8 @@ function ToolsStrip({
   onOpenFullReport
 }: {
   layout: "row" | "stack";
+  capability: CapabilityKind;
+  capabilityOutcome: CapabilityOutcome | null;
   designId: string | null;
   isBusy: boolean;
   validationReport: ValidationReport | null;
@@ -1320,11 +1386,18 @@ function ToolsStrip({
         </div>
 
         <div className={cellClass}>
-          <ExportActions designId={candidacy} status={exportStatus} error={exportError} disabledReason={isBusy ? "A new design job is running. Exports stay disabled to avoid downloading the previous design by mistake." : null} onExport={onExport} />
+          {capability === "plasmid" ? (
+            <ExportActions designId={candidacy} status={exportStatus} error={exportError} disabledReason={isBusy ? "A new design job is running. Exports stay disabled to avoid downloading the previous design by mistake." : null} onExport={onExport} />
+          ) : (
+            <CapabilityExportActions outcome={capabilityOutcome} />
+          )}
         </div>
 
         <div className={cellClass} aria-label="Outcome reporting">
-          {candidacy ? (
+          {capability !== "plasmid" ? (
+            <span className="truncate text-caption text-slate">Outcome reporting is available for plasmid designs.</span>
+          ) : null}
+          {capability === "plasmid" && candidacy ? (
             <button
               type="button"
               disabled={isBusy}
@@ -1334,7 +1407,7 @@ function ToolsStrip({
               {latestOutcome ? "Review or edit outcome" : "Report outcome"}
             </button>
           ) : null}
-          <span className="truncate text-caption text-slate">{outcomeHint}</span>
+          {capability === "plasmid" ? <span className="truncate text-caption text-slate">{outcomeHint}</span> : null}
         </div>
       </div>
     </section>
@@ -1357,7 +1430,11 @@ function ChatPanel({
   onCheckJob,
   onStartOver,
   onViewMap,
-  retryableError
+  retryableError,
+  capability,
+  onCapabilityChange,
+  capabilityForm,
+  capabilityBusy
 }: {
   messages: ChatMessage[];
   isBusy: boolean;
@@ -1375,13 +1452,17 @@ function ChatPanel({
   onStartOver: () => void;
   onViewMap: () => void;
   retryableError: boolean;
+  capability: CapabilityKind;
+  onCapabilityChange: (kind: CapabilityKind) => void;
+  capabilityForm: ReactNode;
+  capabilityBusy: boolean;
 }) {
   return (
     <>
       <div className="flex h-10 shrink-0 items-center border-b border-line px-md">
         <div className="flex items-center gap-xs">
           <h2 className="font-serif text-h3 text-ink">Conversation</h2>
-          {isBusy ? (
+          {isBusy || capabilityBusy ? (
             <span className="flex items-center gap-xs text-caption text-slate" role="status">
               <span className="h-2 w-2 animate-pulse rounded-pill bg-coral" aria-hidden="true" />
               Design running
@@ -1389,6 +1470,8 @@ function ChatPanel({
           ) : null}
         </div>
       </div>
+
+      <CapabilitySelector value={capability} onChange={onCapabilityChange} disabled={isBusy || capabilityBusy} />
 
       <div className="flex-1 space-y-sm overflow-y-auto px-md py-md">
         {messages.map((message) => (
@@ -1420,8 +1503,17 @@ function ChatPanel({
             {message.result ? (
               message.result.validation_report ? <ValidationReportPanel report={message.result.validation_report} /> : <MissingValidationReportPanel />
             ) : null}
-            {message.result && !message.result.annotated_sequence ? <PartialResultNotice result={message.result} /> : null}
-            {message.result ? <RetrievedTemplatesPanel result={message.result} messageId={message.id} /> : null}
+            {message.result && !message.result.annotated_sequence && !message.result.capability ? <PartialResultNotice result={message.result} /> : null}
+            {message.result && !message.result.capability ? <RetrievedTemplatesPanel result={message.result} messageId={message.id} /> : null}
+            {message.result?.capability ? (
+              <a
+                href={`#${capabilityPanelId(message.result.capability)}`}
+                onClick={onViewMap}
+                className="mt-3 inline-flex rounded-sm px-xs py-2xs text-xs font-semibold text-coral hover:underline focus:outline-none focus:ring-2 focus:ring-coral/40"
+              >
+                View {capabilityLabel(message.result.capability).toLowerCase()} result
+              </a>
+            ) : null}
             {message.result?.annotated_sequence ? (
               <a
                 href="#plasmid-map"
@@ -1438,6 +1530,9 @@ function ChatPanel({
         ) : null}
       </div>
 
+      {capability !== "plasmid" ? (
+        <div className="max-h-[55%] shrink-0 overflow-y-auto">{capabilityForm}</div>
+      ) : (
       <form onSubmit={onSubmit} className="shrink-0 border-t border-line bg-paper px-sm py-sm" aria-label="Design composer">
         {state === "awaiting_clarification" && activeClarification ? (
           <div className="mb-3 rounded-md border border-honey/40 bg-honey/10 p-md text-sm text-ink">
@@ -1510,30 +1605,17 @@ function ChatPanel({
           </div>
         ) : null}
       </form>
+      )}
     </>
   );
 }
 
-function checkTitle(check: ValidationCheck): string {
-  return check.name ?? check.check ?? check.category ?? "Validation check";
+function capabilityLabel(kind: string): string {
+  return CAPABILITY_OPTIONS.find((option) => option.kind === kind)?.label ?? kind;
 }
 
-function regionLabel(check: ValidationCheck): string | null {
-  const explicitRegions = check.regions
-    ?.map((region) => {
-      if (typeof region.start !== "number" || typeof region.end !== "number") {
-        return region.label ?? region.feature ?? null;
-      }
-      return `${region.label ?? region.feature ?? "region"} ${region.start + 1}..${region.end}`;
-    })
-    .filter(Boolean);
-  if (explicitRegions?.length) {
-    return explicitRegions.join(", ");
-  }
-  if (typeof check.start === "number" && typeof check.end === "number") {
-    return `${check.start + 1}..${check.end}`;
-  }
-  return null;
+function capabilityPanelId(kind: string): string {
+  return kind === "aav" ? "aav-panel" : kind === "assembly" ? "assembly-panel" : "grna-panel";
 }
 
 function jobError(job: JobStatusResponse): ApiError {
