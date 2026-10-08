@@ -130,6 +130,29 @@ CAPABILITY_REGISTRY: dict[CapabilityKind, CapabilitySpec] = {
     ),
     # ==== /WP-04 ====
     # ==== WP-05: guide RNA. Only WP-05 writes here. ====
+    CapabilityKind.GUIDE_RNA: CapabilitySpec(
+        kind=CapabilityKind.GUIDE_RNA,
+        label="Guide RNA",
+        description=(
+            "CRISPR guide RNA design: enumerate every valid guide on both strands at the correct "
+            "PAM offset, predict on-target activity with a named published model, search the "
+            "declared off-target space, and rank with the reasoning shown."
+        ),
+        request_schema="packages.core.schemas.grna:GuideRNARequest",
+        result_schema="packages.core.schemas.grna:GuideRNAResult",
+        generator="packages.generation.grna.designer:GuideRNAGenerator",
+        validator_ref="packages.validation.grna.validator:build_validator",
+        design_model_ref="packages.core.schemas.grna:GuideRNADesign",
+        api_route="/v1/grna",
+        notes=(
+            "Off-target search is scoped to the delivery construct, the target, and any sequence "
+            "set the user supplies. It is not genome-wide, and the searched space is stated "
+            "verbatim in every view and every export (section 8.6). On-target activity comes from "
+            "a published model with a stated validity domain, reported as a prediction; outside "
+            "that domain the score is withheld and a labeled heuristic ranks the guides "
+            "(section 8.4)."
+        ),
+    ),
     # ==== /WP-05 ====
 }
 
