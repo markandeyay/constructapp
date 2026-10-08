@@ -144,6 +144,43 @@ def reference() -> dict[str, Any]:
             for facts in (geometry_facts(spec) for _, spec in sorted(NUCLEASES.items()))
         ],
         "thresholds": DEFAULT_THRESHOLDS.as_mapping(),
+        # Section 10.4 asks the scope disclosure to say what was actually done.
+        # A threshold value alone can be read backwards, so the two findings from
+        # the WP-10 scientific review that are disclosure items rather than
+        # defects are carried here, next to the numbers they are about. Both were
+        # reviewed as "nothing is wrong or miscited", and both describe a reading
+        # an operator would otherwise plausibly get wrong.
+        "threshold_disclosures": [
+            {
+                "threshold": "seed_region_nt",
+                "value": DEFAULT_THRESHOLDS.as_mapping().get("seed_region_nt"),
+                "disclosure": (
+                    "12 nt is the permissive end of the Appendix C range for the off-target "
+                    "FAIL rule, not the conservative end, and the same holds for the near "
+                    "match WARN. Both rules require a fully matched seed, so a LONGER seed "
+                    "makes the FAIL condition harder to satisfy: with a 20 nt spacer and "
+                    "seed 12 the seed covers positions 9 to 20, so a two mismatch site fails "
+                    "only when both mismatches fall in positions 1 to 8, whereas seed 8 would "
+                    "fail it for mismatches anywhere in positions 1 to 12. Choosing the top of "
+                    "the range is defensible on the weight vector evidence, and it should not "
+                    "be described as the cautious choice."
+                ),
+            },
+            {
+                "threshold": "on_target_model",
+                "value": RULE_SET_1_NAME,
+                "disclosure": (
+                    "Rule Set 1, the 2014 model, is implemented and cited. The 2016 rule set "
+                    "is the more widely used one today. Rule Set 1 was chosen because it can "
+                    "be implemented faithfully from a readable reference, whereas the 2016 "
+                    "model carries a much larger coefficient set plus a gradient boosted "
+                    "component that cannot be transcribed by hand, and a half correct 2016 "
+                    "implementation would be worse than a fully correct 2014 one. Nothing "
+                    "here is miscited; this records the choice so it is not mistaken for an "
+                    "oversight."
+                ),
+            },
+        ],
         "cloning_vectors": [
             {
                 "vector_id": vector.vector_id,

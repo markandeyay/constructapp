@@ -211,3 +211,63 @@ class TestReferenceEndpoint:
             assert vector["accession"].startswith("Addgene ")
             assert vector["forward_overhang"]
             assert vector["source"]
+
+
+class TestThresholdDisclosures:
+    """Section 10.4: the scope disclosure must say what was actually done.
+
+    These two came out of the WP-10 scientific review as disclosure items rather
+    than defects, meaning the implementation is correct and an operator reading
+    only the numbers would still draw the wrong conclusion. The point of pinning
+    them here is that a disclosure which drifts away from the threshold it
+    describes is worse than none, because it is confidently wrong.
+    """
+
+    def test_both_disclosures_are_exposed(self, client):
+        body = client.get("/v1/grna/reference").json()
+        subjects = {item["threshold"] for item in body["threshold_disclosures"]}
+        assert subjects == {"seed_region_nt", "on_target_model"}
+
+    def test_the_seed_disclosure_carries_the_live_value(self, client):
+        """So the text and the number cannot disagree after a threshold change."""
+        body = client.get("/v1/grna/reference").json()
+        seed = next(
+            item
+            for item in body["threshold_disclosures"]
+            if item["threshold"] == "seed_region_nt"
+        )
+        assert seed["value"] == body["thresholds"]["seed_region_nt"]
+
+    def test_the_premise_of_the_seed_disclosure_still_holds(self, client):
+        """The disclosure says a longer seed makes the FAIL rule HARDER to satisfy.
+
+        That is only true because the rule demands a perfectly matched seed. If
+        that ever stops being so, the explanation inverts and this test is the
+        thing that catches it.
+        """
+        body = client.get("/v1/grna/reference").json()
+        assert body["thresholds"]["off_target_fail_max_seed_mismatches"] == 0
+
+    def test_the_seed_disclosure_says_permissive_not_conservative(self, client):
+        body = client.get("/v1/grna/reference").json()
+        seed = next(
+            item
+            for item in body["threshold_disclosures"]
+            if item["threshold"] == "seed_region_nt"
+        )
+        text = seed["disclosure"].lower()
+        assert "permissive" in text
+        assert "not the conservative end" in text
+
+    def test_the_on_target_disclosure_names_the_implemented_model(self, client):
+        body = client.get("/v1/grna/reference").json()
+        disclosure = next(
+            item
+            for item in body["threshold_disclosures"]
+            if item["threshold"] == "on_target_model"
+        )
+        published = next(
+            score for score in body["scores"] if score["kind"] == "published_model"
+        )
+        assert disclosure["value"] == published["name"]
+        assert "2016" in disclosure["disclosure"]
