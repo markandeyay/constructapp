@@ -106,6 +106,145 @@ def test_window_hairpin_rejects_a_nonsense_loop_size() -> None:
         structure.window_hairpin("ACGTACGT", min_loop_nt=0, three_prime_window_nt=5)
 
 
+# ---------------------------------------------------------------------------
+# A 3'-anchored stem must not be masked by a longer internal stem
+# ---------------------------------------------------------------------------
+
+# Built by construction, not found by search, so the masking is deterministic:
+#
+#   ACTTGCA GGTCAATGC TATATA GCATTGACC AAATTTAAA TTTT TGCAAGT
+#   |-----| |-------|        |-------|                |-----|
+#   3' anchor arm, 5' side   internal stem arms       3' anchor arm, 3' side
+#
+# The internal stem (GGTCAATGC against its own reverse complement, plus one
+# flanking pair on each side) is 10 bp and ends well short of the 3' terminus.
+# The 3'-anchored stem (ACTTGCA against TGCAAGT, the last seven bases) is 7 bp.
+# Selecting one result by stem length alone reports the 10 bp internal stem and
+# reports `three_prime_involved` as False, which hides a condition that section
+# 7.5 check 6 makes a FAIL at the 7 bp threshold.
+MASKING_OLIGO = "ACTTGCAGGTCAATGCTATATAGCATTGACCAAATTTAAATTTTTGCAAGT"
+
+
+def test_a_three_prime_stem_is_reported_even_when_a_longer_internal_stem_exists() -> None:
+    """Regression: the longest stem must not mask a shorter 3'-anchored one.
+
+    Section 7.5 check 6 gives a 3'-involved stem its own harder threshold,
+    because a stem that sequesters the 3' end stops the polymerase extending the
+    primer at all, whereas an internal stem only competes with annealing. A
+    selection rule ordered by stem length alone therefore drops the more severe
+    finding whenever some internal stem happens to be longer.
+    """
+    result = structure.window_hairpin(MASKING_OLIGO, min_loop_nt=3, three_prime_window_nt=5)
+
+    # The longest stem is the internal one, and on its own it says nothing about
+    # the 3' end. This is the state that used to be the whole answer.
+    assert result.stem_bp == 10
+    assert result.three_prime_involved is False
+
+    # The 3'-anchored stem is reported alongside it rather than discarded.
+    anchored = result.three_prime_anchored
+    assert anchored is not None, "a 3'-anchored stem exists and must not be dropped"
+    assert anchored.stem_bp == 7
+    assert anchored.three_prime_involved is True
+    assert anchored.three_prime_arm == (44, 51), "the 3' arm is the last seven bases"
+
+    # `worst_three_prime` is the accessor a 3' threshold is read against.
+    worst = result.worst_three_prime
+    assert worst is not None and worst.stem_bp == 7 and worst.three_prime_involved is True
+
+
+def test_no_companion_result_when_the_longest_stem_is_itself_three_prime_involved() -> None:
+    """The companion exists only when it would otherwise be masked.
+
+    When the longest stem already touches the 3' window there is nothing hidden,
+    so attaching a duplicate would just invite a reader to apply the threshold
+    twice. `worst_three_prime` still answers the question.
+    """
+    result = structure.window_hairpin("GCGCGCAAAAGCGCGC", min_loop_nt=3, three_prime_window_nt=5)
+    assert result.three_prime_involved is True
+    assert result.three_prime_anchored is None
+    assert result.worst_three_prime is result
+
+
+def test_no_three_prime_result_at_all_when_nothing_reaches_the_three_prime_window() -> None:
+    result = structure.window_hairpin(
+        "GCGCGCAAAAGCGCGC" + "AAAAAAAAAA", min_loop_nt=3, three_prime_window_nt=5
+    )
+    assert result.three_prime_involved is False
+    assert result.three_prime_anchored is None
+    assert result.worst_three_prime is None
+
+
+# ---------------------------------------------------------------------------
+# Which oligo segment each stem arm lies in
+# ---------------------------------------------------------------------------
+
+
+def test_stem_arms_are_located_on_the_oligo() -> None:
+    """The arms are the two halves of the stem, zero-based and end exclusive."""
+    result = structure.window_hairpin("GCGCGCAAAAGCGCGC", min_loop_nt=3, three_prime_window_nt=5)
+    assert result.five_prime_arm == (0, 6)
+    assert result.three_prime_arm == (10, 16)
+
+
+def test_arm_segments_name_the_tail_and_the_binding_region() -> None:
+    """A stem length alone is not actionable; the segment is what makes it so."""
+    result = structure.window_hairpin("GCGCGCAAAAGCGCGC", min_loop_nt=3, three_prime_window_nt=5)
+
+    # A 10 nt fixed tail: the 5' arm is inside it, the 3' arm is past it.
+    text = structure.arm_segments(result, tail_nt=10)
+    assert text is not None
+    assert "5' arm at 1 to 6 in the fixed 5' tail" in text
+    assert "3' arm at 11 to 16 in the template-binding region" in text
+
+    # No tail at all: every position is in the binding region.
+    untailed = structure.arm_segments(result, tail_nt=0)
+    assert untailed is not None
+    assert "fixed 5' tail" not in untailed
+    assert untailed.count("template-binding region") == 2
+
+    # A tail long enough to contain both arms.
+    inside = structure.arm_segments(result, tail_nt=16)
+    assert inside is not None
+    assert inside.count("fixed 5' tail") == 2
+
+
+def test_an_arm_spanning_the_boundary_says_so_rather_than_picking_one_side() -> None:
+    result = structure.window_hairpin("GCGCGCAAAAGCGCGC", min_loop_nt=3, three_prime_window_nt=5)
+    text = structure.arm_segments(result, tail_nt=3)
+    assert text is not None
+    assert "the fixed 5' tail and the template-binding region" in text
+
+
+def test_arms_are_movable_only_when_both_lie_in_the_binding_region() -> None:
+    """This is the distinction that decides which remedy the message offers."""
+    result = structure.window_hairpin("GCGCGCAAAAGCGCGC", min_loop_nt=3, three_prime_window_nt=5)
+    assert structure.arms_are_movable(result, tail_nt=0) is True
+    assert structure.arms_are_movable(result, tail_nt=10) is False, "the 5' arm is in the fixed tail"
+
+
+def test_arm_segments_are_absent_for_an_oligo_with_no_stem() -> None:
+    result = structure.window_hairpin("AAAAAAAAAAAAAAAAAAAA", min_loop_nt=3, three_prime_window_nt=5)
+    assert result.five_prime_arm is None
+    assert structure.arm_segments(result, tail_nt=0) is None
+    assert structure.arms_are_movable(result, tail_nt=0) is False
+
+
+def test_the_scan_covers_the_tail_and_does_not_skip_it() -> None:
+    """Deliberate: the 3' terminus can only be sequestered by an upstream arm.
+
+    For a tailed assembly primer that upstream arm is often the tail itself, so
+    a scan that skipped the tail would hide the one hairpin class that genuinely
+    stops a primer extending. The tail is scanned and labelled, not dropped.
+    """
+    result = structure.window_hairpin(MASKING_OLIGO, min_loop_nt=3, three_prime_window_nt=5)
+    anchored = result.worst_three_prime
+    assert anchored is not None and anchored.five_prime_arm is not None
+    assert anchored.five_prime_arm[0] == 0, "the 5' arm starts at the very first base of the tail"
+    # With a 20 nt tail that arm is unmovable, and the message has to say so.
+    assert structure.arms_are_movable(anchored, tail_nt=20) is False
+
+
 def test_the_q6_decision_is_recorded_and_consistent() -> None:
     """Open question Q6: prefer ViennaRNA when installable, and record the choice.
 

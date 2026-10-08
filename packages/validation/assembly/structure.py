@@ -63,7 +63,7 @@ duplex.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import lru_cache
 
 from packages.core.sequence import clean_sequence, reverse_complement
@@ -187,6 +187,24 @@ class HairpinResult:
     `three_prime_involved` is whether any paired position falls within the
     3'-terminal window from `constants.THREE_PRIME_INVOLVEMENT_WINDOW_NT`,
     which is what escalates a hairpin from WARN to FAIL in section 7.5 check 6.
+
+    `five_prime_arm` and `three_prime_arm` locate the two halves of the stem on
+    the oligo, zero-based and end exclusive, so a caller that knows where the
+    5' tail ends can say which segment of the oligo each arm lies in. That is
+    what makes a surviving WARN actionable: an arm in the template-binding
+    region can be walked along the template, an arm inside a fixed tail cannot
+    be moved at all. Use `arm_segments` to turn them into that label.
+
+    `three_prime_anchored` is the companion result described in
+    `window_hairpin`, present only when the longest stem in the oligo is not
+    3'-involved but some shorter stem is. The reason it exists is that the two
+    conditions carry different severities: section 7.5 check 6 makes a
+    3'-involved stem a FAIL at a threshold that an internal stem only WARNs at,
+    so a single result chosen by stem length alone can hide the more severe
+    finding behind the longer one. A caller applying the thresholds must look at
+    this field before concluding there is no 3' FAIL. It is always None on the
+    free energy engine, which reports one minimum free energy structure for the
+    whole oligo and so has nothing to hide a 3' pairing behind.
     """
 
     engine: str
@@ -196,6 +214,22 @@ class HairpinResult:
     structure: str | None = None
     loop_nt: int | None = None
     coordinates: tuple[int, int] | None = None
+    five_prime_arm: tuple[int, int] | None = None
+    three_prime_arm: tuple[int, int] | None = None
+    three_prime_anchored: HairpinResult | None = None
+
+    @property
+    def worst_three_prime(self) -> HairpinResult | None:
+        """The most 3'-involved stem this scan found, or None if there is none.
+
+        This is the result a threshold carrying 3' FAIL severity must be read
+        against. It is `three_prime_anchored` when a longer internal stem would
+        otherwise mask it, this result itself when this result is already the
+        3'-involved one, and None when no stem touches the 3' window.
+        """
+        if self.three_prime_anchored is not None:
+            return self.three_prime_anchored
+        return self if self.three_prime_involved else None
 
 
 @lru_cache(maxsize=1)
@@ -239,6 +273,31 @@ def window_hairpin(sequence: str, *, min_loop_nt: int, three_prime_window_nt: in
     least `min_loop_nt` are considered, because a shorter loop cannot form: 3
     nucleotides is the standard minimum in nucleic acid secondary structure
     models and is ViennaRNA's own minimum.
+
+    TWO RESULTS, NOT ONE, AND WHY. The longest stem in an oligo and the longest
+    stem that sequesters the 3' end are different findings carrying different
+    severities: section 7.5 check 6 FAILs a 3'-involved stem at a threshold an
+    internal stem only WARNs at, because a stem that sequesters the 3' end is
+    the one that genuinely stops the polymerase extending. Selecting a single
+    result by stem length therefore lets a longer internal stem mask a shorter
+    3'-anchored one, and the FAIL is never reported. So the scan tracks both and
+    returns the longest stem with the longest 3'-involved stem attached as
+    `three_prime_anchored` whenever that is a different stem. Read
+    `HairpinResult.worst_three_prime` to apply a 3' threshold; reading only
+    `stem_bp` and `three_prime_involved` reproduces the masking bug.
+
+    The thresholds themselves are deliberately not known here. This function
+    reports what it found and the caller in `checks.py` applies
+    `HAIRPIN_WINDOW_STEM_WARN_BP` and
+    `HAIRPIN_WINDOW_STEM_THREE_PRIME_FAIL_BP` to it, which keeps every
+    threshold in `constants.py` as section 3.3 constraint 2 requires.
+
+    The scan covers the whole oligo including any 5' tail. That is deliberate.
+    The 3' terminus can only ever be sequestered by a stem whose other arm lies
+    upstream, which for a tailed assembly primer is often the tail itself, so
+    skipping the tail would hide exactly the class of hairpin that stops a
+    primer working. The arm coordinates are reported instead, so the caller can
+    tell the reader which arm it is able to move.
     """
     cleaned = clean_sequence(sequence, allow_ambiguous=True)
     if min_loop_nt < 1:
@@ -247,6 +306,7 @@ def window_hairpin(sequence: str, *, min_loop_nt: int, three_prime_window_nt: in
         raise ValueError("three_prime_window_nt must be at least 1")
     total = len(cleaned)
     best = HairpinResult(engine=ENGINE_WINDOW, stem_bp=0, three_prime_involved=False)
+    best_three_prime: HairpinResult | None = None
     three_prime_start = max(0, total - three_prime_window_nt)
     for left in range(total):
         for right in range(total - 1, left, -1):
@@ -261,18 +321,36 @@ def window_hairpin(sequence: str, *, min_loop_nt: int, three_prime_window_nt: in
                 continue
             loop = (right - stem + 1) - (left + stem)
             involved = (right >= three_prime_start) or (right - stem + 1 >= three_prime_start)
-            better = stem > best.stem_bp or (stem == best.stem_bp and involved and not best.three_prime_involved)
-            if better:
-                best = HairpinResult(
-                    engine=ENGINE_WINDOW,
-                    stem_bp=stem,
-                    three_prime_involved=involved,
-                    delta_g_kcal_per_mol=None,
-                    structure=None,
-                    loop_nt=loop,
-                    coordinates=(left, right + 1),
-                )
-    return best
+            found = HairpinResult(
+                engine=ENGINE_WINDOW,
+                stem_bp=stem,
+                three_prime_involved=involved,
+                delta_g_kcal_per_mol=None,
+                structure=None,
+                loop_nt=loop,
+                coordinates=(left, right + 1),
+                five_prime_arm=(left, left + stem),
+                three_prime_arm=(right + 1 - stem, right + 1),
+            )
+            # The longest stem anywhere in the oligo, with 3' involvement
+            # breaking a tie because the 3'-involved stem is the worse finding
+            # at equal length.
+            if stem > best.stem_bp or (
+                stem == best.stem_bp and involved and not best.three_prime_involved
+            ):
+                best = found
+            # The longest 3'-involved stem, tracked independently so that a
+            # longer internal stem cannot displace it.
+            if involved and (best_three_prime is None or stem > best_three_prime.stem_bp):
+                best_three_prime = found
+    if best_three_prime is None or best_three_prime.stem_bp == best.stem_bp:
+        # Either nothing touches the 3' window, or the stem already reported is
+        # as long as the longest 3'-involved one, in which case `best` carries
+        # the 3' involvement itself and a companion would be a duplicate.
+        return best
+    # `replace` rather than rebuilding field by field, so a field added to
+    # HairpinResult later cannot be silently dropped here.
+    return replace(best, three_prime_anchored=best_three_prime)
 
 
 def viennarna_hairpin(sequence: str, *, three_prime_window_nt: int) -> HairpinResult:
@@ -301,6 +379,7 @@ def viennarna_hairpin(sequence: str, *, three_prime_window_nt: int) -> HairpinRe
     structure, delta_g = fold.mfe()
     paired = [index for index, symbol in enumerate(structure) if symbol in "()"]
     three_prime_start = max(0, len(cleaned) - three_prime_window_nt)
+    five_prime_arm, three_prime_arm = _outermost_helix(structure)
     return HairpinResult(
         engine=ENGINE_VIENNARNA,
         stem_bp=len(paired) // 2,
@@ -309,6 +388,86 @@ def viennarna_hairpin(sequence: str, *, three_prime_window_nt: int) -> HairpinRe
         structure=structure,
         loop_nt=None,
         coordinates=(paired[0], paired[-1] + 1) if paired else None,
+        five_prime_arm=five_prime_arm,
+        three_prime_arm=three_prime_arm,
+    )
+
+
+def _outermost_helix(structure: str) -> tuple[tuple[int, int] | None, tuple[int, int] | None]:
+    """The two arms of the outermost helix of a dot-bracket structure.
+
+    Reported as the contiguous run of opening brackets that starts at the first
+    paired position, and the contiguous run of closing brackets that ends at the
+    last paired position. A multi-branch fold has more helices than this, so the
+    arms are the outermost stem rather than a complete description of the fold;
+    `structure` carries the complete description and is what the message prints.
+    The arms exist so a caller can name the oligo segment the stem sits in.
+    """
+    opens = [index for index, symbol in enumerate(structure) if symbol == "("]
+    closes = [index for index, symbol in enumerate(structure) if symbol == ")"]
+    if not opens or not closes:
+        return None, None
+    start = opens[0]
+    end = start
+    while end + 1 < len(structure) and structure[end + 1] == "(":
+        end += 1
+    last = closes[-1]
+    first = last
+    while first - 1 >= 0 and structure[first - 1] == ")":
+        first -= 1
+    return (start, end + 1), (first, last + 1)
+
+
+def arm_segments(result: HairpinResult, *, tail_nt: int) -> str | None:
+    """Where each arm of the stem lies on the oligo, as readable text.
+
+    `tail_nt` is the length of the primer's fixed 5' tail, so the oligo is the
+    tail over `[0, tail_nt)` followed by the template-binding region. Returns
+    None when the result carries no arm coordinates, which is the case for an
+    oligo with no stem at all.
+
+    Positions in the returned text are 1-based and inclusive, which is how an
+    oligo is read off a synthesis order, and the text says so. The point of the
+    label is that the two segments differ in what the user can do about them:
+    the binding region can be walked along the template, whereas a Gibson
+    homology arm or a Type IIS site plus overhang is fixed by the assembly
+    standard and cannot be moved at all.
+    """
+    if result.five_prime_arm is None or result.three_prime_arm is None:
+        return None
+    parts = []
+    for label, (start, end) in (
+        ("5' arm", result.five_prime_arm),
+        ("3' arm", result.three_prime_arm),
+    ):
+        parts.append(f"{label} at {start + 1} to {end} in {_segment_name(start, end, tail_nt=tail_nt)}")
+    return ", ".join(parts)
+
+
+def _segment_name(start: int, end: int, *, tail_nt: int) -> str:
+    """Name the oligo segment the half-open interval `[start, end)` lies in."""
+    if tail_nt <= 0:
+        return "the template-binding region"
+    if end <= tail_nt:
+        return "the fixed 5' tail"
+    if start >= tail_nt:
+        return "the template-binding region"
+    return "the fixed 5' tail and the template-binding region"
+
+
+def arms_are_movable(result: HairpinResult, *, tail_nt: int) -> bool:
+    """Whether both arms lie wholly in the template-binding region.
+
+    True means the stem can be broken by walking the primer along the template,
+    which is a remedy the user can act on. False means at least one arm sits in
+    the fixed tail, where the assembly standard fixes the sequence and only the
+    other arm can be redesigned. Saying which of the two it is, is the whole
+    reason the arms are reported.
+    """
+    if result.five_prime_arm is None or result.three_prime_arm is None:
+        return False
+    return all(
+        start >= tail_nt for start, _ in (result.five_prime_arm, result.three_prime_arm)
     )
 
 
