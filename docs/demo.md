@@ -20,6 +20,27 @@ talking to the wrong Postgres. Do not run `make setup` or copy `.env.example`
 over `.env` before the demo. If you must, set the port back to 55432 afterwards.
 `python scripts/check_services.py` catches this: it must print four `[OK]` lines.
 
+## ALSO READ THIS: there is no GOOGLE_API_KEY set, and that is fine
+
+`.env` has no `GOOGLE_API_KEY`. Open question Q4 anticipated this and its default
+is to proceed: natural-language intent parsing degrades without the key, and the
+capability validators do not need it at all. So:
+
+* **Nothing in beats 2, 3 or 4 is affected.** AAV, assembly and guide RNA take
+  structured form input and run entirely on deterministic code and the curated
+  part registry. Every number in this runbook was measured with no key set.
+* **Beat 1 is affected only in how the prompt is interpreted.** Retrieval,
+  validation, the map and the export all still work, which is why the beat 1
+  prompt below is a measured PASS. The conversational refinement loop is the part
+  that gets noticeably weaker.
+* If you do set a key before Saturday, re-run beat 1 once beforehand, because a
+  different intent parse can retrieve a different template and the verdict in
+  this runbook was measured without one.
+
+Do not describe the system as needing the key to work. It does not. Say that
+intent parsing uses a hosted model when configured and that the validation engine
+is deterministic either way, which is the honest and the stronger statement.
+
 ## 1. Pre-flight, Saturday morning (spec section 15.2)
 
 Run these in order from the repo root. Each line says what healthy looks like.
@@ -75,22 +96,38 @@ primers, Guide RNA.
 Stay on the Plasmid tab. Type into the Experimental goal box:
 
 ```text
-a yeast shuttle vector with URA3 selection and centromere maintenance
+a bacterial cloning vector with ampicillin resistance and a high copy origin
 ```
 
-Click Design. After a few seconds you get a retrieved template (pRS416, score
-0.854), a circular map of 4,898 bp with 7 features, and a validation report.
+Click Design. Measured on 2026-10-08: **overall PASS**, 4 checks, a circular map
+of **2,686 bp** with 4 features. That length is pUC19, which is probably the most
+recognizable plasmid in molecular biology, so the map is immediately legible to
+anyone in the room who has ever cloned anything.
 
 Say: "This is the existing flow. It retrieves a real template instead of
 inventing a backbone, and the checks run separately from generation."
 
-Be ready for this: on 2026-10-08 the overall verdict for this prompt was FAIL,
-not PASS. The report said a 100 bp window has extreme GC content (11 percent),
-and that the lac promoter region is not compatible with the requested yeast
-host. That is the engine doing its job on the retrieved record, and it is a fair
-thing to say out loud: "It does not hide a failing check behind a fluent
-answer." If you would rather open on a green result, try the backup prompts in
-section 5 before the demo and keep whichever one you like.
+That is the whole of beat 1. Its job is to establish that there is a working
+product underneath before beat 2 does the persuading, so open on the green
+result and move on quickly.
+
+**A second prompt that also passes**, if you want a larger map: `a GST fusion
+expression vector for E. coli with ampicillin resistance` gives overall PASS,
+4 checks, 5,825 bp.
+
+**Optional, only if someone challenges whether the checks really bite.** This
+prompt opens on a genuine FAIL and is worth knowing about rather than
+discovering live:
+
+```text
+a yeast shuttle vector with URA3 selection and centromere maintenance
+```
+
+It retrieves pRS416 at score 0.854, renders 4,898 bp with 7 features, and
+reports **FAIL**: a 100 bp window at 11 percent GC, and a lac promoter region
+incompatible with the requested yeast host. Both are the engine doing its job on
+a real retrieved record. If you show it, the line is: "It does not hide a failing
+check behind a fluent answer." Do not open the demo on it.
 
 ### Beat 2. AAV, over the limit, then fixed. This is the moment.
 
