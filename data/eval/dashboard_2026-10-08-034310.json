@@ -1,0 +1,143 @@
+{
+  "commit": "e209f0c25afb65e48728fd9644452b81d3d80ac6",
+  "compared_to": "data\\eval\\dashboard_2026-10-08-023745.json",
+  "generated_at": "2026-10-08T03:43:10.345981+00:00",
+  "metrics": {
+    "generation": {
+      "component_complete_rate": 0.5384615384615384,
+      "generator_mode": "fake",
+      "generator_version": "fake-template-generator-v1",
+      "gold_cases": 15,
+      "novel_rate": 0.0,
+      "phase2_gate_proxy_rate": 0.5384615384615384,
+      "scored_cases": 13,
+      "strict_generation_success_rate": 0.0
+    },
+    "quality": {
+      "complete_annotation_rate": 0.021145,
+      "complete_annotations": 24,
+      "duplicate_clusters": 13,
+      "parse_errors": 0,
+      "total_records": 1135,
+      "unclassified_records": 1105
+    },
+    "retrieval": {
+      "clarification_pass_rate": 1.0,
+      "clarification_queries": 1,
+      "mrr": 0.7916666666666667,
+      "retrieval_queries": 20,
+      "top1_hit_rate": 0.75,
+      "top5_hit_rate": 0.85,
+      "total_queries": 21
+    },
+    "validation": {
+      "accuracy": 1.0,
+      "known_bad_count": 52,
+      "known_good_count": 36,
+      "known_good_tiers": {
+        "A": {
+          "accuracy": 1.0,
+          "correct": 25,
+          "total": 25
+        },
+        "B": {
+          "accuracy": 1.0,
+          "correct": 11,
+          "total": 11
+        }
+      },
+      "per_check_accuracy": {
+        "codon_usage": {
+          "accuracy": 1.0,
+          "correct": 49,
+          "total": 49
+        },
+        "regulatory_compatibility": {
+          "accuracy": 1.0,
+          "correct": 49,
+          "total": 49
+        },
+        "repeat_and_instability": {
+          "accuracy": 1.0,
+          "correct": 49,
+          "total": 49
+        },
+        "restriction_site_conflicts": {
+          "accuracy": 1.0,
+          "correct": 49,
+          "total": 49
+        }
+      },
+      "phase3_gate_met": true,
+      "tier_a_accuracy": 1.0,
+      "tier_b_accuracy": 1.0,
+      "total": 88
+    }
+  },
+  "overall_status": "PASS",
+  "regressions": [
+    {
+      "area": "retrieval",
+      "breached": false,
+      "current": 0.85,
+      "delta": 0.0,
+      "metric": "top5_hit_rate",
+      "previous": 0.85,
+      "status": "PASS",
+      "threshold": -0.05
+    },
+    {
+      "area": "retrieval",
+      "breached": false,
+      "current": 0.7916666666666667,
+      "delta": 0.0,
+      "metric": "mrr",
+      "previous": 0.7916666666666667,
+      "status": "PASS",
+      "threshold": -0.1
+    },
+    {
+      "area": "validation",
+      "breached": false,
+      "current": 1.0,
+      "delta": 0.0,
+      "metric": "accuracy",
+      "previous": 1.0,
+      "status": "PASS",
+      "threshold": -0.02
+    },
+    {
+      "area": "quality",
+      "breached": false,
+      "current": 24,
+      "delta": 1,
+      "metric": "complete_annotations",
+      "previous": 23,
+      "status": "PASS",
+      "threshold": -10
+    },
+    {
+      "area": "quality",
+      "breached": false,
+      "current": 0,
+      "delta": 0,
+      "metric": "parse_errors",
+      "previous": 0,
+      "status": "PASS",
+      "threshold": 0
+    }
+  ],
+  "source_reports": {
+    "generation": "data\\eval\\generation\\2026-10-08-034133-generation-eval.json",
+    "quality": "data\\eval\\quality\\2026-10-08-034137-quality-report.json",
+    "retrieval": "data\\eval\\retrieval\\2026-10-08-034108-retrieval-baseline.json",
+    "validation": "data\\eval\\validation\\2026-10-08-034135-validation-baseline.json"
+  },
+  "thresholds": {
+    "complete_annotation_drop": 10,
+    "parse_error_increase": 0,
+    "retrieval_mrr_drop": 0.1,
+    "retrieval_top5_drop": 0.05,
+    "validation_accuracy_drop": 0.02
+  }
+}
