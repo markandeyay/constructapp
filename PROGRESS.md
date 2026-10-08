@@ -291,6 +291,27 @@ WP-03 to WP-07: the AAV result panel needs the linear_map_json artifact (topolog
 WP-03 to the owner of services/api/app.py: the AAV router is registered in the WP-03 region of services/api/routes/__init__.py but is still not served, because include_capability_routers(app) is not called from create_app. Same request WP-02 filed.
 Q7 on-target model for gRNA: a faithful published model was achievable, so one shipped. Rule Set 1 (Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501), coefficients read from a reference implementation fetched during the build and verified byte identical, pinned by test against values computed with that implementation. Outside its stated validity domain the score is withheld and a clearly labeled heuristic ranks the guides. Off-target uses the MIT specificity score (Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081), weights read the same way, withheld for SaCas9 and Cas12a because it was derived from SpCas9 data.
 
+### CORRECTION, superseded by WP-12
+
+The limitation recorded above was closed by WP-12 and the text above is kept
+only as the build record of when it was true. Nothing above has been edited.
+
+WP-12 adapted the plasmid engine to the section 5.3 validator interface
+(`PlasmidValidator`, registered on `PLASMID_SPEC`) and converted the 88 existing
+cases into the new case format under `tests/gold/plasmid/`. The plasmid gold set
+therefore now runs through the multi-capability runner and is subject to all
+three section 9.3 assertions: expected overall severity, the named check
+reporting that severity, and no unexpected FAIL. Detail is in `progress/WP-12.md`.
+
+Measured by `make eval-capabilities`: plasmid 88 of 88, accuracy 1.000, made up of
+known-good 36 of 36 (Tier A 25 of 25, Tier B 11 of 11) and known-bad 52 of 52,
+inside a total of 179 of 179 cases agreeing with 0 disagreements.
+
+The consequence paragraph above, "holds for plasmid only under the weaker
+assertion its own harness makes", no longer applies. The claim now holds for all
+four capabilities under the new runner. The statement that the work "is not
+started" is likewise no longer true. Recorded by WP-16 in `progress/WP-16.md`.
+
 ## Orchestrator rulings on Wave 2 spec challenges
 
 RULING 1, WP-05's tenth check `grna.off_target_hits`: ACCEPTED as 8.6-mandated,
@@ -1012,3 +1033,14 @@ beats byte identical to the original pre-gate baseline; web typecheck exit 0;
 corpus unchanged at 4,455 records. Cost 31.7 ms with a corpus lookup per export,
 8.3 ms with the template in memory, so the comparison is cheap and the database
 round trip is the cost. Caching was not invented here.
+
+## WP-16: stale plasmid limitation note corrected
+
+The section "Open limitation for the operator: plasmid gold cases and the new
+runner" said the plasmid gold set did not run through the multi-capability runner.
+That stopped being true when WP-12 landed. A correction block was appended
+directly after that section; the original text was not edited, so the record
+still shows what was believed when. `make eval-capabilities` reports plasmid 88
+of 88 (known-good 36 of 36, Tier A 25 of 25, Tier B 11 of 11, known-bad 52 of 52)
+inside 179 of 179 with 0 disagreements. Markdown only: no code, test or data file
+changed. Full report in `progress/WP-16.md`.
