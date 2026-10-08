@@ -58,6 +58,7 @@ def test_the_entry_records_what_was_exported() -> None:
     assert [artifact.name for artifact in entry.artifacts] == ["fasta", "genbank"]
     assert entry.artifacts[1].sha256 == sha256_hex(PAYLOADS["genbank"])
     assert entry.artifacts[1].bytes_written == len(PAYLOADS["genbank"].encode("utf-8"))
+    assert "format" not in set(type(entry.artifacts[0]).model_fields)
     assert [item.name for item in entry.sequences] == ["cassette"]
     assert entry.sequences[0].length_bp == attributed_subject().sequences[0].length_bp
     assert entry.sequences[0].sha256 == sha256_hex(attributed_subject().sequences[0].sequence)

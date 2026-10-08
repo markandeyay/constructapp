@@ -242,7 +242,6 @@ def evaluate_export(
         artifacts=[
             ExportedArtifact(
                 name=name,
-                format=export_format,
                 bytes_written=len(payload.encode("utf-8")),
                 sha256=sha256_hex(payload),
             )

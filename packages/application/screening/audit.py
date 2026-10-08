@@ -70,10 +70,15 @@ def sha256_hex(payload: str) -> str:
 
 
 class ExportedArtifact(CapabilityModel):
-    """One artifact that left the system, identified without being stored."""
+    """One artifact that left the system, identified without being stored.
+
+    `name` is the key the capability gave the artifact, which for the export
+    codecs is the format it was rendered in. The format the export was
+    requested in is on the entry itself, as `export_format`, so this row does
+    not repeat it and cannot disagree with it.
+    """
 
     name: str = Field(min_length=1)
-    format: str = Field(min_length=1)
     bytes_written: int = Field(ge=0)
     sha256: str = Field(min_length=64, max_length=64)
 
