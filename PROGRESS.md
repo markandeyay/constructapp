@@ -8,6 +8,7 @@ WP-09 CLAIMED by wp09-harness at 2026-10-07T22:48:59Z
 WP-03 CLAIMED by wp03-aav at 2026-10-07T23:30:00Z
 WP-04 CLAIMED by wp04-assembly at 2026-10-07T23:40:00Z
 WP-05 CLAIMED by wp05-grna at 2026-10-07T23:30:00Z
+WP-08 CLAIMED by wp08-screening at 2026-10-08T01:20:00Z
 
 ## Done
 WP-00 DONE by orchestrator at 2026-10-07T00:00:00Z
