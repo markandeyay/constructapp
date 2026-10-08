@@ -41,3 +41,6 @@ Thumbs.db
 # Build specification is read from outside the tree; it quotes the retired
 # brand names verbatim and must not enter this repository. See progress/WP-01.md.
 CONSTRUCT_ENGINE_SYSTEM_DESIGN.md
+
+# Export audit log is runtime state, not source.
+data/audit/

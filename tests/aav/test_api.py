@@ -28,6 +28,21 @@ def transgene():
     return cds_of_length(1_200)
 
 
+@pytest.fixture(autouse=True)
+def audit_path(tmp_path, monkeypatch):
+    """Redirect the export audit log for every test in this module.
+
+    Autouse and module wide rather than scoped to the screening tests, because
+    every request to `/v1/aav/design` is a screened export and writes an entry.
+    Without this the suite appends to the repository's own `data/audit` log,
+    which both dirties a real operational record and makes the entry counts in
+    the screening tests depend on how many other tests ran first.
+    """
+    path = tmp_path / "export_audit.jsonl"
+    monkeypatch.setenv("CONSTRUCT_EXPORT_AUDIT_LOG", str(path))
+    return path
+
+
 class TestDesignEndpoint:
     def test_a_valid_request_returns_a_full_bundle(self, client, transgene):
         response = client.post(
@@ -215,3 +230,118 @@ class TestPartsEndpoint:
         body = client.get("/v1/aav/parts").json()
         mecp2 = next(part for part in body["categories"]["promoter"] if part["id"] == "promoter.mecp2_mini")
         assert "Lowest-confidence source" in mecp2["notes"]
+
+
+class TestExportScreeningGate:
+    """The section 11.1 gate on the served export path.
+
+    The gate is not mocked here. These tests drive the real provenance
+    assertion over a real composed cassette, because the thing worth testing is
+    that the route releases attributable DNA and withholds unattributable DNA,
+    not that a stub was called.
+
+    Every test redirects the audit log into `tmp_path`. The log location is read
+    when the log is constructed, which is once per screened export, so setting
+    the environment variable is enough and the real `data/audit` log is never
+    touched by the suite.
+    """
+
+    @staticmethod
+    def _audit_entries(path):
+        import json
+
+        if not path.exists():
+            return []
+        return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+    def test_a_fully_attributed_design_exports_with_its_artifacts(
+        self, client, transgene, audit_path
+    ):
+        body = client.post(
+            "/v1/aav/design",
+            json={
+                "transgene_name": "reporter",
+                "transgene_sequence": transgene,
+                "target_tissue": "ubiquitous",
+            },
+        ).json()
+
+        assert body["export_blocked"] is False
+        assert body["export_block_reason"] is None
+        # The orderable artifacts are released, not just present as empty keys.
+        artifacts = body["result"]["artifacts"]
+        assert artifacts["genbank"]
+        assert artifacts["fasta"]
+
+        entries = self._audit_entries(audit_path)
+        assert len(entries) == 1
+        assert entries[0]["decision"] == "exported"
+        assert entries[0]["capability"] == "aav"
+        assert entries[0]["blocked_reasons"] == []
+
+    def test_an_unattributable_span_withholds_the_artifacts_and_says_why(
+        self, client, transgene, audit_path
+    ):
+        design = client.post(
+            "/v1/aav/design",
+            json={
+                "transgene_name": "reporter",
+                "transgene_sequence": transgene,
+                "target_tissue": "ubiquitous",
+            },
+        ).json()["design"]
+
+        # A transgene resolver that returns an undeclared source token: the
+        # element carries a human readable string that claims nothing about
+        # where the bases came from. This is the case the adapter docstring
+        # names, reached through the route rather than constructed by hand.
+        for element in design["elements"]:
+            if element.get("source") == "user_input:transgene_sequence":
+                element["source"] = "reporter CDS"
+
+        response = client.post("/v1/aav/validate", json=design)
+
+        # Section 11.1 blocks the export, not the design: the researcher still
+        # needs the report and the span, so this is a 200 and not an error.
+        assert response.status_code == 200
+        body = response.json()
+        assert body["export_blocked"] is True
+        assert body["result"]["artifacts"] == {}
+
+        reason = body["export_block_reason"]
+        assert "provenance" in reason
+        assert f"{len(transgene):,} bp" in reason
+
+        # The report survives the block, which is the whole point of keeping it.
+        assert body["report"]["overall"]
+        assert body["report"]["checks"]
+
+        # Two entries, in order: composing the design above is itself a
+        # screened export and is recorded as one, then the tampered design is
+        # recorded as blocked. Asserting both keeps the setup call visible
+        # rather than pretending the gate ran only once.
+        entries = self._audit_entries(audit_path)
+        assert [entry["decision"] for entry in entries] == ["exported", "blocked"]
+        assert entries[-1]["blocked_reasons"]
+
+    def test_a_blocked_export_is_recorded_before_it_is_refused(
+        self, client, transgene, audit_path
+    ):
+        """Item 4 is unconditional: a refusal that leaves no record is a hole."""
+        design = client.post(
+            "/v1/aav/design",
+            json={
+                "transgene_name": "reporter",
+                "transgene_sequence": transgene,
+                "target_tissue": "ubiquitous",
+            },
+        ).json()["design"]
+        for element in design["elements"]:
+            if element.get("source") == "user_input:transgene_sequence":
+                element["source"] = ""
+
+        client.post("/v1/aav/validate", json=design)
+
+        entries = self._audit_entries(audit_path)
+        assert [entry["decision"] for entry in entries] == ["exported", "blocked"]
+        assert entries[-1]["validator_version"]

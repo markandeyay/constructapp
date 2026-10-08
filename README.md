@@ -38,7 +38,11 @@ Designs are composed only from curated parts, and every base is attributable. Th
 
 A provenance gate is implemented and tested on top of that. It requires every base of a design to trace to a curated part record, a retrieved template, a user supplied input or a named published rule, verified span by span against the actual part records; it blocks an export outright rather than warning, and a check it cannot evaluate blocks as well rather than passing by default. It also carries a documented interface for a sequence screening backend and an append-only export audit log that records what was exported, when, the validator version and the screening result.
 
-**Stated precisely, because the distinction matters: that gate is not yet wired into a serving route.** It exists, it has tests covering the blocking behaviour, and nothing calls it from the API today, so exports returned by the running application are not currently passing through it and no audit entries are being written. Wiring it is the next step and is tracked in `PROGRESS.md`. Until then the honest claim is the first paragraph above, not the second.
+**Stated precisely, because the distinction matters: the gate is wired into one capability's serving route, not all four.** The AAV vector endpoints `POST /v1/aav/design` and `POST /v1/aav/validate` screen every response before returning it. A design whose bases all trace is returned with its GenBank and FASTA artifacts; a design carrying an unattributable span is returned with its validation report intact but with those artifacts withheld and a reason naming the coordinates and the size of the span, because the gate blocks the export rather than the design. One audit entry is appended for each outcome.
+
+The plasmid, assembly and guide RNA export paths do not pass through the gate yet. For assembly and guide RNA the blocker is specific and recorded in `progress/WP-13.md`: the gate's export vocabulary is GenBank and FASTA, and those two capabilities export order tables and guide tables, so gating them means first giving the audit entry a name for a table export. Nothing in this paragraph should be read as a claim about them.
+
+The audit log is append-only JSON Lines at `data/audit/export_audit.jsonl`, overridable with `CONSTRUCT_EXPORT_AUDIT_LOG`. It is runtime state and is not committed.
 
 No external screening backend is configured in this deployment. The default backend is a named no-op whose recorded result says in terms that no external screening examined the design and must not be read as a screening result.
 

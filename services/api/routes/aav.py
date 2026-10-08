@@ -24,10 +24,12 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException, status
 
+from packages.application.screening.adapters.aav import aav_subject
 from packages.core.part_registry import PartCategory, list_parts
 from packages.core.schemas.aav import AAVDesign, AAVRequest
 from packages.generation.aav.designer import AAVDesigner
 from packages.validation.aav.remediation import remediation_entries
+from services.api.routes._screening import screen_export, withhold_artifacts
 
 router = APIRouter(prefix="/v1/aav", tags=["aav"])
 
@@ -40,7 +42,7 @@ PREFIX = "/v1/aav"
 
 def _bundle_payload(bundle: Any) -> dict[str, Any]:
     """One response shape for both the design and the validate paths."""
-    return {
+    payload = {
         "design_id": bundle.design.design_id,
         "capability": "aav",
         "topology": "linear",
@@ -54,7 +56,28 @@ def _bundle_payload(bundle: Any) -> dict[str, Any]:
             "entries": remediation_entries(bundle.remediation),
         },
         "notes": list(bundle.design.notes),
+        "export_blocked": False,
+        "export_block_reason": None,
     }
+
+    # Section 11.1: screen before any export action. The gate verifies that every
+    # base traces to a curated part record, a retrieved template, the user's own
+    # input or a named published rule, and writes one audit entry either way. A
+    # refusal withholds the artifacts and keeps the report, because section 11.1
+    # blocks the export rather than the design.
+    subject = aav_subject(
+        bundle.design,
+        validator_version=bundle.report.validator_version,
+        declared_provenance=list(bundle.result.provenance or []),
+    )
+    allowed, reason = screen_export(
+        subject,
+        (bundle.result.artifacts or {}),
+        validation_overall=bundle.report.overall,
+    )
+    if not allowed:
+        return withhold_artifacts(payload, reason or "export blocked by the provenance gate")
+    return payload
 
 
 @router.post("/design", status_code=status.HTTP_200_OK)

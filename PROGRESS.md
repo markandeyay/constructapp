@@ -888,3 +888,30 @@ LESSON WORTH KEEPING: a long running background job was started and then reasone
   the build record as though it were a final state. The job then ran for another
   nineteen hours. Check that a background job has actually exited before
   recording what it produced.
+
+## WP-13: screening gate wired into the AAV export routes
+
+The section 11.1 provenance gate now runs on a serving route. `POST /v1/aav/design`
+and `POST /v1/aav/validate` screen before returning: an attributable design is
+returned with its GenBank and FASTA artifacts, an unattributable one is returned
+with its report intact and those artifacts withheld, and one audit entry is
+appended either way. Full report in `progress/WP-13.md`.
+
+Scope is one capability, not four. Plasmid keeps its own older export route.
+Assembly and guide RNA cannot be gated yet for a concrete reason: the gate's
+export vocabulary is `{genbank, fasta}` and those capabilities export TSV and CSV
+tables, so gating them means first giving the audit entry a name for a table
+export, which is a change to WP-08's `packages/application/exports.py` and not a
+value this package would invent.
+
+DEFECT FOUND AND FIXED HERE, recorded because the near miss is instructive: the
+  first version of the wiring passed the gate no audit log, so items 1 to 3 of
+  section 11.1 were enforced and item 4 silently did nothing. The demo flow diff
+  came back byte identical, which was the intended result for the allowed path and
+  is also exactly what a gate that does nothing produces. What distinguished them
+  was the absence of `data/audit/export_audit.jsonl`. A passing diff was
+  consistent with both the correct outcome and a no-op.
+
+Gates after the change: full suite 1540 passed 2 skipped, up from 1537 by the
+three tests added; `make eval-capabilities` 179 of 179 unchanged; all four demo
+beats byte identical to their pre-wiring baseline.
