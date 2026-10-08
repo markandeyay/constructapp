@@ -1,0 +1,629 @@
+{
+ "design_id": "aav-3c2ec1028a9d",
+ "capability": "aav",
+ "topology": "linear",
+ "design": {
+  "design_id": "aav-3c2ec1028a9d",
+  "transgene_name": "TG",
+  "target_tissue": "ubiquitous",
+  "serotype": "AAV2",
+  "self_complementary": false,
+  "promoter_preference": "promoter.efs",
+  "polya_preference": null,
+  "packaging_limit_bp": null,
+  "elements": [
+   {
+    "role": "itr_5",
+    "name": "AAV2 inverted terminal repeat, left (5' ITR)",
+    "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+    "part_id": "itr.aav2_itr_left",
+    "source": null,
+    "notes": "GenBank NC_001401.2, repeat_region feature 1..145"
+   },
+   {
+    "role": "promoter",
+    "name": "EFS, short EF-1 alpha core promoter",
+    "sequence": "GGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAG",
+    "part_id": "promoter.efs",
+    "source": null,
+    "notes": "GenBank MT891328.1, regulatory (promoter) feature 529..740"
+   },
+   {
+    "role": "cds",
+    "name": "TG coding sequence",
+    "sequence": "ATGGCTGTGTACCACAACCGAGGCCGAAACACAGGAGAGTTGCACGACCAGCATTATCGAGATAACGGAGCCCTCGTGTCCGGTTTATCGCCTCAATATGGACATTCGGGCATACCAGACAAACTAGACGGCTTTCCATTCGAGCGAGATCTGACCACGAAATCTCCCCTTGTTTGTGCTGCACGTGGGTATCTACTAGAAGAAGCGTCGACGACTGTGGCACTCGCCGTTGGTCGCAAGCGACCTACGTTGTGGTTCTGGTTAATTGTCACACATCCCGTCTGGGAGCCGGCACCCAGGCACAATTCCGAGAGCGTCTGTTCAGCCAAGGCATACAAAGACCCCGTGGAGACCAAGCAGAACGACAATCCTATGGGTATCACTATACTCAGATGCGGTACCTTGGGTGACCCCCCAATGTTGCCCTACCCTTCAAGGCAGTGGGCGGTTAAGATCATCCACAACATCCCAGATAGCTCTGAAGTGGTACCGTGTCGTCGTACAATGAGGGCTGATCGCTTATCATTACGACGGCTACTGGCCGCATTGTTTACGCAAGGATACGCCGCTGTATCGTCCATTCCGACTTGCGTGGCTTGTCTTAAGATGATCCCCCAATGGCGGATGTACTCGCCATGGCACCTGGTCTTATGCAAGTCGTGTCTGCCTTCCGGATTTGTCCAACTATGGCCGACTGACAAATGCAGGAGATTTGGTCGAGGTTCATCCTCTTCGGTTGCAAGTTCATGCGCGTACAGATGCTTTATGCATAGCTGTGCCCTCTTATATCACCTACAGTCCATGACTTGCCCGACTCAACCCCACCAGGTGATGGGTGTGTGTAACCGTGGGAAGGTCTGGAGCAGGAGAGATGGCGTAACAGTAGGCCCACGGGTATATCTGAATCCGGACACTCCACTACGTTCGTTTTATGCCATACCTTCGCATCCAAGGTCGCCCCTCGACGCAGGCTCCGGCAGGCAGAGCTTCGTAAAACTCGGAGGGCAGGATTTCACGTCCCATCTGAGCGAAGGGAGTGGGAGGGGCCGTAATCCTCTCACACTGCGTCTTCCGGTCTACTGCGTCCCAGCGATAACTTACGTCGTGGACCCGGTGATCCTCGAGACACAATACATACCCGCTACCAGACCCCAAGTCACTGCCCATTTGCGCCTGCCTGGTGACATAGGTAAACTGTCTTATGGCTACACGGGATACATCCCAGTGTATACGGTCTACGTGAGGAGTTTGGGCGTTCCTGTCCGGGCCCTACTGACTTATTGGTTGAATACACGAGTTACACTACGGGAGGACGTGCACAAAAATGAATCAGAGCCAGCCCGAGAGAGGAGTGTGATGTGGAGTCGCTTACACTGGGATTTACAGCAGGGGGCTGGATCCACCTCGTTTCATCGGGGTCGGAATTCGCCCTCCCTCATAAAGGTAGCCCCAAGTGTGCTCGGTCGCTACATGGTTCTTTATCAATGGCCAGAGTCAAAGCGGCTGCGCAATCTTACTGGGGGGCTGGATACTGATCAAACGGCGCGCTTACTTATACTCGAGCGCCTAGTTCGTTTGGCTGTAGGGAAAGTGTTAAACGTTTTGACAAACCTCTTATTACAGTGGCCGACCACTAGGCACACAGTATGCGACGAATGTAAGGTTCTTGACATTCGGGCCGACGAACGAAGACGCGCGCGAACGGTCAATGCATGCTTACTCCGTAATCAGTTGACGTTCGTGTATAGACAGAAGTACTACGACCGGCGGACTGTGGCTTCAAAAGGAATTAATGAACTTATCCTGACACTGGCCACCACCCGTGATGTTAATCGTAGGCCTAACTTACATAACGACATCGTTCCGGCGTTGGCTGGGATCCAGAGCATCGCGATGTACGTCACTCGACGAGTCCGATTGGAGACCCGTGGCAAGTGCGGCCCAAGGATCCTTGAAACGAGACAAGTGAGAAGTAGCCGAGCGGACCGTAAGTCCTGGTGGTGTCAAGCATTTTTATCGCTGAGACCACCGGTTAAGTTGTCTAATGCTAGGTGTAACTCTCCAGGTGAGCAAACCAGGGAGACGATAGCTATTACAACTCAATTTTACCTATTATATCCCTGCAGAGTCCTGACCGGTCCTCAACTCGGACTAGGCGATTCAATGGCGAGTATCAATAGGTCTCGTATCGTGGGGATGGAACCAATACATACGGTGCTCAGTGCGTCCGATTCGCAGATCGAAGGGAGACAGAATTGGTACGACACGAGATTAGGTGTCCCGCTGCGAAAGAACTGTCTAGCTCCGCTTGACTGTCCGCTACACACCCTAAACGGCACACATTCTTCGACCCCCAAGTTAACAAGACGAAGCCAGCTTTGTTTTATGCGGACGCTGTCGCGACTCATGGTGCGCCTCGAGTCGGACAAACCGCTTTATGGCTGTGATCGCTTCAAGTTAGACGGCCCTGCTTTACTTTGGACCAGTATAAGGGGCGGGGAATCAACTACCACAGTCTCCAGCTCGCCTAACCCAGTCCGGATACGAGTCGATAGTCTCCCCGTTGCCGCACTAAAAAACTGCCTCGGTGACCTACTAGTGTTCTTCTCACGCGTGATGCGAATGCATAAACTGTATCAACGAGGTGTCACGACAAATACAGCTCGAATCCTTATCAGGCTAGTTGGCTCGATGTGCTATGCCGAGGAATCTGCCGCGTTGTTGTGCCTGTCTTACGATCGCACCGATCCAGGGCTGTTTATACCAAGGCTTGAATATCCCTGTTTCTTGGATTTAGCACAAGAGCACAGGGTATTCAGCTTGGAAAAACTGTTAGCGGGCATCATGCCGGGTGAATACGCTACCCGACTACGGAAGTATGTCTTTGAACAGCCAAATCCCGGGGCAACCAATGGTATCGATTCCGTTGACATATGTCATGTGCAATACTACTGCAAGTCAACTCATCACGGTGCAATGTATTTCCTGATACCAAGTTAA",
+    "part_id": null,
+    "source": "user_input:transgene_sequence",
+    "notes": "transgene TG"
+   },
+   {
+    "role": "wpre",
+    "name": "Woodchuck hepatitis virus posttranscriptional regulatory element",
+    "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+    "part_id": "enhancer.wpre",
+    "source": null,
+    "notes": "GenBank MH282432.1, regulatory (enhancer) feature 2868..3456"
+   },
+   {
+    "role": "polya",
+    "name": "SV40 polyadenylation signal",
+    "sequence": "AACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATC",
+    "part_id": "polya.sv40",
+    "source": null,
+    "notes": "GenBank KX449554.1, regulatory (polyA_signal_sequence) feature 4852..4986"
+   },
+   {
+    "role": "itr_3",
+    "name": "AAV2 inverted terminal repeat, right (3' ITR)",
+    "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+    "part_id": "itr.aav2_itr_right",
+    "source": null,
+    "notes": "GenBank NC_001401.2, repeat_region feature 4535..4679"
+   }
+  ],
+  "provenance": [
+   "user_input:transgene_sequence",
+   "part:itr.aav2_itr_left",
+   "part:promoter.efs",
+   "part:enhancer.wpre",
+   "part:polya.sv40",
+   "part:itr.aav2_itr_right",
+   "serotype_reference:NC_001401.2"
+  ],
+  "notes": [
+   "polyA polya.sv40 was auto-selected as the most compact functional signal (135 bp). Alternatives: polya.bgh (225 bp). Set polya_preference to choose one."
+  ]
+ },
+ "report": {
+  "capability": "aav",
+  "overall": "warn",
+  "checks": [
+   {
+    "check_id": "aav.packaging_limit",
+    "label": "Packaging limit",
+    "severity": "pass",
+    "message": "Cassette is 4,226 bp, which is 474 bp inside the 4,700 bp single stranded packaging target. No length change is needed. Headroom to the 4,900 bp soft limit is 674 bp, so a transgene up to 4,063 bp of coding sequence would still fit with the current regulatory elements plus every available saving.",
+    "coordinates": [
+     0,
+     4226
+    ],
+    "observed": "4,226 bp",
+    "threshold": "target 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
+    "citation": "System design section 6.5 (banded packaging limit). Wild-type AAV2 genome NC_001401.2 is 4,679 bp; the capsid ceiling sits near that size. The band exists because the practical ceiling is contested in the literature.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.itr_present_both",
+    "label": "Both ITRs present and matched",
+    "severity": "pass",
+    "message": "Both ITRs are present and match the AAV2 reference above the 95% threshold (5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)). Each ITR was compared with the serotype reference records in both orientations, not with the other ITR, because the left ITR reads core plus D and the right reads reverse complement of D plus core, so that comparison scores only 88.3 percent even when both ITRs are correct. Keep the registry records as they are.",
+    "coordinates": null,
+    "observed": "5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)",
+    "threshold": "95% identity to the serotype reference",
+    "citation": "System design section 6.2 (ITRs are required in cis for replication and packaging) and section 6.5 (ITR_IDENTITY_THRESHOLD). Reference ITRs: NC_001401.2 positions 1..145 and 4535..4679, see data/parts/PROVENANCE.md.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.itr_orientation",
+    "label": "ITR orientation",
+    "severity": "pass",
+    "message": "The ITRs are inverted relative to each other, which is the required arrangement: the 20 bp D element faces inward in both ITRs: it reads at the 3' end of the 5' ITR (100.0% identity) and its reverse complement reads at the 5' end of the 3' ITR (100.0% identity). No change is needed.",
+    "coordinates": null,
+    "observed": "inverted (d_element)",
+    "threshold": "inverted arrangement required",
+    "citation": "System design section 6.4 check 3. ITR terminal repeat structure including the D element: Srivastava and colleagues, Journal of Virology 1983, 45:555-564 (doi:10.1128/JVI.45.2.555-564.1983).",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.required_elements",
+    "label": "Required elements present",
+    "severity": "pass",
+    "message": "Promoter, coding sequence and polyA are all present (cds, itr_3, itr_5, polya, promoter, wpre). No change is needed.",
+    "coordinates": null,
+    "observed": "present: cds, itr_3, itr_5, polya, promoter, wpre",
+    "threshold": "promoter, cds and polya all required",
+    "citation": "System design section 6.2 (cassette order) and section 6.4 check 4.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.element_order",
+    "label": "Functional element order",
+    "severity": "pass",
+    "message": "Elements appear in the required functional order: itr_5 -> promoter -> cds -> wpre -> polya -> itr_3. No change is needed.",
+    "coordinates": null,
+    "observed": "itr_5 -> promoter -> cds -> wpre -> polya -> itr_3",
+    "threshold": "itr_5 -> enhancer -> promoter -> intron -> cds -> wpre -> polya -> itr_3",
+    "citation": "System design section 6.2 functional order and section 6.4 check 5.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.cds_integrity",
+    "label": "Coding sequence integrity",
+    "severity": "pass",
+    "message": "The coding sequence for TG is a clean open reading frame: 3,000 bp, divisible by 3, ATG start, a single in-frame stop at the 3' end, and 999 coding codons. No change is needed.",
+    "coordinates": [
+     357,
+     3357
+    ],
+    "observed": "3,000 bp, 1000 codons, 1 in-frame stop(s)",
+    "threshold": "ATG start, length divisible by 3, single in-frame stop at the 3' end",
+    "citation": "System design section 6.4 check 6. Standard genetic code, NCBI translation table 1, as implemented in packages/core/sequence/codon.py.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.sc_capacity",
+    "label": "Self complementary capacity",
+    "severity": "pass",
+    "message": "The design is single stranded, so the halved self complementary capacity does not apply and the 4,700 bp single stranded target was used by aav.packaging_limit instead. If you switch to self complementary, the cassette would be measured against 2,400 bp, and at 4,226 bp it would be 1,826 bp over that target, so the cassette would have to shrink first. No change is needed for the current single stranded design.",
+    "coordinates": null,
+    "observed": "4,226 bp, single stranded",
+    "threshold": "target 2,400 bp, soft limit 2,500 bp, hard limit 2,600 bp",
+    "citation": "System design section 6.2 (self complementary genomes are effectively duplicated, halving usable capacity) and section 6.5 self complementary band.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.promoter_tissue_match",
+    "label": "Promoter and target tissue match",
+    "severity": "pass",
+    "message": "Promoter promoter.efs is annotated ubiquitous, which is compatible with the ubiquitous target. No change is needed.",
+    "coordinates": [
+     145,
+     357
+    ],
+    "observed": "promoter.efs is ubiquitous, target is ubiquitous",
+    "threshold": "promoter tissue_specificity in {ubiquitous} for target ubiquitous",
+    "citation": "System design section 6.2 (promoter choice encodes tissue specificity) and section 6.4 check 8. Promoter annotations from data/parts, each with its own citation.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.internal_repeats",
+    "label": "Internal direct repeats",
+    "severity": "pass",
+    "message": "No direct repeat longer than 20 bp occurs in the 3,936 bp region between the two ITRs, so there is no obvious recombination substrate to remove. No change is needed.",
+    "coordinates": null,
+    "observed": "0 repeats longer than 20 bp in the 3,936 bp region between the two ITRs",
+    "threshold": "no direct repeat longer than 20 bp",
+    "citation": "System design section 6.4 check 9 and MAX_DIRECT_REPEAT_BP in section 6.5. Direct repeats are recombination substrates during vector production.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.homopolymer_runs",
+    "label": "Homopolymer runs",
+    "severity": "pass",
+    "message": "No single base run longer than 8 bp occurs inside the 4,226 bp cassette, so synthesis and replication stability are not at risk from homopolymers. No change is needed.",
+    "coordinates": null,
+    "observed": "longest run at or under 8 bp",
+    "threshold": "no single base run longer than 8 bp",
+    "citation": "System design section 6.4 check 10 and MAX_HOMOPOLYMER_RUN in section 6.5. Long homopolymers destabilise synthesis and replication.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.kozak_context",
+    "label": "Kozak initiation context",
+    "severity": "warn",
+    "message": "The initiator ATG sits in a adequate but not optimal Kozak context (ACACAGATGG): position -3 is C, where a purine (A or G) is required. A weak context allows leaky scanning past the start codon and lowers the amount of protein made per transcript. To fix: change the base 3 nt upstream of the ATG to A or G. The simplest change is to insert the GCCRCC prefix immediately before the ATG. If the context is deliberately weak, for example to tune expression down, this is a Tier B warning to record rather than a failure.",
+    "coordinates": [
+     351,
+     361
+    ],
+    "observed": "-3 is C, +4 is G, context ACACAGATGG",
+    "threshold": "purine (A or G) at -3 and G at +4; full consensus GCCRCCATGG",
+    "citation": "System design section 6.4 check 11. Initiation consensus and the -3 and +4 hierarchy: Kozak, Nucleic Acids Research 1987, 15:8125-8148 (doi:10.1093/nar/15.20.8125).",
+    "tier": "B",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.polya_present_functional",
+    "label": "Functional polyadenylation signal",
+    "severity": "pass",
+    "message": "The polyA element (SV40 polyadenylation signal, 135 bp) carries a recognised polyadenylation hexamer: AATAAA at position 32 of the element, cassette position 3,978, and 1 further occurrence(s). No change is needed.",
+    "coordinates": [
+     3977,
+     3983
+    ],
+    "observed": "AATAAA at element position 32 (2 occurrence(s))",
+    "threshold": "one of AATAAA, ATTAAA present in the polyA element",
+    "citation": "System design section 6.4 check 12. AATAAA: Proudfoot and Brownlee, Nature 1976, 263:211-214. ATTAAA variant usage: Beaudoing and colleagues, Genome Research 2000, 10:1001-1010.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.minimum_genome_size",
+    "label": "Minimum genome size",
+    "severity": "pass",
+    "message": "The cassette is 4,226 bp, which is at or above the 2,000 bp minimum, so packaging efficiency is not degraded by under-length genomes. No change is needed.",
+    "coordinates": null,
+    "observed": "4,226 bp",
+    "threshold": "at least 2,000 bp",
+    "citation": "System design section 6.4 check 13 and AAV_MIN_GENOME_BP in section 6.5. Below the minimum, packaging efficiency degrades and the empty capsid fraction rises.",
+    "tier": "A",
+    "remediation": null
+   },
+   {
+    "check_id": "aav.itr_internal_sites",
+    "label": "Internal ITR motifs",
+    "severity": "pass",
+    "message": "No 20 bp window of a AAV2 ITR occurs in the 3,936 bp region between the two ITRs, on either strand. There is no internal terminal repeat copy to remove. No change is needed.",
+    "coordinates": null,
+    "observed": "0 internal ITR motifs in 3,936 bp",
+    "threshold": "no 20 bp window of a AAV2 ITR present between the ITRs",
+    "citation": "System design section 6.4 check 14. Motif set is derived from the serotype ITR reference records in data/parts, not written into code.",
+    "tier": "A",
+    "remediation": null
+   }
+  ],
+  "evaluated_at": "2026-10-08T02:55:38.482173Z",
+  "validator_version": "aav-1.0.0"
+ },
+ "result": {
+  "capability": "aav",
+  "design_id": "aav-3c2ec1028a9d",
+  "report": {
+   "capability": "aav",
+   "overall": "warn",
+   "checks": [
+    {
+     "check_id": "aav.packaging_limit",
+     "label": "Packaging limit",
+     "severity": "pass",
+     "message": "Cassette is 4,226 bp, which is 474 bp inside the 4,700 bp single stranded packaging target. No length change is needed. Headroom to the 4,900 bp soft limit is 674 bp, so a transgene up to 4,063 bp of coding sequence would still fit with the current regulatory elements plus every available saving.",
+     "coordinates": [
+      0,
+      4226
+     ],
+     "observed": "4,226 bp",
+     "threshold": "target 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
+     "citation": "System design section 6.5 (banded packaging limit). Wild-type AAV2 genome NC_001401.2 is 4,679 bp; the capsid ceiling sits near that size. The band exists because the practical ceiling is contested in the literature.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.itr_present_both",
+     "label": "Both ITRs present and matched",
+     "severity": "pass",
+     "message": "Both ITRs are present and match the AAV2 reference above the 95% threshold (5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)). Each ITR was compared with the serotype reference records in both orientations, not with the other ITR, because the left ITR reads core plus D and the right reads reverse complement of D plus core, so that comparison scores only 88.3 percent even when both ITRs are correct. Keep the registry records as they are.",
+     "coordinates": null,
+     "observed": "5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)",
+     "threshold": "95% identity to the serotype reference",
+     "citation": "System design section 6.2 (ITRs are required in cis for replication and packaging) and section 6.5 (ITR_IDENTITY_THRESHOLD). Reference ITRs: NC_001401.2 positions 1..145 and 4535..4679, see data/parts/PROVENANCE.md.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.itr_orientation",
+     "label": "ITR orientation",
+     "severity": "pass",
+     "message": "The ITRs are inverted relative to each other, which is the required arrangement: the 20 bp D element faces inward in both ITRs: it reads at the 3' end of the 5' ITR (100.0% identity) and its reverse complement reads at the 5' end of the 3' ITR (100.0% identity). No change is needed.",
+     "coordinates": null,
+     "observed": "inverted (d_element)",
+     "threshold": "inverted arrangement required",
+     "citation": "System design section 6.4 check 3. ITR terminal repeat structure including the D element: Srivastava and colleagues, Journal of Virology 1983, 45:555-564 (doi:10.1128/JVI.45.2.555-564.1983).",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.required_elements",
+     "label": "Required elements present",
+     "severity": "pass",
+     "message": "Promoter, coding sequence and polyA are all present (cds, itr_3, itr_5, polya, promoter, wpre). No change is needed.",
+     "coordinates": null,
+     "observed": "present: cds, itr_3, itr_5, polya, promoter, wpre",
+     "threshold": "promoter, cds and polya all required",
+     "citation": "System design section 6.2 (cassette order) and section 6.4 check 4.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.element_order",
+     "label": "Functional element order",
+     "severity": "pass",
+     "message": "Elements appear in the required functional order: itr_5 -> promoter -> cds -> wpre -> polya -> itr_3. No change is needed.",
+     "coordinates": null,
+     "observed": "itr_5 -> promoter -> cds -> wpre -> polya -> itr_3",
+     "threshold": "itr_5 -> enhancer -> promoter -> intron -> cds -> wpre -> polya -> itr_3",
+     "citation": "System design section 6.2 functional order and section 6.4 check 5.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.cds_integrity",
+     "label": "Coding sequence integrity",
+     "severity": "pass",
+     "message": "The coding sequence for TG is a clean open reading frame: 3,000 bp, divisible by 3, ATG start, a single in-frame stop at the 3' end, and 999 coding codons. No change is needed.",
+     "coordinates": [
+      357,
+      3357
+     ],
+     "observed": "3,000 bp, 1000 codons, 1 in-frame stop(s)",
+     "threshold": "ATG start, length divisible by 3, single in-frame stop at the 3' end",
+     "citation": "System design section 6.4 check 6. Standard genetic code, NCBI translation table 1, as implemented in packages/core/sequence/codon.py.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.sc_capacity",
+     "label": "Self complementary capacity",
+     "severity": "pass",
+     "message": "The design is single stranded, so the halved self complementary capacity does not apply and the 4,700 bp single stranded target was used by aav.packaging_limit instead. If you switch to self complementary, the cassette would be measured against 2,400 bp, and at 4,226 bp it would be 1,826 bp over that target, so the cassette would have to shrink first. No change is needed for the current single stranded design.",
+     "coordinates": null,
+     "observed": "4,226 bp, single stranded",
+     "threshold": "target 2,400 bp, soft limit 2,500 bp, hard limit 2,600 bp",
+     "citation": "System design section 6.2 (self complementary genomes are effectively duplicated, halving usable capacity) and section 6.5 self complementary band.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.promoter_tissue_match",
+     "label": "Promoter and target tissue match",
+     "severity": "pass",
+     "message": "Promoter promoter.efs is annotated ubiquitous, which is compatible with the ubiquitous target. No change is needed.",
+     "coordinates": [
+      145,
+      357
+     ],
+     "observed": "promoter.efs is ubiquitous, target is ubiquitous",
+     "threshold": "promoter tissue_specificity in {ubiquitous} for target ubiquitous",
+     "citation": "System design section 6.2 (promoter choice encodes tissue specificity) and section 6.4 check 8. Promoter annotations from data/parts, each with its own citation.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.internal_repeats",
+     "label": "Internal direct repeats",
+     "severity": "pass",
+     "message": "No direct repeat longer than 20 bp occurs in the 3,936 bp region between the two ITRs, so there is no obvious recombination substrate to remove. No change is needed.",
+     "coordinates": null,
+     "observed": "0 repeats longer than 20 bp in the 3,936 bp region between the two ITRs",
+     "threshold": "no direct repeat longer than 20 bp",
+     "citation": "System design section 6.4 check 9 and MAX_DIRECT_REPEAT_BP in section 6.5. Direct repeats are recombination substrates during vector production.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.homopolymer_runs",
+     "label": "Homopolymer runs",
+     "severity": "pass",
+     "message": "No single base run longer than 8 bp occurs inside the 4,226 bp cassette, so synthesis and replication stability are not at risk from homopolymers. No change is needed.",
+     "coordinates": null,
+     "observed": "longest run at or under 8 bp",
+     "threshold": "no single base run longer than 8 bp",
+     "citation": "System design section 6.4 check 10 and MAX_HOMOPOLYMER_RUN in section 6.5. Long homopolymers destabilise synthesis and replication.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.kozak_context",
+     "label": "Kozak initiation context",
+     "severity": "warn",
+     "message": "The initiator ATG sits in a adequate but not optimal Kozak context (ACACAGATGG): position -3 is C, where a purine (A or G) is required. A weak context allows leaky scanning past the start codon and lowers the amount of protein made per transcript. To fix: change the base 3 nt upstream of the ATG to A or G. The simplest change is to insert the GCCRCC prefix immediately before the ATG. If the context is deliberately weak, for example to tune expression down, this is a Tier B warning to record rather than a failure.",
+     "coordinates": [
+      351,
+      361
+     ],
+     "observed": "-3 is C, +4 is G, context ACACAGATGG",
+     "threshold": "purine (A or G) at -3 and G at +4; full consensus GCCRCCATGG",
+     "citation": "System design section 6.4 check 11. Initiation consensus and the -3 and +4 hierarchy: Kozak, Nucleic Acids Research 1987, 15:8125-8148 (doi:10.1093/nar/15.20.8125).",
+     "tier": "B",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.polya_present_functional",
+     "label": "Functional polyadenylation signal",
+     "severity": "pass",
+     "message": "The polyA element (SV40 polyadenylation signal, 135 bp) carries a recognised polyadenylation hexamer: AATAAA at position 32 of the element, cassette position 3,978, and 1 further occurrence(s). No change is needed.",
+     "coordinates": [
+      3977,
+      3983
+     ],
+     "observed": "AATAAA at element position 32 (2 occurrence(s))",
+     "threshold": "one of AATAAA, ATTAAA present in the polyA element",
+     "citation": "System design section 6.4 check 12. AATAAA: Proudfoot and Brownlee, Nature 1976, 263:211-214. ATTAAA variant usage: Beaudoing and colleagues, Genome Research 2000, 10:1001-1010.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.minimum_genome_size",
+     "label": "Minimum genome size",
+     "severity": "pass",
+     "message": "The cassette is 4,226 bp, which is at or above the 2,000 bp minimum, so packaging efficiency is not degraded by under-length genomes. No change is needed.",
+     "coordinates": null,
+     "observed": "4,226 bp",
+     "threshold": "at least 2,000 bp",
+     "citation": "System design section 6.4 check 13 and AAV_MIN_GENOME_BP in section 6.5. Below the minimum, packaging efficiency degrades and the empty capsid fraction rises.",
+     "tier": "A",
+     "remediation": null
+    },
+    {
+     "check_id": "aav.itr_internal_sites",
+     "label": "Internal ITR motifs",
+     "severity": "pass",
+     "message": "No 20 bp window of a AAV2 ITR occurs in the 3,936 bp region between the two ITRs, on either strand. There is no internal terminal repeat copy to remove. No change is needed.",
+     "coordinates": null,
+     "observed": "0 internal ITR motifs in 3,936 bp",
+     "threshold": "no 20 bp window of a AAV2 ITR present between the ITRs",
+     "citation": "System design section 6.4 check 14. Motif set is derived from the serotype ITR reference records in data/parts, not written into code.",
+     "tier": "A",
+     "remediation": null
+    }
+   ],
+   "evaluated_at": "2026-10-08T02:55:38.482173Z",
+   "validator_version": "aav-1.0.0"
+  },
+  "artifacts": {
+   "genbank": "LOCUS       aav_3c2ec1028a9d        4226 bp    ds-DNA  linear   SYN 01-JAN-1980\nDEFINITION  Construct AAV cassette: TG, AAV2 ITRs, single stranded, ubiquitous\n            target.\nACCESSION   aav-3c2ec1028a9d\nVERSION     aav-3c2ec1028a9d\nKEYWORDS    CONSTRUCT_AAV_CASSETTE; capability=aav; serotype=AAV2;\n            self_complementary=false; target_tissue=ubiquitous; total_bp=4226.\nSOURCE      .\n  ORGANISM  .\n            .\nCOMMENT     Composed by Construct from curated registry parts. Linear cassette,\n            5' ITR to 3' ITR.\n            Provenance, one entry per source:\n            user_input:transgene_sequence\n            part:itr.aav2_itr_left\n            part:promoter.efs\n            part:enhancer.wpre\n            part:polya.sv40\n            part:itr.aav2_itr_right\n            serotype_reference:NC_001401.2\n            Notes:\n            polyA polya.sv40 was auto-selected as the most compact functional\n            signal (135 bp). Alternatives: polya.bgh (225 bp). Set\n            polya_preference to choose one.\nFEATURES             Location/Qualifiers\n     source          1..4226\n                     /organism=\"synthetic construct\"\n                     /mol_type=\"other DNA\"\n                     /note=\"recombinant AAV2 cassette\"\n     repeat_region   1..145\n                     /label=\"AAV2 inverted terminal repeat, left (5' ITR)\"\n                     /note=\"inverted terminal repeat, 5' end\"\n                     /construct_role=\"itr_5\"\n                     /construct_part_id=\"itr.aav2_itr_left\"\n     regulatory      146..357\n                     /label=\"EFS, short EF-1 alpha core promoter\"\n                     /note=\"promoter\"\n                     /construct_role=\"promoter\"\n                     /regulatory_class=\"promoter\"\n                     /construct_part_id=\"promoter.efs\"\n     CDS             358..3357\n                     /label=\"TG coding sequence\"\n                     /note=\"transgene coding sequence\"\n                     /construct_role=\"cds\"\n                     /construct_part_id=\"none\"\n                     /construct_source=\"user_input:transgene_sequence\"\n                     /codon_start=1\n                     /transl_table=1\n                     /gene=\"TG\"\n     regulatory      3358..3946\n                     /label=\"Woodchuck hepatitis virus posttranscriptional\n                     regulatory element\"\n                     /note=\"posttranscriptional regulatory element, 3' of the\n                     coding sequence\"\n                     /construct_role=\"wpre\"\n                     /regulatory_class=\"enhancer\"\n                     /construct_part_id=\"enhancer.wpre\"\n     regulatory      3947..4081\n                     /label=\"SV40 polyadenylation signal\"\n                     /note=\"polyadenylation signal\"\n                     /construct_role=\"polya\"\n                     /regulatory_class=\"polyA_signal_sequence\"\n                     /construct_part_id=\"polya.sv40\"\n     repeat_region   4082..4226\n                     /label=\"AAV2 inverted terminal repeat, right (3' ITR)\"\n                     /note=\"inverted terminal repeat, 3' end\"\n                     /construct_role=\"itr_3\"\n                     /construct_part_id=\"itr.aav2_itr_right\"\nORIGIN\n        1 ttggccactc cctctctgcg cgctcgctcg ctcactgagg ccgggcgacc aaaggtcgcc\n       61 cgacgcccgg gctttgcccg ggcggcctca gtgagcgagc gagcgcgcag agagggagtg\n      121 gccaactcca tcactagggg ttcctgggca gagcgcacat cgcccacagt ccccgagaag\n      181 ttggggggag gggtcggcaa ttgaaccggt gcctagagaa ggtggcgcgg ggtaaactgg\n      241 gaaagtgatg tcgtgtactg gctccgcctt tttcccgagg gtgggggaga accgtatata\n      301 agtgcagtag tcgccgtgaa cgttcttttt cgcaacgggt ttgccgccag aacacagatg\n      361 gctgtgtacc acaaccgagg ccgaaacaca ggagagttgc acgaccagca ttatcgagat\n      421 aacggagccc tcgtgtccgg tttatcgcct caatatggac attcgggcat accagacaaa\n      481 ctagacggct ttccattcga gcgagatctg accacgaaat ctccccttgt ttgtgctgca\n      541 cgtgggtatc tactagaaga agcgtcgacg actgtggcac tcgccgttgg tcgcaagcga\n      601 cctacgttgt ggttctggtt aattgtcaca catcccgtct gggagccggc acccaggcac\n      661 aattccgaga gcgtctgttc agccaaggca tacaaagacc ccgtggagac caagcagaac\n      721 gacaatccta tgggtatcac tatactcaga tgcggtacct tgggtgaccc cccaatgttg\n      781 ccctaccctt caaggcagtg ggcggttaag atcatccaca acatcccaga tagctctgaa\n      841 gtggtaccgt gtcgtcgtac aatgagggct gatcgcttat cattacgacg gctactggcc\n      901 gcattgttta cgcaaggata cgccgctgta tcgtccattc cgacttgcgt ggcttgtctt\n      961 aagatgatcc cccaatggcg gatgtactcg ccatggcacc tggtcttatg caagtcgtgt\n     1021 ctgccttccg gatttgtcca actatggccg actgacaaat gcaggagatt tggtcgaggt\n     1081 tcatcctctt cggttgcaag ttcatgcgcg tacagatgct ttatgcatag ctgtgccctc\n     1141 ttatatcacc tacagtccat gacttgcccg actcaacccc accaggtgat gggtgtgtgt\n     1201 aaccgtggga aggtctggag caggagagat ggcgtaacag taggcccacg ggtatatctg\n     1261 aatccggaca ctccactacg ttcgttttat gccatacctt cgcatccaag gtcgcccctc\n     1321 gacgcaggct ccggcaggca gagcttcgta aaactcggag ggcaggattt cacgtcccat\n     1381 ctgagcgaag ggagtgggag gggccgtaat cctctcacac tgcgtcttcc ggtctactgc\n     1441 gtcccagcga taacttacgt cgtggacccg gtgatcctcg agacacaata catacccgct\n     1501 accagacccc aagtcactgc ccatttgcgc ctgcctggtg acataggtaa actgtcttat\n     1561 ggctacacgg gatacatccc agtgtatacg gtctacgtga ggagtttggg cgttcctgtc\n     1621 cgggccctac tgacttattg gttgaataca cgagttacac tacgggagga cgtgcacaaa\n     1681 aatgaatcag agccagcccg agagaggagt gtgatgtgga gtcgcttaca ctgggattta\n     1741 cagcaggggg ctggatccac ctcgtttcat cggggtcgga attcgccctc cctcataaag\n     1801 gtagccccaa gtgtgctcgg tcgctacatg gttctttatc aatggccaga gtcaaagcgg\n     1861 ctgcgcaatc ttactggggg gctggatact gatcaaacgg cgcgcttact tatactcgag\n     1921 cgcctagttc gtttggctgt agggaaagtg ttaaacgttt tgacaaacct cttattacag\n     1981 tggccgacca ctaggcacac agtatgcgac gaatgtaagg ttcttgacat tcgggccgac\n     2041 gaacgaagac gcgcgcgaac ggtcaatgca tgcttactcc gtaatcagtt gacgttcgtg\n     2101 tatagacaga agtactacga ccggcggact gtggcttcaa aaggaattaa tgaacttatc\n     2161 ctgacactgg ccaccacccg tgatgttaat cgtaggccta acttacataa cgacatcgtt\n     2221 ccggcgttgg ctgggatcca gagcatcgcg atgtacgtca ctcgacgagt ccgattggag\n     2281 acccgtggca agtgcggccc aaggatcctt gaaacgagac aagtgagaag tagccgagcg\n     2341 gaccgtaagt cctggtggtg tcaagcattt ttatcgctga gaccaccggt taagttgtct\n     2401 aatgctaggt gtaactctcc aggtgagcaa accagggaga cgatagctat tacaactcaa\n     2461 ttttacctat tatatccctg cagagtcctg accggtcctc aactcggact aggcgattca\n     2521 atggcgagta tcaataggtc tcgtatcgtg gggatggaac caatacatac ggtgctcagt\n     2581 gcgtccgatt cgcagatcga agggagacag aattggtacg acacgagatt aggtgtcccg\n     2641 ctgcgaaaga actgtctagc tccgcttgac tgtccgctac acaccctaaa cggcacacat\n     2701 tcttcgaccc ccaagttaac aagacgaagc cagctttgtt ttatgcggac gctgtcgcga\n     2761 ctcatggtgc gcctcgagtc ggacaaaccg ctttatggct gtgatcgctt caagttagac\n     2821 ggccctgctt tactttggac cagtataagg ggcggggaat caactaccac agtctccagc\n     2881 tcgcctaacc cagtccggat acgagtcgat agtctccccg ttgccgcact aaaaaactgc\n     2941 ctcggtgacc tactagtgtt cttctcacgc gtgatgcgaa tgcataaact gtatcaacga\n     3001 ggtgtcacga caaatacagc tcgaatcctt atcaggctag ttggctcgat gtgctatgcc\n     3061 gaggaatctg ccgcgttgtt gtgcctgtct tacgatcgca ccgatccagg gctgtttata\n     3121 ccaaggcttg aatatccctg tttcttggat ttagcacaag agcacagggt attcagcttg\n     3181 gaaaaactgt tagcgggcat catgccgggt gaatacgcta cccgactacg gaagtatgtc\n     3241 tttgaacagc caaatcccgg ggcaaccaat ggtatcgatt ccgttgacat atgtcatgtg\n     3301 caatactact gcaagtcaac tcatcacggt gcaatgtatt tcctgatacc aagttaaaat\n     3361 caacctctgg attacaaaat ttgtgaaaga ttgactggta ttcttaacta tgttgctcct\n     3421 tttacgctat gtggatacgc tgctttaatg cctttgtatc atgctattgc ttcccgtatg\n     3481 gctttcattt tctcctcctt gtataaatcc tggttgctgt ctctttatga ggagttgtgg\n     3541 cccgttgtca ggcaacgtgg cgtggtgtgc actgtgtttg ctgacgcaac ccccactggt\n     3601 tggggcattg ccaccacctg tcagctcctt tccgggactt tcgctttccc cctccctatt\n     3661 gccacggcgg aactcatcgc cgcctgcctt gcccgctgct ggacaggggc tcggctgttg\n     3721 ggcactgaca attccgtggt gttgtcgggg aaatcatcgt cctttccttg gctgctcgcc\n     3781 tgtgttgcca cctggattct gcgcgggacg tccttctgct acgtcccttc ggccctcaat\n     3841 ccagcggacc ttccttcccg cggcctgctg ccggctctgc ggcctcttcc gcgtcttcgc\n     3901 cttcgccctc agacgagtcg gatctccctt tgggccgcct ccccgcaact tgtttattgc\n     3961 agcttataat ggttacaaat aaagcaatag catcacaaat ttcacaaata aagcattttt\n     4021 ttcactgcat tctagttgtg gtttgtccaa actcatcaat gtatcttatc atgtctggat\n     4081 caggaacccc tagtgatgga gttggccact ccctctctgc gcgctcgctc gctcactgag\n     4141 gccgggcgac caaaggtcgc ccgacgcccg ggctttgccc gggcggcctc agtgagcgag\n     4201 cgagcgcgca gagagggagt ggccaa\n//",
+   "fasta": ">aav-3c2ec1028a9d Construct AAV cassette | TG | AAV2 | ss | 4226 bp | linear | itr_5:1-145 promoter:146-357 cds:358-3357 wpre:3358-3946 polya:3947-4081 itr_3:4082-4226\nTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCC\nCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTG\nGCCAACTCCATCACTAGGGGTTCCTGGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAG\nTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGG\nGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATA\nAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGATG\nGCTGTGTACCACAACCGAGGCCGAAACACAGGAGAGTTGCACGACCAGCATTATCGAGAT\nAACGGAGCCCTCGTGTCCGGTTTATCGCCTCAATATGGACATTCGGGCATACCAGACAAA\nCTAGACGGCTTTCCATTCGAGCGAGATCTGACCACGAAATCTCCCCTTGTTTGTGCTGCA\nCGTGGGTATCTACTAGAAGAAGCGTCGACGACTGTGGCACTCGCCGTTGGTCGCAAGCGA\nCCTACGTTGTGGTTCTGGTTAATTGTCACACATCCCGTCTGGGAGCCGGCACCCAGGCAC\nAATTCCGAGAGCGTCTGTTCAGCCAAGGCATACAAAGACCCCGTGGAGACCAAGCAGAAC\nGACAATCCTATGGGTATCACTATACTCAGATGCGGTACCTTGGGTGACCCCCCAATGTTG\nCCCTACCCTTCAAGGCAGTGGGCGGTTAAGATCATCCACAACATCCCAGATAGCTCTGAA\nGTGGTACCGTGTCGTCGTACAATGAGGGCTGATCGCTTATCATTACGACGGCTACTGGCC\nGCATTGTTTACGCAAGGATACGCCGCTGTATCGTCCATTCCGACTTGCGTGGCTTGTCTT\nAAGATGATCCCCCAATGGCGGATGTACTCGCCATGGCACCTGGTCTTATGCAAGTCGTGT\nCTGCCTTCCGGATTTGTCCAACTATGGCCGACTGACAAATGCAGGAGATTTGGTCGAGGT\nTCATCCTCTTCGGTTGCAAGTTCATGCGCGTACAGATGCTTTATGCATAGCTGTGCCCTC\nTTATATCACCTACAGTCCATGACTTGCCCGACTCAACCCCACCAGGTGATGGGTGTGTGT\nAACCGTGGGAAGGTCTGGAGCAGGAGAGATGGCGTAACAGTAGGCCCACGGGTATATCTG\nAATCCGGACACTCCACTACGTTCGTTTTATGCCATACCTTCGCATCCAAGGTCGCCCCTC\nGACGCAGGCTCCGGCAGGCAGAGCTTCGTAAAACTCGGAGGGCAGGATTTCACGTCCCAT\nCTGAGCGAAGGGAGTGGGAGGGGCCGTAATCCTCTCACACTGCGTCTTCCGGTCTACTGC\nGTCCCAGCGATAACTTACGTCGTGGACCCGGTGATCCTCGAGACACAATACATACCCGCT\nACCAGACCCCAAGTCACTGCCCATTTGCGCCTGCCTGGTGACATAGGTAAACTGTCTTAT\nGGCTACACGGGATACATCCCAGTGTATACGGTCTACGTGAGGAGTTTGGGCGTTCCTGTC\nCGGGCCCTACTGACTTATTGGTTGAATACACGAGTTACACTACGGGAGGACGTGCACAAA\nAATGAATCAGAGCCAGCCCGAGAGAGGAGTGTGATGTGGAGTCGCTTACACTGGGATTTA\nCAGCAGGGGGCTGGATCCACCTCGTTTCATCGGGGTCGGAATTCGCCCTCCCTCATAAAG\nGTAGCCCCAAGTGTGCTCGGTCGCTACATGGTTCTTTATCAATGGCCAGAGTCAAAGCGG\nCTGCGCAATCTTACTGGGGGGCTGGATACTGATCAAACGGCGCGCTTACTTATACTCGAG\nCGCCTAGTTCGTTTGGCTGTAGGGAAAGTGTTAAACGTTTTGACAAACCTCTTATTACAG\nTGGCCGACCACTAGGCACACAGTATGCGACGAATGTAAGGTTCTTGACATTCGGGCCGAC\nGAACGAAGACGCGCGCGAACGGTCAATGCATGCTTACTCCGTAATCAGTTGACGTTCGTG\nTATAGACAGAAGTACTACGACCGGCGGACTGTGGCTTCAAAAGGAATTAATGAACTTATC\nCTGACACTGGCCACCACCCGTGATGTTAATCGTAGGCCTAACTTACATAACGACATCGTT\nCCGGCGTTGGCTGGGATCCAGAGCATCGCGATGTACGTCACTCGACGAGTCCGATTGGAG\nACCCGTGGCAAGTGCGGCCCAAGGATCCTTGAAACGAGACAAGTGAGAAGTAGCCGAGCG\nGACCGTAAGTCCTGGTGGTGTCAAGCATTTTTATCGCTGAGACCACCGGTTAAGTTGTCT\nAATGCTAGGTGTAACTCTCCAGGTGAGCAAACCAGGGAGACGATAGCTATTACAACTCAA\nTTTTACCTATTATATCCCTGCAGAGTCCTGACCGGTCCTCAACTCGGACTAGGCGATTCA\nATGGCGAGTATCAATAGGTCTCGTATCGTGGGGATGGAACCAATACATACGGTGCTCAGT\nGCGTCCGATTCGCAGATCGAAGGGAGACAGAATTGGTACGACACGAGATTAGGTGTCCCG\nCTGCGAAAGAACTGTCTAGCTCCGCTTGACTGTCCGCTACACACCCTAAACGGCACACAT\nTCTTCGACCCCCAAGTTAACAAGACGAAGCCAGCTTTGTTTTATGCGGACGCTGTCGCGA\nCTCATGGTGCGCCTCGAGTCGGACAAACCGCTTTATGGCTGTGATCGCTTCAAGTTAGAC\nGGCCCTGCTTTACTTTGGACCAGTATAAGGGGCGGGGAATCAACTACCACAGTCTCCAGC\nTCGCCTAACCCAGTCCGGATACGAGTCGATAGTCTCCCCGTTGCCGCACTAAAAAACTGC\nCTCGGTGACCTACTAGTGTTCTTCTCACGCGTGATGCGAATGCATAAACTGTATCAACGA\nGGTGTCACGACAAATACAGCTCGAATCCTTATCAGGCTAGTTGGCTCGATGTGCTATGCC\nGAGGAATCTGCCGCGTTGTTGTGCCTGTCTTACGATCGCACCGATCCAGGGCTGTTTATA\nCCAAGGCTTGAATATCCCTGTTTCTTGGATTTAGCACAAGAGCACAGGGTATTCAGCTTG\nGAAAAACTGTTAGCGGGCATCATGCCGGGTGAATACGCTACCCGACTACGGAAGTATGTC\nTTTGAACAGCCAAATCCCGGGGCAACCAATGGTATCGATTCCGTTGACATATGTCATGTG\nCAATACTACTGCAAGTCAACTCATCACGGTGCAATGTATTTCCTGATACCAAGTTAAAAT\nCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCT\nTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATG\nGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGG\nCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGT\nTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATT\nGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTG\nGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCC\nTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAAT\nCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGC\nCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGCAACTTGTTTATTGC\nAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTT\nTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGAT\nCAGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAG\nGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAG\nCGAGCGCGCAGAGAGGGAGTGGCCAA",
+   "length_budget": "#  element                    part                        bp   running  headroom\n---------------------------------------------------------------------------------\n 1  AAV2 inverted terminal rep itr.aav2_itr_left          145       145     4,555\n 2  EFS, short EF-1 alpha core promoter.efs               212       357     4,343\n 3  TG coding sequence         user supplied            3,000     3,357     1,343\n 4  Woodchuck hepatitis virus  enhancer.wpre              589     3,946       754\n 5  SV40 polyadenylation signa polya.sv40                 135     4,081       619\n 6  AAV2 inverted terminal rep itr.aav2_itr_right         145     4,226       474\n---------------------------------------------------------------------------------\n    TOTAL                                               4,226     4,226       474\n\nSingle stranded design: the single stranded band applies.\ntarget 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
+   "linear_map_json": "{\n  \"design_id\": \"aav-3c2ec1028a9d\",\n  \"elements\": [\n    {\n      \"end\": 145,\n      \"end_1based\": 145,\n      \"fraction_of_cassette\": 0.034311,\n      \"index\": 0,\n      \"length_bp\": 145,\n      \"name\": \"AAV2 inverted terminal repeat, left (5' ITR)\",\n      \"part_id\": \"itr.aav2_itr_left\",\n      \"role\": \"itr_5\",\n      \"start\": 0,\n      \"start_1based\": 1\n    },\n    {\n      \"end\": 357,\n      \"end_1based\": 357,\n      \"fraction_of_cassette\": 0.050166,\n      \"index\": 1,\n      \"length_bp\": 212,\n      \"name\": \"EFS, short EF-1 alpha core promoter\",\n      \"part_id\": \"promoter.efs\",\n      \"role\": \"promoter\",\n      \"start\": 145,\n      \"start_1based\": 146\n    },\n    {\n      \"end\": 3357,\n      \"end_1based\": 3357,\n      \"fraction_of_cassette\": 0.709891,\n      \"index\": 2,\n      \"length_bp\": 3000,\n      \"name\": \"TG coding sequence\",\n      \"part_id\": null,\n      \"role\": \"cds\",\n      \"start\": 357,\n      \"start_1based\": 358\n    },\n    {\n      \"end\": 3946,\n      \"end_1based\": 3946,\n      \"fraction_of_cassette\": 0.139375,\n      \"index\": 3,\n      \"length_bp\": 589,\n      \"name\": \"Woodchuck hepatitis virus posttranscriptional regulatory element\",\n      \"part_id\": \"enhancer.wpre\",\n      \"role\": \"wpre\",\n      \"start\": 3357,\n      \"start_1based\": 3358\n    },\n    {\n      \"end\": 4081,\n      \"end_1based\": 4081,\n      \"fraction_of_cassette\": 0.031945,\n      \"index\": 4,\n      \"length_bp\": 135,\n      \"name\": \"SV40 polyadenylation signal\",\n      \"part_id\": \"polya.sv40\",\n      \"role\": \"polya\",\n      \"start\": 3946,\n      \"start_1based\": 3947\n    },\n    {\n      \"end\": 4226,\n      \"end_1based\": 4226,\n      \"fraction_of_cassette\": 0.034311,\n      \"index\": 5,\n      \"length_bp\": 145,\n      \"name\": \"AAV2 inverted terminal repeat, right (3' ITR)\",\n      \"part_id\": \"itr.aav2_itr_right\",\n      \"role\": \"itr_3\",\n      \"start\": 4081,\n      \"start_1based\": 4082\n    }\n  ],\n  \"hard_limit_bp\": 5200,\n  \"self_complementary\": false,\n  \"serotype\": \"AAV2\",\n  \"soft_limit_bp\": 4900,\n  \"target_bp\": 4700,\n  \"target_tissue\": \"ubiquitous\",\n  \"topology\": \"linear\",\n  \"total_bp\": 4226,\n  \"transgene_name\": \"TG\"\n}"
+  },
+  "provenance": [
+   "user_input:transgene_sequence",
+   "part:itr.aav2_itr_left",
+   "part:promoter.efs",
+   "part:enhancer.wpre",
+   "part:polya.sv40",
+   "part:itr.aav2_itr_right",
+   "serotype_reference:NC_001401.2"
+  ],
+  "parameters_used": {
+   "ss_target_bp": 4700,
+   "ss_soft_limit_bp": 4900,
+   "ss_hard_limit_bp": 5200,
+   "sc_target_bp": 2400,
+   "sc_soft_limit_bp": 2500,
+   "sc_hard_limit_bp": 2600,
+   "min_genome_bp": 2000,
+   "itr_identity_threshold": 0.95,
+   "max_direct_repeat_bp": 20,
+   "max_homopolymer_run": 8,
+   "itr_d_element_bp": 20,
+   "itr_orientation_margin": 0.05,
+   "itr_internal_motif_bp": 20,
+   "kozak_consensus_motif": "GCCRCCATGG",
+   "kozak_minus3_purines": [
+    "A",
+    "G"
+   ],
+   "kozak_plus4_base": "G",
+   "polya_signal_motifs": [
+    "AATAAA",
+    "ATTAAA"
+   ],
+   "tissue_compatibility": {
+    "cardiac": [
+     "cardiac",
+     "ubiquitous"
+    ],
+    "cns_astrocyte": [
+     "cns_astrocyte",
+     "ubiquitous"
+    ],
+    "cns_neuron": [
+     "cns_neuron",
+     "ubiquitous"
+    ],
+    "liver": [
+     "liver",
+     "ubiquitous"
+    ],
+    "muscle": [
+     "muscle",
+     "ubiquitous"
+    ],
+    "retina": [
+     "retina",
+     "ubiquitous"
+    ],
+    "ubiquitous": [
+     "ubiquitous"
+    ]
+   },
+   "remediation_max_plans": 5,
+   "remediation_max_changes": 3,
+   "validator_version": "aav-1.0.0",
+   "serotype": "AAV2",
+   "self_complementary": false,
+   "target_tissue": "ubiquitous",
+   "packaging_limit_bp_override": null,
+   "applied_target_bp": 4700,
+   "applied_soft_limit_bp": 4900,
+   "applied_hard_limit_bp": 5200
+  }
+ },
+ "length_budget": {
+  "rows": [
+   {
+    "index": 0,
+    "role": "itr_5",
+    "name": "AAV2 inverted terminal repeat, left (5' ITR)",
+    "part_id": "itr.aav2_itr_left",
+    "length_bp": 145,
+    "running_total_bp": 145,
+    "headroom_bp": 4555
+   },
+   {
+    "index": 1,
+    "role": "promoter",
+    "name": "EFS, short EF-1 alpha core promoter",
+    "part_id": "promoter.efs",
+    "length_bp": 212,
+    "running_total_bp": 357,
+    "headroom_bp": 4343
+   },
+   {
+    "index": 2,
+    "role": "cds",
+    "name": "TG coding sequence",
+    "part_id": null,
+    "length_bp": 3000,
+    "running_total_bp": 3357,
+    "headroom_bp": 1343
+   },
+   {
+    "index": 3,
+    "role": "wpre",
+    "name": "Woodchuck hepatitis virus posttranscriptional regulatory element",
+    "part_id": "enhancer.wpre",
+    "length_bp": 589,
+    "running_total_bp": 3946,
+    "headroom_bp": 754
+   },
+   {
+    "index": 4,
+    "role": "polya",
+    "name": "SV40 polyadenylation signal",
+    "part_id": "polya.sv40",
+    "length_bp": 135,
+    "running_total_bp": 4081,
+    "headroom_bp": 619
+   },
+   {
+    "index": 5,
+    "role": "itr_3",
+    "name": "AAV2 inverted terminal repeat, right (3' ITR)",
+    "part_id": "itr.aav2_itr_right",
+    "length_bp": 145,
+    "running_total_bp": 4226,
+    "headroom_bp": 474
+   }
+  ],
+  "total_bp": 4226,
+  "target_bp": 4700,
+  "soft_limit_bp": 4900,
+  "hard_limit_bp": 5200,
+  "headroom_bp": 474,
+  "self_complementary": false,
+  "limit_basis": "Single stranded design: the single stranded band applies."
+ },
+ "length_budget_text": " #  element                    part                        bp   running  headroom\n---------------------------------------------------------------------------------\n 1  AAV2 inverted terminal rep itr.aav2_itr_left          145       145     4,555\n 2  EFS, short EF-1 alpha core promoter.efs               212       357     4,343\n 3  TG coding sequence         user supplied            3,000     3,357     1,343\n 4  Woodchuck hepatitis virus  enhancer.wpre              589     3,946       754\n 5  SV40 polyadenylation signa polya.sv40                 135     4,081       619\n 6  AAV2 inverted terminal rep itr.aav2_itr_right         145     4,226       474\n---------------------------------------------------------------------------------\n    TOTAL                                               4,226     4,226       474\n\nSingle stranded design: the single stranded band applies.\ntarget 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
+ "remediation": {
+  "total_bp": 4226,
+  "target_bp": 4700,
+  "soft_limit_bp": 4900,
+  "hard_limit_bp": 5200,
+  "overage_bp": 0,
+  "plans": [],
+  "max_available_saving_bp": 589,
+  "preference_preserving_saving_bp": 589,
+  "promoter_preference": "promoter.efs",
+  "remaining_deficit_bp": 0,
+  "max_transgene_bp": 4063,
+  "considered_change_count": 1,
+  "entries": [
+   "overage_bp=0 | total_bp=4226 | target_bp=4700 | soft_limit_bp=4900 | hard_limit_bp=5200 | plans=0 | max_available_saving_bp=589 | preference_preserving_saving_bp=589 | promoter_preference=promoter.efs | max_transgene_bp=4063",
+   "plan=none | remaining_deficit_bp=0 | max_transgene_bp=4063 | actions=shorten the transgene to at most 4063 bp, or split the payload across a dual vector approach"
+  ]
+ },
+ "notes": [
+  "polyA polya.sv40 was auto-selected as the most compact functional signal (135 bp). Alternatives: polya.bgh (225 bp). Set polya_preference to choose one."
+ ]
+}

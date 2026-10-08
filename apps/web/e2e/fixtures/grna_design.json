@@ -1,0 +1,2061 @@
+{
+ "capability": "guide_rna",
+ "off_target_space_statement": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+ "result": {
+  "capability": "guide_rna",
+  "design_id": "grna_a2050ace59e287a2",
+  "target_name": "API_TARGET",
+  "nuclease": "SpCas9",
+  "guides_enumerated": 45,
+  "guides_returned": [
+   {
+    "rank": 1,
+    "guide_id": "fwd_68_GTACGTAGCTGACTGACGAT",
+    "spacer": "GTACGTAGCTGACTGACGAT",
+    "pam": "CGG",
+    "pam_motif": "NGG",
+    "pam_is_alternative": false,
+    "strand": 1,
+    "placement": {
+     "strand": 1,
+     "spacer_start": 68,
+     "spacer_end": 88,
+     "pam_start": 88,
+     "pam_end": 91,
+     "pam_observed": "CGG",
+     "pam_side": "three_prime",
+     "cut_site": 85,
+     "cut_site_staggered": null,
+     "context_30mer": "GGACGTACGTAGCTGACTGACGATCGGATC"
+    },
+    "on_target": {
+     "model_name": "Rule Set 1 sgRNA on-target activity model",
+     "model_kind": "published_model",
+     "citation": "Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501, PMCID PMC4262738. Coefficients read 2026-10-07 from the reference implementation crisporEffScores.py (doenchParams, calcDoenchScores) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "validity_domain": "SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "status": "in_domain",
+     "score": 84.27,
+     "score_scale": "0 to 100, higher is more active",
+     "caveats": [],
+     "reasoning": [
+      {
+       "feature": "spacer GC count",
+       "detail": "10 of 20 spacer bases are G or C; the model penalises distance from 10 G or C bases in either direction",
+       "weight": -0.0,
+       "direction": "neutral"
+      },
+      {
+       "feature": "TA dinucleotide at spacer position 2",
+       "detail": "model coefficient fired because the context carries TA at that position",
+       "weight": 0.760628,
+       "direction": "up"
+      },
+      {
+       "feature": "T nucleotide at spacer position 20",
+       "detail": "model coefficient fired because the context carries T at that position",
+       "weight": -0.403102,
+       "direction": "down"
+      },
+      {
+       "feature": "CG dinucleotide at spacer position 17",
+       "detail": "model coefficient fired because the context carries CG at that position",
+       "weight": 0.329072,
+       "direction": "up"
+      },
+      {
+       "feature": "A nucleotide at 5' flank position 3 of 4",
+       "detail": "model coefficient fired because the context carries A at that position",
+       "weight": -0.323887,
+       "direction": "down"
+      },
+      {
+       "feature": "C nucleotide at PAM position 1",
+       "detail": "model coefficient fired because the context carries C at that position",
+       "weight": 0.287936,
+       "direction": "up"
+      },
+      {
+       "feature": "CG dinucleotide at PAM position 1",
+       "detail": "model coefficient fired because the context carries CG at that position",
+       "weight": 0.287936,
+       "direction": "up"
+      },
+      {
+       "feature": "G nucleotide at 5' flank position 2 of 4",
+       "detail": "model coefficient fired because the context carries G at that position",
+       "weight": -0.275377,
+       "direction": "down"
+      },
+      {
+       "feature": "A nucleotide at spacer position 12",
+       "detail": "model coefficient fired because the context carries A at that position",
+       "weight": 0.272621,
+       "direction": "up"
+      }
+     ],
+     "disclaimer": "Predicted activity, not a measurement. Confirm at the bench before relying on it."
+    },
+    "off_target": {
+     "scope": "construct_only",
+     "space_statement": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "searched_sequence_count": 1,
+     "searched_bases": 198,
+     "searched_sequences": [
+      "target sequence API_TARGET"
+     ],
+     "max_mismatches_searched": 4,
+     "seed_region_nt": 12,
+     "hits": [
+      {
+       "source_id": "target",
+       "source_label": "target sequence API_TARGET",
+       "start": 68,
+       "end": 88,
+       "strand": 1,
+       "protospacer": "GTACGTAGCTGACTGACGAT",
+       "pam": "CGG",
+       "pam_is_alternative": false,
+       "mismatches": 0,
+       "mismatch_positions": [],
+       "seed_mismatches": 0,
+       "hit_score": 100.0,
+       "hit_score_status": "in_domain",
+       "is_on_target": true
+      }
+     ],
+     "specificity_model_name": "MIT specificity score (mismatch-position-weighted)",
+     "specificity_citation": "Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081, PMCID PMC3969858. Position weights and the three-term site score read 2026-10-07 from the reference implementation crispor.py (hitScoreM, calcHitScore, calcMitGuideScore) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "specificity_validity_domain": "SpCas9 with a 20 nt spacer. Derived from SpCas9 mismatch tolerance data. Not applicable to SaCas9 or to Cas12a: the reference implementation states that this model and the related CFD model were developed for SpCas9 and that there is not enough data to support their use for Cas12a, and it scores SaCas9 with a separate published model.",
+     "specificity_status": "in_domain",
+     "specificity_score": 100.0,
+     "disclaimer": "Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "searched": true,
+     "notes": []
+    },
+    "report": {
+     "capability": "guide_rna",
+     "overall": "pass",
+     "checks": [
+      {
+       "check_id": "grna.pam_valid",
+       "label": "PAM valid for the nuclease",
+       "severity": "pass",
+       "message": "The PAM CGG sits 3' of the spacer at target positions 88 to 91 and satisfies the SpCas9 motif NGG. No change needed.",
+       "coordinates": [
+        88,
+        91
+       ],
+       "observed": "CGG",
+       "threshold": "NGG 3' of the spacer, spacer 20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.spacer_length",
+       "label": "Spacer length correct for the nuclease",
+       "severity": "pass",
+       "message": "The spacer is 20 nt, which is the SpCas9 spacer length. No change needed.",
+       "coordinates": null,
+       "observed": "20 nt",
+       "threshold": "20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.gc_content",
+       "label": "Spacer GC fraction in window",
+       "severity": "pass",
+       "message": "Spacer GC fraction is 0.50, inside the configured window 0.40 to 0.70. No change needed.",
+       "coordinates": null,
+       "observed": "0.50",
+       "threshold": "0.40 to 0.70",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.u6_terminator",
+       "label": "No U6 terminator motif in spacer",
+       "severity": "pass",
+       "message": "The spacer does not contain TTTT, so U6 transcription will not terminate inside the guide. No change needed.",
+       "coordinates": null,
+       "observed": "TTTT absent",
+       "threshold": "TTTT must not appear in the spacer",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.homopolymer",
+       "label": "No long homopolymer run in spacer",
+       "severity": "pass",
+       "message": "The longest homopolymer run in the spacer is within the configured maximum of 4. No change needed.",
+       "coordinates": null,
+       "observed": "no run longer than 4",
+       "threshold": "at most 4 identical bases in a row",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_complementarity",
+       "label": "No disruptive internal self-complementarity",
+       "severity": "pass",
+       "message": "The longest internal self-complementary stem in the spacer is 3 bp, under the configured reporting length of 7 bp. No change needed.",
+       "coordinates": null,
+       "observed": "3 bp stem",
+       "threshold": "longest internal stem under 7 bp, with a loop of at least 3 nt (Construct convention, not a published value; see the docstring in constants.py)",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.position_in_cds",
+       "label": "Cut site positioned for a knockout",
+       "severity": "unknown",
+       "message": "The cut site is at target position 85, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+       "coordinates": [
+        85,
+        86
+       ],
+       "observed": "cut site at target position 85",
+       "threshold": "cut site inside the coding sequence, within the first 60% of it, outside the final exon, in a constitutive region (fraction is a Construct convention, not a published value; see the docstring in constants.py; the final exon and constitutive rules are Section 8.5 of the engine capability system design (sequence feature checks))",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_targeting",
+       "label": "Guide does not target the delivery construct",
+       "severity": "unknown",
+       "message": "No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell.",
+       "coordinates": null,
+       "observed": null,
+       "threshold": "no NGG PAM adjacent to a copy of the spacer in the delivery construct, within 4 mismatches",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.restriction_in_spacer",
+       "label": "Spacer free of the cloning enzyme site",
+       "severity": "pass",
+       "message": "The spacer contains no BbsI site (GAAGAC) on either strand, so it survives the digest used to clone into pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230). No change needed.",
+       "coordinates": null,
+       "observed": "BbsI site absent",
+       "threshold": "BbsI site GAAGAC must not appear in the spacer, on either strand",
+       "citation": "Appendix D of the engine capability system design (Type IIS enzyme reference)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.off_target_hits",
+       "label": "Off-target sites in the searched space",
+       "severity": "pass",
+       "message": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search. No other site in it matches this spacer within 4 mismatches next to a valid PAM. No change needed inside this space. Sites outside it were not examined.",
+       "coordinates": null,
+       "observed": "0 off-target sites in 198 bp",
+       "threshold": "no site within 2 mismatches carrying at most 0 seed mismatch(es); searched to 4 mismatches; seed is positions 9 to 20 (the PAM-proximal 12 nt)",
+       "citation": "Section 8.6 of the engine capability system design (off-target search, scoped honestly)",
+       "tier": null,
+       "remediation": null
+      }
+     ],
+     "evaluated_at": "2026-10-08T02:55:57.914415Z",
+     "validator_version": "grna-1.0.0"
+    },
+    "flags": [
+     "unknown:grna.position_in_cds",
+     "unknown:grna.self_targeting"
+    ],
+    "reasoning": [
+     "Spacer GTACGTAGCTGACTGACGAT with PAM CGG on the forward strand at target positions 68 to 88, cut site at 85.",
+     "Rule Set 1 sgRNA on-target activity model: 84.3 out of 100. Predicted activity, not a measurement. Confirm at the bench before relying on it. Validity domain: SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "Features that drove the published score up: TA dinucleotide at spacer position 2 (+0.761); CG dinucleotide at spacer position 17 (+0.329); C nucleotide at PAM position 1 (+0.288); CG dinucleotide at PAM position 1 (+0.288); A nucleotide at spacer position 12 (+0.273)",
+     "Features that drove the published score down: T nucleotide at spacer position 20 (-0.403); A nucleotide at 5' flank position 3 of 4 (-0.324); G nucleotide at 5' flank position 2 of 4 (-0.275)",
+     "Construct sequence-feature heuristic v1 (labeled heuristic, not a published score): 95.0 out of 100. spacer GC fraction +15.0 (GC fraction 0.50 is inside the configured window 0.40 to 0.70 (Appendix C)); homopolymer runs +10.0 (no homopolymer run longer than the configured maximum of 4 (Appendix C)); U6 terminator motif +10.0 (the spacer does not contain the U6 terminator motif TTTT (Appendix C)); internal self-complementarity +10.0 (longest internal self-complementary stem is 3 bp, under the configured reporting length of 7 bp (Construct convention)); PAM-proximal GC content +0.0 (3 of the 6 PAM-proximal bases are G or C, under the configured count of 4; no adjustment applied)",
+     "Ranked by: Rule Set 1 sgRNA on-target activity model.",
+     "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "MIT specificity score (mismatch-position-weighted): 100 out of 100 across the searched space. Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "No other site in the searched space matches next to a valid PAM.",
+     "UNKNOWN grna.position_in_cds: The cut site is at target position 85, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+     "UNKNOWN grna.self_targeting: No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell."
+    ],
+    "cloning": {
+     "vector_id": "px330",
+     "vector_name": "pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)",
+     "vector_source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)",
+     "digest_enzyme": "BbsI",
+     "protocol_reference": "https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf",
+     "oligos": [
+      {
+       "name": "fwd_68_GTACGTAGCTGACTGACGAT_sense",
+       "sequence": "CACCGTACGTAGCTGACTGACGAT",
+       "role": "sense oligo, anneal with the antisense oligo and ligate into the digested vector",
+       "five_prime_overhang": "CACC",
+       "three_prime_addition": "",
+       "length_nt": 24,
+       "notes": []
+      },
+      {
+       "name": "fwd_68_GTACGTAGCTGACTGACGAT_antisense",
+       "sequence": "AAACATCGTCAGTCAGCTACGTAC",
+       "role": "antisense oligo, anneal with the sense oligo",
+       "five_prime_overhang": "AAAC",
+       "three_prime_addition": "",
+       "length_nt": 24,
+       "notes": []
+      }
+     ],
+     "notes": [
+      "Digest pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230) with BbsI, then anneal and ligate the oligo pair above.",
+      "Overhang source: CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers).",
+      "Vector cloning protocol: https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf"
+     ]
+    }
+   },
+   {
+    "rank": 2,
+    "guide_id": "fwd_17_CTAGGTACCAGGTTACGAAC",
+    "spacer": "CTAGGTACCAGGTTACGAAC",
+    "pam": "CGG",
+    "pam_motif": "NGG",
+    "pam_is_alternative": false,
+    "strand": 1,
+    "placement": {
+     "strand": 1,
+     "spacer_start": 17,
+     "spacer_end": 37,
+     "pam_start": 37,
+     "pam_end": 40,
+     "pam_observed": "CGG",
+     "pam_side": "three_prime",
+     "cut_site": 34,
+     "cut_site_staggered": null,
+     "context_30mer": "GGCACTAGGTACCAGGTTACGAACCGGTTA"
+    },
+    "on_target": {
+     "model_name": "Rule Set 1 sgRNA on-target activity model",
+     "model_kind": "published_model",
+     "citation": "Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501, PMCID PMC4262738. Coefficients read 2026-10-07 from the reference implementation crisporEffScores.py (doenchParams, calcDoenchScores) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "validity_domain": "SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "status": "in_domain",
+     "score": 68.07,
+     "score_scale": "0 to 100, higher is more active",
+     "caveats": [],
+     "reasoning": [
+      {
+       "feature": "spacer GC count",
+       "detail": "10 of 20 spacer bases are G or C; the model penalises distance from 10 G or C bases in either direction",
+       "weight": -0.0,
+       "direction": "neutral"
+      },
+      {
+       "feature": "C nucleotide at spacer position 20",
+       "detail": "model coefficient fired because the context carries C at that position",
+       "weight": -0.876236,
+       "direction": "down"
+      },
+      {
+       "feature": "GA dinucleotide at spacer position 17",
+       "detail": "model coefficient fired because the context carries GA at that position",
+       "weight": -0.836457,
+       "direction": "down"
+      },
+      {
+       "feature": "TA dinucleotide at spacer position 2",
+       "detail": "model coefficient fired because the context carries TA at that position",
+       "weight": 0.760628,
+       "direction": "up"
+      },
+      {
+       "feature": "G nucleotide at spacer position 17",
+       "detail": "model coefficient fired because the context carries G at that position",
+       "weight": 0.379899,
+       "direction": "up"
+      },
+      {
+       "feature": "C nucleotide at PAM position 1",
+       "detail": "model coefficient fired because the context carries C at that position",
+       "weight": 0.287936,
+       "direction": "up"
+      },
+      {
+       "feature": "CG dinucleotide at PAM position 1",
+       "detail": "model coefficient fired because the context carries CG at that position",
+       "weight": 0.287936,
+       "direction": "up"
+      },
+      {
+       "feature": "G nucleotide at 5' flank position 2 of 4",
+       "detail": "model coefficient fired because the context carries G at that position",
+       "weight": -0.275377,
+       "direction": "down"
+      },
+      {
+       "feature": "A nucleotide at spacer position 15",
+       "detail": "model coefficient fired because the context carries A at that position",
+       "weight": 0.225089,
+       "direction": "up"
+      }
+     ],
+     "disclaimer": "Predicted activity, not a measurement. Confirm at the bench before relying on it."
+    },
+    "off_target": {
+     "scope": "construct_only",
+     "space_statement": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "searched_sequence_count": 1,
+     "searched_bases": 198,
+     "searched_sequences": [
+      "target sequence API_TARGET"
+     ],
+     "max_mismatches_searched": 4,
+     "seed_region_nt": 12,
+     "hits": [
+      {
+       "source_id": "target",
+       "source_label": "target sequence API_TARGET",
+       "start": 17,
+       "end": 37,
+       "strand": 1,
+       "protospacer": "CTAGGTACCAGGTTACGAAC",
+       "pam": "CGG",
+       "pam_is_alternative": false,
+       "mismatches": 0,
+       "mismatch_positions": [],
+       "seed_mismatches": 0,
+       "hit_score": 100.0,
+       "hit_score_status": "in_domain",
+       "is_on_target": true
+      }
+     ],
+     "specificity_model_name": "MIT specificity score (mismatch-position-weighted)",
+     "specificity_citation": "Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081, PMCID PMC3969858. Position weights and the three-term site score read 2026-10-07 from the reference implementation crispor.py (hitScoreM, calcHitScore, calcMitGuideScore) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "specificity_validity_domain": "SpCas9 with a 20 nt spacer. Derived from SpCas9 mismatch tolerance data. Not applicable to SaCas9 or to Cas12a: the reference implementation states that this model and the related CFD model were developed for SpCas9 and that there is not enough data to support their use for Cas12a, and it scores SaCas9 with a separate published model.",
+     "specificity_status": "in_domain",
+     "specificity_score": 100.0,
+     "disclaimer": "Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "searched": true,
+     "notes": []
+    },
+    "report": {
+     "capability": "guide_rna",
+     "overall": "pass",
+     "checks": [
+      {
+       "check_id": "grna.pam_valid",
+       "label": "PAM valid for the nuclease",
+       "severity": "pass",
+       "message": "The PAM CGG sits 3' of the spacer at target positions 37 to 40 and satisfies the SpCas9 motif NGG. No change needed.",
+       "coordinates": [
+        37,
+        40
+       ],
+       "observed": "CGG",
+       "threshold": "NGG 3' of the spacer, spacer 20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.spacer_length",
+       "label": "Spacer length correct for the nuclease",
+       "severity": "pass",
+       "message": "The spacer is 20 nt, which is the SpCas9 spacer length. No change needed.",
+       "coordinates": null,
+       "observed": "20 nt",
+       "threshold": "20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.gc_content",
+       "label": "Spacer GC fraction in window",
+       "severity": "pass",
+       "message": "Spacer GC fraction is 0.50, inside the configured window 0.40 to 0.70. No change needed.",
+       "coordinates": null,
+       "observed": "0.50",
+       "threshold": "0.40 to 0.70",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.u6_terminator",
+       "label": "No U6 terminator motif in spacer",
+       "severity": "pass",
+       "message": "The spacer does not contain TTTT, so U6 transcription will not terminate inside the guide. No change needed.",
+       "coordinates": null,
+       "observed": "TTTT absent",
+       "threshold": "TTTT must not appear in the spacer",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.homopolymer",
+       "label": "No long homopolymer run in spacer",
+       "severity": "pass",
+       "message": "The longest homopolymer run in the spacer is within the configured maximum of 4. No change needed.",
+       "coordinates": null,
+       "observed": "no run longer than 4",
+       "threshold": "at most 4 identical bases in a row",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_complementarity",
+       "label": "No disruptive internal self-complementarity",
+       "severity": "pass",
+       "message": "The longest internal self-complementary stem in the spacer is 3 bp, under the configured reporting length of 7 bp. No change needed.",
+       "coordinates": null,
+       "observed": "3 bp stem",
+       "threshold": "longest internal stem under 7 bp, with a loop of at least 3 nt (Construct convention, not a published value; see the docstring in constants.py)",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.position_in_cds",
+       "label": "Cut site positioned for a knockout",
+       "severity": "unknown",
+       "message": "The cut site is at target position 34, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+       "coordinates": [
+        34,
+        35
+       ],
+       "observed": "cut site at target position 34",
+       "threshold": "cut site inside the coding sequence, within the first 60% of it, outside the final exon, in a constitutive region (fraction is a Construct convention, not a published value; see the docstring in constants.py; the final exon and constitutive rules are Section 8.5 of the engine capability system design (sequence feature checks))",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_targeting",
+       "label": "Guide does not target the delivery construct",
+       "severity": "unknown",
+       "message": "No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell.",
+       "coordinates": null,
+       "observed": null,
+       "threshold": "no NGG PAM adjacent to a copy of the spacer in the delivery construct, within 4 mismatches",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.restriction_in_spacer",
+       "label": "Spacer free of the cloning enzyme site",
+       "severity": "pass",
+       "message": "The spacer contains no BbsI site (GAAGAC) on either strand, so it survives the digest used to clone into pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230). No change needed.",
+       "coordinates": null,
+       "observed": "BbsI site absent",
+       "threshold": "BbsI site GAAGAC must not appear in the spacer, on either strand",
+       "citation": "Appendix D of the engine capability system design (Type IIS enzyme reference)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.off_target_hits",
+       "label": "Off-target sites in the searched space",
+       "severity": "pass",
+       "message": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search. No other site in it matches this spacer within 4 mismatches next to a valid PAM. No change needed inside this space. Sites outside it were not examined.",
+       "coordinates": null,
+       "observed": "0 off-target sites in 198 bp",
+       "threshold": "no site within 2 mismatches carrying at most 0 seed mismatch(es); searched to 4 mismatches; seed is positions 9 to 20 (the PAM-proximal 12 nt)",
+       "citation": "Section 8.6 of the engine capability system design (off-target search, scoped honestly)",
+       "tier": null,
+       "remediation": null
+      }
+     ],
+     "evaluated_at": "2026-10-08T02:55:57.918212Z",
+     "validator_version": "grna-1.0.0"
+    },
+    "flags": [
+     "unknown:grna.position_in_cds",
+     "unknown:grna.self_targeting"
+    ],
+    "reasoning": [
+     "Spacer CTAGGTACCAGGTTACGAAC with PAM CGG on the forward strand at target positions 17 to 37, cut site at 34.",
+     "Rule Set 1 sgRNA on-target activity model: 68.1 out of 100. Predicted activity, not a measurement. Confirm at the bench before relying on it. Validity domain: SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "Features that drove the published score up: TA dinucleotide at spacer position 2 (+0.761); G nucleotide at spacer position 17 (+0.380); C nucleotide at PAM position 1 (+0.288); CG dinucleotide at PAM position 1 (+0.288); A nucleotide at spacer position 15 (+0.225)",
+     "Features that drove the published score down: C nucleotide at spacer position 20 (-0.876); GA dinucleotide at spacer position 17 (-0.836); G nucleotide at 5' flank position 2 of 4 (-0.275)",
+     "Construct sequence-feature heuristic v1 (labeled heuristic, not a published score): 95.0 out of 100. spacer GC fraction +15.0 (GC fraction 0.50 is inside the configured window 0.40 to 0.70 (Appendix C)); homopolymer runs +10.0 (no homopolymer run longer than the configured maximum of 4 (Appendix C)); U6 terminator motif +10.0 (the spacer does not contain the U6 terminator motif TTTT (Appendix C)); internal self-complementarity +10.0 (longest internal self-complementary stem is 3 bp, under the configured reporting length of 7 bp (Construct convention)); PAM-proximal GC content +0.0 (3 of the 6 PAM-proximal bases are G or C, under the configured count of 4; no adjustment applied)",
+     "Ranked by: Rule Set 1 sgRNA on-target activity model.",
+     "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "MIT specificity score (mismatch-position-weighted): 100 out of 100 across the searched space. Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "No other site in the searched space matches next to a valid PAM.",
+     "UNKNOWN grna.position_in_cds: The cut site is at target position 34, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+     "UNKNOWN grna.self_targeting: No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell."
+    ],
+    "cloning": {
+     "vector_id": "px330",
+     "vector_name": "pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)",
+     "vector_source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)",
+     "digest_enzyme": "BbsI",
+     "protocol_reference": "https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf",
+     "oligos": [
+      {
+       "name": "fwd_17_CTAGGTACCAGGTTACGAAC_sense",
+       "sequence": "CACCGCTAGGTACCAGGTTACGAAC",
+       "role": "sense oligo, anneal with the antisense oligo and ligate into the digested vector",
+       "five_prime_overhang": "CACC",
+       "three_prime_addition": "",
+       "length_nt": 25,
+       "notes": [
+        "Efficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer."
+       ]
+      },
+      {
+       "name": "fwd_17_CTAGGTACCAGGTTACGAAC_antisense",
+       "sequence": "AAACGTTCGTAACCTGGTACCTAGC",
+       "role": "antisense oligo, anneal with the sense oligo",
+       "five_prime_overhang": "AAAC",
+       "three_prime_addition": "",
+       "length_nt": 25,
+       "notes": [
+        "Efficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer."
+       ]
+      }
+     ],
+     "notes": [
+      "Digest pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230) with BbsI, then anneal and ligate the oligo pair above.",
+      "Overhang source: CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers).",
+      "Vector cloning protocol: https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf"
+     ]
+    }
+   },
+   {
+    "rank": 3,
+    "guide_id": "fwd_158_ACGTCTGACTGACGTACGTA",
+    "spacer": "ACGTCTGACTGACGTACGTA",
+    "pam": "CGG",
+    "pam_motif": "NGG",
+    "pam_is_alternative": false,
+    "strand": 1,
+    "placement": {
+     "strand": 1,
+     "spacer_start": 158,
+     "spacer_end": 178,
+     "pam_start": 178,
+     "pam_end": 181,
+     "pam_observed": "CGG",
+     "pam_side": "three_prime",
+     "cut_site": 175,
+     "cut_site_staggered": null,
+     "context_30mer": "AAGGACGTCTGACTGACGTACGTACGGTTA"
+    },
+    "on_target": {
+     "model_name": "Rule Set 1 sgRNA on-target activity model",
+     "model_kind": "published_model",
+     "citation": "Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501, PMCID PMC4262738. Coefficients read 2026-10-07 from the reference implementation crisporEffScores.py (doenchParams, calcDoenchScores) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "validity_domain": "SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "status": "in_domain",
+     "score": 42.43,
+     "score_scale": "0 to 100, higher is more active",
+     "caveats": [],
+     "reasoning": [
+      {
+       "feature": "spacer GC count",
+       "detail": "10 of 20 spacer bases are G or C; the model penalises distance from 10 G or C bases in either direction",
+       "weight": -0.0,
+       "direction": "neutral"
+      },
+      {
+       "feature": "T nucleotide at spacer position 19",
+       "detail": "model coefficient fired because the context carries T at that position",
+       "weight": -0.877007,
+       "direction": "down"
+      },
+      {
+       "feature": "G nucleotide at spacer position 14",
+       "detail": "model coefficient fired because the context carries G at that position",
+       "weight": -0.678096,
+       "direction": "down"
+      },
+      {
+       "feature": "A nucleotide at spacer position 8",
+       "detail": "model coefficient fired because the context carries A at that position",
+       "weight": -0.466099,
+       "direction": "down"
+      },
+      {
+       "feature": "G nucleotide at spacer position 3",
+       "detail": "model coefficient fired because the context carries G at that position",
+       "weight": -0.393264,
+       "direction": "down"
+      },
+      {
+       "feature": "CG dinucleotide at spacer position 17",
+       "detail": "model coefficient fired because the context carries CG at that position",
+       "weight": 0.329072,
+       "direction": "up"
+      },
+      {
+       "feature": "C nucleotide at PAM position 1",
+       "detail": "model coefficient fired because the context carries C at that position",
+       "weight": 0.287936,
+       "direction": "up"
+      },
+      {
+       "feature": "CG dinucleotide at PAM position 1",
+       "detail": "model coefficient fired because the context carries CG at that position",
+       "weight": 0.287936,
+       "direction": "up"
+      },
+      {
+       "feature": "A nucleotide at spacer position 12",
+       "detail": "model coefficient fired because the context carries A at that position",
+       "weight": 0.272621,
+       "direction": "up"
+      }
+     ],
+     "disclaimer": "Predicted activity, not a measurement. Confirm at the bench before relying on it."
+    },
+    "off_target": {
+     "scope": "construct_only",
+     "space_statement": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "searched_sequence_count": 1,
+     "searched_bases": 198,
+     "searched_sequences": [
+      "target sequence API_TARGET"
+     ],
+     "max_mismatches_searched": 4,
+     "seed_region_nt": 12,
+     "hits": [
+      {
+       "source_id": "target",
+       "source_label": "target sequence API_TARGET",
+       "start": 158,
+       "end": 178,
+       "strand": 1,
+       "protospacer": "ACGTCTGACTGACGTACGTA",
+       "pam": "CGG",
+       "pam_is_alternative": false,
+       "mismatches": 0,
+       "mismatch_positions": [],
+       "seed_mismatches": 0,
+       "hit_score": 100.0,
+       "hit_score_status": "in_domain",
+       "is_on_target": true
+      }
+     ],
+     "specificity_model_name": "MIT specificity score (mismatch-position-weighted)",
+     "specificity_citation": "Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081, PMCID PMC3969858. Position weights and the three-term site score read 2026-10-07 from the reference implementation crispor.py (hitScoreM, calcHitScore, calcMitGuideScore) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "specificity_validity_domain": "SpCas9 with a 20 nt spacer. Derived from SpCas9 mismatch tolerance data. Not applicable to SaCas9 or to Cas12a: the reference implementation states that this model and the related CFD model were developed for SpCas9 and that there is not enough data to support their use for Cas12a, and it scores SaCas9 with a separate published model.",
+     "specificity_status": "in_domain",
+     "specificity_score": 100.0,
+     "disclaimer": "Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "searched": true,
+     "notes": []
+    },
+    "report": {
+     "capability": "guide_rna",
+     "overall": "pass",
+     "checks": [
+      {
+       "check_id": "grna.pam_valid",
+       "label": "PAM valid for the nuclease",
+       "severity": "pass",
+       "message": "The PAM CGG sits 3' of the spacer at target positions 178 to 181 and satisfies the SpCas9 motif NGG. No change needed.",
+       "coordinates": [
+        178,
+        181
+       ],
+       "observed": "CGG",
+       "threshold": "NGG 3' of the spacer, spacer 20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.spacer_length",
+       "label": "Spacer length correct for the nuclease",
+       "severity": "pass",
+       "message": "The spacer is 20 nt, which is the SpCas9 spacer length. No change needed.",
+       "coordinates": null,
+       "observed": "20 nt",
+       "threshold": "20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.gc_content",
+       "label": "Spacer GC fraction in window",
+       "severity": "pass",
+       "message": "Spacer GC fraction is 0.50, inside the configured window 0.40 to 0.70. No change needed.",
+       "coordinates": null,
+       "observed": "0.50",
+       "threshold": "0.40 to 0.70",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.u6_terminator",
+       "label": "No U6 terminator motif in spacer",
+       "severity": "pass",
+       "message": "The spacer does not contain TTTT, so U6 transcription will not terminate inside the guide. No change needed.",
+       "coordinates": null,
+       "observed": "TTTT absent",
+       "threshold": "TTTT must not appear in the spacer",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.homopolymer",
+       "label": "No long homopolymer run in spacer",
+       "severity": "pass",
+       "message": "The longest homopolymer run in the spacer is within the configured maximum of 4. No change needed.",
+       "coordinates": null,
+       "observed": "no run longer than 4",
+       "threshold": "at most 4 identical bases in a row",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_complementarity",
+       "label": "No disruptive internal self-complementarity",
+       "severity": "pass",
+       "message": "The longest internal self-complementary stem in the spacer is 5 bp, under the configured reporting length of 7 bp. No change needed.",
+       "coordinates": null,
+       "observed": "5 bp stem",
+       "threshold": "longest internal stem under 7 bp, with a loop of at least 3 nt (Construct convention, not a published value; see the docstring in constants.py)",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.position_in_cds",
+       "label": "Cut site positioned for a knockout",
+       "severity": "unknown",
+       "message": "The cut site is at target position 175, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+       "coordinates": [
+        175,
+        176
+       ],
+       "observed": "cut site at target position 175",
+       "threshold": "cut site inside the coding sequence, within the first 60% of it, outside the final exon, in a constitutive region (fraction is a Construct convention, not a published value; see the docstring in constants.py; the final exon and constitutive rules are Section 8.5 of the engine capability system design (sequence feature checks))",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_targeting",
+       "label": "Guide does not target the delivery construct",
+       "severity": "unknown",
+       "message": "No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell.",
+       "coordinates": null,
+       "observed": null,
+       "threshold": "no NGG PAM adjacent to a copy of the spacer in the delivery construct, within 4 mismatches",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.restriction_in_spacer",
+       "label": "Spacer free of the cloning enzyme site",
+       "severity": "pass",
+       "message": "The spacer contains no BbsI site (GAAGAC) on either strand, so it survives the digest used to clone into pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230). No change needed.",
+       "coordinates": null,
+       "observed": "BbsI site absent",
+       "threshold": "BbsI site GAAGAC must not appear in the spacer, on either strand",
+       "citation": "Appendix D of the engine capability system design (Type IIS enzyme reference)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.off_target_hits",
+       "label": "Off-target sites in the searched space",
+       "severity": "pass",
+       "message": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search. No other site in it matches this spacer within 4 mismatches next to a valid PAM. No change needed inside this space. Sites outside it were not examined.",
+       "coordinates": null,
+       "observed": "0 off-target sites in 198 bp",
+       "threshold": "no site within 2 mismatches carrying at most 0 seed mismatch(es); searched to 4 mismatches; seed is positions 9 to 20 (the PAM-proximal 12 nt)",
+       "citation": "Section 8.6 of the engine capability system design (off-target search, scoped honestly)",
+       "tier": null,
+       "remediation": null
+      }
+     ],
+     "evaluated_at": "2026-10-08T02:55:57.919140Z",
+     "validator_version": "grna-1.0.0"
+    },
+    "flags": [
+     "unknown:grna.position_in_cds",
+     "unknown:grna.self_targeting"
+    ],
+    "reasoning": [
+     "Spacer ACGTCTGACTGACGTACGTA with PAM CGG on the forward strand at target positions 158 to 178, cut site at 175.",
+     "Rule Set 1 sgRNA on-target activity model: 42.4 out of 100. Predicted activity, not a measurement. Confirm at the bench before relying on it. Validity domain: SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "Features that drove the published score up: CG dinucleotide at spacer position 17 (+0.329); C nucleotide at PAM position 1 (+0.288); CG dinucleotide at PAM position 1 (+0.288); A nucleotide at spacer position 12 (+0.273)",
+     "Features that drove the published score down: T nucleotide at spacer position 19 (-0.877); G nucleotide at spacer position 14 (-0.678); A nucleotide at spacer position 8 (-0.466); G nucleotide at spacer position 3 (-0.393)",
+     "Construct sequence-feature heuristic v1 (labeled heuristic, not a published score): 95.0 out of 100. spacer GC fraction +15.0 (GC fraction 0.50 is inside the configured window 0.40 to 0.70 (Appendix C)); homopolymer runs +10.0 (no homopolymer run longer than the configured maximum of 4 (Appendix C)); U6 terminator motif +10.0 (the spacer does not contain the U6 terminator motif TTTT (Appendix C)); internal self-complementarity +10.0 (longest internal self-complementary stem is 5 bp, under the configured reporting length of 7 bp (Construct convention)); PAM-proximal GC content +0.0 (2 of the 6 PAM-proximal bases are G or C, under the configured count of 4; no adjustment applied)",
+     "Ranked by: Rule Set 1 sgRNA on-target activity model.",
+     "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "MIT specificity score (mismatch-position-weighted): 100 out of 100 across the searched space. Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "No other site in the searched space matches next to a valid PAM.",
+     "UNKNOWN grna.position_in_cds: The cut site is at target position 175, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+     "UNKNOWN grna.self_targeting: No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell."
+    ],
+    "cloning": {
+     "vector_id": "px330",
+     "vector_name": "pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)",
+     "vector_source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)",
+     "digest_enzyme": "BbsI",
+     "protocol_reference": "https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf",
+     "oligos": [
+      {
+       "name": "fwd_158_ACGTCTGACTGACGTACGTA_sense",
+       "sequence": "CACCGACGTCTGACTGACGTACGTA",
+       "role": "sense oligo, anneal with the antisense oligo and ligate into the digested vector",
+       "five_prime_overhang": "CACC",
+       "three_prime_addition": "",
+       "length_nt": 25,
+       "notes": [
+        "Efficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer."
+       ]
+      },
+      {
+       "name": "fwd_158_ACGTCTGACTGACGTACGTA_antisense",
+       "sequence": "AAACTACGTACGTCAGTCAGACGTC",
+       "role": "antisense oligo, anneal with the sense oligo",
+       "five_prime_overhang": "AAAC",
+       "three_prime_addition": "",
+       "length_nt": 25,
+       "notes": [
+        "Efficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer."
+       ]
+      }
+     ],
+     "notes": [
+      "Digest pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230) with BbsI, then anneal and ligate the oligo pair above.",
+      "Overhang source: CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers).",
+      "Vector cloning protocol: https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf"
+     ]
+    }
+   },
+   {
+    "rank": 4,
+    "guide_id": "rev_57_GCTACGTACGTCCGGTTAAC",
+    "spacer": "GCTACGTACGTCCGGTTAAC",
+    "pam": "CGG",
+    "pam_motif": "NGG",
+    "pam_is_alternative": false,
+    "strand": -1,
+    "placement": {
+     "strand": -1,
+     "spacer_start": 57,
+     "spacer_end": 77,
+     "pam_start": 54,
+     "pam_end": 57,
+     "pam_observed": "CGG",
+     "pam_side": "three_prime",
+     "cut_site": 60,
+     "cut_site_staggered": null,
+     "context_30mer": "GTCAGCTACGTACGTCCGGTTAACCGGCCT"
+    },
+    "on_target": {
+     "model_name": "Rule Set 1 sgRNA on-target activity model",
+     "model_kind": "published_model",
+     "citation": "Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501, PMCID PMC4262738. Coefficients read 2026-10-07 from the reference implementation crisporEffScores.py (doenchParams, calcDoenchScores) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "validity_domain": "SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "status": "in_domain",
+     "score": 34.94,
+     "score_scale": "0 to 100, higher is more active",
+     "caveats": [],
+     "reasoning": [
+      {
+       "feature": "spacer GC count",
+       "detail": "11 of 20 spacer bases are G or C; the model penalises distance from 10 G or C bases in either direction",
+       "weight": -0.166588,
+       "direction": "down"
+      },
+      {
+       "feature": "C nucleotide at spacer position 20",
+       "detail": "model coefficient fired because the context carries C at that position",
+       "weight": -0.876236,
+       "direction": "down"
+      },
+      {
+       "feature": "G nucleotide at spacer position 14",
+       "detail": "model coefficient fired because the context carries G at that position",
+       "weight": -0.678096,
+       "direction": "down"
+      },
+      {
+       "feature": "A nucleotide at spacer position 8",
+       "detail": "model coefficient fired because the context carries A at that position",
+       "weight": -0.466099,
+       "direction": "down"
+      },
+      {
+       "feature": "GC dinucleotide at spacer position 1",
+       "detail": "model coefficient fired because the context carries GC at that position",
+       "weight": 0.300043,
+       "direction": "up"
+      },
+      {
+       "feature": "C nucleotide at PAM position 1",
+       "detail": "model coefficient fired because the context carries C at that position",
+       "weight": 0.287936,
+       "direction": "up"
+      },
+      {
+       "feature": "CG dinucleotide at PAM position 1",
+       "detail": "model coefficient fired because the context carries CG at that position",
+       "weight": 0.287936,
+       "direction": "up"
+      },
+      {
+       "feature": "G nucleotide at spacer position 1",
+       "detail": "model coefficient fired because the context carries G at that position",
+       "weight": 0.245957,
+       "direction": "up"
+      },
+      {
+       "feature": "C nucleotide at 5' flank position 3 of 4",
+       "detail": "model coefficient fired because the context carries C at that position",
+       "weight": 0.172129,
+       "direction": "up"
+      }
+     ],
+     "disclaimer": "Predicted activity, not a measurement. Confirm at the bench before relying on it."
+    },
+    "off_target": {
+     "scope": "construct_only",
+     "space_statement": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "searched_sequence_count": 1,
+     "searched_bases": 198,
+     "searched_sequences": [
+      "target sequence API_TARGET"
+     ],
+     "max_mismatches_searched": 4,
+     "seed_region_nt": 12,
+     "hits": [
+      {
+       "source_id": "target",
+       "source_label": "target sequence API_TARGET",
+       "start": 57,
+       "end": 77,
+       "strand": -1,
+       "protospacer": "GCTACGTACGTCCGGTTAAC",
+       "pam": "CGG",
+       "pam_is_alternative": false,
+       "mismatches": 0,
+       "mismatch_positions": [],
+       "seed_mismatches": 0,
+       "hit_score": 100.0,
+       "hit_score_status": "in_domain",
+       "is_on_target": true
+      }
+     ],
+     "specificity_model_name": "MIT specificity score (mismatch-position-weighted)",
+     "specificity_citation": "Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081, PMCID PMC3969858. Position weights and the three-term site score read 2026-10-07 from the reference implementation crispor.py (hitScoreM, calcHitScore, calcMitGuideScore) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "specificity_validity_domain": "SpCas9 with a 20 nt spacer. Derived from SpCas9 mismatch tolerance data. Not applicable to SaCas9 or to Cas12a: the reference implementation states that this model and the related CFD model were developed for SpCas9 and that there is not enough data to support their use for Cas12a, and it scores SaCas9 with a separate published model.",
+     "specificity_status": "in_domain",
+     "specificity_score": 100.0,
+     "disclaimer": "Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "searched": true,
+     "notes": []
+    },
+    "report": {
+     "capability": "guide_rna",
+     "overall": "pass",
+     "checks": [
+      {
+       "check_id": "grna.pam_valid",
+       "label": "PAM valid for the nuclease",
+       "severity": "pass",
+       "message": "The PAM CGG sits 3' of the spacer at target positions 54 to 57 and satisfies the SpCas9 motif NGG. No change needed.",
+       "coordinates": [
+        54,
+        57
+       ],
+       "observed": "CGG",
+       "threshold": "NGG 3' of the spacer, spacer 20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.spacer_length",
+       "label": "Spacer length correct for the nuclease",
+       "severity": "pass",
+       "message": "The spacer is 20 nt, which is the SpCas9 spacer length. No change needed.",
+       "coordinates": null,
+       "observed": "20 nt",
+       "threshold": "20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.gc_content",
+       "label": "Spacer GC fraction in window",
+       "severity": "pass",
+       "message": "Spacer GC fraction is 0.55, inside the configured window 0.40 to 0.70. No change needed.",
+       "coordinates": null,
+       "observed": "0.55",
+       "threshold": "0.40 to 0.70",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.u6_terminator",
+       "label": "No U6 terminator motif in spacer",
+       "severity": "pass",
+       "message": "The spacer does not contain TTTT, so U6 transcription will not terminate inside the guide. No change needed.",
+       "coordinates": null,
+       "observed": "TTTT absent",
+       "threshold": "TTTT must not appear in the spacer",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.homopolymer",
+       "label": "No long homopolymer run in spacer",
+       "severity": "pass",
+       "message": "The longest homopolymer run in the spacer is within the configured maximum of 4. No change needed.",
+       "coordinates": null,
+       "observed": "no run longer than 4",
+       "threshold": "at most 4 identical bases in a row",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_complementarity",
+       "label": "No disruptive internal self-complementarity",
+       "severity": "pass",
+       "message": "The longest internal self-complementary stem in the spacer is 2 bp, under the configured reporting length of 7 bp. No change needed.",
+       "coordinates": null,
+       "observed": "2 bp stem",
+       "threshold": "longest internal stem under 7 bp, with a loop of at least 3 nt (Construct convention, not a published value; see the docstring in constants.py)",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.position_in_cds",
+       "label": "Cut site positioned for a knockout",
+       "severity": "unknown",
+       "message": "The cut site is at target position 60, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+       "coordinates": [
+        60,
+        61
+       ],
+       "observed": "cut site at target position 60",
+       "threshold": "cut site inside the coding sequence, within the first 60% of it, outside the final exon, in a constitutive region (fraction is a Construct convention, not a published value; see the docstring in constants.py; the final exon and constitutive rules are Section 8.5 of the engine capability system design (sequence feature checks))",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_targeting",
+       "label": "Guide does not target the delivery construct",
+       "severity": "unknown",
+       "message": "No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell.",
+       "coordinates": null,
+       "observed": null,
+       "threshold": "no NGG PAM adjacent to a copy of the spacer in the delivery construct, within 4 mismatches",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.restriction_in_spacer",
+       "label": "Spacer free of the cloning enzyme site",
+       "severity": "pass",
+       "message": "The spacer contains no BbsI site (GAAGAC) on either strand, so it survives the digest used to clone into pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230). No change needed.",
+       "coordinates": null,
+       "observed": "BbsI site absent",
+       "threshold": "BbsI site GAAGAC must not appear in the spacer, on either strand",
+       "citation": "Appendix D of the engine capability system design (Type IIS enzyme reference)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.off_target_hits",
+       "label": "Off-target sites in the searched space",
+       "severity": "pass",
+       "message": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search. No other site in it matches this spacer within 4 mismatches next to a valid PAM. No change needed inside this space. Sites outside it were not examined.",
+       "coordinates": null,
+       "observed": "0 off-target sites in 198 bp",
+       "threshold": "no site within 2 mismatches carrying at most 0 seed mismatch(es); searched to 4 mismatches; seed is positions 9 to 20 (the PAM-proximal 12 nt)",
+       "citation": "Section 8.6 of the engine capability system design (off-target search, scoped honestly)",
+       "tier": null,
+       "remediation": null
+      }
+     ],
+     "evaluated_at": "2026-10-08T02:55:57.919852Z",
+     "validator_version": "grna-1.0.0"
+    },
+    "flags": [
+     "reverse_strand",
+     "unknown:grna.position_in_cds",
+     "unknown:grna.self_targeting"
+    ],
+    "reasoning": [
+     "Spacer GCTACGTACGTCCGGTTAAC with PAM CGG on the reverse strand at target positions 57 to 77, cut site at 60.",
+     "Rule Set 1 sgRNA on-target activity model: 34.9 out of 100. Predicted activity, not a measurement. Confirm at the bench before relying on it. Validity domain: SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "Features that drove the published score up: GC dinucleotide at spacer position 1 (+0.300); C nucleotide at PAM position 1 (+0.288); CG dinucleotide at PAM position 1 (+0.288); G nucleotide at spacer position 1 (+0.246); C nucleotide at 5' flank position 3 of 4 (+0.172)",
+     "Features that drove the published score down: spacer GC count (-0.167); C nucleotide at spacer position 20 (-0.876); G nucleotide at spacer position 14 (-0.678); A nucleotide at spacer position 8 (-0.466)",
+     "Construct sequence-feature heuristic v1 (labeled heuristic, not a published score): 95.0 out of 100. spacer GC fraction +15.0 (GC fraction 0.55 is inside the configured window 0.40 to 0.70 (Appendix C)); homopolymer runs +10.0 (no homopolymer run longer than the configured maximum of 4 (Appendix C)); U6 terminator motif +10.0 (the spacer does not contain the U6 terminator motif TTTT (Appendix C)); internal self-complementarity +10.0 (longest internal self-complementary stem is 2 bp, under the configured reporting length of 7 bp (Construct convention)); PAM-proximal GC content +0.0 (2 of the 6 PAM-proximal bases are G or C, under the configured count of 4; no adjustment applied)",
+     "Ranked by: Rule Set 1 sgRNA on-target activity model.",
+     "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "MIT specificity score (mismatch-position-weighted): 100 out of 100 across the searched space. Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "No other site in the searched space matches next to a valid PAM.",
+     "UNKNOWN grna.position_in_cds: The cut site is at target position 60, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+     "UNKNOWN grna.self_targeting: No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell."
+    ],
+    "cloning": {
+     "vector_id": "px330",
+     "vector_name": "pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)",
+     "vector_source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)",
+     "digest_enzyme": "BbsI",
+     "protocol_reference": "https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf",
+     "oligos": [
+      {
+       "name": "rev_57_GCTACGTACGTCCGGTTAAC_sense",
+       "sequence": "CACCGCTACGTACGTCCGGTTAAC",
+       "role": "sense oligo, anneal with the antisense oligo and ligate into the digested vector",
+       "five_prime_overhang": "CACC",
+       "three_prime_addition": "",
+       "length_nt": 24,
+       "notes": []
+      },
+      {
+       "name": "rev_57_GCTACGTACGTCCGGTTAAC_antisense",
+       "sequence": "AAACGTTAACCGGACGTACGTAGC",
+       "role": "antisense oligo, anneal with the sense oligo",
+       "five_prime_overhang": "AAAC",
+       "three_prime_addition": "",
+       "length_nt": 24,
+       "notes": []
+      }
+     ],
+     "notes": [
+      "Digest pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230) with BbsI, then anneal and ligate the oligo pair above.",
+      "Overhang source: CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers).",
+      "Vector cloning protocol: https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf"
+     ]
+    }
+   },
+   {
+    "rank": 5,
+    "guide_id": "rev_153_ACGTCAGTCAGACGTCCTTA",
+    "spacer": "ACGTCAGTCAGACGTCCTTA",
+    "pam": "AGG",
+    "pam_motif": "NGG",
+    "pam_is_alternative": false,
+    "strand": -1,
+    "placement": {
+     "strand": -1,
+     "spacer_start": 153,
+     "spacer_end": 173,
+     "pam_start": 150,
+     "pam_end": 153,
+     "pam_observed": "AGG",
+     "pam_side": "three_prime",
+     "cut_site": 156,
+     "cut_site_staggered": null,
+     "context_30mer": "ACGTACGTCAGTCAGACGTCCTTAAGGCCT"
+    },
+    "on_target": {
+     "model_name": "Rule Set 1 sgRNA on-target activity model",
+     "model_kind": "published_model",
+     "citation": "Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501, PMCID PMC4262738. Coefficients read 2026-10-07 from the reference implementation crisporEffScores.py (doenchParams, calcDoenchScores) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "validity_domain": "SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "status": "in_domain",
+     "score": 30.85,
+     "score_scale": "0 to 100, higher is more active",
+     "caveats": [],
+     "reasoning": [
+      {
+       "feature": "spacer GC count",
+       "detail": "10 of 20 spacer bases are G or C; the model penalises distance from 10 G or C bases in either direction",
+       "weight": -0.0,
+       "direction": "neutral"
+      },
+      {
+       "feature": "T nucleotide at spacer position 19",
+       "detail": "model coefficient fired because the context carries T at that position",
+       "weight": -0.877007,
+       "direction": "down"
+      },
+      {
+       "feature": "CC dinucleotide at spacer position 16",
+       "detail": "model coefficient fired because the context carries CC at that position",
+       "weight": 0.748072,
+       "direction": "up"
+      },
+      {
+       "feature": "G nucleotide at spacer position 14",
+       "detail": "model coefficient fired because the context carries G at that position",
+       "weight": -0.678096,
+       "direction": "down"
+      },
+      {
+       "feature": "AA dinucleotide at context positions 24 to 25 (spans a boundary)",
+       "detail": "model coefficient fired because the context carries AA at that position",
+       "weight": -0.579492,
+       "direction": "down"
+      },
+      {
+       "feature": "T nucleotide at spacer position 18",
+       "detail": "model coefficient fired because the context carries T at that position",
+       "weight": -0.530567,
+       "direction": "down"
+      },
+      {
+       "feature": "TC dinucleotide at spacer position 8",
+       "detail": "model coefficient fired because the context carries TC at that position",
+       "weight": 0.496299,
+       "direction": "up"
+      },
+      {
+       "feature": "G nucleotide at spacer position 3",
+       "detail": "model coefficient fired because the context carries G at that position",
+       "weight": -0.393264,
+       "direction": "down"
+      },
+      {
+       "feature": "TC dinucleotide at spacer position 15",
+       "detail": "model coefficient fired because the context carries TC at that position",
+       "weight": 0.353183,
+       "direction": "up"
+      }
+     ],
+     "disclaimer": "Predicted activity, not a measurement. Confirm at the bench before relying on it."
+    },
+    "off_target": {
+     "scope": "construct_only",
+     "space_statement": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "searched_sequence_count": 1,
+     "searched_bases": 198,
+     "searched_sequences": [
+      "target sequence API_TARGET"
+     ],
+     "max_mismatches_searched": 4,
+     "seed_region_nt": 12,
+     "hits": [
+      {
+       "source_id": "target",
+       "source_label": "target sequence API_TARGET",
+       "start": 153,
+       "end": 173,
+       "strand": -1,
+       "protospacer": "ACGTCAGTCAGACGTCCTTA",
+       "pam": "AGG",
+       "pam_is_alternative": false,
+       "mismatches": 0,
+       "mismatch_positions": [],
+       "seed_mismatches": 0,
+       "hit_score": 100.0,
+       "hit_score_status": "in_domain",
+       "is_on_target": true
+      }
+     ],
+     "specificity_model_name": "MIT specificity score (mismatch-position-weighted)",
+     "specificity_citation": "Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081, PMCID PMC3969858. Position weights and the three-term site score read 2026-10-07 from the reference implementation crispor.py (hitScoreM, calcHitScore, calcMitGuideScore) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+     "specificity_validity_domain": "SpCas9 with a 20 nt spacer. Derived from SpCas9 mismatch tolerance data. Not applicable to SaCas9 or to Cas12a: the reference implementation states that this model and the related CFD model were developed for SpCas9 and that there is not enough data to support their use for Cas12a, and it scores SaCas9 with a separate published model.",
+     "specificity_status": "in_domain",
+     "specificity_score": 100.0,
+     "disclaimer": "Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "searched": true,
+     "notes": []
+    },
+    "report": {
+     "capability": "guide_rna",
+     "overall": "pass",
+     "checks": [
+      {
+       "check_id": "grna.pam_valid",
+       "label": "PAM valid for the nuclease",
+       "severity": "pass",
+       "message": "The PAM AGG sits 3' of the spacer at target positions 150 to 153 and satisfies the SpCas9 motif NGG. No change needed.",
+       "coordinates": [
+        150,
+        153
+       ],
+       "observed": "AGG",
+       "threshold": "NGG 3' of the spacer, spacer 20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.spacer_length",
+       "label": "Spacer length correct for the nuclease",
+       "severity": "pass",
+       "message": "The spacer is 20 nt, which is the SpCas9 spacer length. No change needed.",
+       "coordinates": null,
+       "observed": "20 nt",
+       "threshold": "20 nt",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.gc_content",
+       "label": "Spacer GC fraction in window",
+       "severity": "pass",
+       "message": "Spacer GC fraction is 0.50, inside the configured window 0.40 to 0.70. No change needed.",
+       "coordinates": null,
+       "observed": "0.50",
+       "threshold": "0.40 to 0.70",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.u6_terminator",
+       "label": "No U6 terminator motif in spacer",
+       "severity": "pass",
+       "message": "The spacer does not contain TTTT, so U6 transcription will not terminate inside the guide. No change needed.",
+       "coordinates": null,
+       "observed": "TTTT absent",
+       "threshold": "TTTT must not appear in the spacer",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.homopolymer",
+       "label": "No long homopolymer run in spacer",
+       "severity": "pass",
+       "message": "The longest homopolymer run in the spacer is within the configured maximum of 4. No change needed.",
+       "coordinates": null,
+       "observed": "no run longer than 4",
+       "threshold": "at most 4 identical bases in a row",
+       "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_complementarity",
+       "label": "No disruptive internal self-complementarity",
+       "severity": "pass",
+       "message": "The longest internal self-complementary stem in the spacer is 5 bp, under the configured reporting length of 7 bp. No change needed.",
+       "coordinates": null,
+       "observed": "5 bp stem",
+       "threshold": "longest internal stem under 7 bp, with a loop of at least 3 nt (Construct convention, not a published value; see the docstring in constants.py)",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.position_in_cds",
+       "label": "Cut site positioned for a knockout",
+       "severity": "unknown",
+       "message": "The cut site is at target position 156, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+       "coordinates": [
+        156,
+        157
+       ],
+       "observed": "cut site at target position 156",
+       "threshold": "cut site inside the coding sequence, within the first 60% of it, outside the final exon, in a constitutive region (fraction is a Construct convention, not a published value; see the docstring in constants.py; the final exon and constitutive rules are Section 8.5 of the engine capability system design (sequence feature checks))",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.self_targeting",
+       "label": "Guide does not target the delivery construct",
+       "severity": "unknown",
+       "message": "No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell.",
+       "coordinates": null,
+       "observed": null,
+       "threshold": "no NGG PAM adjacent to a copy of the spacer in the delivery construct, within 4 mismatches",
+       "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.restriction_in_spacer",
+       "label": "Spacer free of the cloning enzyme site",
+       "severity": "pass",
+       "message": "The spacer contains no BbsI site (GAAGAC) on either strand, so it survives the digest used to clone into pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230). No change needed.",
+       "coordinates": null,
+       "observed": "BbsI site absent",
+       "threshold": "BbsI site GAAGAC must not appear in the spacer, on either strand",
+       "citation": "Appendix D of the engine capability system design (Type IIS enzyme reference)",
+       "tier": null,
+       "remediation": null
+      },
+      {
+       "check_id": "grna.off_target_hits",
+       "label": "Off-target sites in the searched space",
+       "severity": "pass",
+       "message": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search. No other site in it matches this spacer within 4 mismatches next to a valid PAM. No change needed inside this space. Sites outside it were not examined.",
+       "coordinates": null,
+       "observed": "0 off-target sites in 198 bp",
+       "threshold": "no site within 2 mismatches carrying at most 0 seed mismatch(es); searched to 4 mismatches; seed is positions 9 to 20 (the PAM-proximal 12 nt)",
+       "citation": "Section 8.6 of the engine capability system design (off-target search, scoped honestly)",
+       "tier": null,
+       "remediation": null
+      }
+     ],
+     "evaluated_at": "2026-10-08T02:55:57.920462Z",
+     "validator_version": "grna-1.0.0"
+    },
+    "flags": [
+     "reverse_strand",
+     "unknown:grna.position_in_cds",
+     "unknown:grna.self_targeting"
+    ],
+    "reasoning": [
+     "Spacer ACGTCAGTCAGACGTCCTTA with PAM AGG on the reverse strand at target positions 153 to 173, cut site at 156.",
+     "Rule Set 1 sgRNA on-target activity model: 30.9 out of 100. Predicted activity, not a measurement. Confirm at the bench before relying on it. Validity domain: SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+     "Features that drove the published score up: CC dinucleotide at spacer position 16 (+0.748); TC dinucleotide at spacer position 8 (+0.496); TC dinucleotide at spacer position 15 (+0.353)",
+     "Features that drove the published score down: T nucleotide at spacer position 19 (-0.877); G nucleotide at spacer position 14 (-0.678); AA dinucleotide at context positions 24 to 25 (spans a boundary) (-0.579); T nucleotide at spacer position 18 (-0.531); G nucleotide at spacer position 3 (-0.393)",
+     "Construct sequence-feature heuristic v1 (labeled heuristic, not a published score): 95.0 out of 100. spacer GC fraction +15.0 (GC fraction 0.50 is inside the configured window 0.40 to 0.70 (Appendix C)); homopolymer runs +10.0 (no homopolymer run longer than the configured maximum of 4 (Appendix C)); U6 terminator motif +10.0 (the spacer does not contain the U6 terminator motif TTTT (Appendix C)); internal self-complementarity +10.0 (longest internal self-complementary stem is 5 bp, under the configured reporting length of 7 bp (Construct convention)); PAM-proximal GC content +0.0 (2 of the 6 PAM-proximal bases are G or C, under the configured count of 4; no adjustment applied)",
+     "Ranked by: Rule Set 1 sgRNA on-target activity model.",
+     "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+     "MIT specificity score (mismatch-position-weighted): 100 out of 100 across the searched space. Predicted binding likelihood for sites inside the searched space only, not a measurement and not a statement about the genome.",
+     "No other site in the searched space matches next to a valid PAM.",
+     "UNKNOWN grna.position_in_cds: The cut site is at target position 156, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+     "UNKNOWN grna.self_targeting: No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell."
+    ],
+    "cloning": {
+     "vector_id": "px330",
+     "vector_name": "pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)",
+     "vector_source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)",
+     "digest_enzyme": "BbsI",
+     "protocol_reference": "https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf",
+     "oligos": [
+      {
+       "name": "rev_153_ACGTCAGTCAGACGTCCTTA_sense",
+       "sequence": "CACCGACGTCAGTCAGACGTCCTTA",
+       "role": "sense oligo, anneal with the antisense oligo and ligate into the digested vector",
+       "five_prime_overhang": "CACC",
+       "three_prime_addition": "",
+       "length_nt": 25,
+       "notes": [
+        "Efficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer."
+       ]
+      },
+      {
+       "name": "rev_153_ACGTCAGTCAGACGTCCTTA_antisense",
+       "sequence": "AAACTAAGGACGTCTGACTGACGTC",
+       "role": "antisense oligo, anneal with the sense oligo",
+       "five_prime_overhang": "AAAC",
+       "three_prime_addition": "",
+       "length_nt": 25,
+       "notes": [
+        "Efficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer."
+       ]
+      }
+     ],
+     "notes": [
+      "Digest pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230) with BbsI, then anneal and ligate the oligo pair above.",
+      "Overhang source: CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers).",
+      "Vector cloning protocol: https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf"
+     ]
+    }
+   }
+  ],
+  "off_target_space_statement": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.",
+  "rejected": [
+   {
+    "guide_id": "fwd_126_TCAGCATCAGGTACGTACGT",
+    "spacer": "TCAGCATCAGGTACGTACGT",
+    "pam": "AAG",
+    "strand": 1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "rev_123_TACGTACCTGATGCTGATGC",
+    "spacer": "TACGTACCTGATGCTGATGC",
+    "pam": "CAG",
+    "strand": -1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "rev_109_TGATGCCAGTCAGTCCTAGC",
+    "spacer": "TGATGCCAGTCAGTCCTAGC",
+    "pam": "TAG",
+    "strand": -1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "fwd_87_TCGGATCCTTAGGCATCAGC",
+    "spacer": "TCGGATCCTTAGGCATCAGC",
+    "pam": "TAG",
+    "strand": 1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "fwd_5_GCAATTTCGGCACTAGGTAC",
+    "spacer": "GCAATTTCGGCACTAGGTAC",
+    "pam": "CAG",
+    "strand": 1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "rev_154_TACGTCAGTCAGACGTCCTT",
+    "spacer": "TACGTCAGTCAGACGTCCTT",
+    "pam": "AAG",
+    "strand": -1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "fwd_134_AGGTACGTACGTAAGGCCTT",
+    "spacer": "AGGTACGTACGTAAGGCCTT",
+    "pam": "AAG",
+    "strand": 1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "rev_113_ATGCTGATGCCAGTCAGTCC",
+    "spacer": "ATGCTGATGCCAGTCAGTCC",
+    "pam": "TAG",
+    "strand": -1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "rev_97_GTCCTAGCTAGCTGATGCCT",
+    "spacer": "GTCCTAGCTAGCTGATGCCT",
+    "pam": "AAG",
+    "strand": -1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "fwd_76_CTGACTGACGATCGGATCCT",
+    "spacer": "CTGACTGACGATCGGATCCT",
+    "pam": "TAG",
+    "strand": 1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "rev_20_CCGGTTCGTAACCTGGTACC",
+    "spacer": "CCGGTTCGTAACCTGGTACC",
+    "pam": "TAG",
+    "strand": -1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "rev_50_ACGTCCGGTTAACCGGCCTT",
+    "spacer": "ACGTCCGGTTAACCGGCCTT",
+    "pam": "AAG",
+    "strand": -1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "fwd_22_TACCAGGTTACGAACCGGTT",
+    "spacer": "TACCAGGTTACGAACCGGTT",
+    "pam": "AAG",
+    "strand": 1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "fwd_91_ATCCTTAGGCATCAGCTAGC",
+    "spacer": "ATCCTTAGGCATCAGCTAGC",
+    "pam": "TAG",
+    "strand": 1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   },
+   {
+    "guide_id": "fwd_30_TACGAACCGGTTAAGGCCTT",
+    "spacer": "TACGAACCGGTTAAGGCCTT",
+    "pam": "AAG",
+    "strand": 1,
+    "reason": "ranked below the candidate pool, so the declared off-target space was not searched for it. This is not a statement that it is clean.",
+    "failing_checks": []
+   }
+  ],
+  "notes": [
+   "Both strands of the 198 nt target were scanned: 26 forward-strand and 19 reverse-strand guides were enumerated.",
+   "24 of the enumerated guides use an alternative PAM (NAG), which is tolerated at substantially reduced efficiency and is reported as a warning, never as a primary PAM.",
+   "The declared off-target space was searched for the top 30 guides by predicted activity. 15 lower-ranked guides were not searched, and they are listed as not searched rather than as clean. Raise the candidate pool size to search more of them.",
+   "Every returned guide carries a score from the published on-target model, and the ranking used that score. It is a prediction, not a measurement."
+  ],
+  "parameters_used": {
+   "spacer_gc_min": 0.4,
+   "spacer_gc_max": 0.7,
+   "max_homopolymer_run": 4,
+   "u6_terminator_motif": "TTTT",
+   "seed_region_nt": 12,
+   "off_target_max_mismatches": 4,
+   "off_target_fail_max_mismatches": 2,
+   "off_target_fail_max_seed_mismatches": 0,
+   "off_target_warn_max_mismatches": 4,
+   "off_target_max_search_bp": 5000000,
+   "max_self_complement_stem_nt": 7,
+   "min_hairpin_loop_nt": 3,
+   "knockout_cds_max_fraction": 0.6,
+   "heuristic_weights": {
+    "base": 50.0,
+    "gc_in_window": 15.0,
+    "gc_outside_window": -15.0,
+    "gc_per_extra_step": -5.0,
+    "gc_step": 0.05,
+    "gc_penalty_floor": -30.0,
+    "no_long_homopolymer": 10.0,
+    "per_long_homopolymer": -10.0,
+    "no_u6_terminator": 10.0,
+    "u6_terminator_present": -25.0,
+    "no_self_complement_stem": 10.0,
+    "self_complement_stem_present": -10.0,
+    "proximal_gc_adequate": 5.0,
+    "proximal_gc_window_nt": 6,
+    "proximal_gc_min_count": 4,
+    "alternative_pam": -20.0
+   },
+   "nuclease_geometry": {
+    "AsCas12a": {
+     "pam_motif": "TTTV",
+     "pam_side": "five_prime",
+     "spacer_length": 23,
+     "alternative_pams": [],
+     "blunt_cut_offset_from_pam": null,
+     "staggered_cut_offsets": [
+      18,
+      23
+     ]
+    },
+    "LbCas12a": {
+     "pam_motif": "TTTV",
+     "pam_side": "five_prime",
+     "spacer_length": 23,
+     "alternative_pams": [],
+     "blunt_cut_offset_from_pam": null,
+     "staggered_cut_offsets": [
+      18,
+      23
+     ]
+    },
+    "SaCas9": {
+     "pam_motif": "NNGRRT",
+     "pam_side": "three_prime",
+     "spacer_length": 21,
+     "alternative_pams": [],
+     "blunt_cut_offset_from_pam": 3,
+     "staggered_cut_offsets": null
+    },
+    "SpCas9": {
+     "pam_motif": "NGG",
+     "pam_side": "three_prime",
+     "spacer_length": 20,
+     "alternative_pams": [
+      "NAG"
+     ],
+     "blunt_cut_offset_from_pam": 3,
+     "staggered_cut_offsets": null
+    }
+   },
+   "cloning_enzyme_sites": {
+    "AarI": "CACCTGC",
+    "BbsI": "GAAGAC",
+    "BsaI": "GGTCTC",
+    "BsmBI": "CGTCTC",
+    "SapI": "GCTCTTC"
+   },
+   "validator_version": "grna-1.0.0",
+   "nuclease_applied": {
+    "nuclease": "SpCas9",
+    "pam_motif": "NGG",
+    "pam_position": "3' of spacer",
+    "spacer_length_nt": 20,
+    "alternative_pams": [
+     "NAG"
+    ],
+    "cut_description": "blunt cut 3 nt 5' of the PAM (CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; geometry read from the tool's source file crispor.py, retrieved 2026-10-07 from https://raw.githubusercontent.com/maximilianh/crisporWebsite/master/crispor.py)",
+    "citation": "Appendix C of the engine capability system design (nuclease and PAM reference)"
+   },
+   "candidate_pool_size": 30,
+   "max_guides_returned": 5,
+   "off_target_scope": "construct_only",
+   "expression_system": "u6_plasmid",
+   "host_context": "human_cell_line",
+   "edit_intent": "knockout"
+  },
+  "provenance": [
+   "user_input:target_sequence:API_TARGET",
+   "nuclease_geometry:Appendix C of the engine capability system design (nuclease and PAM reference)",
+   "cloning_vector:px330:pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)",
+   "cloning_vector_source:CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)",
+   "on_target_model:Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501, PMCID PMC4262738. Coefficients read 2026-10-07 from the reference implementation crisporEffScores.py (doenchParams, calcDoenchScores) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+   "on_target_fallback:No publication. This is a transparent heuristic composed of the section 8.5 sequence features with the stated weights in packages.validation.grna.constants.HeuristicWeights, permitted as a fallback by section 8.4 of the engine capability system design. One feature, PAM-proximal GC, has weak observational support: Observational heuristic surfaced by the CRISPOR tool as its proximal GC column: highest cleavage reported when the final 6 nt of the spacer contain at least 4 G or C, from a 39 guide experiment in one invertebrate species, so it is organism specific and weak. Source: CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; value read from the tool's source, retrieved 2026-10-07 from https://github.com/maximilianh/crisporWebsite",
+   "off_target_model:Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081, PMCID PMC3969858. Position weights and the three-term site score read 2026-10-07 from the reference implementation crispor.py (hitScoreM, calcHitScore, calcMitGuideScore) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939."
+  ]
+ },
+ "design_result": {
+  "capability": "guide_rna",
+  "design_id": "grna_a2050ace59e287a2",
+  "report": {
+   "capability": "guide_rna",
+   "overall": "pass",
+   "checks": [
+    {
+     "check_id": "grna.pam_valid",
+     "label": "PAM valid for the nuclease",
+     "severity": "pass",
+     "message": "The PAM CGG sits 3' of the spacer at target positions 88 to 91 and satisfies the SpCas9 motif NGG. No change needed.",
+     "coordinates": [
+      88,
+      91
+     ],
+     "observed": "CGG",
+     "threshold": "NGG 3' of the spacer, spacer 20 nt",
+     "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "grna.spacer_length",
+     "label": "Spacer length correct for the nuclease",
+     "severity": "pass",
+     "message": "The spacer is 20 nt, which is the SpCas9 spacer length. No change needed.",
+     "coordinates": null,
+     "observed": "20 nt",
+     "threshold": "20 nt",
+     "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "grna.gc_content",
+     "label": "Spacer GC fraction in window",
+     "severity": "pass",
+     "message": "Spacer GC fraction is 0.50, inside the configured window 0.40 to 0.70. No change needed.",
+     "coordinates": null,
+     "observed": "0.50",
+     "threshold": "0.40 to 0.70",
+     "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "grna.u6_terminator",
+     "label": "No U6 terminator motif in spacer",
+     "severity": "pass",
+     "message": "The spacer does not contain TTTT, so U6 transcription will not terminate inside the guide. No change needed.",
+     "coordinates": null,
+     "observed": "TTTT absent",
+     "threshold": "TTTT must not appear in the spacer",
+     "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "grna.homopolymer",
+     "label": "No long homopolymer run in spacer",
+     "severity": "pass",
+     "message": "The longest homopolymer run in the spacer is within the configured maximum of 4. No change needed.",
+     "coordinates": null,
+     "observed": "no run longer than 4",
+     "threshold": "at most 4 identical bases in a row",
+     "citation": "Appendix C of the engine capability system design (configurable feature windows)",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "grna.self_complementarity",
+     "label": "No disruptive internal self-complementarity",
+     "severity": "pass",
+     "message": "The longest internal self-complementary stem in the spacer is 3 bp, under the configured reporting length of 7 bp. No change needed.",
+     "coordinates": null,
+     "observed": "3 bp stem",
+     "threshold": "longest internal stem under 7 bp, with a loop of at least 3 nt (Construct convention, not a published value; see the docstring in constants.py)",
+     "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "grna.position_in_cds",
+     "label": "Cut site positioned for a knockout",
+     "severity": "unknown",
+     "message": "The cut site is at target position 85, but no cds_region was supplied, so whether it falls in an early constitutive region cannot be evaluated. Supply cds_region, and final_exon_region and constitutive_regions if known, to evaluate this check.",
+     "coordinates": [
+      85,
+      86
+     ],
+     "observed": "cut site at target position 85",
+     "threshold": "cut site inside the coding sequence, within the first 60% of it, outside the final exon, in a constitutive region (fraction is a Construct convention, not a published value; see the docstring in constants.py; the final exon and constitutive rules are Section 8.5 of the engine capability system design (sequence feature checks))",
+     "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "grna.self_targeting",
+     "label": "Guide does not target the delivery construct",
+     "severity": "unknown",
+     "message": "No delivery construct sequence was supplied, so whether this guide cuts its own delivery vector cannot be evaluated. Supply delivery_construct_sequence (and delivery_construct_name) to evaluate this check. A guide that cuts its own vector destroys the vector in the transfected cell.",
+     "coordinates": null,
+     "observed": null,
+     "threshold": "no NGG PAM adjacent to a copy of the spacer in the delivery construct, within 4 mismatches",
+     "citation": "Section 8.5 of the engine capability system design (sequence feature checks)",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "grna.restriction_in_spacer",
+     "label": "Spacer free of the cloning enzyme site",
+     "severity": "pass",
+     "message": "The spacer contains no BbsI site (GAAGAC) on either strand, so it survives the digest used to clone into pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230). No change needed.",
+     "coordinates": null,
+     "observed": "BbsI site absent",
+     "threshold": "BbsI site GAAGAC must not appear in the spacer, on either strand",
+     "citation": "Appendix D of the engine capability system design (Type IIS enzyme reference)",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "grna.off_target_hits",
+     "label": "Off-target sites in the searched space",
+     "severity": "pass",
+     "message": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search. No other site in it matches this spacer within 4 mismatches next to a valid PAM. No change needed inside this space. Sites outside it were not examined.",
+     "coordinates": null,
+     "observed": "0 off-target sites in 198 bp",
+     "threshold": "no site within 2 mismatches carrying at most 0 seed mismatch(es); searched to 4 mismatches; seed is positions 9 to 20 (the PAM-proximal 12 nt)",
+     "citation": "Section 8.6 of the engine capability system design (off-target search, scoped honestly)",
+     "tier": null,
+     "remediation": null
+    }
+   ],
+   "evaluated_at": "2026-10-08T02:55:57.914415Z",
+   "validator_version": "grna-1.0.0"
+  },
+  "artifacts": {
+   "guide_table.tsv": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.\nrank\tspacer_5_to_3\tpam\tstrand\ttarget_start\ttarget_end\tcut_site\ton_target_score\ton_target_model\ton_target_model_kind\toff_target_sites\toff_target_specificity\tflags\n1\tGTACGTAGCTGACTGACGAT\tCGG\t+\t68\t88\t85\t84.3\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\tunknown:grna.position_in_cds;unknown:grna.self_targeting\n2\tCTAGGTACCAGGTTACGAAC\tCGG\t+\t17\t37\t34\t68.1\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\tunknown:grna.position_in_cds;unknown:grna.self_targeting\n3\tACGTCTGACTGACGTACGTA\tCGG\t+\t158\t178\t175\t42.4\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\tunknown:grna.position_in_cds;unknown:grna.self_targeting\n4\tGCTACGTACGTCCGGTTAAC\tCGG\t-\t57\t77\t60\t34.9\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\treverse_strand;unknown:grna.position_in_cds;unknown:grna.self_targeting\n5\tACGTCAGTCAGACGTCCTTA\tAGG\t-\t153\t173\t156\t30.9\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\treverse_strand;unknown:grna.position_in_cds;unknown:grna.self_targeting",
+   "oligo_order_table.tsv": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.\nrank\tguide_id\toligo_name\tsequence_5_to_3\tlength_nt\trole\tvector\tnotes\n1\tfwd_68_GTACGTAGCTGACTGACGAT\tfwd_68_GTACGTAGCTGACTGACGAT_sense\tCACCGTACGTAGCTGACTGACGAT\t24\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\t\n1\tfwd_68_GTACGTAGCTGACTGACGAT\tfwd_68_GTACGTAGCTGACTGACGAT_antisense\tAAACATCGTCAGTCAGCTACGTAC\t24\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\t\n2\tfwd_17_CTAGGTACCAGGTTACGAAC\tfwd_17_CTAGGTACCAGGTTACGAAC_sense\tCACCGCTAGGTACCAGGTTACGAAC\t25\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n2\tfwd_17_CTAGGTACCAGGTTACGAAC\tfwd_17_CTAGGTACCAGGTTACGAAC_antisense\tAAACGTTCGTAACCTGGTACCTAGC\t25\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n3\tfwd_158_ACGTCTGACTGACGTACGTA\tfwd_158_ACGTCTGACTGACGTACGTA_sense\tCACCGACGTCTGACTGACGTACGTA\t25\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n3\tfwd_158_ACGTCTGACTGACGTACGTA\tfwd_158_ACGTCTGACTGACGTACGTA_antisense\tAAACTACGTACGTCAGTCAGACGTC\t25\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n4\trev_57_GCTACGTACGTCCGGTTAAC\trev_57_GCTACGTACGTCCGGTTAAC_sense\tCACCGCTACGTACGTCCGGTTAAC\t24\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\t\n4\trev_57_GCTACGTACGTCCGGTTAAC\trev_57_GCTACGTACGTCCGGTTAAC_antisense\tAAACGTTAACCGGACGTACGTAGC\t24\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\t\n5\trev_153_ACGTCAGTCAGACGTCCTTA\trev_153_ACGTCAGTCAGACGTCCTTA_sense\tCACCGACGTCAGTCAGACGTCCTTA\t25\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n5\trev_153_ACGTCAGTCAGACGTCCTTA\trev_153_ACGTCAGTCAGACGTCCTTA_antisense\tAAACTAAGGACGTCTGACTGACGTC\t25\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.",
+   "off_target_space.txt": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search."
+  },
+  "provenance": [
+   "user_input:target_sequence:API_TARGET",
+   "nuclease_geometry:Appendix C of the engine capability system design (nuclease and PAM reference)",
+   "cloning_vector:px330:pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)",
+   "cloning_vector_source:CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)",
+   "on_target_model:Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501, PMCID PMC4262738. Coefficients read 2026-10-07 from the reference implementation crisporEffScores.py (doenchParams, calcDoenchScores) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+   "on_target_fallback:No publication. This is a transparent heuristic composed of the section 8.5 sequence features with the stated weights in packages.validation.grna.constants.HeuristicWeights, permitted as a fallback by section 8.4 of the engine capability system design. One feature, PAM-proximal GC, has weak observational support: Observational heuristic surfaced by the CRISPOR tool as its proximal GC column: highest cleavage reported when the final 6 nt of the spacer contain at least 4 G or C, from a 39 guide experiment in one invertebrate species, so it is organism specific and weak. Source: CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; value read from the tool's source, retrieved 2026-10-07 from https://github.com/maximilianh/crisporWebsite",
+   "off_target_model:Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081, PMCID PMC3969858. Position weights and the three-term site score read 2026-10-07 from the reference implementation crispor.py (hitScoreM, calcHitScore, calcMitGuideScore) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939."
+  ],
+  "parameters_used": {
+   "spacer_gc_min": 0.4,
+   "spacer_gc_max": 0.7,
+   "max_homopolymer_run": 4,
+   "u6_terminator_motif": "TTTT",
+   "seed_region_nt": 12,
+   "off_target_max_mismatches": 4,
+   "off_target_fail_max_mismatches": 2,
+   "off_target_fail_max_seed_mismatches": 0,
+   "off_target_warn_max_mismatches": 4,
+   "off_target_max_search_bp": 5000000,
+   "max_self_complement_stem_nt": 7,
+   "min_hairpin_loop_nt": 3,
+   "knockout_cds_max_fraction": 0.6,
+   "heuristic_weights": {
+    "base": 50.0,
+    "gc_in_window": 15.0,
+    "gc_outside_window": -15.0,
+    "gc_per_extra_step": -5.0,
+    "gc_step": 0.05,
+    "gc_penalty_floor": -30.0,
+    "no_long_homopolymer": 10.0,
+    "per_long_homopolymer": -10.0,
+    "no_u6_terminator": 10.0,
+    "u6_terminator_present": -25.0,
+    "no_self_complement_stem": 10.0,
+    "self_complement_stem_present": -10.0,
+    "proximal_gc_adequate": 5.0,
+    "proximal_gc_window_nt": 6,
+    "proximal_gc_min_count": 4,
+    "alternative_pam": -20.0
+   },
+   "nuclease_geometry": {
+    "AsCas12a": {
+     "pam_motif": "TTTV",
+     "pam_side": "five_prime",
+     "spacer_length": 23,
+     "alternative_pams": [],
+     "blunt_cut_offset_from_pam": null,
+     "staggered_cut_offsets": [
+      18,
+      23
+     ]
+    },
+    "LbCas12a": {
+     "pam_motif": "TTTV",
+     "pam_side": "five_prime",
+     "spacer_length": 23,
+     "alternative_pams": [],
+     "blunt_cut_offset_from_pam": null,
+     "staggered_cut_offsets": [
+      18,
+      23
+     ]
+    },
+    "SaCas9": {
+     "pam_motif": "NNGRRT",
+     "pam_side": "three_prime",
+     "spacer_length": 21,
+     "alternative_pams": [],
+     "blunt_cut_offset_from_pam": 3,
+     "staggered_cut_offsets": null
+    },
+    "SpCas9": {
+     "pam_motif": "NGG",
+     "pam_side": "three_prime",
+     "spacer_length": 20,
+     "alternative_pams": [
+      "NAG"
+     ],
+     "blunt_cut_offset_from_pam": 3,
+     "staggered_cut_offsets": null
+    }
+   },
+   "cloning_enzyme_sites": {
+    "AarI": "CACCTGC",
+    "BbsI": "GAAGAC",
+    "BsaI": "GGTCTC",
+    "BsmBI": "CGTCTC",
+    "SapI": "GCTCTTC"
+   },
+   "validator_version": "grna-1.0.0",
+   "nuclease_applied": {
+    "nuclease": "SpCas9",
+    "pam_motif": "NGG",
+    "pam_position": "3' of spacer",
+    "spacer_length_nt": 20,
+    "alternative_pams": [
+     "NAG"
+    ],
+    "cut_description": "blunt cut 3 nt 5' of the PAM (CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; geometry read from the tool's source file crispor.py, retrieved 2026-10-07 from https://raw.githubusercontent.com/maximilianh/crisporWebsite/master/crispor.py)",
+    "citation": "Appendix C of the engine capability system design (nuclease and PAM reference)"
+   },
+   "candidate_pool_size": 30,
+   "max_guides_returned": 5,
+   "off_target_scope": "construct_only",
+   "expression_system": "u6_plasmid",
+   "host_context": "human_cell_line",
+   "edit_intent": "knockout"
+  }
+ },
+ "exports": {
+  "guide_table.tsv": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.\nrank\tspacer_5_to_3\tpam\tstrand\ttarget_start\ttarget_end\tcut_site\ton_target_score\ton_target_model\ton_target_model_kind\toff_target_sites\toff_target_specificity\tflags\n1\tGTACGTAGCTGACTGACGAT\tCGG\t+\t68\t88\t85\t84.3\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\tunknown:grna.position_in_cds;unknown:grna.self_targeting\n2\tCTAGGTACCAGGTTACGAAC\tCGG\t+\t17\t37\t34\t68.1\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\tunknown:grna.position_in_cds;unknown:grna.self_targeting\n3\tACGTCTGACTGACGTACGTA\tCGG\t+\t158\t178\t175\t42.4\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\tunknown:grna.position_in_cds;unknown:grna.self_targeting\n4\tGCTACGTACGTCCGGTTAAC\tCGG\t-\t57\t77\t60\t34.9\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\treverse_strand;unknown:grna.position_in_cds;unknown:grna.self_targeting\n5\tACGTCAGTCAGACGTCCTTA\tAGG\t-\t153\t173\t156\t30.9\tRule Set 1 sgRNA on-target activity model\tpublished_model\t0\t100\treverse_strand;unknown:grna.position_in_cds;unknown:grna.self_targeting\n",
+  "oligo_order_table.tsv": "Off-target search covered the target sequence only, 198 bp in total across 1 sequence. No delivery construct sequence was supplied, so self-targeting of the delivery construct was not searched. This is not a genome-wide search.\nrank\tguide_id\toligo_name\tsequence_5_to_3\tlength_nt\trole\tvector\tnotes\n1\tfwd_68_GTACGTAGCTGACTGACGAT\tfwd_68_GTACGTAGCTGACTGACGAT_sense\tCACCGTACGTAGCTGACTGACGAT\t24\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\t\n1\tfwd_68_GTACGTAGCTGACTGACGAT\tfwd_68_GTACGTAGCTGACTGACGAT_antisense\tAAACATCGTCAGTCAGCTACGTAC\t24\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\t\n2\tfwd_17_CTAGGTACCAGGTTACGAAC\tfwd_17_CTAGGTACCAGGTTACGAAC_sense\tCACCGCTAGGTACCAGGTTACGAAC\t25\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n2\tfwd_17_CTAGGTACCAGGTTACGAAC\tfwd_17_CTAGGTACCAGGTTACGAAC_antisense\tAAACGTTCGTAACCTGGTACCTAGC\t25\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n3\tfwd_158_ACGTCTGACTGACGTACGTA\tfwd_158_ACGTCTGACTGACGTACGTA_sense\tCACCGACGTCTGACTGACGTACGTA\t25\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n3\tfwd_158_ACGTCTGACTGACGTACGTA\tfwd_158_ACGTCTGACTGACGTACGTA_antisense\tAAACTACGTACGTCAGTCAGACGTC\t25\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n4\trev_57_GCTACGTACGTCCGGTTAAC\trev_57_GCTACGTACGTCCGGTTAAC_sense\tCACCGCTACGTACGTCCGGTTAAC\t24\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\t\n4\trev_57_GCTACGTACGTCCGGTTAAC\trev_57_GCTACGTACGTCCGGTTAAC_antisense\tAAACGTTAACCGGACGTACGTAGC\t24\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\t\n5\trev_153_ACGTCAGTCAGACGTCCTTA\trev_153_ACGTCAGTCAGACGTCCTTA_sense\tCACCGACGTCAGTCAGACGTCCTTA\t25\tsense oligo, anneal with the antisense oligo and ligate into the digested vector\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n5\trev_153_ACGTCAGTCAGACGTCCTTA\trev_153_ACGTCAGTCAGACGTCCTTA_antisense\tAAACTAAGGACGTCTGACTGACGTC\t25\tantisense oligo, anneal with the sense oligo\tpX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives (Addgene 42230)\tEfficient transcription from the human U6 promoter needs the transcript to begin with G, and this spacer does not, so a G is prepended here and a matching C is appended to the antisense oligo. The expressed guide is therefore one nucleotide longer than the spacer.\n"
+ }
+}

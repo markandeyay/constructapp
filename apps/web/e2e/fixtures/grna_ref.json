@@ -1,0 +1,230 @@
+{
+ "validator_version": "grna-1.0.0",
+ "nucleases": [
+  {
+   "nuclease": "AsCas12a",
+   "pam_motif": "TTTV",
+   "pam_position": "5' of spacer",
+   "spacer_length_nt": 23,
+   "alternative_pams": [],
+   "cut_description": "staggered cut after spacer position 18 on the PAM-carrying strand and after spacer position 23 on the targeted strand (Cell 2015;163(3):759-771, doi:10.1016/j.cell.2015.09.038, PMID 26422227, as summarised in CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; geometry read from the tool's source file crispor.py, retrieved 2026-10-07 from https://raw.githubusercontent.com/maximilianh/crisporWebsite/master/crispor.py)",
+   "citation": "Appendix C of the engine capability system design (nuclease and PAM reference)"
+  },
+  {
+   "nuclease": "LbCas12a",
+   "pam_motif": "TTTV",
+   "pam_position": "5' of spacer",
+   "spacer_length_nt": 23,
+   "alternative_pams": [],
+   "cut_description": "staggered cut after spacer position 18 on the PAM-carrying strand and after spacer position 23 on the targeted strand (Cell 2015;163(3):759-771, doi:10.1016/j.cell.2015.09.038, PMID 26422227, as summarised in CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; geometry read from the tool's source file crispor.py, retrieved 2026-10-07 from https://raw.githubusercontent.com/maximilianh/crisporWebsite/master/crispor.py)",
+   "citation": "Appendix C of the engine capability system design (nuclease and PAM reference)"
+  },
+  {
+   "nuclease": "SaCas9",
+   "pam_motif": "NNGRRT",
+   "pam_position": "3' of spacer",
+   "spacer_length_nt": 21,
+   "alternative_pams": [],
+   "cut_description": "blunt cut 3 nt 5' of the PAM (Nature 2015;520(7546):186-191, doi:10.1038/nature14299, PMID 25830891 (SaCas9 cleavage pattern reported as identical to SpCas9), with the offset read from CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; geometry read from the tool's source file crispor.py, retrieved 2026-10-07 from https://raw.githubusercontent.com/maximilianh/crisporWebsite/master/crispor.py)",
+   "citation": "Appendix C of the engine capability system design (nuclease and PAM reference)"
+  },
+  {
+   "nuclease": "SpCas9",
+   "pam_motif": "NGG",
+   "pam_position": "3' of spacer",
+   "spacer_length_nt": 20,
+   "alternative_pams": [
+    "NAG"
+   ],
+   "cut_description": "blunt cut 3 nt 5' of the PAM (CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; geometry read from the tool's source file crispor.py, retrieved 2026-10-07 from https://raw.githubusercontent.com/maximilianh/crisporWebsite/master/crispor.py)",
+   "citation": "Appendix C of the engine capability system design (nuclease and PAM reference)"
+  }
+ ],
+ "thresholds": {
+  "spacer_gc_min": 0.4,
+  "spacer_gc_max": 0.7,
+  "max_homopolymer_run": 4,
+  "u6_terminator_motif": "TTTT",
+  "seed_region_nt": 12,
+  "off_target_max_mismatches": 4,
+  "off_target_fail_max_mismatches": 2,
+  "off_target_fail_max_seed_mismatches": 0,
+  "off_target_warn_max_mismatches": 4,
+  "off_target_max_search_bp": 5000000,
+  "max_self_complement_stem_nt": 7,
+  "min_hairpin_loop_nt": 3,
+  "knockout_cds_max_fraction": 0.6,
+  "heuristic_weights": {
+   "base": 50.0,
+   "gc_in_window": 15.0,
+   "gc_outside_window": -15.0,
+   "gc_per_extra_step": -5.0,
+   "gc_step": 0.05,
+   "gc_penalty_floor": -30.0,
+   "no_long_homopolymer": 10.0,
+   "per_long_homopolymer": -10.0,
+   "no_u6_terminator": 10.0,
+   "u6_terminator_present": -25.0,
+   "no_self_complement_stem": 10.0,
+   "self_complement_stem_present": -10.0,
+   "proximal_gc_adequate": 5.0,
+   "proximal_gc_window_nt": 6,
+   "proximal_gc_min_count": 4,
+   "alternative_pam": -20.0
+  }
+ },
+ "cloning_vectors": [
+  {
+   "vector_id": "lenticrispr_v2",
+   "name": "lentiCRISPR v2",
+   "accession": "Addgene 52961",
+   "nucleases": [
+    "SpCas9"
+   ],
+   "digest_enzyme": "BsmBI",
+   "forward_overhang": "CACC",
+   "reverse_overhang": "AAAC",
+   "suffix": "",
+   "protocol_reference": "https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf",
+   "source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)"
+  },
+  {
+   "vector_id": "lentiguide_puro",
+   "name": "lentiGuide-Puro",
+   "accession": "Addgene 52963",
+   "nucleases": [
+    "SpCas9"
+   ],
+   "digest_enzyme": "BsmBI",
+   "forward_overhang": "CACC",
+   "reverse_overhang": "AAAC",
+   "suffix": "",
+   "protocol_reference": "https://www.addgene.org/static/data/plasmids/52/52963/52963-attachment_IPB7ZL_hJcbm.pdf",
+   "source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)"
+  },
+  {
+   "vector_id": "mlm3636",
+   "name": "MLM3636",
+   "accession": "Addgene 43860",
+   "nucleases": [
+    "SpCas9"
+   ],
+   "digest_enzyme": "BsmBI",
+   "forward_overhang": "ACACC",
+   "reverse_overhang": "AAAAC",
+   "suffix": "G",
+   "protocol_reference": "https://www.addgene.org/static/data/plasmids/43/43860/43860-attachment_T35tt6ebKxov.pdf",
+   "source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)"
+  },
+  {
+   "vector_id": "pu6_as_crrna",
+   "name": "pU6-As-crRNA",
+   "accession": "Addgene 78956",
+   "nucleases": [
+    "AsCas12a"
+   ],
+   "digest_enzyme": null,
+   "forward_overhang": "AGAT",
+   "reverse_overhang": "AAAA",
+   "suffix": "",
+   "protocol_reference": "https://www.addgene.org/78956/",
+   "source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)"
+  },
+  {
+   "vector_id": "pu6_lb_crrna",
+   "name": "pU6-Lb-crRNA",
+   "accession": "Addgene 78957",
+   "nucleases": [
+    "LbCas12a"
+   ],
+   "digest_enzyme": null,
+   "forward_overhang": "AGAT",
+   "reverse_overhang": "AAAA",
+   "suffix": "",
+   "protocol_reference": "https://www.addgene.org/78957/",
+   "source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)"
+  },
+  {
+   "vector_id": "px330",
+   "name": "pX330-U6-Chimeric_BB-CBh-hSpCas9 and derivatives",
+   "accession": "Addgene 42230",
+   "nucleases": [
+    "SpCas9"
+   ],
+   "digest_enzyme": "BbsI",
+   "forward_overhang": "CACC",
+   "reverse_overhang": "AAAC",
+   "suffix": "",
+   "protocol_reference": "https://www.addgene.org/static/data/plasmids/52/52961/52961-attachment_B3xTwla0bkYD.pdf",
+   "source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)"
+  },
+  {
+   "vector_id": "px601",
+   "name": "pX601-AAV-CMV::NLS-SaCas9-NLS-3xHA-bGHpA;U6::BsaI-sgRNA",
+   "accession": "Addgene 61591",
+   "nucleases": [
+    "SaCas9"
+   ],
+   "digest_enzyme": "BsaI",
+   "forward_overhang": "CACC",
+   "reverse_overhang": "AAAC",
+   "suffix": "",
+   "protocol_reference": "https://www.addgene.org/static/data/plasmids/61/61591/61591-attachment_it03kn5x5O6E.pdf",
+   "source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)"
+  },
+  {
+   "vector_id": "vvt1",
+   "name": "VVT1",
+   "accession": "Addgene 65779",
+   "nucleases": [
+    "SaCas9"
+   ],
+   "digest_enzyme": "BsmBI",
+   "forward_overhang": "CACC",
+   "reverse_overhang": "AAAC",
+   "suffix": "",
+   "protocol_reference": "https://www.addgene.org/static/data/plasmids/65/65779/65779-attachment_G8oNyvV6pA78.pdf",
+   "source": "CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; overhangs read 2026-10-07 from its source file crispor.py (addGenePlasmidInfo, makeHelperPrimers)"
+  }
+ ],
+ "scores": [
+  {
+   "name": "Rule Set 1 sgRNA on-target activity model",
+   "kind": "published_model",
+   "role": "on-target activity",
+   "citation": "Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501, PMCID PMC4262738. Coefficients read 2026-10-07 from the reference implementation crisporEffScores.py (doenchParams, calcDoenchScores) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+   "validity_domain": "SpCas9, NGG PAM, 20 nt spacer, 30 nt context required (4 nt 5' flank, 20 nt spacer, 3 nt PAM, 3 nt 3' flank). Trained on 1,841 sgRNAs tiling six endogenous mouse and three endogenous human genes, expressed from a lentiviral construct in mammalian cell lines, with activity read out as null allele production by antibody staining and flow cytometry. Not applicable to SaCas9 or Cas12a, to in-vitro-transcribed guides, to non-mammalian or cell-free systems, or to transcriptional activation or interference.",
+   "wording": "a prediction from a published model, not a measurement"
+  },
+  {
+   "name": "Construct sequence-feature heuristic v1 (labeled heuristic, not a published score)",
+   "kind": "labeled_heuristic",
+   "role": "on-target fallback ranking outside the published model's domain",
+   "citation": "No publication. This is a transparent heuristic composed of the section 8.5 sequence features with the stated weights in packages.validation.grna.constants.HeuristicWeights, permitted as a fallback by section 8.4 of the engine capability system design. One feature, PAM-proximal GC, has weak observational support: Observational heuristic surfaced by the CRISPOR tool as its proximal GC column: highest cleavage reported when the final 6 nt of the spacer contain at least 4 G or C, from a 39 guide experiment in one invertebrate species, so it is organism specific and weak. Source: CRISPOR guide RNA selection tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939; value read from the tool's source, retrieved 2026-10-07 from https://github.com/maximilianh/crisporWebsite",
+   "validity_domain": "Any nuclease and any expression system, because it makes no claim beyond the sequence features it combines. It is not calibrated against measured activity for any system and its numeric value is not comparable to a published score.",
+   "wording": "a labeled heuristic, not a published score and not a measurement"
+  },
+  {
+   "name": "MIT specificity score (mismatch-position-weighted)",
+   "kind": "published_model",
+   "role": "off-target site and guide specificity",
+   "citation": "Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081, PMCID PMC3969858. Position weights and the three-term site score read 2026-10-07 from the reference implementation crispor.py (hitScoreM, calcHitScore, calcMitGuideScore) of the CRISPOR tool, Genome Biol 2016;17(1):148, doi:10.1186/s13059-016-1012-2, PMID 27380939.",
+   "validity_domain": "SpCas9 with a 20 nt spacer. Derived from SpCas9 mismatch tolerance data. Not applicable to SaCas9 or to Cas12a: the reference implementation states that this model and the related CFD model were developed for SpCas9 and that there is not enough data to support their use for Cas12a, and it scores SaCas9 with a separate published model.",
+   "wording": "a prediction for sites inside the declared search space only; the search is not genome-wide"
+  }
+ ],
+ "off_target_scopes": [
+  {
+   "scope": "construct_only",
+   "covers": "the delivery construct and the target sequence"
+  },
+  {
+   "scope": "supplied_fasta",
+   "covers": "the delivery construct, the target sequence and a sequence set the user supplies"
+  },
+  {
+   "scope": "none",
+   "covers": "nothing; the off-target risk of the guide is reported as unknown"
+  }
+ ]
+}

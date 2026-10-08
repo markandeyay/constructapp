@@ -1,0 +1,526 @@
+{
+ "design_id": "assembly-64602da3e02adee7",
+ "design": {
+  "request": {
+   "strategy": "gibson",
+   "fragments": [
+    {
+     "name": "frag_a",
+     "sequence": "CGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCTGAGCAAGAG",
+     "role": "insert",
+     "source": "GenBank KU341333.1, CBh promoter feature 442..1240, offset 532, 180 bp",
+     "coding_regions": [],
+     "is_circular": false
+    },
+    {
+     "name": "frag_b",
+     "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAGAC",
+     "role": "insert",
+     "source": "GenBank AF396260.1, CMV promoter feature 150..812, offset 462, 180 bp",
+     "coding_regions": [],
+     "is_circular": false
+    }
+   ],
+   "vector_backbone": null,
+   "enzyme": null,
+   "target_tm_c": 60.0,
+   "primer_conc_nm": 500.0,
+   "monovalent_salt_mm": 50.0,
+   "divalent_salt_mm": 1.5,
+   "dntp_mm": 0.2,
+   "overhang_standard": null,
+   "host_codon_usage": null,
+   "thresholds": null,
+   "hairpin_engine": "auto"
+  },
+  "primers": [
+   {
+    "name": "frag_a_F",
+    "fragment": "frag_a",
+    "direction": "forward",
+    "tail": "TTTTGACCTCCATAGAAGAC",
+    "binding": "CGGCCCTATAAAAAGCGAA",
+    "binding_start": 0,
+    "binding_end": 19,
+    "notes": []
+   },
+   {
+    "name": "frag_a_R",
+    "fragment": "frag_a",
+    "direction": "reverse",
+    "tail": "",
+    "binding": "CTCTTGCTCAGCTAATTACAGC",
+    "binding_start": 158,
+    "binding_end": 180,
+    "notes": []
+   },
+   {
+    "name": "frag_b_F",
+    "fragment": "frag_b",
+    "direction": "forward",
+    "tail": "TGTAATTAGCTGAGCAAGAG",
+    "binding": "GGGAGTTTGTTTTGCACCA",
+    "binding_start": 0,
+    "binding_end": 19,
+    "notes": []
+   },
+   {
+    "name": "frag_b_R",
+    "fragment": "frag_b",
+    "direction": "reverse",
+    "tail": "",
+    "binding": "GTCTTCTATGGAGGTCAAAACAG",
+    "binding_start": 157,
+    "binding_end": 180,
+    "notes": []
+   }
+  ],
+  "junctions": [
+   {
+    "index": 0,
+    "left_fragment": "frag_b",
+    "right_fragment": "frag_a",
+    "kind": "gibson_homology",
+    "sequence": "TTTTGACCTCCATAGAAGAC",
+    "overhang_source": null,
+    "overhang_standard_name": null
+   },
+   {
+    "index": 1,
+    "left_fragment": "frag_a",
+    "right_fragment": "frag_b",
+    "kind": "gibson_homology",
+    "sequence": "TGTAATTAGCTGAGCAAGAG",
+    "overhang_source": null,
+    "overhang_standard_name": null
+   }
+  ],
+  "amplicons": [
+   {
+    "name": "frag_a_amplicon",
+    "fragment": "frag_a",
+    "forward_primer": "frag_a_F",
+    "reverse_primer": "frag_a_R",
+    "length_bp": 200
+   },
+   {
+    "name": "frag_b_amplicon",
+    "fragment": "frag_b",
+    "forward_primer": "frag_b_F",
+    "reverse_primer": "frag_b_R",
+    "length_bp": 200
+   }
+  ],
+  "fragment_order": [
+   "frag_a",
+   "frag_b"
+  ],
+  "domestication": null,
+  "provenance": [
+   "strategy:gibson",
+   "fragment:frag_a:GenBank KU341333.1, CBh promoter feature 442..1240, offset 532, 180 bp",
+   "fragment:frag_b:GenBank AF396260.1, CMV promoter feature 150..812, offset 462, 180 bp",
+   "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
+  ],
+  "composed": true
+ },
+ "outputs": {
+  "order_table": [
+   {
+    "name": "frag_a_F",
+    "sequence_5_to_3": "TTTTGACCTCCATAGAAGACCGGCCCTATAAAAAGCGAA",
+    "length_nt": 39,
+    "tm_c": 59.7,
+    "gc_percent": 47.4,
+    "notes": "5' tail of 20 nt (TTTTGACCTCCATAGAAGAC) is added sequence and does not bind the template; the Tm shown is for the 19 nt binding region"
+   },
+   {
+    "name": "frag_a_R",
+    "sequence_5_to_3": "CTCTTGCTCAGCTAATTACAGC",
+    "length_nt": 22,
+    "tm_c": 60.8,
+    "gc_percent": 45.5,
+    "notes": ""
+   },
+   {
+    "name": "frag_b_F",
+    "sequence_5_to_3": "TGTAATTAGCTGAGCAAGAGGGGAGTTTGTTTTGCACCA",
+    "length_nt": 39,
+    "tm_c": 60.6,
+    "gc_percent": 47.4,
+    "notes": "5' tail of 20 nt (TGTAATTAGCTGAGCAAGAG) is added sequence and does not bind the template; the Tm shown is for the 19 nt binding region"
+   },
+   {
+    "name": "frag_b_R",
+    "sequence_5_to_3": "GTCTTCTATGGAGGTCAAAACAG",
+    "length_nt": 23,
+    "tm_c": 60.4,
+    "gc_percent": 43.5,
+    "notes": ""
+   }
+  ],
+  "order_table_csv": "Primer name,Sequence (5' to 3'),Length (nt),Tm (C),GC (%),Notes\nfrag_a_F,TTTTGACCTCCATAGAAGACCGGCCCTATAAAAAGCGAA,39,59.7,47.4,5' tail of 20 nt (TTTTGACCTCCATAGAAGAC) is added sequence and does not bind the template; the Tm shown is for the 19 nt binding region\nfrag_a_R,CTCTTGCTCAGCTAATTACAGC,22,60.8,45.5,\nfrag_b_F,TGTAATTAGCTGAGCAAGAGGGGAGTTTGTTTTGCACCA,39,60.6,47.4,5' tail of 20 nt (TGTAATTAGCTGAGCAAGAG) is added sequence and does not bind the template; the Tm shown is for the 19 nt binding region\nfrag_b_R,GTCTTCTATGGAGGTCAAAACAG,23,60.4,43.5,",
+  "protocol": {
+   "strategy": "gibson",
+   "reaction_composition": [
+    "PCR, per 25 uL reaction: 12.5 uL 2X high-fidelity master mix, 1.25 uL each primer at 10 uM (500 nM final, matching the primer_conc_nm the Tm values were computed at), 1 to 10 ng template, water to 25 uL.",
+    "Confirm the master mix lot insert before use: the conditions below are the vendor's published defaults, not a measurement from this build.",
+    "Assembly, per 20 uL reaction: 10 uL NEBuilder HiFi 2X master mix, 0.03 to 0.2 pmol of each purified fragment, water to 20 uL. Use equimolar fragments and keep the total insert DNA under 1 pmol."
+   ],
+   "annealing_temperature_c": 54.7,
+   "annealing_rule": "Lowest primer binding-region Tm in the set is 59.7 C (nearest-neighbor, SantaLucia 1998 unified parameters, at 500 nM primer and 50 mM monovalent salt). Annealing temperature is that minus the configured 5.0 C offset, giving 54.7 C. A high-fidelity polymerase often tolerates a higher annealing temperature than this conservative rule gives; raise it if the vendor's own calculator says so.",
+   "pcr_program": [
+    {
+     "label": "Initial denaturation",
+     "temperature_c": 98.0,
+     "seconds": 30,
+     "cycles": 1
+    },
+    {
+     "label": "Denature",
+     "temperature_c": 98.0,
+     "seconds": 10,
+     "cycles": 30
+    },
+    {
+     "label": "Anneal, derived from the computed Tm",
+     "temperature_c": 54.7,
+     "seconds": 20,
+     "cycles": 30
+    },
+    {
+     "label": "Extend, 30 s per kb for a 200 bp longest amplicon",
+     "temperature_c": 72.0,
+     "seconds": 6,
+     "cycles": 30
+    },
+    {
+     "label": "Final extension",
+     "temperature_c": 72.0,
+     "seconds": 120,
+     "cycles": 1
+    }
+   ],
+   "assembly_program": [
+    {
+     "label": "NEBuilder HiFi assembly incubation, 2 fragments",
+     "temperature_c": 50.0,
+     "seconds": 900,
+     "cycles": 1
+    }
+   ],
+   "expected_outcome": "Each PCR gives one band: frag_a_amplicon at 200 bp, frag_b_amplicon at 200 bp. The assembled construct is approximately 360 bp, being the 2 fragments joined in the order frag_a to frag_b. Transform the assembly reaction directly and screen colonies by PCR across each junction, then sequence the junctions.",
+   "sources": [
+    "PCR cycling: NEB Q5 High-Fidelity DNA Polymerase standard protocol.",
+    "Annealing temperature: derived from the nearest-neighbor Tm of the primer binding regions (SantaLucia 1998 unified parameters, Appendix A), not assumed.",
+    "Assembly incubation: NEBuilder HiFi DNA Assembly protocol, 50 C for 15 minutes for two or three fragments and 60 minutes for four to six.",
+    "Method: Gibson et al. 2009, Nat Methods 6:343-345."
+   ]
+  },
+  "junction_map": [
+   {
+    "index": 0,
+    "left_fragment": "frag_b",
+    "right_fragment": "frag_a",
+    "label": "20 bp homology arm",
+    "sequence": "TTTTGACCTCCATAGAAGAC",
+    "length_bp": 20,
+    "detail": "The frag_a forward primer carries the last 20 bp of frag_b as a 5' tail (TTTTGACCTCCATAGAAGAC), so the two amplicons share that sequence and anneal after exonuclease chew-back. Overlap Tm 56.1 C."
+   },
+   {
+    "index": 1,
+    "left_fragment": "frag_a",
+    "right_fragment": "frag_b",
+    "label": "20 bp homology arm",
+    "sequence": "TGTAATTAGCTGAGCAAGAG",
+    "length_bp": 20,
+    "detail": "The frag_b forward primer carries the last 20 bp of frag_a as a 5' tail (TGTAATTAGCTGAGCAAGAG), so the two amplicons share that sequence and anneal after exonuclease chew-back. Overlap Tm 56.6 C."
+   }
+  ],
+  "junction_map_text": "Assembly order: frag_a to frag_b (circular)\n\n  [frag_b] --20 bp homology arm-- [frag_a]\n      The frag_a forward primer carries the last 20 bp of frag_b as a 5' tail (TTTTGACCTCCATAGAAGAC), so the two amplicons share that sequence and anneal after exonuclease chew-back. Overlap Tm 56.1 C.\n\n  [frag_a] --20 bp homology arm-- [frag_b]\n      The frag_b forward primer carries the last 20 bp of frag_a as a 5' tail (TGTAATTAGCTGAGCAAGAG), so the two amplicons share that sequence and anneal after exonuclease chew-back. Overlap Tm 56.6 C.",
+  "domestication": null,
+  "report": {
+   "capability": "assembly",
+   "overall": "pass",
+   "checks": [
+    {
+     "check_id": "primer.tm_in_range",
+     "label": "Primer melting temperature in range",
+     "severity": "pass",
+     "message": "Every primer melts within 3.0 C of the 60.0 C target (frag_a_F 59.7 C; frag_a_R 60.8 C; frag_b_F 60.6 C; frag_b_R 60.4 C). No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_F 59.7 C; frag_a_R 60.8 C; frag_b_F 60.6 C; frag_b_R 60.4 C",
+     "threshold": "target 60.0 C, warn outside 57.0 to 63.0 C, fail beyond 10.0 C",
+     "citation": "Nearest-neighbor thermodynamics, SantaLucia 1998 unified parameters (Appendix A). Window from the Primer3 defaults PRIMER_MIN_TM 57 / PRIMER_OPT_TM 60 / PRIMER_MAX_TM 63.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "primer.pair_tm_delta",
+     "label": "Primer pair melting temperature difference",
+     "severity": "pass",
+     "message": "Every pair is within 5.0 C (frag_a_F/frag_a_R 1.1 C; frag_b_F/frag_b_R 0.2 C), so one annealing temperature serves the whole set. No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_F/frag_a_R 1.1 C; frag_b_F/frag_b_R 0.2 C",
+     "threshold": "at most 5.0 C within a pair",
+     "citation": "Standard primer design guidance (NEB Tm Calculator usage notes, IDT primer design guidelines) keeps a pair within about 5 C so one annealing temperature serves both. Primer3's PRIMER_PAIR_MAX_DIFF_TM exposes the same control but defaults to 100 C, unconstrained.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "primer.gc_content",
+     "label": "Primer GC content",
+     "severity": "pass",
+     "message": "Every primer's binding region is within 40% to 60% GC (frag_a_F 47%; frag_a_R 45%; frag_b_F 47%; frag_b_R 43%). No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_F 47%; frag_a_R 45%; frag_b_F 47%; frag_b_R 43%",
+     "threshold": "40% to 60% GC",
+     "citation": "40 to 60 percent is the standard primer GC recommendation (NEB and IDT primer design documentation). Primer3's PRIMER_MIN_GC / PRIMER_MAX_GC default to the wider 20 to 80 percent synthesis window.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "primer.length",
+     "label": "Primer length",
+     "severity": "pass",
+     "message": "Every primer is within binding 18 to 27 nt, total at most 60 nt (frag_a_F 19 nt binding, 39 nt total; frag_a_R 22 nt binding, 22 nt total; frag_b_F 19 nt binding, 39 nt total; frag_b_R 23 nt binding, 23 nt total). No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_F 19 nt binding, 39 nt total; frag_a_R 22 nt binding, 22 nt total; frag_b_F 19 nt binding, 39 nt total; frag_b_R 23 nt binding, 23 nt total",
+     "threshold": "binding 18 to 27 nt, total at most 60 nt",
+     "citation": "Primer3 defaults PRIMER_MIN_SIZE 18 / PRIMER_OPT_SIZE 20 / PRIMER_MAX_SIZE 27.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "primer.three_prime_stability",
+     "label": "Primer 3' end composition",
+     "severity": "pass",
+     "message": "Every 3' end satisfies at most 3 G or C in the last 5 bases, 3' base not T (frag_a_F 3'-GCGAA, 3 GC, ends A; frag_a_R 3'-ACAGC, 3 GC, ends C; frag_b_F 3'-CACCA, 3 GC, ends A; frag_b_R 3'-AACAG, 2 GC, ends G). No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_F 3'-GCGAA, 3 GC, ends A; frag_a_R 3'-ACAGC, 3 GC, ends C; frag_b_F 3'-CACCA, 3 GC, ends A; frag_b_R 3'-AACAG, 2 GC, ends G",
+     "threshold": "at most 3 G or C in the last 5 bases, 3' base not T",
+     "citation": "Rule stated in section 7.5 check 5. Five-base window follows Primer3's PRIMER_MAX_END_STABILITY, which is measured over the last five 3' bases.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "primer.hairpin",
+     "label": "Primer hairpin",
+     "severity": "pass",
+     "message": "No primer folds past the threshold (frag_a_F 0.0 kcal/mol; frag_a_R -0.5 kcal/mol; frag_b_F -1.4 kcal/mol; frag_b_R 0.0 kcal/mol). Measured as minimum free energy in kcal/mol, ViennaRNA 2.7.2 with DNA parameters (dna_mathews2004). No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_F 0.0 kcal/mol; frag_a_R -0.5 kcal/mol; frag_b_F -1.4 kcal/mol; frag_b_R 0.0 kcal/mol",
+     "threshold": "warn at -2.0 kcal/mol, fail at -3.0 kcal/mol with the 3' end in the stem",
+     "citation": "Section 7.4. Free energy threshold is a configurable default in the units IDT OligoAnalyzer reports; Primer3 expresses the same constraint as PRIMER_MAX_HAIRPIN_TH, a hairpin Tm of 47 C. Minimum loop size 3 nt is the standard nucleic acid secondary structure minimum, as in ViennaRNA.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "primer.self_dimer",
+     "label": "Primer self-dimer",
+     "severity": "pass",
+     "message": "No primer self-dimerises past at most 8 bp internally and 3 bp at the 3' end (frag_a_F any 6 bp, 3' 2 bp; frag_a_R any 6 bp, 3' 3 bp; frag_b_F any 6 bp, 3' 2 bp; frag_b_R any 4 bp, 3' 2 bp). No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_F any 6 bp, 3' 2 bp; frag_a_R any 6 bp, 3' 3 bp; frag_b_F any 6 bp, 3' 2 bp; frag_b_R any 4 bp, 3' 2 bp",
+     "threshold": "at most 8 bp internally and 3 bp at the 3' end",
+     "citation": "Primer3 defaults PRIMER_MAX_SELF_ANY 8.00 and PRIMER_MAX_SELF_END 3.00, in base pairs.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "primer.hetero_dimer",
+     "label": "Primer pair hetero-dimer",
+     "severity": "pass",
+     "message": "No pair dimerises past at most 8 bp internally and 3 bp at either 3' end (frag_a_F/frag_a_R any 5 bp, 3' 2 bp; frag_b_F/frag_b_R any 7 bp, 3' 3 bp). No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_F/frag_a_R any 5 bp, 3' 2 bp; frag_b_F/frag_b_R any 7 bp, 3' 3 bp",
+     "threshold": "at most 8 bp internally and 3 bp at either 3' end",
+     "citation": "Primer3 defaults PRIMER_PAIR_MAX_COMPL_ANY 8.00 and PRIMER_PAIR_MAX_COMPL_END 3.00, in base pairs.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "primer.specificity_in_template",
+     "label": "Primer specificity in the template set",
+     "severity": "pass",
+     "message": "Every primer binds exactly once across the 2 supplied templates (frag_a_F 1; frag_a_R 1; frag_b_F 1; frag_b_R 1). No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_F 1; frag_a_R 1; frag_b_F 1; frag_b_R 1",
+     "threshold": "exactly one occurrence per primer across the supplied template set",
+     "citation": "Section 7.5 check 9: the binding region must occur exactly once in the supplied template set. Both strands are searched.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "primer.homopolymer",
+     "label": "Primer homopolymer run",
+     "severity": "pass",
+     "message": "No primer carries a run over 5 nucleotides (longest run per primer: frag_a_F 0; frag_a_R 0; frag_b_F 0; frag_b_R 0). No change needed.",
+     "coordinates": null,
+     "observed": "longest run per primer: frag_a_F 0; frag_a_R 0; frag_b_F 0; frag_b_R 0",
+     "threshold": "at most 5 identical consecutive nucleotides",
+     "citation": "Primer3 default PRIMER_MAX_POLY_X 5. A longer run slips during oligo synthesis and during polymerase extension.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "gibson.overlap_length",
+     "label": "Gibson terminal homology length",
+     "severity": "pass",
+     "message": "All 2 junctions share 15 to 40 bp terminal homology (frag_b to frag_a 20 bp; frag_a to frag_b 20 bp). No change needed.",
+     "coordinates": null,
+     "observed": "frag_b to frag_a 20 bp; frag_a to frag_b 20 bp",
+     "threshold": "15 to 40 bp terminal homology",
+     "citation": "Gibson et al. 2009, Nat Methods 6:343-345 used 40 bp overlaps; the NEBuilder HiFi DNA Assembly protocol recommends 15 to 20 bp for a few fragments. The window spans both.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "gibson.overlap_tm",
+     "label": "Gibson overlap melting temperature",
+     "severity": "pass",
+     "message": "Every overlap melts at or above 48.0 C (frag_b to frag_a 56.1 C; frag_a to frag_b 56.6 C). No change needed.",
+     "coordinates": null,
+     "observed": "frag_b to frag_a 56.1 C; frag_a to frag_b 56.6 C",
+     "threshold": "at least 48.0 C per overlap",
+     "citation": "The NEBuilder Assembly Tool designs overlaps to a melting temperature of at least 48 C.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "gibson.overlap_uniqueness",
+     "label": "Gibson junction homology uniqueness",
+     "severity": "pass",
+     "message": "No two junctions share 10 bp or more (longest homology shared between two junctions: 4 bp), so only the intended order can assemble. No change needed.",
+     "coordinates": null,
+     "observed": "longest homology shared between two junctions: 4 bp",
+     "threshold": "under 10 bp shared between any two junctions",
+     "citation": "Section 7.5 check 13. The shared-homology limit is a configurable default: mis-assembly needs enough cross-complementarity between two junctions to survive the 50 C NEBuilder HiFi incubation.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "assembly.fragment_order_defined",
+     "label": "Assembly order unambiguous",
+     "severity": "pass",
+     "message": "Each of the 2 junctions has its own joining sequence, so the fragments can assemble in exactly one order: frag_a to frag_b. No change needed.",
+     "coordinates": null,
+     "observed": "2 junctions, 2 distinct joining sequences",
+     "threshold": "one distinct joining sequence per junction",
+     "citation": "Section 7.5 check 18. A one-pot assembly is only usable if the overhang topology admits exactly one order.",
+     "tier": null,
+     "remediation": null
+    },
+    {
+     "check_id": "assembly.amplicon_size",
+     "label": "Expected amplicon size",
+     "severity": "pass",
+     "message": "Every expected amplicon is within 100 to 10000 bp per amplicon (frag_a_amplicon 200 bp; frag_b_amplicon 200 bp). No change needed.",
+     "coordinates": null,
+     "observed": "frag_a_amplicon 200 bp; frag_b_amplicon 200 bp",
+     "threshold": "100 to 10000 bp per amplicon",
+     "citation": "NEB Q5 High-Fidelity DNA Polymerase protocol: 20 to 30 seconds per kilobase extension, documented to about 10 kb. The lower bound keeps the amplicon resolvable from primer dimer.",
+     "tier": null,
+     "remediation": null
+    }
+   ],
+   "evaluated_at": "2026-10-08T02:43:28.233970Z",
+   "validator_version": "assembly-1.0.0"
+  }
+ },
+ "provenance": [
+  "strategy:gibson",
+  "fragment:frag_a:GenBank KU341333.1, CBh promoter feature 442..1240, offset 532, 180 bp",
+  "fragment:frag_b:GenBank AF396260.1, CMV promoter feature 150..812, offset 462, 180 bp",
+  "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
+ ],
+ "parameters_used": {
+  "validator_version": "assembly-1.0.0",
+  "strategy": "gibson",
+  "applicable_checks": [
+   "primer.tm_in_range",
+   "primer.pair_tm_delta",
+   "primer.gc_content",
+   "primer.length",
+   "primer.three_prime_stability",
+   "primer.hairpin",
+   "primer.self_dimer",
+   "primer.hetero_dimer",
+   "primer.specificity_in_template",
+   "primer.homopolymer",
+   "assembly.amplicon_size",
+   "gibson.overlap_length",
+   "gibson.overlap_tm",
+   "gibson.overlap_uniqueness",
+   "assembly.fragment_order_defined"
+  ],
+  "target_tm_c": 60.0,
+  "primer_conc_nm": 500.0,
+  "monovalent_salt_mm": 50.0,
+  "divalent_salt_mm": 1.5,
+  "dntp_mm": 0.2,
+  "sodium_equivalent_mm": 186.82105101189657,
+  "divalent_conversion": "von Ahsen et al. 2001, Clin Chem 47:1956-1961: [Na_eq] = [Na+] + 120 * sqrt([Mg2+] - [dNTP])",
+  "divalent_to_monovalent_coefficient": 120.0,
+  "tm_model": "nearest-neighbor thermodynamics, SantaLucia 1998 unified parameters (Appendix A), with the Appendix A monovalent entropy salt correction",
+  "tm_measured_on": "primer template-binding region, excluding any 5' tail",
+  "hairpin_engine_requested": "auto",
+  "hairpin_engine_available": "ViennaRNA 2.7.2 with DNA parameters (dna_mathews2004)",
+  "dimer_score_definition": "gapless sliding-window complementarity in base pairs; 'any' is the best gapless local score at any offset, '3 prime' is the longest contiguous complementary run anchored at a 3' terminal base. Thresholds are the Primer3 defaults in the same units.",
+  "host_codon_usage": "none bundled with this build; host codon frequencies are reported as UNKNOWN",
+  "overhang_standard": "none supplied; Golden Gate overhangs are taken from the fragment junctions",
+  "checks_evaluated": [
+   "primer.tm_in_range",
+   "primer.pair_tm_delta",
+   "primer.gc_content",
+   "primer.length",
+   "primer.three_prime_stability",
+   "primer.hairpin",
+   "primer.self_dimer",
+   "primer.hetero_dimer",
+   "primer.specificity_in_template",
+   "primer.homopolymer",
+   "gibson.overlap_length",
+   "gibson.overlap_tm",
+   "gibson.overlap_uniqueness",
+   "assembly.fragment_order_defined",
+   "assembly.amplicon_size"
+  ],
+  "checks_not_evaluated": [],
+  "checks_not_evaluated_reason": "A check applicable to the strategy but with nothing to examine in this design, for example a junction check on a single-fragment assembly. Omitted rather than reported as a pass.",
+  "primer_tm_warn_tolerance_c": 3.0,
+  "primer_tm_fail_tolerance_c": 10.0,
+  "primer_pair_max_tm_delta_c": 5.0,
+  "primer_gc_min_fraction": 0.4,
+  "primer_gc_max_fraction": 0.6,
+  "primer_min_length_nt": 18,
+  "primer_max_length_nt": 27,
+  "primer_max_total_length_nt": 60,
+  "primer_three_prime_window_nt": 5,
+  "primer_three_prime_max_gc_in_window": 3,
+  "primer_max_homopolymer_run_nt": 5,
+  "hairpin_min_loop_nt": 3,
+  "hairpin_dg_warn_kcal_per_mol": -2.0,
+  "hairpin_three_prime_dg_fail_kcal_per_mol": -3.0,
+  "hairpin_window_stem_warn_bp": 4,
+  "hairpin_window_stem_three_prime_fail_bp": 5,
+  "three_prime_involvement_window_nt": 5,
+  "max_self_complementarity_any_bp": 8.0,
+  "max_self_complementarity_end_bp": 3.0,
+  "max_pair_complementarity_any_bp": 8.0,
+  "max_pair_complementarity_end_bp": 3.0,
+  "gibson_overlap_min_bp": 15,
+  "gibson_overlap_max_bp": 40,
+  "gibson_overlap_design_bp": 20,
+  "gibson_overlap_min_tm_c": 48.0,
+  "gibson_junction_max_shared_homology_bp": 10,
+  "golden_gate_primer_spacer_nt": 1,
+  "golden_gate_default_overhang_nt": 4,
+  "amplicon_min_bp": 100,
+  "amplicon_max_bp": 10000,
+  "annealing_offset_below_min_tm_c": 5.0,
+  "annealing_min_c": 50.0,
+  "annealing_max_c": 72.0,
+  "thresholds_overridden": {}
+ }
+}
