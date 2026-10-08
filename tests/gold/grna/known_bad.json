@@ -106,7 +106,7 @@
     "expect_overall": "fail",
     "expect_check": "grna.self_targeting",
     "expect_severity": "fail",
-    "rationale": "The delivery construct carries the target site as well as the guide cassette, which is what happens when a knock in donor or a reporter copy of the locus is cloned into the same plasmid. The site in the construct is the real 80 bp of target sequence around the protospacer, so it carries the real PAM, which means the nuclease cuts its own delivery plasmid. The plasmid is linearised and degraded before it has expressed enough nuclease to edit the genome, so editing efficiency collapses for a reason that looks like nothing at all in the sequence of the guide. grna.self_targeting is the check that must catch it, and it is written to require a PAM beside the match, which is why it does not fire on the spacer copy inside every guide cassette. grna.off_target_hits also fails, and that is a genuine cascade rather than a second defect: the delivery construct is inside the searched off-target space by definition under the construct_only scope, so the same cut site is correctly reported twice, once as self targeting and once as a near perfect off target. It is listed in allowed_extra_fail rather than hidden.",
+    "rationale": "The delivery construct carries the target site as well as the guide cassette, which is what happens when a knock in donor or a reporter copy of the locus is cloned into the same plasmid. The site in the construct is the real 100 bp of target sequence around the protospacer, exactly target positions 114 to 214, appended to the 48 bp guide cassette, so it carries the real PAM, which means the nuclease cuts its own delivery plasmid. The plasmid is linearised and degraded before it has expressed enough nuclease to edit the genome, so editing efficiency collapses for a reason that looks like nothing at all in the sequence of the guide. grna.self_targeting is the check that must catch it, and it is written to require a PAM beside the match, which is why it does not fire on the spacer copy inside every guide cassette. grna.off_target_hits also fails, and that is a genuine cascade rather than a second defect: the delivery construct is inside the searched off-target space by definition under the construct_only scope, so the same cut site is correctly reported twice, once as self targeting and once as a near perfect off target. It is listed in allowed_extra_fail rather than hidden.",
     "must_also_report": [
       {
         "check": "grna.off_target_hits",
@@ -211,7 +211,7 @@
     "expect_overall": "warn",
     "expect_check": "grna.position_in_cds",
     "expect_severity": "warn",
-    "rationale": "A knockout guide whose cut site falls inside the declared final exon. A frameshift in the last exon is the classic way to produce a construct that looks edited and is not a knockout: the transcript escapes nonsense mediated decay, and the protein made from it often keeps most of its sequence and some of its function. Every sequence feature of the guide is correct, so only a positional check can see it, and grna.position_in_cds is the only check that compares the cut site against the coding sequence, the final exon and the constitutive regions. It is a WARN because the guide does cut, and because for an intent other than a clean null, for example truncating a C terminal domain on purpose, it may be exactly what was wanted. Honest note: the sequence is real but pUC19 is a bacterial plasmid and its beta-lactamase gene has no exons, so final_exon_region here is an annotation supplied by the case to exercise the rule. The DNA is real; the exon boundary is a test annotation and is not presented as anything else. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case.",
+    "rationale": "A knockout guide whose cut site falls inside the declared final exon. A frameshift in the last exon is the classic way to produce a construct that looks edited and is not a knockout: the transcript escapes nonsense mediated decay, and the protein made from it often keeps most of its sequence and some of its function. Every sequence feature of the guide is correct, so only a positional check can see it, and grna.position_in_cds is the only check that compares the cut site against the coding sequence, the final exon and the constitutive regions. It is the only non-pass check in the report. It is a WARN because the guide does cut, and because for an intent other than a clean null, for example truncating a C terminal domain on purpose, it may be exactly what was wanted. The geometry is chosen so that the final exon clause is the clause that fires and the only one: cds_region is the real reading frame 50 to 911, final_exon_region is 520 to 911, which is 45% of it and a strict subset rather than the whole coding sequence, and the cut at target position 540 is 20 bp inside the final exon and 57% into the coding sequence, under the 60% limit that would otherwise add a second clause about cutting too late. That last constraint is why the declared final exon has to be as large as it is: an isolated final exon case needs a cut that is inside the final exon and inside the first 60% of the coding sequence at the same time, so the exon cannot span much less than 40% of the frame. Honest note: the sequence is real but pUC19 is a bacterial plasmid and its beta-lactamase gene has no exons, so final_exon_region here is an annotation supplied by the case to exercise the rule. The DNA is real; the exon boundary is a test annotation and is not presented as anything else. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case. The guide is the real protospacer at window offset 523 with its own real CGG PAM, unedited.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {
@@ -229,15 +229,15 @@
           911
         ],
         "delivery_construct_name": "pX330_sgRNA_expression_construct",
-        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG",
+        "delivery_construct_sequence": "CACCGTCGCCTTGATCGTTGGGAACGTTTTAGAGCTAGAAATAGCAAG",
         "final_exon_region": [
-          50,
+          520,
           911
         ]
       },
       "guide": {
-        "spacer": "AGATCAGTTGGGTGCACGAG",
-        "pam": "TGG",
+        "spacer": "TCGCCTTGATCGTTGGGAAC",
+        "pam": "CGG",
         "strand": 1
       }
     }
@@ -410,7 +410,7 @@
     "expect_overall": "fail",
     "expect_check": "grna.pam_valid",
     "expect_severity": "fail",
-    "rationale": "A LbCas12a guide whose PAM is given as TTTT. Appendix C's motif is TTTV, and the IUPAC code V means A, C or G and excludes T, so TTTT is not a Cas12a PAM even though it is one base away from three that are. This is the mistake of reading TTTV as four T residues or as any T rich tetramer. grna.pam_valid is the check that must catch it, and this case is the complement of the offset case: there the motif was satisfied and the position was wrong, here the position is right and the motif is not, so between them they show the check tests both halves of the requirement rather than one.",
+    "rationale": "A LbCas12a guide whose PAM is given as TTTT. Appendix C's motif is TTTV, and the IUPAC code V means A, C or G and excludes T, so TTTT is not a Cas12a PAM even though it is one base away from three that are. This is the mistake of reading TTTV as four T residues, or as any T rich tetramer. grna.pam_valid is the check that must catch it, and what it rejects here is the motif: TTTT does not match TTTV, so the guide is refused on the motif alone and the check never has to ask where the PAM sits. The declared PAM is in fact absent as well as malformed, and the case does not claim otherwise: TTTT occurs nowhere in the 61 bp target on either strand, and the four bases immediately 5' of the spacer, target positions 16 to 20, read TTTA. The companion case grna.bad.cas12a_scored_with_a_cas9_pam_offset is the one that isolates position, and it has to be, because only a well formed PAM can be in the wrong place: there the supplied PAM TTTC satisfies TTTV perfectly and is rejected solely because it was read from the 3' side of the spacer while the real TTTA PAM sits 5' of it. Between them the two cases show that the check tests both halves of the requirement rather than one, and this case is the motif half. The 61 bp target is the same synthetic construct the companion case uses and is declared synthetic there and here: no position in the pUC19 window carries a TTTV PAM 5' of a 23 nt protospacer with a second TTTV immediately 3' of it. Nothing here is presented as a real gene. Three checks report UNKNOWN because this request supplies no coding sequence annotation, no delivery construct and a Cas12a vector with no declared digest enzyme; UNKNOWN is the correct answer in each case and none of them reads as a pass.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "expected_unknown": [
@@ -442,7 +442,7 @@
     "expect_overall": "warn",
     "expect_check": "grna.position_in_cds",
     "expect_severity": "warn",
-    "rationale": "A knockout guide whose cut site lands past the end of the declared coding sequence, in the 3' region. A cut outside the coding sequence is repaired without changing the protein, so the knockout does not happen and the experiment reads as a failed transfection rather than as a design error. grna.position_in_cds is the only check that knows where the coding sequence is. It is the pair to the Tier B case where a cut upstream of the coding sequence is deliberate: the same check, the same severity, and the difference is entirely in the designer's intent, which is why the severity is WARN and the message names the distance rather than rejecting the guide.",
+    "rationale": "A knockout guide whose cut site lands past the 3' end of the declared coding sequence. The cut is at target position 171 and cds_region is 50 to 150, so the break and the repair that follows fall 21 bp beyond the end of the span this design declares as coding, where repair does not change the protein: the knockout does not happen and the experiment reads as a failed transfection rather than as a design error. grna.position_in_cds is the only check that knows where the coding sequence is, and it is the only non-pass check in the report. Geometry note, because it is what makes this case worth having: the Tier B case grna.good.b5 uses this same real guide with cds_region narrowed to 600 to 911, so that its cut lands 5' of the coding sequence start, where an upstream cut is the declared intent. This case is the mirror image, 3' of the end rather than 5' of the start. Both are WARN, because the check reports the distance rather than rejecting the guide and whether a cut outside the coding sequence was wanted depends on intent, so the pair exercises the two sides of one boundary instead of repeating one side of it. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame in that window runs 50 to 911; cds_region here is narrowed to its first 100 bases, 50 to 150, so that the cut falls 3' of the declared end. The narrowing is a case annotation and is declared as one, exactly as the narrowing in grna.good.b5 is; the DNA is real and unedited.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {
@@ -456,8 +456,8 @@
         },
         "max_guides_returned": 10,
         "cds_region": [
-          231,
-          911
+          50,
+          150
         ],
         "delivery_construct_name": "pX330_sgRNA_expression_construct",
         "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
