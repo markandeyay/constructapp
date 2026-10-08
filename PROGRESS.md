@@ -636,3 +636,47 @@ WEB SURFACES, verified by the orchestrator reading the captured evidence rather
     Plasmid: the inherited circular flow, unchanged.
   The header reads Construct in every capture, and the four capability tabs are
   present in every one.
+
+## Three rationale defects the gate could not see, found after the hairpin fix
+
+WP-06 swept the assembly cases against master after the recalibration and found
+three prose claims that had become false while the gate stayed green at 91 of 91.
+All three are now corrected. They are recorded here because the pattern matters
+more than the three instances:
+
+  1. `assembly.bad.ambiguous_fragment_order` asserted a `primer.hairpin` warning
+     on its engine-composed primers. Verified absent: the only non-pass check in
+     the whole report is `assembly.fragment_order_defined` at FAIL, because the
+     composed stems now fall under the recalibrated 6 bp threshold. This was a
+     THIRD case the recalibration moved, and neither the package that made the
+     change nor the orchestrator spotted it, because `expect_check` named a
+     different check and `must_also_report` was empty.
+  2. and 3. `assembly.bad.primer_three_prime_hairpin` and
+     `assembly.good.a1.gibson_two_fragments` both carried a sentence stating that
+     the engine is pinned to the window fallback in every assembly case and that
+     ViennaRNA is not in requirements.txt. Both halves had become false, and in
+     the known-bad case the stale sentence directly contradicted the engine note
+     appended below it, which was the orchestrator's own edit.
+
+CORRECTION to an earlier claim in progress/WP-04.md section 13.6, which said the
+  expired rationale appeared in all 30 assembly cases. It appeared in exactly
+  three. The other 27 make no engine claim in prose.
+
+THE PATTERN, which is the point. Every one of these was invisible to every gate,
+  because the runner asserts overall severity, the named check and the absence of
+  an unexpected FAIL, and none of them asserts what the prose says. This is the
+  second time in this build that a rationale drifted from its input without any
+  gate noticing. The recommendation already recorded, an optional
+  `expected_warnings` assertion on known-bad cases mirroring what Tier B already
+  does, would have caught defect 1 mechanically. It remains the highest value
+  piece of work immediately after the demo.
+
+KNOWN LIMITATION, recorded rather than changed. Four of the thirty assembly cases
+  behave differently under the two hairpin engines. One matters: the Tier A case
+  `assembly.good.a9.gibson_cbh_and_puc19` is clean under the window fallback it
+  pins, but its forward primer folds at about -4.1 kcal/mol under the free energy
+  engine, which would make it a warning and so a Tier B case. Its rationale makes
+  no engine claim, so nothing in it is false and it was left alone. But one Tier A
+  grade currently rests on the fallback rather than on the engine the build
+  actually runs, and anyone who later flips the assembly set to the live engine
+  must re-grade a9 rather than assume it stays Tier A.

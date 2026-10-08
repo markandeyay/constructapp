@@ -1,0 +1,4352 @@
+{
+  "accuracy": 1.0,
+  "correct": 88,
+  "engine_version": "phase3-validation-v1",
+  "gold_policy": "curated_profile_diverse_tiered_quality_over_arbitrary_count",
+  "known_bad_count": 52,
+  "known_bad_path": "data\\eval\\validation\\curated_known_bad.jsonl",
+  "known_good_count": 36,
+  "known_good_path": "data\\eval\\validation\\curated_known_good.jsonl",
+  "known_good_tiers": {
+    "A": {
+      "accuracy": 1.0,
+      "correct": 25,
+      "total": 25
+    },
+    "B": {
+      "accuracy": 1.0,
+      "correct": 11,
+      "total": 11
+    }
+  },
+  "per_check_accuracy": {
+    "codon_usage": {
+      "accuracy": 1.0,
+      "correct": 49,
+      "total": 49
+    },
+    "regulatory_compatibility": {
+      "accuracy": 1.0,
+      "correct": 49,
+      "total": 49
+    },
+    "repeat_and_instability": {
+      "accuracy": 1.0,
+      "correct": 49,
+      "total": 49
+    },
+    "restriction_site_conflicts": {
+      "accuracy": 1.0,
+      "correct": 49,
+      "total": 49
+    }
+  },
+  "phase3_gate_met": true,
+  "results": [
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "curated:pUC18",
+      "name": "pUC18",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "curated:pUC19",
+      "name": "pUC19c",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "curated:pBluescript-II-SK-minus",
+      "name": "pBluescript II SK(-)",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "curated:pBluescript-II-SK-plus",
+      "name": "pBluescript II SK(+)",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:U74374.1",
+      "name": "Cloning vector pJF5, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:L09130.1",
+      "name": "Cloning vector pUC13, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:U25273.1",
+      "name": "Expression cloning vector pT7/Nco, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:U25269.1",
+      "name": "Expression cloning vector pT7/Nde, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF118920.1",
+      "name": "Cloning vector pSPZ1(+) complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF305698.1",
+      "name": "Cloning vector p824, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF092546.1",
+      "name": "Cloning vector pCPT8, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:U24178.1",
+      "name": "Cloning vector pKMZB containing zero-background linker, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (Biotin purification tag).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI lacks an annotated downstream terminator; expression cassette may be incomplete.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 386,
+            "start": 0
+          },
+          "status": "WARN"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "regulatory_compatibility",
+          "rationale": "Non-blocking regulatory-context warning retained as a documented source-record caveat.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:U47626.2",
+      "name": "Cloning vector PinPoint<TM> Xa-1, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": [
+        "Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (Biotin purification tag).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI lacks an annotated downstream terminator; expression cassette may be incomplete.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 386,
+            "start": 0
+          },
+          "status": "WARN"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "regulatory_compatibility",
+          "rationale": "Non-blocking regulatory-context warning retained as a documented source-record caveat.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:U47627.1",
+      "name": "Cloning vector PinPoint<TM> Xa-2, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": [
+        "Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (Biotin purification tag).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI lacks an annotated downstream terminator; expression cassette may be incomplete.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 386,
+            "start": 0
+          },
+          "status": "WARN"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "regulatory_compatibility",
+          "rationale": "Non-blocking regulatory-context warning retained as a documented source-record caveat.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:U47628.1",
+      "name": "Cloning vector PinPoint<TM> Xa-3, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": [
+        "Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF074376.1",
+      "name": "Cloning vector pQE30NST, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AY262822.1",
+      "name": "Expression vector pMH, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (bioB).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI lacks an annotated downstream terminator; expression cassette may be incomplete.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 3243,
+            "start": 2217
+          },
+          "status": "WARN"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "regulatory_compatibility",
+          "rationale": "Non-blocking regulatory-context warning retained as a documented source-record caveat.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:U39574.1",
+      "name": "Expression cloning vector pBVI02, including biotin synthetase (bioB) and beta-lactamase (bla) genes, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": [
+        "Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lacI).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:U51557.1",
+      "name": "Expression vector pEXT20, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:U47119.2",
+      "name": "Cloning vector pCI, mammalian expression vector, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 25 bp is below the blocking threshold but should be reviewed. Biological context note: this repeat overlaps reviewed intentional vector architecture but still needs synthesis and stable-propagation review.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 1241,
+            "start": 1216
+          },
+          "status": "WARN"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "repeat_and_instability",
+          "rationale": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:DQ666274.1",
+      "name": "Cloning vector pDNR-LIB, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": [
+        "Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (Lac repressor).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI lacks an annotated downstream terminator; expression cassette may be incomplete.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 4694,
+            "start": 3611
+          },
+          "status": "WARN"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "regulatory_compatibility",
+          "rationale": "Non-blocking regulatory-context warning retained as a documented source-record caveat.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:U19585.1",
+      "name": "Cloning vector pPROEX-1, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": [
+        "Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lacI).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF525443.1",
+      "name": "Expression vector pNB-3, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lacI).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF525441.1",
+      "name": "Expression vector pETAT-1, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lacI).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF525442.1",
+      "name": "Expression vector pETAT-2, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lacI).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF525446.1",
+      "name": "Expression vector pNB-13, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lac operon repressor).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:U36454.1",
+      "name": "Expression vector pCALn, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lacI).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF525444.1",
+      "name": "Expression vector pETAT-11, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lacI).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF525445.1",
+      "name": "Expression vector pETAT-12, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lac).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:U86347.1",
+      "name": "Expression vector pCal-n-ek complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS (lacI, malE/lacZ-alpha fusion).",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI lacks an annotated downstream terminator; expression cassette may be incomplete.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 1163,
+            "start": 80
+          },
+          "status": "WARN"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "regulatory_compatibility",
+          "rationale": "Non-blocking regulatory-context warning retained as a documented source-record caveat.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:AF031813.1",
+      "name": "Expression vector pMal-X, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "bacterial_expression_vector",
+      "warn_justifications": [
+        "Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No intended payload GOI was annotated; skipped source-vector context CDS ('lacI, lacZ').",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "PASS",
+      "expected_warnings": [],
+      "id": "genbank:AF013597.1",
+      "name": "Phagemid cloning vector pATCH1, complete sequence",
+      "overall": "PASS",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "A",
+      "tier_label": "strict-clean",
+      "vector_profile": "bacterial_cloning_vector",
+      "warn_justifications": []
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 40 bp may promote recombination or synthesis instability. Biological context note: this repeat overlaps reviewed intentional vector architecture but still needs synthesis and stable-propagation review.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 208,
+            "start": 168
+          },
+          "status": "WARN"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "repeat_and_instability",
+          "rationale": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:U47121.2",
+      "name": "Cloning vector pSI, mammalian expression vector, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "mammalian_expression_vector",
+      "warn_justifications": [
+        "Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 40 bp may promote recombination or synthesis instability. Biological context note: this repeat overlaps reviewed intentional vector architecture but still needs synthesis and stable-propagation review.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 1677,
+            "start": 1637
+          },
+          "status": "WARN"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "repeat_and_instability",
+          "rationale": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:AF041805.1",
+      "name": "Cloning vector yGALset983, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "yeast_shuttle_vector",
+      "warn_justifications": [
+        "Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 40 bp may promote recombination or synthesis instability. Biological context note: this repeat overlaps reviewed intentional vector architecture but still needs synthesis and stable-propagation review.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 1677,
+            "start": 1637
+          },
+          "status": "WARN"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "repeat_and_instability",
+          "rationale": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:AF041806.1",
+      "name": "Cloning vector yGALset984, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "yeast_shuttle_vector",
+      "warn_justifications": [
+        "Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      ]
+    },
+    {
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 40 bp may promote recombination or synthesis instability. Biological context note: this repeat overlaps reviewed intentional vector architecture but still needs synthesis and stable-propagation review.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 1667,
+            "start": 1627
+          },
+          "status": "WARN"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "expected": "DOCUMENTED_WARN",
+      "expected_warnings": [
+        {
+          "check": "repeat_and_instability",
+          "rationale": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review.",
+          "status": "WARN"
+        }
+      ],
+      "id": "genbank:AF041807.1",
+      "name": "Cloning vector yGALset985, complete sequence",
+      "overall": "WARN",
+      "predicted": "PASS_OR_WARN",
+      "set": "known_good",
+      "tier": "B",
+      "tier_label": "accepted-with-caveats",
+      "vector_profile": "yeast_shuttle_vector",
+      "warn_justifications": [
+        "Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      ]
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "EcoRI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 307,
+            "start": 301
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_ecori_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_000",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_000"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "BamHI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 318,
+            "start": 312
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_bamhi_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_001",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_001"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "HindIII has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 329,
+            "start": 323
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_hindiii_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_002",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_002"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "XhoI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 340,
+            "start": 334
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_xhoi_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_003",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_003"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "KpnI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 355,
+            "start": 349
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_kpni_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_004",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_004"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "PstI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 366,
+            "start": 360
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_psti_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_005",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_005"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "SalI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 373,
+            "start": 367
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_sali_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_006",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_006"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "XbaI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 384,
+            "start": 378
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_xbai_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_007",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_007"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "NcoI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 315,
+            "start": 309
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_ncoi_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_008",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_008"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "NdeI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 327,
+            "start": 321
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_ndei_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_009",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_009"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "NotI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 340,
+            "start": 332
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_noti_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_010",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_010"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "SacI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 352,
+            "start": 346
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_saci_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_011",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_011"
+    },
+    {
+      "category": "restriction_conflicts",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "SpeI has an internal site in backbone/unannotated sequence outside the annotated MCS; redesign cloning strategy or remove the site.",
+          "name": "restriction_site_conflicts",
+          "region": {
+            "end": 359,
+            "start": 353
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "restriction_conflict_internal_spei_site",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "id": "ckb_restriction_012",
+      "observed_failing_checks": [
+        "restriction_site_conflicts"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_012"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Homopolymer run of 12 or more bases may fail synthesis or sequencing.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 322,
+            "start": 310
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_homopolymer_12nt",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_000",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_013"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Homopolymer run of 12 or more bases may fail synthesis or sequencing.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 337,
+            "start": 325
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_homopolymer_12nt",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_001",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_014"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Homopolymer run of 12 or more bases may fail synthesis or sequencing.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 352,
+            "start": 340
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_homopolymer_12nt",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_002",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_015"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Homopolymer run of 12 or more bases may fail synthesis or sequencing.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 367,
+            "start": 355
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_homopolymer_12nt",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_003",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_016"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Homopolymer run of 12 or more bases may fail synthesis or sequencing.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 383,
+            "start": 370
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_homopolymer_12nt",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_004",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_017"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "100 bp window has extreme GC content (84%); redesign this region for synthesis.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 360,
+            "start": 260
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_local_gc_extreme_100bp",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_005",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_018"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "100 bp window has extreme GC content (15%); redesign this region for synthesis.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 380,
+            "start": 280
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_local_gc_extreme_100bp",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_006",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_019"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "100 bp window has extreme GC content (81%); redesign this region for synthesis.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 380,
+            "start": 280
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_local_gc_extreme_100bp",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_007",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_020"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "100 bp window has extreme GC content (11%); redesign this region for synthesis.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 400,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_local_gc_extreme_100bp",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_008",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_021"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 40 bp may promote recombination or synthesis instability.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 360,
+            "start": 320
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_direct_repeat_40bp",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_009",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_022"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 40 bp may promote recombination or synthesis instability.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 370,
+            "start": 330
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_direct_repeat_40bp",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_010",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_023"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 40 bp may promote recombination or synthesis instability.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 380,
+            "start": 340
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_direct_repeat_40bp",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_011",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_024"
+    },
+    {
+      "category": "repeat_instability",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 40 bp may promote recombination or synthesis instability.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 390,
+            "start": 350
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "repeat_instability_direct_repeat_40bp",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "id": "ckb_repeat_012",
+      "observed_failing_checks": [
+        "repeat_and_instability"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_025"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "Promoter 'CMV promoter' is not compatible with the requested bacterial host context.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 350,
+            "start": 300
+          },
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_cmv_promoter_in_ecoli",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_000",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_026"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "Promoter 'CMV promoter' is not compatible with the requested bacterial host context.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 350,
+            "start": 300
+          },
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_cmv_promoter_in_ecoli",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_001",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_027"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "Promoter 'CMV promoter' is not compatible with the requested bacterial host context.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 350,
+            "start": 300
+          },
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_cmv_promoter_in_ecoli",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_002",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_028"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "Promoter 'CMV promoter' is not compatible with the requested bacterial host context.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 350,
+            "start": 300
+          },
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_cmv_promoter_in_ecoli",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_003",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_029"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "Promoter 'CMV promoter' is not compatible with the requested bacterial host context.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 350,
+            "start": 300
+          },
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_cmv_promoter_in_ecoli",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_004",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_030"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "Promoter 'lac promoter' is not compatible with the requested mammalian host context.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 350,
+            "start": 300
+          },
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_lac_promoter_in_mammalian_host",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_005",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_031"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "Promoter 'lac promoter' is not compatible with the requested mammalian host context.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 350,
+            "start": 300
+          },
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_lac_promoter_in_mammalian_host",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_006",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_032"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "Promoter 'lac promoter' is not compatible with the requested mammalian host context.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 350,
+            "start": 300
+          },
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_lac_promoter_in_mammalian_host",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_007",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_033"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "Promoter 'lac promoter' is not compatible with the requested mammalian host context.",
+          "name": "regulatory_compatibility",
+          "region": {
+            "end": 350,
+            "start": 300
+          },
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_lac_promoter_in_mammalian_host",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_008",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_034"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "No selectable marker is annotated; add an appropriate marker for propagation or selection.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_missing_selectable_marker",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_009",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_035"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "No selectable marker is annotated; add an appropriate marker for propagation or selection.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_missing_selectable_marker",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_010",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_036"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "No origin or maintenance element compatible with bacterial host context was detected.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_no_bacterial_origin",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_011",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_037"
+    },
+    {
+      "category": "regulatory_incompatibility",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No GOI coding region was annotated; codon-usage scoring skipped.",
+          "name": "codon_usage",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": "design_construct_failure",
+          "message": "No origin or maintenance element compatible with bacterial host context was detected.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "FAIL"
+        }
+      ],
+      "correct": true,
+      "defect_type": "regulatory_incompatibility_no_bacterial_origin",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "id": "ckb_regulatory_012",
+      "observed_failing_checks": [
+        "regulatory_compatibility"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_038"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_000",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_039"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_001",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_040"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_002",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_041"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_003",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_042"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_004",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_043"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_005",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_044"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_006",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_045"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 25 bp is below the blocking threshold but should be reviewed. Biological context note: this repeat overlaps reviewed intentional vector architecture but still needs synthesis and stable-propagation review.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 445,
+            "start": 420
+          },
+          "status": "WARN"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_007",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_046"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 25 bp is below the blocking threshold but should be reviewed. Biological context note: this repeat overlaps reviewed intentional vector architecture but still needs synthesis and stable-propagation review.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 430,
+            "start": 405
+          },
+          "status": "WARN"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_008",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_047"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_009",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_048"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_010",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_049"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "No blocking repeat, homopolymer, or GC-instability pattern detected.",
+          "name": "repeat_and_instability",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_011",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_000"
+    },
+    {
+      "category": "codon_usage",
+      "checks": [
+        {
+          "failure_context": null,
+          "message": "No restriction-enzyme cloning context was specified.",
+          "name": "restriction_site_conflicts",
+          "region": null,
+          "status": "PASS"
+        },
+        {
+          "failure_context": null,
+          "message": "direct repeat of at least 25 bp is below the blocking threshold but should be reviewed. Biological context note: this repeat overlaps reviewed intentional vector architecture but still needs synthesis and stable-propagation review.",
+          "name": "repeat_and_instability",
+          "region": {
+            "end": 394,
+            "start": 369
+          },
+          "status": "WARN"
+        },
+        {
+          "failure_context": null,
+          "message": "GOI codon adaptation score is low for bacterial expression (0.12).",
+          "name": "codon_usage",
+          "region": {
+            "end": 450,
+            "start": 300
+          },
+          "status": "FAIL"
+        },
+        {
+          "failure_context": null,
+          "message": "Regulatory elements are compatible with the requested host context.",
+          "name": "regulatory_compatibility",
+          "region": null,
+          "status": "PASS"
+        }
+      ],
+      "correct": true,
+      "defect_type": "codon_usage_ecoli_low_cai_rare_codon_cluster",
+      "expected": "FAIL",
+      "expected_failing_checks": [
+        "codon_usage"
+      ],
+      "id": "ckb_codon_012",
+      "observed_failing_checks": [
+        "codon_usage"
+      ],
+      "overall": "FAIL",
+      "predicted": "FAIL",
+      "set": "known_bad",
+      "source_plasmid_id": "good_cloning_001"
+    }
+  ],
+  "tier_a_accuracy": 1.0,
+  "tier_b_accuracy": 1.0,
+  "total": 88
+}
