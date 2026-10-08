@@ -385,3 +385,44 @@ NOTED, not a defect: `packages/retrieval/intent_parser.py` line 563 appends a
   raising a review requirement, not a claim that screening ran. It fires on gene
   therapy wording, which is exactly what an AAV request contains, so expect to
   see it on the demo path. Conservative and correct.
+
+## Orchestrator walk of the section 15.3 demo path, twice, and what it found
+
+RESULT: the path walks end to end twice with no intervention and identical
+  output both times, so it is deterministic. Verbatim beats, API level:
+    oversized cassette  5,049 bp  overall FAIL, aav.packaging_limit FAIL,
+      14 of 14 checks reported, message names replacing CAG with EFS, structured
+      remediation populated
+    after applying that substitution  4,211 bp  aav.packaging_limit PASS,
+      overall no longer FAIL, topology linear, artifacts fasta, genbank,
+      length_budget and linear_map_json all present
+  Run twice, byte-identical verdicts.
+
+DEMO SCRIPT ISSUE, worth the operator deciding before Saturday. Section 15.3
+  says "Make the substitution. It passes." With the current registry the
+  substitution clears the packaging limit but the cassette lands on WARN rather
+  than PASS, for one reason that is real and one that was an artifact of the
+  synthetic test payload:
+    aav.kozak_context WARN is EFS specific. Measured: EFS warns, GFAP does not.
+      This confirms WP-06 finding 2 from the other direction. The check wants a
+      purine three bases before the ATG, and of the eight registry promoters only
+      cag, gfap and mecp2_mini end that way, so a CAG to EFS substitution trades
+      a length failure for a Kozak advisory.
+    aav.internal_repeats WARN came from the orchestrator's synthetic CDS, which
+      is a repeating four codon palette. It appears under both promoters and will
+      not appear with a real transgene.
+  Three honest ways to handle it, operator choice:
+    1. Keep the CAG to EFS narrative and say the advisory out loud. This is
+       arguably the strongest option because section 3.4 is exactly the argument
+       that a warning with an explanation is the product, and a presenter who
+       volunteers it looks more credible than one whose demo is suspiciously
+       green.
+    2. Target astrocytes and substitute to GFAP, which gives a clean PASS with a
+       real transgene. Changes the narrative from "smaller promoter" to
+       "tissue appropriate promoter".
+    3. Add one compact promoter that ends in a purine at -3 to the registry.
+       This widens the clean design space considerably, but it needs a real
+       sourced sequence under section 4.3 and open question Q10, so it is new
+       WP-02 scope and not a quick fix.
+  Nothing here is a defect. The checks are behaving as specified and the
+  remediation engine does its job. It is a question of which true story to tell.
