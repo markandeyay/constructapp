@@ -136,3 +136,28 @@ absolute build path into its source maps, and the build directory on this
 machine is named after the retired product. That cache was deleted and it is
 gitignored. On the operator path `C:\Users\yalam\constructapp` the embedded path
 contains no retired token, so the issue does not arise there.
+
+## Open limitation for the operator: plasmid gold cases and the new runner
+
+The plasmid capability's existing gold set, 36 known-good and 52 known-bad, runs
+through its own pre-existing harness via `make validate-sample MODE=gold`, and
+currently reports accuracy 1.0 with the phase 3 gate met. That path is green.
+
+It does NOT run through WP-09's new multi-capability runner, so it is not yet
+subject to the three assertions in specification 9.3: expected overall severity,
+the NAMED check reporting the expected severity, and no unexpected FAIL. The
+existing harness predates that requirement.
+
+Two reasons it was left alone. Specification 12 scopes WP-06 to
+`tests/gold/aav`, `tests/gold/assembly` and `tests/gold/grna` only, so plasmid
+is out of that package's ownership. And `PLASMID_SPEC` in the capability
+registry deliberately registers no validator, because the existing plasmid
+engine predates the section 5.3 interface and would need an adapter.
+
+Consequence to state honestly rather than paper over: the claim "all four
+capabilities correctly reject every known-bad case via the expected check_id"
+holds for the three new capabilities under the new runner, and holds for plasmid
+only under the weaker assertion its own harness makes. Closing the gap needs a
+validator adapter plus a conversion of 88 existing cases to the new case format.
+That is real work and it is not started. Recorded for an operator decision
+rather than attempted unilaterally late in the build.
