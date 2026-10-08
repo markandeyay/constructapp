@@ -332,6 +332,146 @@ def test_auto_engine_prefers_viennarna_when_it_is_available() -> None:
     assert "kcal/mol" in check.message
 
 
+# The masking oligo from tests/assembly/test_structure.py, used here as a
+# primer. A 10 bp internal stem sits upstream and a 7 bp stem pairs the first
+# seven bases against the last seven, so the FAIL condition section 7.5 check 6
+# specifies is present but hides behind the longer internal stem.
+MASKING_PRIMER = "ACTTGCAGGTCAATGCTATATAGCATTGACCAAATTTAAATTTTTGCAAGT"
+
+
+def masking_design(tail_nt: int, **request_kwargs: object):
+    """A pcr_cloning design whose forward primer is `MASKING_PRIMER`.
+
+    `tail_nt` splits the oligo into a fixed 5' tail and a template-binding
+    region, so the segment labelling is exercised on a real report rather than
+    only at the structure level.
+    """
+    tail, binding = MASKING_PRIMER[:tail_nt], MASKING_PRIMER[tail_nt:]
+    reverse_binding = FRAGMENT_A[100:120]
+    sequence = LEFT_FLANK + binding + MIDDLE + reverse_complement(reverse_binding) + RIGHT_FLANK
+    fragment = Fragment(name="frag", sequence=sequence, source="synthetic from the fixture slices")
+    base: dict[str, object] = {"strategy": "pcr_cloning", "fragments": [fragment]}
+    base.update(request_kwargs)
+    request = AssemblyRequest(**base)  # type: ignore[arg-type]
+    reverse_start = len(sequence) - len(RIGHT_FLANK) - len(reverse_binding)
+    return pinned_design(
+        request,
+        [
+            primer("frag_F", "frag", "forward", binding, tail=tail, start=len(LEFT_FLANK)),
+            primer("frag_R", "frag", "reverse", reverse_binding, start=reverse_start),
+        ],
+    )
+
+
+def test_hairpin_fails_on_a_three_prime_stem_masked_by_a_longer_internal_stem() -> None:
+    """Regression: a longer internal stem must not swallow a 3'-anchored FAIL.
+
+    Before the fix the single reported stem was chosen by length, so this primer
+    reported a 10 bp internal stem with `three_prime_involved` False and the
+    check returned WARN. The 7 bp stem that sequesters the 3' end, which section
+    7.5 check 6 makes a FAIL, was never looked at. The severity-maximising
+    result is the 3'-involved one whenever it reaches the FAIL threshold.
+    """
+    design = masking_design(tail_nt=20, hairpin_engine="window")
+    report = VALIDATOR.validate(design)
+    assert severity_of(report, "primer.hairpin") == "fail"
+    check = next(item for item in report.checks if item.check_id == "primer.hairpin")
+    assert "7 bp stem" in check.message, "the FAIL must be reported on the 3'-anchored stem"
+    # `observed` carries both numbers, so the reader can see why a 10 bp stem
+    # produced a FAIL quoted at 7 bp rather than being left to wonder.
+    assert "10 bp stem, 7 bp with the 3' end in it" in (check.observed or "")
+
+
+def test_a_masked_three_prime_stem_below_the_threshold_still_only_warns() -> None:
+    """The fix raises severity only when the 3' stem really reaches the FAIL level.
+
+    With the FAIL stem configured above the 3'-anchored stem's 7 bp, the same
+    primer must fall back to the internal stem's WARN. Otherwise the fix would
+    have turned the false negative into a false positive.
+    """
+    design = masking_design(
+        tail_nt=20,
+        hairpin_engine="window",
+        thresholds=AssemblyThresholds(hairpin_window_stem_three_prime_fail_bp=9),
+    )
+    report = VALIDATOR.validate(design)
+    assert severity_of(report, "primer.hairpin") == "warn"
+
+
+def test_the_hairpin_message_says_which_oligo_segment_each_arm_lies_in() -> None:
+    """A stem length alone cannot be acted on; the segment says what is movable."""
+    design = masking_design(tail_nt=20, hairpin_engine="window")
+    report = VALIDATOR.validate(design)
+    check = next(item for item in report.checks if item.check_id == "primer.hairpin")
+    assert "5' arm at 1 to 7 in the fixed 5' tail" in check.message
+    assert "3' arm at 45 to 51 in the template-binding region" in check.message
+    # One arm is in the tail, so the message must not suggest moving the tail.
+    assert "the tail cannot be moved" in check.message
+
+
+def test_the_hairpin_message_offers_the_walkable_remedy_when_both_arms_are_movable() -> None:
+    """With no tail, both arms are in the binding region and can be walked."""
+    design = one_fragment_design(
+        "GCGCGCGC" + "AAAA" + "GCGCGCGC", FRAGMENT_A[100:120], hairpin_engine="window"
+    )
+    report = VALIDATOR.validate(design)
+    check = next(item for item in report.checks if item.check_id == "primer.hairpin")
+    assert "Both arms of every stem reported lie in the template-binding region" in check.message
+
+
+# ---------------------------------------------------------------------------
+# The recalibrated window stem thresholds
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("stem_bp", [4, 5])
+def test_a_short_stem_no_longer_fires_the_window_hairpin_check(stem_bp: int) -> None:
+    """Regression: 4 bp and 5 bp stems are below the recalibrated WARN of 6 bp.
+
+    A 4 bp stem occurs in 0.90 of random 47 nt oligos, so flagging it reported
+    nine correct designs in ten. The DNA energy model puts the stems this scan
+    reports at 4 bp near -0.4 kcal/mol and at 5 bp near -2.1, against a WARN
+    level of -2.0 that the primary engine concurs with in only about half of
+    5 bp cases. Neither is a structure worth reporting.
+    """
+    arm = ("GCTAGC" * 2)[:stem_bp]
+    stem = arm + "AAAA" + reverse_complement(arm)
+    # Pad to a realistic primer length with sequence that adds no further stem.
+    binding = stem + "AAATTTAAATTTAAATTT"[: 24 - len(stem)]
+    design = one_fragment_design(binding, FRAGMENT_A[100:120], hairpin_engine="window")
+    report = VALIDATOR.validate(design)
+    assert severity_of(report, "primer.hairpin") == "pass"
+
+
+def test_a_six_base_pair_stem_still_warns() -> None:
+    """6 bp is the recalibrated WARN level, so it must fire at exactly 6."""
+    arm = "GCTAGC"
+    binding = arm + "AAAA" + reverse_complement(arm) + "AAATTTAAA"
+    design = one_fragment_design(binding, FRAGMENT_A[100:120], hairpin_engine="window")
+    report = VALIDATOR.validate(design)
+    assert severity_of(report, "primer.hairpin") == "warn"
+
+
+def test_the_window_thresholds_match_the_free_energy_levels_they_stand_in_for() -> None:
+    """The two thresholds are a pair, and the 3' one is the harder of the two.
+
+    The relation is what keeps the fallback from contradicting the engine it
+    replaces: the 3' FAIL stem must sit above the WARN stem, exactly as
+    HAIRPIN_THREE_PRIME_DG_FAIL_KCAL_PER_MOL sits below
+    HAIRPIN_DG_WARN_KCAL_PER_MOL.
+    """
+    from packages.validation.assembly import constants
+
+    assert constants.HAIRPIN_WINDOW_STEM_WARN_BP == 6
+    assert constants.HAIRPIN_WINDOW_STEM_THREE_PRIME_FAIL_BP == 7
+    assert (
+        constants.HAIRPIN_WINDOW_STEM_THREE_PRIME_FAIL_BP > constants.HAIRPIN_WINDOW_STEM_WARN_BP
+    )
+    assert (
+        constants.HAIRPIN_THREE_PRIME_DG_FAIL_KCAL_PER_MOL < constants.HAIRPIN_DG_WARN_KCAL_PER_MOL
+    )
+
+
 # ---------------------------------------------------------------------------
 # 7. primer.self_dimer
 # ---------------------------------------------------------------------------
@@ -599,6 +739,31 @@ def test_pcr_cloning_with_the_same_site_at_both_ends_is_ambiguous() -> None:
     """Simple PCR cloning with one enzyme gives an insert that can go in either way."""
     report = VALIDATOR.validate(design_from(clean_request(strategy="pcr_cloning", enzyme="BsaI")))
     assert severity_of(report, "assembly.fragment_order_defined") == "fail"
+
+
+def test_fragment_order_remedy_is_branched_on_strategy() -> None:
+    """The three strategies do not share a remedy, so the message must not either.
+
+    Gibson and Golden Gate let the designer choose the joining sequence, so
+    moving the junction or adopting a published overhang set is a real fix.
+    Single-enzyme PCR cloning cannot do either: both ends carry the same site by
+    construction. Offering the Gibson remedy there sends the reader after a
+    change that cannot be made.
+    """
+    pcr = VALIDATOR.validate(design_from(clean_request(strategy="pcr_cloning", enzyme="BsaI")))
+    pcr_check = next(item for item in pcr.checks if item.check_id == "assembly.fragment_order_defined")
+    assert pcr_check.severity.value == "fail"
+    assert "two different enzymes" in pcr_check.message
+    assert "screen colonies" in pcr_check.message
+    assert "moving the junction position" not in pcr_check.message
+    assert "overhang standard" not in pcr_check.message
+
+    gg = VALIDATOR.validate(golden_gate_design(["ATGC", "ATGC"]))
+    gg_check = next(item for item in gg.checks if item.check_id == "assembly.fragment_order_defined")
+    assert gg_check.severity.value == "fail"
+    assert "moving the junction position" in gg_check.message
+    assert "overhang standard" in gg_check.message
+    assert "screen colonies" not in gg_check.message
 
 
 # ---------------------------------------------------------------------------

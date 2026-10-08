@@ -1,1069 +1,1069 @@
 [
-  {
-    "case_id": "assembly.bad.primer_pair_tm_delta",
-    "capability": "assembly",
-    "expect_overall": "warn",
-    "expect_check": "primer.pair_tm_delta",
-    "expect_severity": "warn",
-    "rationale": "The two primers of the pair are pinned to real slices whose melting temperatures differ by 6.0 C, over the 5.0 C threshold, while each one is individually acceptable on every check that looks at a single primer. The forward primer melts at 57.0 C and the reverse at 63.0 C, so both sit inside the 57.0 to 63.0 C window and neither is anywhere near the 10 C band that makes primer.tm_in_range FAIL; GC is 47% and 50%, inside the 40% to 60% window; and neither folds or dimerises past its threshold. primer.pair_tm_delta is the only non-pass check in the report. That separation is the whole point: a pair can be individually acceptable and still be unusable together, because one thermocycling program has to serve both and the annealing temperature that suits the hotter primer leaves the cooler one unbound. primer.pair_tm_delta is the only check that compares the two primers of a pair, so it is the only one that can catch this. The arithmetic also shows why the pair threshold has to be narrower than the single primer window: that window is 6.0 C wide, so without a pair check a mismatch of exactly this size would pass unremarked, which is what this case demonstrates. Every sequence in this case is a plus strand slice of a real GenBank record already in this repository, at the offset the fragment source field records. The offsets are chosen, the bases are not.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "pcr_cloning",
-        "fragments": [
-          {
-            "name": "frag",
-            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAACATATCCTGGTGTGGAGTACTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGGTATTACCGCCTTTGAGTGAGCTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "a primer pair with a deliberate melting temperature mismatch, pinned so that each primer on its own is inside every single primer window. The forward primer binds a 19 bp slice of GenBank PZ285974.1, GFAP promoter (part promoter.gfap) at offset 7 and the reverse primer binds a 22 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 747. flanks are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and the interior is a plus strand slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
-          }
-        ],
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_F",
-          "fragment": "frag",
-          "direction": "forward",
-          "tail": "",
-          "binding": "CATATCCTGGTGTGGAGTA",
-          "binding_start": 40,
-          "binding_end": 59
-        },
-        {
-          "name": "frag_R",
-          "fragment": "frag",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "GCTCACTCAAAGGCGGTAATAC",
-          "binding_start": 119,
-          "binding_end": 141
-        }
-      ],
-      "junctions": [],
-      "fragment_order": [
-        "frag"
-      ]
-    }
-  },
-  {
-    "case_id": "assembly.bad.primer_three_prime_hairpin",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "primer.hairpin",
-    "expect_severity": "fail",
-    "rationale": "The forward primer is a real 22 bp slice that folds back on itself with a stem that includes its own 3' terminus. A 3' stem is the damaging case, because it sequesters the base the polymerase has to extend from, so the primer does not prime at all rather than merely competing with annealing. That is why section 7.5 check 6 is FAIL for a 3' stem past the hard threshold and WARN for an internal one, and primer.hairpin is the only check that folds a primer against itself. hairpin_engine is pinned to window in every assembly gold case. ViennaRNA is an optional import that is not in requirements.txt, so leaving the engine on auto would make the verdict depend on whether the package happens to be installed, which section 3.3 constraint 1 forbids for a gold set. primer.self_dimer also WARNs, over a 16 bp overlap ending at the forward primer's own 3' terminus, and it is declared here because it cannot be separated from the defect: a 3' hairpin is intramolecular self complementarity, and the same self complementary bases read between two copies of the oligo are an extendable self dimer. The two checks measure one physical property in two geometries, so any input that fails primer.hairpin on a 3' stem will draw this warning as well. primer.hairpin is the only FAIL in the report.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "pcr_cloning",
-        "fragments": [
-          {
-            "name": "frag",
-            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAGACTTTCCATTGACGTCAATGGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "a primer whose 3' end is inside a self complementary stem. The forward primer binds a 22 bp slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 84 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
-          }
-        ],
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_F",
-          "fragment": "frag",
-          "direction": "forward",
-          "tail": "",
-          "binding": "GACTTTCCATTGACGTCAATGG",
-          "binding_start": 40,
-          "binding_end": 62
-        },
-        {
-          "name": "frag_R",
-          "fragment": "frag",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "CAAGGCGATTAAGTTGGGTA",
-          "binding_start": 122,
-          "binding_end": 142
-        }
-      ],
-      "junctions": [],
-      "fragment_order": [
-        "frag"
-      ]
-    }
-  },
-  {
-    "case_id": "assembly.bad.primer_hetero_dimer",
-    "capability": "assembly",
-    "expect_overall": "warn",
-    "expect_check": "primer.hetero_dimer",
-    "expect_severity": "warn",
-    "rationale": "The forward and reverse primers are complementary across their 3' ends, so the two oligos anneal to each other and each extends on the other. The product is primer dimer, which consumes the primers and the polymerase and competes with the real template, and it amplifies exponentially because it carries both priming sites. primer.hetero_dimer is the only check that aligns the two primers of a pair against each other with the 3' end weighted, which is what section 7.4 says matters, so it is the check that must catch this. Both primers are real slices. One further check WARNs and is declared here: primer.tm_in_range, because the forward primer is 18 bp and melts at 54.9 C, 5.1 C under the 60.0 C target and so outside the 57.0 to 63.0 C window, though well inside the 10 C band that would make it a FAIL. That is a property of the slice chosen to put the two 3' ends in register rather than a second defect, and primer.hetero_dimer is the only check that aligns the pair against each other. No check FAILs.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "pcr_cloning",
-        "fragments": [
-          {
-            "name": "frag",
-            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGGGACTTTCCTACTTGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "a primer pair whose 3' ends are complementary to each other. The forward primer binds a 18 bp slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 231 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
-          }
-        ],
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_F",
-          "fragment": "frag",
-          "direction": "forward",
-          "tail": "",
-          "binding": "ATGGGACTTTCCTACTTG",
-          "binding_start": 40,
-          "binding_end": 58
-        },
-        {
-          "name": "frag_R",
-          "fragment": "frag",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "CAAGGCGATTAAGTTGGGTA",
-          "binding_start": 118,
-          "binding_end": 138
-        }
-      ],
-      "junctions": [],
-      "fragment_order": [
-        "frag"
-      ]
-    }
-  },
-  {
-    "case_id": "assembly.bad.primer_binds_twice_in_template",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "primer.specificity_in_template",
-    "expect_severity": "fail",
-    "rationale": "The forward primer's 22 bp binding region occurs twice in the template, because the fragment carries the same real 22 bp stretch of the CBh promoter at two positions. The PCR would give two products of different lengths and the cloning would be a mixture, which is the kind of failure that is invisible until a gel is run. Both primers are pinned so that every thermodynamic property of the pair is inside its window, and the claim that no other check can see this defect is therefore a property of the report rather than an assertion about what the other checks ought to do: the forward primer melts at 60.0 C and the reverse at 59.2 C, both inside the 57.0 to 63.0 C window and 0.8 C apart against a 5.0 C pair limit; GC is 41% and 56% against a 40% to 60% window; and neither primer folds or dimerises past its threshold. primer.specificity_in_template is the only non-pass check in the report, and it is the only check that counts occurrences in the supplied template set, on both strands.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "pcr_cloning",
-        "fragments": [
-          {
-            "name": "frag",
-            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAGACGTCAATAGTAACGCCAATACTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCGACGTCAATAGTAACGCCAATAGATGTACTGCCAAGTGGGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "real slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) and GenBank KU341333.1, CBh promoter (part promoter.cbh), arranged so the forward primer's 22 bp binding region is present twice. The forward primer binds a 22 bp slice of promoter.cbh at offset 60, placed at fragment offsets 40 and 123; the reverse primer binds a 18 bp slice of promoter.cbh at offset 128, whose reverse complement sits at fragment offset 145. flanks are plus strand slices of promoter.cmv at offsets 462 and 582 and the interior is a plus strand slice of promoter.cbh at offset 572"
-          }
-        ],
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_F",
-          "fragment": "frag",
-          "direction": "forward",
-          "tail": "",
-          "binding": "GACGTCAATAGTAACGCCAATA",
-          "binding_start": 40,
-          "binding_end": 62
-        },
-        {
-          "name": "frag_R",
-          "fragment": "frag",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "CCCACTTGGCAGTACATC",
-          "binding_start": 145,
-          "binding_end": 163
-        }
-      ],
-      "junctions": [],
-      "fragment_order": [
-        "frag"
-      ]
-    }
-  },
-  {
-    "case_id": "assembly.bad.golden_gate_internal_enzyme_site",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "gg.enzyme_site_internal",
-    "expect_severity": "fail",
-    "rationale": "A BsaI recognition site, GGTCTC, is substituted into the middle of the first fragment. BsaI cuts outside its recognition site, so an internal copy means the enzyme cuts the fragment in half during the one pot reaction and the assembly cannot work. This is the check that triggers domestication, so the case also asserts the structured remediation field: section 7.6 requires a report naming each internal occurrence and a silent substitution that destroys it, not a bare rejection. gg.enzyme_site_internal is the only check that scans fragment interiors for the chosen enzyme's site, and Appendix D requires both strands to be scanned because the site is not palindromic. The six base substitution is deliberate and declared; the rest of the fragment is a real slice.",
-    "must_also_report": [
-      "remediation"
+ {
+  "case_id": "assembly.bad.primer_pair_tm_delta",
+  "capability": "assembly",
+  "expect_overall": "warn",
+  "expect_check": "primer.pair_tm_delta",
+  "expect_severity": "warn",
+  "rationale": "The two primers of the pair are pinned to real slices whose melting temperatures differ by 6.0 C, over the 5.0 C threshold, while each one is individually acceptable on every check that looks at a single primer. The forward primer melts at 57.0 C and the reverse at 63.0 C, so both sit inside the 57.0 to 63.0 C window and neither is anywhere near the 10 C band that makes primer.tm_in_range FAIL; GC is 47% and 50%, inside the 40% to 60% window; and neither folds or dimerises past its threshold. primer.pair_tm_delta is the only non-pass check in the report. That separation is the whole point: a pair can be individually acceptable and still be unusable together, because one thermocycling program has to serve both and the annealing temperature that suits the hotter primer leaves the cooler one unbound. primer.pair_tm_delta is the only check that compares the two primers of a pair, so it is the only one that can catch this. The arithmetic also shows why the pair threshold has to be narrower than the single primer window: that window is 6.0 C wide, so without a pair check a mismatch of exactly this size would pass unremarked, which is what this case demonstrates. Every sequence in this case is a plus strand slice of a real GenBank record already in this repository, at the offset the fragment source field records. The offsets are chosen, the bases are not.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "pcr_cloning",
+    "fragments": [
+     {
+      "name": "frag",
+      "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAACATATCCTGGTGTGGAGTACTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGGTATTACCGCCTTTGAGTGAGCTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
+      "source": "a primer pair with a deliberate melting temperature mismatch, pinned so that each primer on its own is inside every single primer window. The forward primer binds a 19 bp slice of GenBank PZ285974.1, GFAP promoter (part promoter.gfap) at offset 7 and the reverse primer binds a 22 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 747. flanks are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and the interior is a plus strand slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
+     }
     ],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "golden_gate",
-        "fragments": [
-          {
-            "name": "frag_a",
-            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGGGTCTCACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
-            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp, with the six bases at offset 60 replaced by the BsaI site GGTCTC for this case"
-          },
-          {
-            "name": "frag_b",
-            "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
-            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp"
-          }
-        ],
-        "hairpin_engine": "window",
-        "enzyme": "BsaI"
-      }
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_F",
+     "fragment": "frag",
+     "direction": "forward",
+     "tail": "",
+     "binding": "CATATCCTGGTGTGGAGTA",
+     "binding_start": 40,
+     "binding_end": 59
+    },
+    {
+     "name": "frag_R",
+     "fragment": "frag",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "GCTCACTCAAAGGCGGTAATAC",
+     "binding_start": 119,
+     "binding_end": 141
     }
-  },
-  {
-    "case_id": "assembly.bad.two_identical_overhangs",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "gg.overhang_uniqueness",
-    "expect_severity": "fail",
-    "rationale": "Both fusion overhangs in the assembly are pinned to ATGC, so every fragment end can ligate to every other fragment end. The reaction produces concatemers and fragments in the wrong order rather than the intended construct, and the yield of the right product collapses. gg.overhang_uniqueness is the check that must catch it. assembly.fragment_order_defined also fails, and it is listed in allowed_extra_fail because it is the same defect seen from the other side rather than a second defect: identical overhangs are precisely what makes the assembly order ambiguous. The two messages say different useful things, one about mis-ligation and one about order, so neither is redundant.",
-    "must_also_report": [],
-    "allowed_extra_fail": [
-      "assembly.fragment_order_defined"
-    ],
-    "input": {
-      "request": {
-        "strategy": "golden_gate",
-        "fragments": [
-          {
-            "name": "frag_a",
-            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
-            "role": "insert",
-            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-            "coding_regions": [],
-            "is_circular": false
-          },
-          {
-            "name": "frag_b",
-            "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
-            "role": "insert",
-            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp",
-            "coding_regions": [],
-            "is_circular": false
-          }
-        ],
-        "vector_backbone": null,
-        "enzyme": "BsaI",
-        "target_tm_c": 60.0,
-        "primer_conc_nm": 500.0,
-        "monovalent_salt_mm": 50.0,
-        "divalent_salt_mm": 1.5,
-        "dntp_mm": 0.2,
-        "overhang_standard": null,
-        "host_codon_usage": null,
-        "thresholds": null,
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_a_F",
-          "fragment": "frag_a",
-          "direction": "forward",
-          "tail": "AGGTCTCA",
-          "binding": "CAATGGGTGGAGTATTTACGG",
-          "binding_start": 0,
-          "binding_end": 21,
-          "notes": []
-        },
-        {
-          "name": "frag_a_R",
-          "fragment": "frag_a",
-          "direction": "reverse",
-          "tail": "AGGTCTCAGTCC",
-          "binding": "CCAAGTAGGAAAGTCCCATAAG",
-          "binding_start": 128,
-          "binding_end": 150,
-          "notes": []
-        },
-        {
-          "name": "frag_b_F",
-          "fragment": "frag_b",
-          "direction": "forward",
-          "tail": "AGGTCTCA",
-          "binding": "GGACTTTCCAAAATGTCGTAAC",
-          "binding_start": 0,
-          "binding_end": 22,
-          "notes": []
-        },
-        {
-          "name": "frag_b_R",
-          "fragment": "frag_b",
-          "direction": "reverse",
-          "tail": "AGGTCTCAATTG",
-          "binding": "CTTCTATGGAGGTCAAAACAGC",
-          "binding_start": 128,
-          "binding_end": 150,
-          "notes": []
-        }
-      ],
-      "junctions": [
-        {
-          "index": 0,
-          "left_fragment": "frag_b",
-          "right_fragment": "frag_a",
-          "kind": "golden_gate_overhang",
-          "sequence": "ATGC",
-          "overhang_source": "fragment_junction",
-          "overhang_standard_name": null
-        },
-        {
-          "index": 1,
-          "left_fragment": "frag_a",
-          "right_fragment": "frag_b",
-          "kind": "golden_gate_overhang",
-          "sequence": "ATGC",
-          "overhang_source": "fragment_junction",
-          "overhang_standard_name": null
-        }
-      ],
-      "amplicons": [
-        {
-          "name": "frag_a_amplicon",
-          "fragment": "frag_a",
-          "forward_primer": "frag_a_F",
-          "reverse_primer": "frag_a_R",
-          "length_bp": 170
-        },
-        {
-          "name": "frag_b_amplicon",
-          "fragment": "frag_b",
-          "forward_primer": "frag_b_F",
-          "reverse_primer": "frag_b_R",
-          "length_bp": 170
-        }
-      ],
-      "fragment_order": [
-        "frag_a",
-        "frag_b"
-      ],
-      "domestication": {
-        "enzyme": "BsaI",
-        "recognition_site": "GGTCTC",
-        "sites_found": 0,
-        "edits": [],
-        "unresolved": [],
-        "host_codon_usage_table": null,
-        "host_codon_usage_status": "unknown",
-        "notes": [
-          "Both strands were searched for GGTCTC, because Appendix D records that Type IIS recognition sequences are not palindromic.",
-          "BsaI cuts at GGTCTC(1/5), leaving a 4 nt overhang.",
-          "No host codon usage table is bundled with this build, so the host frequency of the original and proposed codons could not be compared. The substitution was chosen as the minimal silent edit that destroys the recognition site. Supply a host codon usage table, with its source and host named, to get the frequency comparison."
-        ]
-      },
-      "provenance": [
-        "strategy:golden_gate",
-        "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-        "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp",
-        "enzyme:BsaI:Appendix D GGTCTC(1/5)",
-        "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
-      ],
-      "composed": true
-    }
-  },
-  {
-    "case_id": "assembly.bad.palindromic_overhang",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "gg.overhang_not_palindromic",
-    "expect_severity": "fail",
-    "rationale": "One overhang is pinned to AATT, which is its own reverse complement. A palindromic overhang anneals to a second copy of itself, so the fragment can be ligated in either orientation and half the product is inverted. The two overhangs in this assembly are distinct, so gg.overhang_uniqueness passes and cannot catch it: self complementarity is a different property from collision, which is why section 7.5 lists checks 15 and 16 separately. The all AT composition of AATT also draws the check 17 warning, which is a WARN and leaves this case with exactly one failure.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "golden_gate",
-        "fragments": [
-          {
-            "name": "frag_a",
-            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
-            "role": "insert",
-            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-            "coding_regions": [],
-            "is_circular": false
-          },
-          {
-            "name": "frag_b",
-            "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
-            "role": "insert",
-            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp",
-            "coding_regions": [],
-            "is_circular": false
-          }
-        ],
-        "vector_backbone": null,
-        "enzyme": "BsaI",
-        "target_tm_c": 60.0,
-        "primer_conc_nm": 500.0,
-        "monovalent_salt_mm": 50.0,
-        "divalent_salt_mm": 1.5,
-        "dntp_mm": 0.2,
-        "overhang_standard": null,
-        "host_codon_usage": null,
-        "thresholds": null,
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_a_F",
-          "fragment": "frag_a",
-          "direction": "forward",
-          "tail": "AGGTCTCA",
-          "binding": "CAATGGGTGGAGTATTTACGG",
-          "binding_start": 0,
-          "binding_end": 21,
-          "notes": []
-        },
-        {
-          "name": "frag_a_R",
-          "fragment": "frag_a",
-          "direction": "reverse",
-          "tail": "AGGTCTCAGTCC",
-          "binding": "CCAAGTAGGAAAGTCCCATAAG",
-          "binding_start": 128,
-          "binding_end": 150,
-          "notes": []
-        },
-        {
-          "name": "frag_b_F",
-          "fragment": "frag_b",
-          "direction": "forward",
-          "tail": "AGGTCTCA",
-          "binding": "GGACTTTCCAAAATGTCGTAAC",
-          "binding_start": 0,
-          "binding_end": 22,
-          "notes": []
-        },
-        {
-          "name": "frag_b_R",
-          "fragment": "frag_b",
-          "direction": "reverse",
-          "tail": "AGGTCTCAATTG",
-          "binding": "CTTCTATGGAGGTCAAAACAGC",
-          "binding_start": 128,
-          "binding_end": 150,
-          "notes": []
-        }
-      ],
-      "junctions": [
-        {
-          "index": 0,
-          "left_fragment": "frag_b",
-          "right_fragment": "frag_a",
-          "kind": "golden_gate_overhang",
-          "sequence": "AATT",
-          "overhang_source": "fragment_junction",
-          "overhang_standard_name": null
-        },
-        {
-          "index": 1,
-          "left_fragment": "frag_a",
-          "right_fragment": "frag_b",
-          "kind": "golden_gate_overhang",
-          "sequence": "ACGG",
-          "overhang_source": "fragment_junction",
-          "overhang_standard_name": null
-        }
-      ],
-      "amplicons": [
-        {
-          "name": "frag_a_amplicon",
-          "fragment": "frag_a",
-          "forward_primer": "frag_a_F",
-          "reverse_primer": "frag_a_R",
-          "length_bp": 170
-        },
-        {
-          "name": "frag_b_amplicon",
-          "fragment": "frag_b",
-          "forward_primer": "frag_b_F",
-          "reverse_primer": "frag_b_R",
-          "length_bp": 170
-        }
-      ],
-      "fragment_order": [
-        "frag_a",
-        "frag_b"
-      ],
-      "domestication": {
-        "enzyme": "BsaI",
-        "recognition_site": "GGTCTC",
-        "sites_found": 0,
-        "edits": [],
-        "unresolved": [],
-        "host_codon_usage_table": null,
-        "host_codon_usage_status": "unknown",
-        "notes": [
-          "Both strands were searched for GGTCTC, because Appendix D records that Type IIS recognition sequences are not palindromic.",
-          "BsaI cuts at GGTCTC(1/5), leaving a 4 nt overhang.",
-          "No host codon usage table is bundled with this build, so the host frequency of the original and proposed codons could not be compared. The substitution was chosen as the minimal silent edit that destroys the recognition site. Supply a host codon usage table, with its source and host named, to get the frequency comparison."
-        ]
-      },
-      "provenance": [
-        "strategy:golden_gate",
-        "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-        "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp",
-        "enzyme:BsaI:Appendix D GGTCTC(1/5)",
-        "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
-      ],
-      "composed": true
-    }
-  },
-  {
-    "case_id": "assembly.bad.gibson_overlap_far_too_short",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "gibson.overlap_length",
-    "expect_severity": "fail",
-    "rationale": "One terminal homology arm is pinned to 6 bp, against a 15 to 40 bp window. Gibson assembly works by chewing back the 5' ends with an exonuclease and letting the single stranded overhangs anneal at 50 C; a 6 bp overhang does not hold at that temperature, so the junction simply does not form and nothing assembles. gibson.overlap_length is the check that must catch it, and section 7.5 makes it FAIL rather than WARN because the reaction does not work at all. The low melting temperature of the same 6 bp arm also draws the check 12 warning, which is a true consequence and is a WARN.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "gibson",
-        "fragments": [
-          {
-            "name": "frag_a",
-            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
-            "role": "insert",
-            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-            "coding_regions": [],
-            "is_circular": false
-          },
-          {
-            "name": "frag_b",
-            "sequence": "ATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAAC",
-            "role": "insert",
-            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
-            "coding_regions": [],
-            "is_circular": false
-          }
-        ],
-        "vector_backbone": null,
-        "enzyme": null,
-        "target_tm_c": 60.0,
-        "primer_conc_nm": 500.0,
-        "monovalent_salt_mm": 50.0,
-        "divalent_salt_mm": 1.5,
-        "dntp_mm": 0.2,
-        "overhang_standard": null,
-        "host_codon_usage": null,
-        "thresholds": null,
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_a_F",
-          "fragment": "frag_a",
-          "direction": "forward",
-          "tail": "GCAGAGCTCGTTTAGTGAAC",
-          "binding": "CAATGGGTGGAGTATTTACGG",
-          "binding_start": 0,
-          "binding_end": 21,
-          "notes": []
-        },
-        {
-          "name": "frag_a_R",
-          "fragment": "frag_a",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "CCAAGTAGGAAAGTCCCATAAG",
-          "binding_start": 128,
-          "binding_end": 150,
-          "notes": []
-        },
-        {
-          "name": "frag_b_F",
-          "fragment": "frag_b",
-          "direction": "forward",
-          "tail": "TATGGGACTTTCCTACTTGG",
-          "binding": "ATAGCGGTTTGACTCACG",
-          "binding_start": 0,
-          "binding_end": 18,
-          "notes": []
-        },
-        {
-          "name": "frag_b_R",
-          "fragment": "frag_b",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "GTTCACTAAACGAGCTCTGC",
-          "binding_start": 160,
-          "binding_end": 180,
-          "notes": []
-        }
-      ],
-      "junctions": [
-        {
-          "index": 0,
-          "left_fragment": "frag_b",
-          "right_fragment": "frag_a",
-          "kind": "gibson_homology",
-          "sequence": "CAATGG",
-          "overhang_source": null,
-          "overhang_standard_name": null
-        },
-        {
-          "index": 1,
-          "left_fragment": "frag_a",
-          "right_fragment": "frag_b",
-          "kind": "gibson_homology",
-          "sequence": "ATAGCGGTTTGACTCACGGG",
-          "overhang_source": null,
-          "overhang_standard_name": null
-        }
-      ],
-      "amplicons": [
-        {
-          "name": "frag_a_amplicon",
-          "fragment": "frag_a",
-          "forward_primer": "frag_a_F",
-          "reverse_primer": "frag_a_R",
-          "length_bp": 170
-        },
-        {
-          "name": "frag_b_amplicon",
-          "fragment": "frag_b",
-          "forward_primer": "frag_b_F",
-          "reverse_primer": "frag_b_R",
-          "length_bp": 200
-        }
-      ],
-      "fragment_order": [
-        "frag_a",
-        "frag_b"
-      ],
-      "domestication": null,
-      "provenance": [
-        "strategy:gibson",
-        "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-        "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
-        "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
-      ],
-      "composed": true
-    }
-  },
-  {
-    "case_id": "assembly.bad.two_gibson_junctions_share_homology",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "gibson.overlap_uniqueness",
-    "expect_severity": "fail",
-    "rationale": "Both Gibson junctions are pinned to the same 20 bp homology arm. Each fragment end can then anneal to either junction, so the assembly can close in more than one arrangement and the product is a mixture. Both arms are individually the right length and melt well above the floor, so checks 11 and 12 pass and cannot catch it: the defect is the relationship between the two junctions, which is what gibson.overlap_uniqueness exists to measure. assembly.fragment_order_defined fails as well and is allowed, for the same reason as in the identical overhang case: shared homology is what makes the order ambiguous, so it is one defect reported from two angles.",
-    "must_also_report": [],
-    "allowed_extra_fail": [
-      "assembly.fragment_order_defined"
-    ],
-    "input": {
-      "request": {
-        "strategy": "gibson",
-        "fragments": [
-          {
-            "name": "frag_a",
-            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
-            "role": "insert",
-            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-            "coding_regions": [],
-            "is_circular": false
-          },
-          {
-            "name": "frag_b",
-            "sequence": "ATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAAC",
-            "role": "insert",
-            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
-            "coding_regions": [],
-            "is_circular": false
-          }
-        ],
-        "vector_backbone": null,
-        "enzyme": null,
-        "target_tm_c": 60.0,
-        "primer_conc_nm": 500.0,
-        "monovalent_salt_mm": 50.0,
-        "divalent_salt_mm": 1.5,
-        "dntp_mm": 0.2,
-        "overhang_standard": null,
-        "host_codon_usage": null,
-        "thresholds": null,
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_a_F",
-          "fragment": "frag_a",
-          "direction": "forward",
-          "tail": "GCAGAGCTCGTTTAGTGAAC",
-          "binding": "CAATGGGTGGAGTATTTACGG",
-          "binding_start": 0,
-          "binding_end": 21,
-          "notes": []
-        },
-        {
-          "name": "frag_a_R",
-          "fragment": "frag_a",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "CCAAGTAGGAAAGTCCCATAAG",
-          "binding_start": 128,
-          "binding_end": 150,
-          "notes": []
-        },
-        {
-          "name": "frag_b_F",
-          "fragment": "frag_b",
-          "direction": "forward",
-          "tail": "TATGGGACTTTCCTACTTGG",
-          "binding": "ATAGCGGTTTGACTCACG",
-          "binding_start": 0,
-          "binding_end": 18,
-          "notes": []
-        },
-        {
-          "name": "frag_b_R",
-          "fragment": "frag_b",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "GTTCACTAAACGAGCTCTGC",
-          "binding_start": 160,
-          "binding_end": 180,
-          "notes": []
-        }
-      ],
-      "junctions": [
-        {
-          "index": 0,
-          "left_fragment": "frag_b",
-          "right_fragment": "frag_a",
-          "kind": "gibson_homology",
-          "sequence": "CAATGGGTGGAGTATTTACG",
-          "overhang_source": null,
-          "overhang_standard_name": null
-        },
-        {
-          "index": 1,
-          "left_fragment": "frag_a",
-          "right_fragment": "frag_b",
-          "kind": "gibson_homology",
-          "sequence": "CAATGGGTGGAGTATTTACG",
-          "overhang_source": null,
-          "overhang_standard_name": null
-        }
-      ],
-      "amplicons": [
-        {
-          "name": "frag_a_amplicon",
-          "fragment": "frag_a",
-          "forward_primer": "frag_a_F",
-          "reverse_primer": "frag_a_R",
-          "length_bp": 170
-        },
-        {
-          "name": "frag_b_amplicon",
-          "fragment": "frag_b",
-          "forward_primer": "frag_b_F",
-          "reverse_primer": "frag_b_R",
-          "length_bp": 200
-        }
-      ],
-      "fragment_order": [
-        "frag_a",
-        "frag_b"
-      ],
-      "domestication": null,
-      "provenance": [
-        "strategy:gibson",
-        "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-        "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
-        "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
-      ],
-      "composed": true
-    }
-  },
-  {
-    "case_id": "assembly.bad.amplicon_far_too_long",
-    "capability": "assembly",
-    "expect_overall": "warn",
-    "expect_check": "assembly.amplicon_size",
-    "expect_severity": "warn",
-    "rationale": "The fragment is 11,135 bp, over the 10,000 bp ceiling that the standard high fidelity polymerase protocol is documented to. An amplicon this long needs a long range polymerase, a longer extension time and a different protocol, and attempting it with the default program gives either no product or a smear. assembly.amplicon_size is the only check that measures the expected product length, so it is the one that must catch it, and it is a WARN because a long amplicon is achievable with the right enzyme rather than impossible. The fragment is a concatenation of whole real records already in this repository, assembled only to reach a length past the ceiling without inventing a single base; the EF1A record appears twice, in the interior only, so that both primer binding regions stay unique and primer.specificity_in_template is not the check that fires. Three primer checks WARN as well, and they are declared here rather than left implicit. The primers are pinned to the two ends of the concatenation, so their composition is whatever those real records happen to carry and could not be tuned without moving the ends and changing the length this case is about: primer.tm_in_range on the forward primer at 65.6 C, 5.6 C from the 60.0 C target; primer.pair_tm_delta at 6.8 C between 65.6 C and 58.8 C; and primer.gc_content on both, 61% forward and 38% reverse, just outside the 40% to 60% window. None of them is a FAIL and none of them concerns product length, so assembly.amplicon_size remains the only check that measures the defect and the only non-pass check that is not a side effect of where the primers had to sit.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "pcr_cloning",
-        "fragments": [
-          {
-            "name": "frag",
-            "sequence": "TCGCGCGTTTCGGTGATGACGGTGAAAACCTCTGACACATGCAGCTCCCGGAGACGGTCACAGCTTGTCTGTAAGCGGATGCCGGGAGCAGACAAGCCCGTCAGGGCGCGTCAGCGGGTGTTGGCGGGTGTCGGGGCTGGCTTAACTATGCGGCATCAGAGCAGATTGTACTGAGAGTGCACCATATGCGGTGTGAAATACCGCACAGATGCGTAAGGAGAAAATACCGCATCAGGCGCCATTCGCCATTCAGGCTGCGCAACTGTTGGGAAGGGCGATCGGTGCGGGCCTCTTCGCTATTACGCCAGCTGGCGAAAGGGGGATGTGCTGCAAGGCGATTAAGTTGGGTAACGCCAGGGTTTTCCCAGTCACGACGTTGTAAAACGACGGCCAGTGAATTCGAGCTCGGTACCCGGGGATCCTCTAGAGTCGACCTGCAGGCATGCAAGCTTGGCGTAATCATGGTCATAGCTGTTTCCTGTGTGAAATTGTTATCCGCTCACAATTCCACACAACATACGAGCCGGAAGCATAAAGTGTAAAGCCTGGGGTGCCTAATGAGTGAGCTAACTCACATTAATTGCGTTGCGCTCACTGCCCGCTTTCCAGTCGGGAAACCTGTCGTGCCAGCTGCATTAATGAATCGGCCAACGCGCGGGGAGAGGCGGTTTGCGTATTGGGCGCTCTTCCGCTTCCTCGCTCACTGACTCGCTGCGCTCGGTCGTTCGGCTGCGGCGAGCGGTATCAGCTCACTCAAAGGCGGTAATACGGTTATCCACAGAATCAGGGGATAACGCAGGAAAGAACATGTGAGCAAAAGGCCAGCAAAAGGCCAGGAACCGTAAAAAGGCCGCGTTGCTGGCGTTTTTCCATAGGCTCCGCCCCCCTGACGAGCATCACAAAAATCGACGCTCAAGTCAGAGGTGGCGAAACCCGACAGGACTATAAAGATACCAGGCGTTTCCCCCTGGAAGCTCCCTCGTGCGCTCTCCTGTTCCGACCCTGCCGCTTACCGGATACCTGTCCGCCTTTCTCCCTTCGGGAAGCGTGGCGCTTTCTCATAGCTCACGCTGTAGGTATCTCAGTTCGGTGTAGGTCGTTCGCTCCAAGCTGGGCTGTGTGCACGAACCCCCCGTTCAGCCCGACCGCTGCGCCTTATCCGGTAACTATCGTCTTGAGTCCAACCCGGTAAGACACGACTTATCGCCACTGGCAGCAGCCACTGGTAACAGGATTAGCAGAGCGAGGTATGTAGGCGGTGCTACAGAGTTCTTGAAGTGGTGGCCTAACTACGGCTACACTAGAAGGACAGTATTTGGTATCTGCGCTCTGCTGAAGCCAGTTACCTTCGGAAAAAGAGTTGGTAGCTCTTGATCCGGCAAACAAACCACCGCTGGTAGCGGTGGTTTTTTTGTTTGCAAGCAGCAGATTACGCGCAGAAAAAAAGGATCTCAAGAAGATCCTTTGATCTTTTCTACGGGGTCTGACGCTCAGTGGAACGAAAACTCACGTTAAGGGATTTTGGTCATGAGATTATCAAAAAGGATCTTCACCTAGATCCTTTTAAATTAAAAATGAAGTTTTAAATCAATCTAAAGTATATATGAGTAAACTTGGTCTGACAGTTACCAATGCTTAATCAGTGAGGCACCTATCTCAGCGATCTGTCTATTTCGTTCATCCATAGTTGCCTGACTCCCCGTCGTGTAGATAACTACGATACGGGAGGGCTTACCATCTGGCCCCAGTGCTGCAATGATACCGCGAGACCCACGCTCACCGGCTCCAGATTTATCAGCAATAAACCAGCCAGCCGGAAGGGCCGAGCGCAGAAGTGGTCCTGCAACTTTATCCGCCTCCATCCAGTCTATTAATTGTTGCCGGGAAGCTAGAGTAAGTAGTTCGCCAGTTAATAGTTTGCGCAACGTTGTTGCCATTGCTACAGGCATCGTGGTGTCACGCTCGTCGTTTGGTATGGCTTCATTCAGCTCCGGTTCCCAACGATCAAGGCGAGTTACATGATCCCCCATGTTGTGCAAAAAAGCGGTTAGCTCCTTCGGTCCTCCGATCGTTGTCAGAAGTAAGTTGGCCGCAGTGTTATCACTCATGGTTATGGCAGCACTGCATAATTCTCTTACTGTCATGCCATCCGTAAGATGCTTTTCTGTGACTGGTGAGTACTCAACCAAGTCATTCTGAGAATAGTGTATGCGGCGACCGAGTTGCTCTTGCCCGGCGTCAATACGGGATAATACCGCGCCACATAGCAGAACTTTAAAAGTGCTCATCATTGGAAAACGTTCTTCGGGGCGAAAACTCTCAAGGATCTTACCGCTGTTGAGATCCAGTTCGATGTAACCCACTCGTGCACCCAACTGATCTTCAGCATCTTTTACTTTCACCAGCGTTTCTGGGTGAGCAAAAACAGGAAGGCAAAATGCCGCAAAAAAGGGAATAAGGGCGACACGGAAATGTTGAATACTCATACTCTTCCTTTTTCAATATTATTGAAGCATTTATCAGGGTTATTGTCTCATGAGCGGATACATATTTGAATGTATTTAGAAAAATAAACAAATAGGGGTTCCGCGCACATTTCCCCGAAAAGTGCCACCTGACGTCTAAGAAACCATTATTATCATGACATTAACCTATAAAAATAGGCGTATCACGAGGCCCTTTCGTCCGTGAGGCTCCGGTGCCCGTCAGTGGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGGTAAGTGCCGTGTGTGGTTCCCGCGGGCCTGGCCTCTTTACGGGTTATGGCCCTTGCGTGCCTTGAATTACTTCCACCTGGCTGCAGTACGTGATTCTTGATCCCGAGCTTCGGGTTGGAAGTGGGTGGGAGAGTTCGAGGCCTTGCGCTTAAGGAGCCCCTTCGCCTCGTGCTTGAGTTGAGGCCTGGCCTGGGCGCTGGGGCCGCCGCGTGCGAATCTGGTGGCACCTTCGCGCCTGTCTCGCTGCTTTCGATAAGTCTCTAGCCATTTAAAATTTTTGATGACCTGCTGCGACGCTTTTTTTCTGGCAAGATAGTCTTGTAAATGCGGGCCAAGATCTGCACACTGGTATTTCGGTTTTTGGGGCCGCGGGCGGCGACGGGGCCCGTGCGTCCCAGCGCACATGTTCGGCGAGGCGGGGCCTGCGAGCGCGGCCACCGAGAATCGGACGGGGGTAGTCTCAAGCTGGCCGGCCTGCTCTGGTGCCTGGCCTCGCGCCGCCGTGTATCGCCCCGCCCTGGGCGGCAAGGCTGGCCCGGTCGGCACCAGTTGCGTGAGCGGAAAGATGGCCGCTTCCCGGCCCTGCTGCAGGGAGCTCAAAATGGAGGACGCGGCGCTCGGGAGAGCGGGCGGGTGAGTCACCCACACAAAGGAAAAGGGCCTTTCCGTCCTCAGCCGTCGCTTCATGTGACTCCACGGAGTACCGGGCGCCGTCCAGGCACCTCGATTAGTTCTCGAGCTTTTGGAGTACGTCGTCTTTAGGTTGGGGGGAGGGGTTTTATGCGATGGAGTTTCCCCACACTGAGTGGGTGGAGACTGAAGTTAGGCCAGCTTGGCACTTGATGTAATTCTCCTTGGAATTTGCCCTTTTTGAGTTTGGATCTTGGTTCATTCTCAAGCCTCAGACAGTGGTTCAAAGTTTTTTTCTTCCATTTCAGGTGTCGTGACGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAGTAACGCCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGTCGAGGTGAGCCCCACGTTCTGCTTCACTCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTTTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGAGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCGAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCTGAGCAAGAGGTAAGGGTTTAAGGGATGGTTGGTTGGTGGGGTATTAATGTTTAATTACCTGGAGCACCTGCCTGAAATCACTTTTTTTCAGGTTGGACGCGTGGAGCTAGTTATTAATAGTAATCAATTACGGGGTCATTAGTTCATAGCCCATATATGGAGTTCCGCGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAATGACGTATGTTCCCATAGTAACGTCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGTGATGCGGTTTTGGCAGTACATCAATGGGCGTGGATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAGACACCGGGACCGATCCAGCCTCCGATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGCAAGCTCTGCAGAGGGCCCTGCGTATGAGTGCAAGTGGGTTTTAGGACCAGGATGAGGCGGGGTGGGGGTGCCTACCTGACGACCGACCCCGACCCACTGGACAAGCACCCAACCCCCATTCCCCAAATTGCGCATCCCCTATCAGAGAGGGGGAGGGGAAACAGGATGCGGCGAGGCGCGTGCGCACTGCCAGCTTCAGCACCGCGGACAGTGCCTTCGCCCCCGCCTGGCGGCGCGCGCCACCGCCGCCTCAGCACTGAAGGCGCGCTGACGTCACTCGCCGGTCCCCCGCAAACTCCCCTTCCCGGCCACCTTGGTCGCGTCCGCGCCGCCGCCGGCCCAGCCGGACCGCACCACGCGAGGCGCGAGATAGGGGGGCACGGGCGCGACCATCTGCGCTGCGGCGCCGGCGACTCAGCGCTGCCTCAGTCTGCGGTGGGCAGCGGAGGAGTCGTGTCGTGCCTGAGAGCGCAGTCGGGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGCAATTGAGGGCGTCACCGCTAAGGCTCCGCCCCAGCCTGGGCTCCACAACCAATGAAGGGTAATCTCGACAAAGAGCAAGGGGTGGGGCGCGGGCGCGCAGGTGCAGCAGCACACAGGCTGGTCGGGAGGGCGGGGCGCGACGTCTGCCGTGCGGGGTCCCGGCATCGGTTGCGCGCGCGCTCCCTCCTCTCGGAGAGAGGGCTGTGGTAAAACCCGTCCGGAAAAATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGCCACCTGTGGAGAGAAAGGCAAAGTGGATGTCAGTAAGACCAATAGGTGCCTATCAGAAACGCAAGAGTCTTCTCTGTCTCGACAAGCCCAGTTTCTATGTGGTCTCCTTAAACCTGTCTTGTAACCTTGATACTTACCTGCCTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTGGGGTGGGGCAGGACAGCAAGGGGGAGGATTGGGAAGACAATAGCAGGCATGCTGGGGATGCGGTGGGCTCTATGGAACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATCTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCTAGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACGTGAGGCTCCGGTGCCCGTCAGTGGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGGTAAGTGCCGTGTGTGGTTCCCGCGGGCCTGGCCTCTTTACGGGTTATGGCCCTTGCGTGCCTTGAATTACTTCCACCTGGCTGCAGTACGTGATTCTTGATCCCGAGCTTCGGGTTGGAAGTGGGTGGGAGAGTTCGAGGCCTTGCGCTTAAGGAGCCCCTTCGCCTCGTGCTTGAGTTGAGGCCTGGCCTGGGCGCTGGGGCCGCCGCGTGCGAATCTGGTGGCACCTTCGCGCCTGTCTCGCTGCTTTCGATAAGTCTCTAGCCATTTAAAATTTTTGATGACCTGCTGCGACGCTTTTTTTCTGGCAAGATAGTCTTGTAAATGCGGGCCAAGATCTGCACACTGGTATTTCGGTTTTTGGGGCCGCGGGCGGCGACGGGGCCCGTGCGTCCCAGCGCACATGTTCGGCGAGGCGGGGCCTGCGAGCGCGGCCACCGAGAATCGGACGGGGGTAGTCTCAAGCTGGCCGGCCTGCTCTGGTGCCTGGCCTCGCGCCGCCGTGTATCGCCCCGCCCTGGGCGGCAAGGCTGGCCCGGTCGGCACCAGTTGCGTGAGCGGAAAGATGGCCGCTTCCCGGCCCTGCTGCAGGGAGCTCAAAATGGAGGACGCGGCGCTCGGGAGAGCGGGCGGGTGAGTCACCCACACAAAGGAAAAGGGCCTTTCCGTCCTCAGCCGTCGCTTCATGTGACTCCACGGAGTACCGGGCGCCGTCCAGGCACCTCGATTAGTTCTCGAGCTTTTGGAGTACGTCGTCTTTAGGTTGGGGGGAGGGGTTTTATGCGATGGAGTTTCCCCACACTGAGTGGGTGGAGACTGAAGTTAGGCCAGCTTGGCACTTGATGTAATTCTCCTTGGAATTTGCCCTTTTTGAGTTTGGATCTTGGTTCATTCTCAAGCCTCAGACAGTGGTTCAAAGTTTTTTTCTTCCATTTCAGGTGTCGTGACGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAATGACGTATGTTCCCATAGTAACGTCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGGTCGAGGTGAGCCCCACGTTCTGCTTCACTCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTTTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGAGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCGAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGTTGCCTTCGCCCCGTGCCCCGCTCCGCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCGCTTGGTTTAATGACGGCTCGTTTCTTTTCTGTGGCTGCGTGAAAGCCTTAAAGGGCTCCGGGAGGGCCCTTTGTGCGGGGGGGAGCGGCTCGGGGGGTGCGTGCGTGTGTGTGTGCGTGGGGAGCGCCGCGTGCGGCCCGCGCTGCCCGGCGGCTGTGAGCGCTGCGGGCGCGGCGCGGGGCTTTGTGCGCTCCGCGTGTGCGCGAGGGGAGCGCGGCCGGGGGCGGTGCCCCGCGGTGCGGGGGGGCTGCGAGGGGAACAAAGGCTGCGTGCGGGGTGTGTGCGTGGGGGGGTGAGCAGGGGGTGTGGGCGCGGCGGTCGGGCTGTAACCCCCCCCTGCACCCCCCTCCCCGAGTTGCTGAGCACGGCCCGGCTTCGGGTGCGGGGCTCCGTGCGGGGCGTGGCGCGGGGCTCGCCGTGCCGGGCGGGGGGTGGCGGCAGGTGGGGGTGCCGGGCGGGGCGGGGCCGCCTCGGGCCGGGGAGGGCTCGGGGGAGGGGCGCGGCGGCCCCGGAGCGCCGGCGGCTGTCGAGGCGCGGCGAGCCGCAGCCATTGCCTTTTATGGTAATCGTGCGAGAGGGCGCAGGGACTTCCTTTGTCCCAAATCTGGCGGAGCCGAAATCTGGGAGGCGCCGCCGCACCCCCTCTAGCGGGCGCGGGCGAAGCGGTGCGGCGCCGGCAGGAAGGAAATGGGCGGGGAGGGCCTTCGTGCGTCGCCGCGCCGCCGTCCCCTTCTCCATCTCCAGCCTCGGGGCTGCCGCAGGGGGACGGCTGCCTTCGGGGGGGACGGGGCAGGGCGGGGTTCGGCTTCTGGCGTGTGACCGGCGGCTCTAGAGCCTCTGCTAACCATGTTCATGCCTTCTTCTTTTTCCTACAGCTCCTGGGCAACGTGCTGGTTATTGTGCTGTCTCATCATTTTGGCAAA",
-            "source": "end to end concatenation of whole real records in this repository, in order: puc19, promoter.ef1a, promoter.cbh, promoter.cmv, promoter.gfap, promoter.hsyn1, promoter.efs, promoter.mecp2_mini, enhancer.wpre, intron.chimeric, polya.bgh, polya.sv40, itr.aav2_itr_left, itr.aav2_itr_right, promoter.ef1a, promoter.cag"
-          }
-        ],
-        "hairpin_engine": "window"
-      }
-    }
-  },
-  {
-    "case_id": "assembly.bad.primer_tm_far_outside_window",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "primer.tm_in_range",
-    "expect_severity": "fail",
-    "rationale": "One primer is a GC rich real 18 bp slice whose melting temperature is more than 10 C above the 60.0 C target. The binding region TGGCCCGCCTGGCTGACC is 14 of 18 bases G or C, 78% GC, and melts at 71.9 C, which is 11.9 C over target. Section 7.5 check 1 grades this in two bands: outside 3 C is a WARN, because a few degrees is recoverable by changing the annealing temperature, and more than 10 C is a FAIL, because no single annealing temperature can serve this primer and the rest of the assembly at the same time. This case pins the FAIL band; the pair_tm_delta case above pins the WARN band of a neighbouring check, so the two together show the grading is real rather than cosmetic. Two further checks WARN, and both are arithmetic consequences of the same 71.9 C primer rather than separate defects, so they are stated here rather than left for a reader to find: primer.gc_content at 78%, over the 60% ceiling, and primer.pair_tm_delta at 12.5 C against the 59.4 C reverse primer. Neither can be removed without removing the defect, because at 18 bp a primer cannot reach 11.9 C above target without being GC rich, and it cannot sit 11.9 C from target while staying within 5.0 C of a reverse primer that is on target. The reverse primer is the same 20 bp pUC19 slice at offset 330 that the hairpin and hetero-dimer cases use, and at 59.4 C and 45% GC it is itself inside every window, so both warnings are attributable to the forward primer alone.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "pcr_cloning",
-        "fragments": [
-          {
-            "name": "frag",
-            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAATGGCCCGCCTGGCTGACCCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "a GC rich primer far above the target melting temperature, 78% GC and 71.9 C against a 60.0 C target. The forward primer binds a 18 bp slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 21 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
-          }
-        ],
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_F",
-          "fragment": "frag",
-          "direction": "forward",
-          "tail": "",
-          "binding": "TGGCCCGCCTGGCTGACC",
-          "binding_start": 40,
-          "binding_end": 58
-        },
-        {
-          "name": "frag_R",
-          "fragment": "frag",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "CAAGGCGATTAAGTTGGGTA",
-          "binding_start": 118,
-          "binding_end": 138
-        }
-      ],
-      "junctions": [],
-      "fragment_order": [
-        "frag"
-      ]
-    }
-  },
-  {
-    "case_id": "assembly.bad.primer_binds_nowhere_in_template",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "primer.specificity_in_template",
-    "expect_severity": "fail",
-    "rationale": "The forward primer's binding region does not occur anywhere in the supplied template set, on either strand. This is the ordinary consequence of designing against the wrong version of a sequence, and the PCR gives no product. Section 7.5 check 9 fails on zero occurrences for the same reason it fails on several: the stated binding region is not a unique site in the template. The companion case to the one where it binds twice, and the only check that looks for the primer in the template at all. primer.specificity_in_template is the only non-pass check in the report. Sequence provenance, stated plainly because section 4.3 requires it: the forward primer ACGTACGTAAGGTTCCAAGG is deliberately synthetic and is declared as such. A primer that binds nowhere cannot also be a real slice of the template it fails to bind, so this is the one place in the assembly set where a real slice would contradict the defect instead of expressing it. Everything else here is real and unedited. In particular the 20 bases at fragment offset 40, which is where the primer record says it binds, are the genuine promoter.cmv slice at offset 502, ATGTCGTAACAACTCCGCCC, an entirely different sequence from the primer; the primer is not that slice and is not presented as it.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "pcr_cloning",
-        "fragments": [
-          {
-            "name": "frag",
-            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "a forward primer that binds nowhere in the template. The forward primer's binding region ACGTACGTAAGGTTCCAAGG is deliberately synthetic and occurs in none of the supplied records on either strand, which is the defect under test. The template itself is real throughout: the 20 bases at fragment offset 40, where the primer claims its site, are the genuine plus strand slice of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offset 502, ATGTCGTAACAACTCCGCCC. The reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
-          }
-        ],
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_F",
-          "fragment": "frag",
-          "direction": "forward",
-          "tail": "",
-          "binding": "ACGTACGTAAGGTTCCAAGG",
-          "binding_start": 40,
-          "binding_end": 60
-        },
-        {
-          "name": "frag_R",
-          "fragment": "frag",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "CAAGGCGATTAAGTTGGGTA",
-          "binding_start": 120,
-          "binding_end": 140
-        }
-      ],
-      "junctions": [],
-      "fragment_order": [
-        "frag"
-      ]
-    }
-  },
-  {
-    "case_id": "assembly.bad.gibson_overlap_melts_below_floor",
-    "capability": "assembly",
-    "expect_overall": "warn",
-    "expect_check": "gibson.overlap_tm",
-    "expect_severity": "warn",
-    "rationale": "One homology arm is pinned to a real AT rich slice of a record in this repository. Its length is inside the 15 to 40 bp window, so gibson.overlap_length passes and cannot catch it, but it melts below the 48 C floor the assembly reaction is run at, so the two single stranded ends do not stay annealed long enough for the polymerase and ligase to seal them. gibson.overlap_tm is the only check that measures the thermodynamics of the junction rather than its length, and the fix is to lengthen the arm rather than to abandon the design, which is why it is a WARN.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "gibson",
-        "fragments": [
-          {
-            "name": "frag_a",
-            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
-            "role": "insert",
-            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-            "coding_regions": [],
-            "is_circular": false
-          },
-          {
-            "name": "frag_b",
-            "sequence": "ATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAAC",
-            "role": "insert",
-            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
-            "coding_regions": [],
-            "is_circular": false
-          }
-        ],
-        "vector_backbone": null,
-        "enzyme": null,
-        "target_tm_c": 60.0,
-        "primer_conc_nm": 500.0,
-        "monovalent_salt_mm": 50.0,
-        "divalent_salt_mm": 1.5,
-        "dntp_mm": 0.2,
-        "overhang_standard": null,
-        "host_codon_usage": null,
-        "thresholds": null,
-        "hairpin_engine": "window"
-      },
-      "primers": [
-        {
-          "name": "frag_a_F",
-          "fragment": "frag_a",
-          "direction": "forward",
-          "tail": "GCAGAGCTCGTTTAGTGAAC",
-          "binding": "CAATGGGTGGAGTATTTACGG",
-          "binding_start": 0,
-          "binding_end": 21,
-          "notes": []
-        },
-        {
-          "name": "frag_a_R",
-          "fragment": "frag_a",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "CCAAGTAGGAAAGTCCCATAAG",
-          "binding_start": 128,
-          "binding_end": 150,
-          "notes": []
-        },
-        {
-          "name": "frag_b_F",
-          "fragment": "frag_b",
-          "direction": "forward",
-          "tail": "TATGGGACTTTCCTACTTGG",
-          "binding": "ATAGCGGTTTGACTCACG",
-          "binding_start": 0,
-          "binding_end": 18,
-          "notes": []
-        },
-        {
-          "name": "frag_b_R",
-          "fragment": "frag_b",
-          "direction": "reverse",
-          "tail": "",
-          "binding": "GTTCACTAAACGAGCTCTGC",
-          "binding_start": 160,
-          "binding_end": 180,
-          "notes": []
-        }
-      ],
-      "junctions": [
-        {
-          "index": 0,
-          "left_fragment": "frag_b",
-          "right_fragment": "frag_a",
-          "kind": "gibson_homology",
-          "sequence": "CAGATTGTACTGAGA",
-          "overhang_source": null,
-          "overhang_standard_name": null
-        },
-        {
-          "index": 1,
-          "left_fragment": "frag_a",
-          "right_fragment": "frag_b",
-          "kind": "gibson_homology",
-          "sequence": "ATAGCGGTTTGACTCACGGG",
-          "overhang_source": null,
-          "overhang_standard_name": null
-        }
-      ],
-      "amplicons": [
-        {
-          "name": "frag_a_amplicon",
-          "fragment": "frag_a",
-          "forward_primer": "frag_a_F",
-          "reverse_primer": "frag_a_R",
-          "length_bp": 170
-        },
-        {
-          "name": "frag_b_amplicon",
-          "fragment": "frag_b",
-          "forward_primer": "frag_b_F",
-          "reverse_primer": "frag_b_R",
-          "length_bp": 200
-        }
-      ],
-      "fragment_order": [
-        "frag_a",
-        "frag_b"
-      ],
-      "domestication": null,
-      "provenance": [
-        "strategy:gibson",
-        "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
-        "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
-        "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
-      ],
-      "composed": true
-    }
-  },
-  {
-    "case_id": "assembly.bad.ambiguous_fragment_order",
-    "capability": "assembly",
-    "expect_overall": "fail",
-    "expect_check": "assembly.fragment_order_defined",
-    "expect_severity": "fail",
-    "rationale": "Simple PCR cloning of two fragments with one enzyme, BsaI, named for both ends. Every junction then carries the same restriction site, so the insert can go into the vector in either orientation and the assembly has no defined order. This is a real and common mistake, and it is the reason directional cloning uses two different enzymes. assembly.fragment_order_defined is the only check that asks whether the junction topology admits exactly one arrangement. It is the one case in the set where that check is the primary failure rather than a documented cascade from an overhang defect, which is why it is here. This case supplies fragments and an enzyme only, so the primers are composed by the engine rather than pinned, and one further check WARNs on what it composed: primer.hairpin reports that two primers fold, frag_a_F over a 5 bp stem and frag_b_R over a 4 bp stem, with the 3' end outside the stem in both. It is declared here because it is a property of the composed primers and not of the junction topology under test. The fold is internal, so it is a WARN and not a FAIL, and assembly.fragment_order_defined is the only FAIL in the report.",
-    "must_also_report": [],
-    "allowed_extra_fail": [],
-    "input": {
-      "request": {
-        "strategy": "pcr_cloning",
-        "fragments": [
-          {
-            "name": "frag_a",
-            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
-            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
-          },
-          {
-            "name": "frag_b",
-            "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
-            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp"
-          }
-        ],
-        "hairpin_engine": "window",
-        "enzyme": "BsaI"
-      }
-    }
+   ],
+   "junctions": [],
+   "fragment_order": [
+    "frag"
+   ]
   }
+ },
+ {
+  "case_id": "assembly.bad.primer_three_prime_hairpin",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "primer.hairpin",
+  "expect_severity": "fail",
+  "rationale": "The forward primer is a real 22 bp slice that folds back on itself with a stem that includes its own 3' terminus. A 3' stem is the damaging case, because it sequesters the base the polymerase has to extend from, so the primer does not prime at all rather than merely competing with annealing. That is why section 7.5 check 6 is FAIL for a 3' stem past the hard threshold and WARN for an internal one, and primer.hairpin is the only check that folds a primer against itself. hairpin_engine is pinned to window in every assembly gold case. ViennaRNA is an optional import that is not in requirements.txt, so leaving the engine on auto would make the verdict depend on whether the package happens to be installed, which section 3.3 constraint 1 forbids for a gold set. primer.self_dimer also WARNs, over a 16 bp overlap ending at the forward primer's own 3' terminus, and it is declared here because it cannot be separated from the defect: a 3' hairpin is intramolecular self complementarity, and the same self complementary bases read between two copies of the oligo are an extendable self dimer. The two checks measure one physical property in two geometries, so any input that fails primer.hairpin on a 3' stem will draw this warning as well. primer.hairpin is the only FAIL in the report. Engine note, added when the window stem thresholds were recalibrated: this case is pinned to the ViennaRNA engine rather than to the sliding window fallback, because the defect it asserts is a free energy claim and only the free energy engine can evaluate it as one. The forward primer GACTTTCCATTGACGTCAATGG folds to a 6 bp stem closing a 4 nt loop with its 3 prime end base paired, measured at -3.90 kcal/mol under the DNA parameter set, which is past the -3.0 failure level, so the failure this case expects is real and is reported for the reason named. The recalibrated window fallback reports the same stem as a warning rather than a failure, which is deliberate: a 6 bp 3 prime stem passes -3.0 almost always at 22 nt but only about half the time at 60 nt, and a failure the primary engine would contradict half the time is not a failure. The fallback remains covered by the other assembly cases, which stay pinned to it.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "pcr_cloning",
+    "fragments": [
+     {
+      "name": "frag",
+      "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAGACTTTCCATTGACGTCAATGGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
+      "source": "a primer whose 3' end is inside a self complementary stem. The forward primer binds a 22 bp slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 84 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
+     }
+    ],
+    "hairpin_engine": "viennarna"
+   },
+   "primers": [
+    {
+     "name": "frag_F",
+     "fragment": "frag",
+     "direction": "forward",
+     "tail": "",
+     "binding": "GACTTTCCATTGACGTCAATGG",
+     "binding_start": 40,
+     "binding_end": 62
+    },
+    {
+     "name": "frag_R",
+     "fragment": "frag",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "CAAGGCGATTAAGTTGGGTA",
+     "binding_start": 122,
+     "binding_end": 142
+    }
+   ],
+   "junctions": [],
+   "fragment_order": [
+    "frag"
+   ]
+  }
+ },
+ {
+  "case_id": "assembly.bad.primer_hetero_dimer",
+  "capability": "assembly",
+  "expect_overall": "warn",
+  "expect_check": "primer.hetero_dimer",
+  "expect_severity": "warn",
+  "rationale": "The forward and reverse primers are complementary across their 3' ends, so the two oligos anneal to each other and each extends on the other. The product is primer dimer, which consumes the primers and the polymerase and competes with the real template, and it amplifies exponentially because it carries both priming sites. primer.hetero_dimer is the only check that aligns the two primers of a pair against each other with the 3' end weighted, which is what section 7.4 says matters, so it is the check that must catch this. Both primers are real slices. One further check WARNs and is declared here: primer.tm_in_range, because the forward primer is 18 bp and melts at 54.9 C, 5.1 C under the 60.0 C target and so outside the 57.0 to 63.0 C window, though well inside the 10 C band that would make it a FAIL. That is a property of the slice chosen to put the two 3' ends in register rather than a second defect, and primer.hetero_dimer is the only check that aligns the pair against each other. No check FAILs.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "pcr_cloning",
+    "fragments": [
+     {
+      "name": "frag",
+      "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGGGACTTTCCTACTTGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
+      "source": "a primer pair whose 3' ends are complementary to each other. The forward primer binds a 18 bp slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 231 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
+     }
+    ],
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_F",
+     "fragment": "frag",
+     "direction": "forward",
+     "tail": "",
+     "binding": "ATGGGACTTTCCTACTTG",
+     "binding_start": 40,
+     "binding_end": 58
+    },
+    {
+     "name": "frag_R",
+     "fragment": "frag",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "CAAGGCGATTAAGTTGGGTA",
+     "binding_start": 118,
+     "binding_end": 138
+    }
+   ],
+   "junctions": [],
+   "fragment_order": [
+    "frag"
+   ]
+  }
+ },
+ {
+  "case_id": "assembly.bad.primer_binds_twice_in_template",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "primer.specificity_in_template",
+  "expect_severity": "fail",
+  "rationale": "The forward primer's 22 bp binding region occurs twice in the template, because the fragment carries the same real 22 bp stretch of the CBh promoter at two positions. The PCR would give two products of different lengths and the cloning would be a mixture, which is the kind of failure that is invisible until a gel is run. Both primers are pinned so that every thermodynamic property of the pair is inside its window, and the claim that no other check can see this defect is therefore a property of the report rather than an assertion about what the other checks ought to do: the forward primer melts at 60.0 C and the reverse at 59.2 C, both inside the 57.0 to 63.0 C window and 0.8 C apart against a 5.0 C pair limit; GC is 41% and 56% against a 40% to 60% window; and neither primer folds or dimerises past its threshold. primer.specificity_in_template is the only non-pass check in the report, and it is the only check that counts occurrences in the supplied template set, on both strands.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "pcr_cloning",
+    "fragments": [
+     {
+      "name": "frag",
+      "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAGACGTCAATAGTAACGCCAATACTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCGACGTCAATAGTAACGCCAATAGATGTACTGCCAAGTGGGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
+      "source": "real slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) and GenBank KU341333.1, CBh promoter (part promoter.cbh), arranged so the forward primer's 22 bp binding region is present twice. The forward primer binds a 22 bp slice of promoter.cbh at offset 60, placed at fragment offsets 40 and 123; the reverse primer binds a 18 bp slice of promoter.cbh at offset 128, whose reverse complement sits at fragment offset 145. flanks are plus strand slices of promoter.cmv at offsets 462 and 582 and the interior is a plus strand slice of promoter.cbh at offset 572"
+     }
+    ],
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_F",
+     "fragment": "frag",
+     "direction": "forward",
+     "tail": "",
+     "binding": "GACGTCAATAGTAACGCCAATA",
+     "binding_start": 40,
+     "binding_end": 62
+    },
+    {
+     "name": "frag_R",
+     "fragment": "frag",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "CCCACTTGGCAGTACATC",
+     "binding_start": 145,
+     "binding_end": 163
+    }
+   ],
+   "junctions": [],
+   "fragment_order": [
+    "frag"
+   ]
+  }
+ },
+ {
+  "case_id": "assembly.bad.golden_gate_internal_enzyme_site",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "gg.enzyme_site_internal",
+  "expect_severity": "fail",
+  "rationale": "A BsaI recognition site, GGTCTC, is substituted into the middle of the first fragment. BsaI cuts outside its recognition site, so an internal copy means the enzyme cuts the fragment in half during the one pot reaction and the assembly cannot work. This is the check that triggers domestication, so the case also asserts the structured remediation field: section 7.6 requires a report naming each internal occurrence and a silent substitution that destroys it, not a bare rejection. gg.enzyme_site_internal is the only check that scans fragment interiors for the chosen enzyme's site, and Appendix D requires both strands to be scanned because the site is not palindromic. The six base substitution is deliberate and declared; the rest of the fragment is a real slice.",
+  "must_also_report": [
+   "remediation"
+  ],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "golden_gate",
+    "fragments": [
+     {
+      "name": "frag_a",
+      "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGGGTCTCACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+      "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp, with the six bases at offset 60 replaced by the BsaI site GGTCTC for this case"
+     },
+     {
+      "name": "frag_b",
+      "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
+      "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp"
+     }
+    ],
+    "hairpin_engine": "window",
+    "enzyme": "BsaI"
+   }
+  }
+ },
+ {
+  "case_id": "assembly.bad.two_identical_overhangs",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "gg.overhang_uniqueness",
+  "expect_severity": "fail",
+  "rationale": "Both fusion overhangs in the assembly are pinned to ATGC, so every fragment end can ligate to every other fragment end. The reaction produces concatemers and fragments in the wrong order rather than the intended construct, and the yield of the right product collapses. gg.overhang_uniqueness is the check that must catch it. assembly.fragment_order_defined also fails, and it is listed in allowed_extra_fail because it is the same defect seen from the other side rather than a second defect: identical overhangs are precisely what makes the assembly order ambiguous. The two messages say different useful things, one about mis-ligation and one about order, so neither is redundant.",
+  "must_also_report": [],
+  "allowed_extra_fail": [
+   "assembly.fragment_order_defined"
+  ],
+  "input": {
+   "request": {
+    "strategy": "golden_gate",
+    "fragments": [
+     {
+      "name": "frag_a",
+      "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+      "role": "insert",
+      "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+      "coding_regions": [],
+      "is_circular": false
+     },
+     {
+      "name": "frag_b",
+      "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
+      "role": "insert",
+      "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp",
+      "coding_regions": [],
+      "is_circular": false
+     }
+    ],
+    "vector_backbone": null,
+    "enzyme": "BsaI",
+    "target_tm_c": 60.0,
+    "primer_conc_nm": 500.0,
+    "monovalent_salt_mm": 50.0,
+    "divalent_salt_mm": 1.5,
+    "dntp_mm": 0.2,
+    "overhang_standard": null,
+    "host_codon_usage": null,
+    "thresholds": null,
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_a_F",
+     "fragment": "frag_a",
+     "direction": "forward",
+     "tail": "AGGTCTCA",
+     "binding": "CAATGGGTGGAGTATTTACGG",
+     "binding_start": 0,
+     "binding_end": 21,
+     "notes": []
+    },
+    {
+     "name": "frag_a_R",
+     "fragment": "frag_a",
+     "direction": "reverse",
+     "tail": "AGGTCTCAGTCC",
+     "binding": "CCAAGTAGGAAAGTCCCATAAG",
+     "binding_start": 128,
+     "binding_end": 150,
+     "notes": []
+    },
+    {
+     "name": "frag_b_F",
+     "fragment": "frag_b",
+     "direction": "forward",
+     "tail": "AGGTCTCA",
+     "binding": "GGACTTTCCAAAATGTCGTAAC",
+     "binding_start": 0,
+     "binding_end": 22,
+     "notes": []
+    },
+    {
+     "name": "frag_b_R",
+     "fragment": "frag_b",
+     "direction": "reverse",
+     "tail": "AGGTCTCAATTG",
+     "binding": "CTTCTATGGAGGTCAAAACAGC",
+     "binding_start": 128,
+     "binding_end": 150,
+     "notes": []
+    }
+   ],
+   "junctions": [
+    {
+     "index": 0,
+     "left_fragment": "frag_b",
+     "right_fragment": "frag_a",
+     "kind": "golden_gate_overhang",
+     "sequence": "ATGC",
+     "overhang_source": "fragment_junction",
+     "overhang_standard_name": null
+    },
+    {
+     "index": 1,
+     "left_fragment": "frag_a",
+     "right_fragment": "frag_b",
+     "kind": "golden_gate_overhang",
+     "sequence": "ATGC",
+     "overhang_source": "fragment_junction",
+     "overhang_standard_name": null
+    }
+   ],
+   "amplicons": [
+    {
+     "name": "frag_a_amplicon",
+     "fragment": "frag_a",
+     "forward_primer": "frag_a_F",
+     "reverse_primer": "frag_a_R",
+     "length_bp": 170
+    },
+    {
+     "name": "frag_b_amplicon",
+     "fragment": "frag_b",
+     "forward_primer": "frag_b_F",
+     "reverse_primer": "frag_b_R",
+     "length_bp": 170
+    }
+   ],
+   "fragment_order": [
+    "frag_a",
+    "frag_b"
+   ],
+   "domestication": {
+    "enzyme": "BsaI",
+    "recognition_site": "GGTCTC",
+    "sites_found": 0,
+    "edits": [],
+    "unresolved": [],
+    "host_codon_usage_table": null,
+    "host_codon_usage_status": "unknown",
+    "notes": [
+     "Both strands were searched for GGTCTC, because Appendix D records that Type IIS recognition sequences are not palindromic.",
+     "BsaI cuts at GGTCTC(1/5), leaving a 4 nt overhang.",
+     "No host codon usage table is bundled with this build, so the host frequency of the original and proposed codons could not be compared. The substitution was chosen as the minimal silent edit that destroys the recognition site. Supply a host codon usage table, with its source and host named, to get the frequency comparison."
+    ]
+   },
+   "provenance": [
+    "strategy:golden_gate",
+    "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+    "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp",
+    "enzyme:BsaI:Appendix D GGTCTC(1/5)",
+    "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
+   ],
+   "composed": true
+  }
+ },
+ {
+  "case_id": "assembly.bad.palindromic_overhang",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "gg.overhang_not_palindromic",
+  "expect_severity": "fail",
+  "rationale": "One overhang is pinned to AATT, which is its own reverse complement. A palindromic overhang anneals to a second copy of itself, so the fragment can be ligated in either orientation and half the product is inverted. The two overhangs in this assembly are distinct, so gg.overhang_uniqueness passes and cannot catch it: self complementarity is a different property from collision, which is why section 7.5 lists checks 15 and 16 separately. The all AT composition of AATT also draws the check 17 warning, which is a WARN and leaves this case with exactly one failure.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "golden_gate",
+    "fragments": [
+     {
+      "name": "frag_a",
+      "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+      "role": "insert",
+      "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+      "coding_regions": [],
+      "is_circular": false
+     },
+     {
+      "name": "frag_b",
+      "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
+      "role": "insert",
+      "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp",
+      "coding_regions": [],
+      "is_circular": false
+     }
+    ],
+    "vector_backbone": null,
+    "enzyme": "BsaI",
+    "target_tm_c": 60.0,
+    "primer_conc_nm": 500.0,
+    "monovalent_salt_mm": 50.0,
+    "divalent_salt_mm": 1.5,
+    "dntp_mm": 0.2,
+    "overhang_standard": null,
+    "host_codon_usage": null,
+    "thresholds": null,
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_a_F",
+     "fragment": "frag_a",
+     "direction": "forward",
+     "tail": "AGGTCTCA",
+     "binding": "CAATGGGTGGAGTATTTACGG",
+     "binding_start": 0,
+     "binding_end": 21,
+     "notes": []
+    },
+    {
+     "name": "frag_a_R",
+     "fragment": "frag_a",
+     "direction": "reverse",
+     "tail": "AGGTCTCAGTCC",
+     "binding": "CCAAGTAGGAAAGTCCCATAAG",
+     "binding_start": 128,
+     "binding_end": 150,
+     "notes": []
+    },
+    {
+     "name": "frag_b_F",
+     "fragment": "frag_b",
+     "direction": "forward",
+     "tail": "AGGTCTCA",
+     "binding": "GGACTTTCCAAAATGTCGTAAC",
+     "binding_start": 0,
+     "binding_end": 22,
+     "notes": []
+    },
+    {
+     "name": "frag_b_R",
+     "fragment": "frag_b",
+     "direction": "reverse",
+     "tail": "AGGTCTCAATTG",
+     "binding": "CTTCTATGGAGGTCAAAACAGC",
+     "binding_start": 128,
+     "binding_end": 150,
+     "notes": []
+    }
+   ],
+   "junctions": [
+    {
+     "index": 0,
+     "left_fragment": "frag_b",
+     "right_fragment": "frag_a",
+     "kind": "golden_gate_overhang",
+     "sequence": "AATT",
+     "overhang_source": "fragment_junction",
+     "overhang_standard_name": null
+    },
+    {
+     "index": 1,
+     "left_fragment": "frag_a",
+     "right_fragment": "frag_b",
+     "kind": "golden_gate_overhang",
+     "sequence": "ACGG",
+     "overhang_source": "fragment_junction",
+     "overhang_standard_name": null
+    }
+   ],
+   "amplicons": [
+    {
+     "name": "frag_a_amplicon",
+     "fragment": "frag_a",
+     "forward_primer": "frag_a_F",
+     "reverse_primer": "frag_a_R",
+     "length_bp": 170
+    },
+    {
+     "name": "frag_b_amplicon",
+     "fragment": "frag_b",
+     "forward_primer": "frag_b_F",
+     "reverse_primer": "frag_b_R",
+     "length_bp": 170
+    }
+   ],
+   "fragment_order": [
+    "frag_a",
+    "frag_b"
+   ],
+   "domestication": {
+    "enzyme": "BsaI",
+    "recognition_site": "GGTCTC",
+    "sites_found": 0,
+    "edits": [],
+    "unresolved": [],
+    "host_codon_usage_table": null,
+    "host_codon_usage_status": "unknown",
+    "notes": [
+     "Both strands were searched for GGTCTC, because Appendix D records that Type IIS recognition sequences are not palindromic.",
+     "BsaI cuts at GGTCTC(1/5), leaving a 4 nt overhang.",
+     "No host codon usage table is bundled with this build, so the host frequency of the original and proposed codons could not be compared. The substitution was chosen as the minimal silent edit that destroys the recognition site. Supply a host codon usage table, with its source and host named, to get the frequency comparison."
+    ]
+   },
+   "provenance": [
+    "strategy:golden_gate",
+    "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+    "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp",
+    "enzyme:BsaI:Appendix D GGTCTC(1/5)",
+    "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
+   ],
+   "composed": true
+  }
+ },
+ {
+  "case_id": "assembly.bad.gibson_overlap_far_too_short",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "gibson.overlap_length",
+  "expect_severity": "fail",
+  "rationale": "One terminal homology arm is pinned to 6 bp, against a 15 to 40 bp window. Gibson assembly works by chewing back the 5' ends with an exonuclease and letting the single stranded overhangs anneal at 50 C; a 6 bp overhang does not hold at that temperature, so the junction simply does not form and nothing assembles. gibson.overlap_length is the check that must catch it, and section 7.5 makes it FAIL rather than WARN because the reaction does not work at all. The low melting temperature of the same 6 bp arm also draws the check 12 warning, which is a true consequence and is a WARN.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "gibson",
+    "fragments": [
+     {
+      "name": "frag_a",
+      "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+      "role": "insert",
+      "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+      "coding_regions": [],
+      "is_circular": false
+     },
+     {
+      "name": "frag_b",
+      "sequence": "ATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAAC",
+      "role": "insert",
+      "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
+      "coding_regions": [],
+      "is_circular": false
+     }
+    ],
+    "vector_backbone": null,
+    "enzyme": null,
+    "target_tm_c": 60.0,
+    "primer_conc_nm": 500.0,
+    "monovalent_salt_mm": 50.0,
+    "divalent_salt_mm": 1.5,
+    "dntp_mm": 0.2,
+    "overhang_standard": null,
+    "host_codon_usage": null,
+    "thresholds": null,
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_a_F",
+     "fragment": "frag_a",
+     "direction": "forward",
+     "tail": "GCAGAGCTCGTTTAGTGAAC",
+     "binding": "CAATGGGTGGAGTATTTACGG",
+     "binding_start": 0,
+     "binding_end": 21,
+     "notes": []
+    },
+    {
+     "name": "frag_a_R",
+     "fragment": "frag_a",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "CCAAGTAGGAAAGTCCCATAAG",
+     "binding_start": 128,
+     "binding_end": 150,
+     "notes": []
+    },
+    {
+     "name": "frag_b_F",
+     "fragment": "frag_b",
+     "direction": "forward",
+     "tail": "TATGGGACTTTCCTACTTGG",
+     "binding": "ATAGCGGTTTGACTCACG",
+     "binding_start": 0,
+     "binding_end": 18,
+     "notes": []
+    },
+    {
+     "name": "frag_b_R",
+     "fragment": "frag_b",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "GTTCACTAAACGAGCTCTGC",
+     "binding_start": 160,
+     "binding_end": 180,
+     "notes": []
+    }
+   ],
+   "junctions": [
+    {
+     "index": 0,
+     "left_fragment": "frag_b",
+     "right_fragment": "frag_a",
+     "kind": "gibson_homology",
+     "sequence": "CAATGG",
+     "overhang_source": null,
+     "overhang_standard_name": null
+    },
+    {
+     "index": 1,
+     "left_fragment": "frag_a",
+     "right_fragment": "frag_b",
+     "kind": "gibson_homology",
+     "sequence": "ATAGCGGTTTGACTCACGGG",
+     "overhang_source": null,
+     "overhang_standard_name": null
+    }
+   ],
+   "amplicons": [
+    {
+     "name": "frag_a_amplicon",
+     "fragment": "frag_a",
+     "forward_primer": "frag_a_F",
+     "reverse_primer": "frag_a_R",
+     "length_bp": 170
+    },
+    {
+     "name": "frag_b_amplicon",
+     "fragment": "frag_b",
+     "forward_primer": "frag_b_F",
+     "reverse_primer": "frag_b_R",
+     "length_bp": 200
+    }
+   ],
+   "fragment_order": [
+    "frag_a",
+    "frag_b"
+   ],
+   "domestication": null,
+   "provenance": [
+    "strategy:gibson",
+    "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+    "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
+    "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
+   ],
+   "composed": true
+  }
+ },
+ {
+  "case_id": "assembly.bad.two_gibson_junctions_share_homology",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "gibson.overlap_uniqueness",
+  "expect_severity": "fail",
+  "rationale": "Both Gibson junctions are pinned to the same 20 bp homology arm. Each fragment end can then anneal to either junction, so the assembly can close in more than one arrangement and the product is a mixture. Both arms are individually the right length and melt well above the floor, so checks 11 and 12 pass and cannot catch it: the defect is the relationship between the two junctions, which is what gibson.overlap_uniqueness exists to measure. assembly.fragment_order_defined fails as well and is allowed, for the same reason as in the identical overhang case: shared homology is what makes the order ambiguous, so it is one defect reported from two angles.",
+  "must_also_report": [],
+  "allowed_extra_fail": [
+   "assembly.fragment_order_defined"
+  ],
+  "input": {
+   "request": {
+    "strategy": "gibson",
+    "fragments": [
+     {
+      "name": "frag_a",
+      "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+      "role": "insert",
+      "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+      "coding_regions": [],
+      "is_circular": false
+     },
+     {
+      "name": "frag_b",
+      "sequence": "ATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAAC",
+      "role": "insert",
+      "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
+      "coding_regions": [],
+      "is_circular": false
+     }
+    ],
+    "vector_backbone": null,
+    "enzyme": null,
+    "target_tm_c": 60.0,
+    "primer_conc_nm": 500.0,
+    "monovalent_salt_mm": 50.0,
+    "divalent_salt_mm": 1.5,
+    "dntp_mm": 0.2,
+    "overhang_standard": null,
+    "host_codon_usage": null,
+    "thresholds": null,
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_a_F",
+     "fragment": "frag_a",
+     "direction": "forward",
+     "tail": "GCAGAGCTCGTTTAGTGAAC",
+     "binding": "CAATGGGTGGAGTATTTACGG",
+     "binding_start": 0,
+     "binding_end": 21,
+     "notes": []
+    },
+    {
+     "name": "frag_a_R",
+     "fragment": "frag_a",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "CCAAGTAGGAAAGTCCCATAAG",
+     "binding_start": 128,
+     "binding_end": 150,
+     "notes": []
+    },
+    {
+     "name": "frag_b_F",
+     "fragment": "frag_b",
+     "direction": "forward",
+     "tail": "TATGGGACTTTCCTACTTGG",
+     "binding": "ATAGCGGTTTGACTCACG",
+     "binding_start": 0,
+     "binding_end": 18,
+     "notes": []
+    },
+    {
+     "name": "frag_b_R",
+     "fragment": "frag_b",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "GTTCACTAAACGAGCTCTGC",
+     "binding_start": 160,
+     "binding_end": 180,
+     "notes": []
+    }
+   ],
+   "junctions": [
+    {
+     "index": 0,
+     "left_fragment": "frag_b",
+     "right_fragment": "frag_a",
+     "kind": "gibson_homology",
+     "sequence": "CAATGGGTGGAGTATTTACG",
+     "overhang_source": null,
+     "overhang_standard_name": null
+    },
+    {
+     "index": 1,
+     "left_fragment": "frag_a",
+     "right_fragment": "frag_b",
+     "kind": "gibson_homology",
+     "sequence": "CAATGGGTGGAGTATTTACG",
+     "overhang_source": null,
+     "overhang_standard_name": null
+    }
+   ],
+   "amplicons": [
+    {
+     "name": "frag_a_amplicon",
+     "fragment": "frag_a",
+     "forward_primer": "frag_a_F",
+     "reverse_primer": "frag_a_R",
+     "length_bp": 170
+    },
+    {
+     "name": "frag_b_amplicon",
+     "fragment": "frag_b",
+     "forward_primer": "frag_b_F",
+     "reverse_primer": "frag_b_R",
+     "length_bp": 200
+    }
+   ],
+   "fragment_order": [
+    "frag_a",
+    "frag_b"
+   ],
+   "domestication": null,
+   "provenance": [
+    "strategy:gibson",
+    "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+    "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
+    "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
+   ],
+   "composed": true
+  }
+ },
+ {
+  "case_id": "assembly.bad.amplicon_far_too_long",
+  "capability": "assembly",
+  "expect_overall": "warn",
+  "expect_check": "assembly.amplicon_size",
+  "expect_severity": "warn",
+  "rationale": "The fragment is 11,135 bp, over the 10,000 bp ceiling that the standard high fidelity polymerase protocol is documented to. An amplicon this long needs a long range polymerase, a longer extension time and a different protocol, and attempting it with the default program gives either no product or a smear. assembly.amplicon_size is the only check that measures the expected product length, so it is the one that must catch it, and it is a WARN because a long amplicon is achievable with the right enzyme rather than impossible. The fragment is a concatenation of whole real records already in this repository, assembled only to reach a length past the ceiling without inventing a single base; the EF1A record appears twice, in the interior only, so that both primer binding regions stay unique and primer.specificity_in_template is not the check that fires. Three primer checks WARN as well, and they are declared here rather than left implicit. The primers are pinned to the two ends of the concatenation, so their composition is whatever those real records happen to carry and could not be tuned without moving the ends and changing the length this case is about: primer.tm_in_range on the forward primer at 65.6 C, 5.6 C from the 60.0 C target; primer.pair_tm_delta at 6.8 C between 65.6 C and 58.8 C; and primer.gc_content on both, 61% forward and 38% reverse, just outside the 40% to 60% window. None of them is a FAIL and none of them concerns product length, so assembly.amplicon_size remains the only check that measures the defect and the only non-pass check that is not a side effect of where the primers had to sit.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "pcr_cloning",
+    "fragments": [
+     {
+      "name": "frag",
+      "sequence": "TCGCGCGTTTCGGTGATGACGGTGAAAACCTCTGACACATGCAGCTCCCGGAGACGGTCACAGCTTGTCTGTAAGCGGATGCCGGGAGCAGACAAGCCCGTCAGGGCGCGTCAGCGGGTGTTGGCGGGTGTCGGGGCTGGCTTAACTATGCGGCATCAGAGCAGATTGTACTGAGAGTGCACCATATGCGGTGTGAAATACCGCACAGATGCGTAAGGAGAAAATACCGCATCAGGCGCCATTCGCCATTCAGGCTGCGCAACTGTTGGGAAGGGCGATCGGTGCGGGCCTCTTCGCTATTACGCCAGCTGGCGAAAGGGGGATGTGCTGCAAGGCGATTAAGTTGGGTAACGCCAGGGTTTTCCCAGTCACGACGTTGTAAAACGACGGCCAGTGAATTCGAGCTCGGTACCCGGGGATCCTCTAGAGTCGACCTGCAGGCATGCAAGCTTGGCGTAATCATGGTCATAGCTGTTTCCTGTGTGAAATTGTTATCCGCTCACAATTCCACACAACATACGAGCCGGAAGCATAAAGTGTAAAGCCTGGGGTGCCTAATGAGTGAGCTAACTCACATTAATTGCGTTGCGCTCACTGCCCGCTTTCCAGTCGGGAAACCTGTCGTGCCAGCTGCATTAATGAATCGGCCAACGCGCGGGGAGAGGCGGTTTGCGTATTGGGCGCTCTTCCGCTTCCTCGCTCACTGACTCGCTGCGCTCGGTCGTTCGGCTGCGGCGAGCGGTATCAGCTCACTCAAAGGCGGTAATACGGTTATCCACAGAATCAGGGGATAACGCAGGAAAGAACATGTGAGCAAAAGGCCAGCAAAAGGCCAGGAACCGTAAAAAGGCCGCGTTGCTGGCGTTTTTCCATAGGCTCCGCCCCCCTGACGAGCATCACAAAAATCGACGCTCAAGTCAGAGGTGGCGAAACCCGACAGGACTATAAAGATACCAGGCGTTTCCCCCTGGAAGCTCCCTCGTGCGCTCTCCTGTTCCGACCCTGCCGCTTACCGGATACCTGTCCGCCTTTCTCCCTTCGGGAAGCGTGGCGCTTTCTCATAGCTCACGCTGTAGGTATCTCAGTTCGGTGTAGGTCGTTCGCTCCAAGCTGGGCTGTGTGCACGAACCCCCCGTTCAGCCCGACCGCTGCGCCTTATCCGGTAACTATCGTCTTGAGTCCAACCCGGTAAGACACGACTTATCGCCACTGGCAGCAGCCACTGGTAACAGGATTAGCAGAGCGAGGTATGTAGGCGGTGCTACAGAGTTCTTGAAGTGGTGGCCTAACTACGGCTACACTAGAAGGACAGTATTTGGTATCTGCGCTCTGCTGAAGCCAGTTACCTTCGGAAAAAGAGTTGGTAGCTCTTGATCCGGCAAACAAACCACCGCTGGTAGCGGTGGTTTTTTTGTTTGCAAGCAGCAGATTACGCGCAGAAAAAAAGGATCTCAAGAAGATCCTTTGATCTTTTCTACGGGGTCTGACGCTCAGTGGAACGAAAACTCACGTTAAGGGATTTTGGTCATGAGATTATCAAAAAGGATCTTCACCTAGATCCTTTTAAATTAAAAATGAAGTTTTAAATCAATCTAAAGTATATATGAGTAAACTTGGTCTGACAGTTACCAATGCTTAATCAGTGAGGCACCTATCTCAGCGATCTGTCTATTTCGTTCATCCATAGTTGCCTGACTCCCCGTCGTGTAGATAACTACGATACGGGAGGGCTTACCATCTGGCCCCAGTGCTGCAATGATACCGCGAGACCCACGCTCACCGGCTCCAGATTTATCAGCAATAAACCAGCCAGCCGGAAGGGCCGAGCGCAGAAGTGGTCCTGCAACTTTATCCGCCTCCATCCAGTCTATTAATTGTTGCCGGGAAGCTAGAGTAAGTAGTTCGCCAGTTAATAGTTTGCGCAACGTTGTTGCCATTGCTACAGGCATCGTGGTGTCACGCTCGTCGTTTGGTATGGCTTCATTCAGCTCCGGTTCCCAACGATCAAGGCGAGTTACATGATCCCCCATGTTGTGCAAAAAAGCGGTTAGCTCCTTCGGTCCTCCGATCGTTGTCAGAAGTAAGTTGGCCGCAGTGTTATCACTCATGGTTATGGCAGCACTGCATAATTCTCTTACTGTCATGCCATCCGTAAGATGCTTTTCTGTGACTGGTGAGTACTCAACCAAGTCATTCTGAGAATAGTGTATGCGGCGACCGAGTTGCTCTTGCCCGGCGTCAATACGGGATAATACCGCGCCACATAGCAGAACTTTAAAAGTGCTCATCATTGGAAAACGTTCTTCGGGGCGAAAACTCTCAAGGATCTTACCGCTGTTGAGATCCAGTTCGATGTAACCCACTCGTGCACCCAACTGATCTTCAGCATCTTTTACTTTCACCAGCGTTTCTGGGTGAGCAAAAACAGGAAGGCAAAATGCCGCAAAAAAGGGAATAAGGGCGACACGGAAATGTTGAATACTCATACTCTTCCTTTTTCAATATTATTGAAGCATTTATCAGGGTTATTGTCTCATGAGCGGATACATATTTGAATGTATTTAGAAAAATAAACAAATAGGGGTTCCGCGCACATTTCCCCGAAAAGTGCCACCTGACGTCTAAGAAACCATTATTATCATGACATTAACCTATAAAAATAGGCGTATCACGAGGCCCTTTCGTCCGTGAGGCTCCGGTGCCCGTCAGTGGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGGTAAGTGCCGTGTGTGGTTCCCGCGGGCCTGGCCTCTTTACGGGTTATGGCCCTTGCGTGCCTTGAATTACTTCCACCTGGCTGCAGTACGTGATTCTTGATCCCGAGCTTCGGGTTGGAAGTGGGTGGGAGAGTTCGAGGCCTTGCGCTTAAGGAGCCCCTTCGCCTCGTGCTTGAGTTGAGGCCTGGCCTGGGCGCTGGGGCCGCCGCGTGCGAATCTGGTGGCACCTTCGCGCCTGTCTCGCTGCTTTCGATAAGTCTCTAGCCATTTAAAATTTTTGATGACCTGCTGCGACGCTTTTTTTCTGGCAAGATAGTCTTGTAAATGCGGGCCAAGATCTGCACACTGGTATTTCGGTTTTTGGGGCCGCGGGCGGCGACGGGGCCCGTGCGTCCCAGCGCACATGTTCGGCGAGGCGGGGCCTGCGAGCGCGGCCACCGAGAATCGGACGGGGGTAGTCTCAAGCTGGCCGGCCTGCTCTGGTGCCTGGCCTCGCGCCGCCGTGTATCGCCCCGCCCTGGGCGGCAAGGCTGGCCCGGTCGGCACCAGTTGCGTGAGCGGAAAGATGGCCGCTTCCCGGCCCTGCTGCAGGGAGCTCAAAATGGAGGACGCGGCGCTCGGGAGAGCGGGCGGGTGAGTCACCCACACAAAGGAAAAGGGCCTTTCCGTCCTCAGCCGTCGCTTCATGTGACTCCACGGAGTACCGGGCGCCGTCCAGGCACCTCGATTAGTTCTCGAGCTTTTGGAGTACGTCGTCTTTAGGTTGGGGGGAGGGGTTTTATGCGATGGAGTTTCCCCACACTGAGTGGGTGGAGACTGAAGTTAGGCCAGCTTGGCACTTGATGTAATTCTCCTTGGAATTTGCCCTTTTTGAGTTTGGATCTTGGTTCATTCTCAAGCCTCAGACAGTGGTTCAAAGTTTTTTTCTTCCATTTCAGGTGTCGTGACGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAGTAACGCCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGTCGAGGTGAGCCCCACGTTCTGCTTCACTCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTTTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGAGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCGAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCTGAGCAAGAGGTAAGGGTTTAAGGGATGGTTGGTTGGTGGGGTATTAATGTTTAATTACCTGGAGCACCTGCCTGAAATCACTTTTTTTCAGGTTGGACGCGTGGAGCTAGTTATTAATAGTAATCAATTACGGGGTCATTAGTTCATAGCCCATATATGGAGTTCCGCGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAATGACGTATGTTCCCATAGTAACGTCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGTGATGCGGTTTTGGCAGTACATCAATGGGCGTGGATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAGACACCGGGACCGATCCAGCCTCCGATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGCAAGCTCTGCAGAGGGCCCTGCGTATGAGTGCAAGTGGGTTTTAGGACCAGGATGAGGCGGGGTGGGGGTGCCTACCTGACGACCGACCCCGACCCACTGGACAAGCACCCAACCCCCATTCCCCAAATTGCGCATCCCCTATCAGAGAGGGGGAGGGGAAACAGGATGCGGCGAGGCGCGTGCGCACTGCCAGCTTCAGCACCGCGGACAGTGCCTTCGCCCCCGCCTGGCGGCGCGCGCCACCGCCGCCTCAGCACTGAAGGCGCGCTGACGTCACTCGCCGGTCCCCCGCAAACTCCCCTTCCCGGCCACCTTGGTCGCGTCCGCGCCGCCGCCGGCCCAGCCGGACCGCACCACGCGAGGCGCGAGATAGGGGGGCACGGGCGCGACCATCTGCGCTGCGGCGCCGGCGACTCAGCGCTGCCTCAGTCTGCGGTGGGCAGCGGAGGAGTCGTGTCGTGCCTGAGAGCGCAGTCGGGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGCAATTGAGGGCGTCACCGCTAAGGCTCCGCCCCAGCCTGGGCTCCACAACCAATGAAGGGTAATCTCGACAAAGAGCAAGGGGTGGGGCGCGGGCGCGCAGGTGCAGCAGCACACAGGCTGGTCGGGAGGGCGGGGCGCGACGTCTGCCGTGCGGGGTCCCGGCATCGGTTGCGCGCGCGCTCCCTCCTCTCGGAGAGAGGGCTGTGGTAAAACCCGTCCGGAAAAATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGCCACCTGTGGAGAGAAAGGCAAAGTGGATGTCAGTAAGACCAATAGGTGCCTATCAGAAACGCAAGAGTCTTCTCTGTCTCGACAAGCCCAGTTTCTATGTGGTCTCCTTAAACCTGTCTTGTAACCTTGATACTTACCTGCCTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTGGGGTGGGGCAGGACAGCAAGGGGGAGGATTGGGAAGACAATAGCAGGCATGCTGGGGATGCGGTGGGCTCTATGGAACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATCTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCTAGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACGTGAGGCTCCGGTGCCCGTCAGTGGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGGTAAGTGCCGTGTGTGGTTCCCGCGGGCCTGGCCTCTTTACGGGTTATGGCCCTTGCGTGCCTTGAATTACTTCCACCTGGCTGCAGTACGTGATTCTTGATCCCGAGCTTCGGGTTGGAAGTGGGTGGGAGAGTTCGAGGCCTTGCGCTTAAGGAGCCCCTTCGCCTCGTGCTTGAGTTGAGGCCTGGCCTGGGCGCTGGGGCCGCCGCGTGCGAATCTGGTGGCACCTTCGCGCCTGTCTCGCTGCTTTCGATAAGTCTCTAGCCATTTAAAATTTTTGATGACCTGCTGCGACGCTTTTTTTCTGGCAAGATAGTCTTGTAAATGCGGGCCAAGATCTGCACACTGGTATTTCGGTTTTTGGGGCCGCGGGCGGCGACGGGGCCCGTGCGTCCCAGCGCACATGTTCGGCGAGGCGGGGCCTGCGAGCGCGGCCACCGAGAATCGGACGGGGGTAGTCTCAAGCTGGCCGGCCTGCTCTGGTGCCTGGCCTCGCGCCGCCGTGTATCGCCCCGCCCTGGGCGGCAAGGCTGGCCCGGTCGGCACCAGTTGCGTGAGCGGAAAGATGGCCGCTTCCCGGCCCTGCTGCAGGGAGCTCAAAATGGAGGACGCGGCGCTCGGGAGAGCGGGCGGGTGAGTCACCCACACAAAGGAAAAGGGCCTTTCCGTCCTCAGCCGTCGCTTCATGTGACTCCACGGAGTACCGGGCGCCGTCCAGGCACCTCGATTAGTTCTCGAGCTTTTGGAGTACGTCGTCTTTAGGTTGGGGGGAGGGGTTTTATGCGATGGAGTTTCCCCACACTGAGTGGGTGGAGACTGAAGTTAGGCCAGCTTGGCACTTGATGTAATTCTCCTTGGAATTTGCCCTTTTTGAGTTTGGATCTTGGTTCATTCTCAAGCCTCAGACAGTGGTTCAAAGTTTTTTTCTTCCATTTCAGGTGTCGTGACGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAATGACGTATGTTCCCATAGTAACGTCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGGTCGAGGTGAGCCCCACGTTCTGCTTCACTCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTTTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGAGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCGAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGTTGCCTTCGCCCCGTGCCCCGCTCCGCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCGCTTGGTTTAATGACGGCTCGTTTCTTTTCTGTGGCTGCGTGAAAGCCTTAAAGGGCTCCGGGAGGGCCCTTTGTGCGGGGGGGAGCGGCTCGGGGGGTGCGTGCGTGTGTGTGTGCGTGGGGAGCGCCGCGTGCGGCCCGCGCTGCCCGGCGGCTGTGAGCGCTGCGGGCGCGGCGCGGGGCTTTGTGCGCTCCGCGTGTGCGCGAGGGGAGCGCGGCCGGGGGCGGTGCCCCGCGGTGCGGGGGGGCTGCGAGGGGAACAAAGGCTGCGTGCGGGGTGTGTGCGTGGGGGGGTGAGCAGGGGGTGTGGGCGCGGCGGTCGGGCTGTAACCCCCCCCTGCACCCCCCTCCCCGAGTTGCTGAGCACGGCCCGGCTTCGGGTGCGGGGCTCCGTGCGGGGCGTGGCGCGGGGCTCGCCGTGCCGGGCGGGGGGTGGCGGCAGGTGGGGGTGCCGGGCGGGGCGGGGCCGCCTCGGGCCGGGGAGGGCTCGGGGGAGGGGCGCGGCGGCCCCGGAGCGCCGGCGGCTGTCGAGGCGCGGCGAGCCGCAGCCATTGCCTTTTATGGTAATCGTGCGAGAGGGCGCAGGGACTTCCTTTGTCCCAAATCTGGCGGAGCCGAAATCTGGGAGGCGCCGCCGCACCCCCTCTAGCGGGCGCGGGCGAAGCGGTGCGGCGCCGGCAGGAAGGAAATGGGCGGGGAGGGCCTTCGTGCGTCGCCGCGCCGCCGTCCCCTTCTCCATCTCCAGCCTCGGGGCTGCCGCAGGGGGACGGCTGCCTTCGGGGGGGACGGGGCAGGGCGGGGTTCGGCTTCTGGCGTGTGACCGGCGGCTCTAGAGCCTCTGCTAACCATGTTCATGCCTTCTTCTTTTTCCTACAGCTCCTGGGCAACGTGCTGGTTATTGTGCTGTCTCATCATTTTGGCAAA",
+      "source": "end to end concatenation of whole real records in this repository, in order: puc19, promoter.ef1a, promoter.cbh, promoter.cmv, promoter.gfap, promoter.hsyn1, promoter.efs, promoter.mecp2_mini, enhancer.wpre, intron.chimeric, polya.bgh, polya.sv40, itr.aav2_itr_left, itr.aav2_itr_right, promoter.ef1a, promoter.cag"
+     }
+    ],
+    "hairpin_engine": "window"
+   }
+  }
+ },
+ {
+  "case_id": "assembly.bad.primer_tm_far_outside_window",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "primer.tm_in_range",
+  "expect_severity": "fail",
+  "rationale": "One primer is a GC rich real 18 bp slice whose melting temperature is more than 10 C above the 60.0 C target. The binding region TGGCCCGCCTGGCTGACC is 14 of 18 bases G or C, 78% GC, and melts at 71.9 C, which is 11.9 C over target. Section 7.5 check 1 grades this in two bands: outside 3 C is a WARN, because a few degrees is recoverable by changing the annealing temperature, and more than 10 C is a FAIL, because no single annealing temperature can serve this primer and the rest of the assembly at the same time. This case pins the FAIL band; the pair_tm_delta case above pins the WARN band of a neighbouring check, so the two together show the grading is real rather than cosmetic. Two further checks WARN, and both are arithmetic consequences of the same 71.9 C primer rather than separate defects, so they are stated here rather than left for a reader to find: primer.gc_content at 78%, over the 60% ceiling, and primer.pair_tm_delta at 12.5 C against the 59.4 C reverse primer. Neither can be removed without removing the defect, because at 18 bp a primer cannot reach 11.9 C above target without being GC rich, and it cannot sit 11.9 C from target while staying within 5.0 C of a reverse primer that is on target. The reverse primer is the same 20 bp pUC19 slice at offset 330 that the hairpin and hetero-dimer cases use, and at 59.4 C and 45% GC it is itself inside every window, so both warnings are attributable to the forward primer alone.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "pcr_cloning",
+    "fragments": [
+     {
+      "name": "frag",
+      "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAATGGCCCGCCTGGCTGACCCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
+      "source": "a GC rich primer far above the target melting temperature, 78% GC and 71.9 C against a 60.0 C target. The forward primer binds a 18 bp slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 21 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
+     }
+    ],
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_F",
+     "fragment": "frag",
+     "direction": "forward",
+     "tail": "",
+     "binding": "TGGCCCGCCTGGCTGACC",
+     "binding_start": 40,
+     "binding_end": 58
+    },
+    {
+     "name": "frag_R",
+     "fragment": "frag",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "CAAGGCGATTAAGTTGGGTA",
+     "binding_start": 118,
+     "binding_end": 138
+    }
+   ],
+   "junctions": [],
+   "fragment_order": [
+    "frag"
+   ]
+  }
+ },
+ {
+  "case_id": "assembly.bad.primer_binds_nowhere_in_template",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "primer.specificity_in_template",
+  "expect_severity": "fail",
+  "rationale": "The forward primer's binding region does not occur anywhere in the supplied template set, on either strand. This is the ordinary consequence of designing against the wrong version of a sequence, and the PCR gives no product. Section 7.5 check 9 fails on zero occurrences for the same reason it fails on several: the stated binding region is not a unique site in the template. The companion case to the one where it binds twice, and the only check that looks for the primer in the template at all. primer.specificity_in_template is the only non-pass check in the report. Sequence provenance, stated plainly because section 4.3 requires it: the forward primer ACGTACGTAAGGTTCCAAGG is deliberately synthetic and is declared as such. A primer that binds nowhere cannot also be a real slice of the template it fails to bind, so this is the one place in the assembly set where a real slice would contradict the defect instead of expressing it. Everything else here is real and unedited. In particular the 20 bases at fragment offset 40, which is where the primer record says it binds, are the genuine promoter.cmv slice at offset 502, ATGTCGTAACAACTCCGCCC, an entirely different sequence from the primer; the primer is not that slice and is not presented as it.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "pcr_cloning",
+    "fragments": [
+     {
+      "name": "frag",
+      "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
+      "source": "a forward primer that binds nowhere in the template. The forward primer's binding region ACGTACGTAAGGTTCCAAGG is deliberately synthetic and occurs in none of the supplied records on either strand, which is the defect under test. The template itself is real throughout: the 20 bases at fragment offset 40, where the primer claims its site, are the genuine plus strand slice of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offset 502, ATGTCGTAACAACTCCGCCC. The reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
+     }
+    ],
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_F",
+     "fragment": "frag",
+     "direction": "forward",
+     "tail": "",
+     "binding": "ACGTACGTAAGGTTCCAAGG",
+     "binding_start": 40,
+     "binding_end": 60
+    },
+    {
+     "name": "frag_R",
+     "fragment": "frag",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "CAAGGCGATTAAGTTGGGTA",
+     "binding_start": 120,
+     "binding_end": 140
+    }
+   ],
+   "junctions": [],
+   "fragment_order": [
+    "frag"
+   ]
+  }
+ },
+ {
+  "case_id": "assembly.bad.gibson_overlap_melts_below_floor",
+  "capability": "assembly",
+  "expect_overall": "warn",
+  "expect_check": "gibson.overlap_tm",
+  "expect_severity": "warn",
+  "rationale": "One homology arm is pinned to a real AT rich slice of a record in this repository. Its length is inside the 15 to 40 bp window, so gibson.overlap_length passes and cannot catch it, but it melts below the 48 C floor the assembly reaction is run at, so the two single stranded ends do not stay annealed long enough for the polymerase and ligase to seal them. gibson.overlap_tm is the only check that measures the thermodynamics of the junction rather than its length, and the fix is to lengthen the arm rather than to abandon the design, which is why it is a WARN.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "gibson",
+    "fragments": [
+     {
+      "name": "frag_a",
+      "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+      "role": "insert",
+      "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+      "coding_regions": [],
+      "is_circular": false
+     },
+     {
+      "name": "frag_b",
+      "sequence": "ATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAAC",
+      "role": "insert",
+      "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
+      "coding_regions": [],
+      "is_circular": false
+     }
+    ],
+    "vector_backbone": null,
+    "enzyme": null,
+    "target_tm_c": 60.0,
+    "primer_conc_nm": 500.0,
+    "monovalent_salt_mm": 50.0,
+    "divalent_salt_mm": 1.5,
+    "dntp_mm": 0.2,
+    "overhang_standard": null,
+    "host_codon_usage": null,
+    "thresholds": null,
+    "hairpin_engine": "window"
+   },
+   "primers": [
+    {
+     "name": "frag_a_F",
+     "fragment": "frag_a",
+     "direction": "forward",
+     "tail": "GCAGAGCTCGTTTAGTGAAC",
+     "binding": "CAATGGGTGGAGTATTTACGG",
+     "binding_start": 0,
+     "binding_end": 21,
+     "notes": []
+    },
+    {
+     "name": "frag_a_R",
+     "fragment": "frag_a",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "CCAAGTAGGAAAGTCCCATAAG",
+     "binding_start": 128,
+     "binding_end": 150,
+     "notes": []
+    },
+    {
+     "name": "frag_b_F",
+     "fragment": "frag_b",
+     "direction": "forward",
+     "tail": "TATGGGACTTTCCTACTTGG",
+     "binding": "ATAGCGGTTTGACTCACG",
+     "binding_start": 0,
+     "binding_end": 18,
+     "notes": []
+    },
+    {
+     "name": "frag_b_R",
+     "fragment": "frag_b",
+     "direction": "reverse",
+     "tail": "",
+     "binding": "GTTCACTAAACGAGCTCTGC",
+     "binding_start": 160,
+     "binding_end": 180,
+     "notes": []
+    }
+   ],
+   "junctions": [
+    {
+     "index": 0,
+     "left_fragment": "frag_b",
+     "right_fragment": "frag_a",
+     "kind": "gibson_homology",
+     "sequence": "CAGATTGTACTGAGA",
+     "overhang_source": null,
+     "overhang_standard_name": null
+    },
+    {
+     "index": 1,
+     "left_fragment": "frag_a",
+     "right_fragment": "frag_b",
+     "kind": "gibson_homology",
+     "sequence": "ATAGCGGTTTGACTCACGGG",
+     "overhang_source": null,
+     "overhang_standard_name": null
+    }
+   ],
+   "amplicons": [
+    {
+     "name": "frag_a_amplicon",
+     "fragment": "frag_a",
+     "forward_primer": "frag_a_F",
+     "reverse_primer": "frag_a_R",
+     "length_bp": 170
+    },
+    {
+     "name": "frag_b_amplicon",
+     "fragment": "frag_b",
+     "forward_primer": "frag_b_F",
+     "reverse_primer": "frag_b_R",
+     "length_bp": 200
+    }
+   ],
+   "fragment_order": [
+    "frag_a",
+    "frag_b"
+   ],
+   "domestication": null,
+   "provenance": [
+    "strategy:gibson",
+    "fragment:frag_a:GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp",
+    "fragment:frag_b:GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp",
+    "tm_model:nearest-neighbor thermodynamics with monovalent salt correction, SantaLucia 1998 unified parameters (Appendix A)"
+   ],
+   "composed": true
+  }
+ },
+ {
+  "case_id": "assembly.bad.ambiguous_fragment_order",
+  "capability": "assembly",
+  "expect_overall": "fail",
+  "expect_check": "assembly.fragment_order_defined",
+  "expect_severity": "fail",
+  "rationale": "Simple PCR cloning of two fragments with one enzyme, BsaI, named for both ends. Every junction then carries the same restriction site, so the insert can go into the vector in either orientation and the assembly has no defined order. This is a real and common mistake, and it is the reason directional cloning uses two different enzymes. assembly.fragment_order_defined is the only check that asks whether the junction topology admits exactly one arrangement. It is the one case in the set where that check is the primary failure rather than a documented cascade from an overhang defect, which is why it is here. This case supplies fragments and an enzyme only, so the primers are composed by the engine rather than pinned, and one further check WARNs on what it composed: primer.hairpin reports that two primers fold, frag_a_F over a 5 bp stem and frag_b_R over a 4 bp stem, with the 3' end outside the stem in both. It is declared here because it is a property of the composed primers and not of the junction topology under test. The fold is internal, so it is a WARN and not a FAIL, and assembly.fragment_order_defined is the only FAIL in the report.",
+  "must_also_report": [],
+  "allowed_extra_fail": [],
+  "input": {
+   "request": {
+    "strategy": "pcr_cloning",
+    "fragments": [
+     {
+      "name": "frag_a",
+      "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+      "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+     },
+     {
+      "name": "frag_b",
+      "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
+      "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp"
+     }
+    ],
+    "hairpin_engine": "window",
+    "enzyme": "BsaI"
+   }
+  }
+ }
 ]
