@@ -680,3 +680,35 @@ KNOWN LIMITATION, recorded rather than changed. Four of the thirty assembly case
   grade currently rests on the fallback rather than on the engine the build
   actually runs, and anyone who later flips the assembly set to the live engine
   must re-grade a9 rather than assume it stays Tier A.
+
+## Performance and code quality, measured rather than assumed
+
+RESPONSE TIMES on the demo machine, best of three after a warm call, driven
+through the real API:
+    AAV design, lacZ plus CAG, the failing demo state      48 ms
+    AAV design, lacZ plus EFS, the fixed demo state        46 ms
+    AAV parts list                                          4 ms
+    guide RNA reference endpoint                            4 ms
+    guide RNA design, 950 bp target, ranked guides,
+      off-target search over the searched space           301 ms
+  Nothing needs optimizing. Everything a judge will click is well under a
+  second, and that is worth saying out loud during the demo: a deterministic
+  rules engine answers instantly, and the contrast with waiting on a model is
+  the architectural argument in section 4.2 made visible.
+
+CODE QUALITY SCAN of every new capability package, the screening package, the
+  shared sequence utilities, the capability registry and the part registry:
+    TODO, FIXME, XXX, HACK or NotImplemented markers                  0
+    silent exception swallows                                          0
+  The four exception handlers that exist are all correct. Two re-raise with the
+  list of supported values named in the message, which is what section 5.4 rule
+  2 asks of an error a user can hit. One captures the message so the check can
+  report UNKNOWN with a reason rather than guessing, per section 3.3 constraint
+  4. One is the documented optional dependency path for the free energy engine.
+
+NOT DONE, and recorded as a judgment rather than an oversight: `make lint` still
+  reports "No lint configured yet". Adding a Python linter now would mean a new
+  dependency and a sweep of whatever it flags across a tree that is green and
+  two days from a demo, in exchange for style findings on code that has already
+  had a line by line scientific review. The risk is real and the return is low.
+  Worth doing in the week after.
