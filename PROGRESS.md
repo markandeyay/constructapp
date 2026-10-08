@@ -286,10 +286,6 @@ only under the weaker assertion its own harness makes. Closing the gap needs a
 validator adapter plus a conversion of 88 existing cases to the new case format.
 That is real work and it is not started. Recorded for an operator decision
 rather than attempted unilaterally late in the build.
-WP-03 to WP-06: AAV gold cases go in tests/gold/aav/. The registry design_model is AAVValidationInput, which accepts either a full AAVDesign cassette (needed for the order, missing ITR, tandem ITR and CDS cases) or an AAVRequest (more readable for the packaging limit cases). Assert remediation with must_also_report: ["remediation"], not "remediation_suggestion"; the field is named remediation. Remediation is carried on aav.packaging_limit and aav.sc_capacity only.
-WP-03 to WP-07: the AAV result panel needs the linear_map_json artifact (topology is always "linear", every element has start, end and fraction_of_cassette) and the length_budget artifact. Do not reuse the circular seqviz renderer, per sections 6.8 and 10.2. GET /v1/aav/parts populates the promoter and polyA selectors.
-WP-03 to the owner of services/api/app.py: the AAV router is registered in the WP-03 region of services/api/routes/__init__.py but is still not served, because include_capability_routers(app) is not called from create_app. Same request WP-02 filed.
-Q7 on-target model for gRNA: a faithful published model was achievable, so one shipped. Rule Set 1 (Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501), coefficients read from a reference implementation fetched during the build and verified byte identical, pinned by test against values computed with that implementation. Outside its stated validity domain the score is withheld and a clearly labeled heuristic ranks the guides. Off-target uses the MIT specificity score (Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081), weights read the same way, withheld for SaCas9 and Cas12a because it was derived from SpCas9 data.
 
 ### CORRECTION, superseded by WP-12
 
@@ -297,7 +293,7 @@ The limitation recorded above was closed by WP-12 and the text above is kept
 only as the build record of when it was true. Nothing above has been edited.
 
 WP-12 adapted the plasmid engine to the section 5.3 validator interface
-(`PlasmidValidator`, registered on `PLASMID_SPEC`) and converted the 88 existing
+(`PlasmidValidator`, reached from `PLASMID_SPEC.validator_ref`) and converted the 88
 cases into the new case format under `tests/gold/plasmid/`. The plasmid gold set
 therefore now runs through the multi-capability runner and is subject to all
 three section 9.3 assertions: expected overall severity, the named check
@@ -311,6 +307,11 @@ The consequence paragraph above, "holds for plasmid only under the weaker
 assertion its own harness makes", no longer applies. The claim now holds for all
 four capabilities under the new runner. The statement that the work "is not
 started" is likewise no longer true. Recorded by WP-16 in `progress/WP-16.md`.
+
+WP-03 to WP-06: AAV gold cases go in tests/gold/aav/. The registry design_model is AAVValidationInput, which accepts either a full AAVDesign cassette (needed for the order, missing ITR, tandem ITR and CDS cases) or an AAVRequest (more readable for the packaging limit cases). Assert remediation with must_also_report: ["remediation"], not "remediation_suggestion"; the field is named remediation. Remediation is carried on aav.packaging_limit and aav.sc_capacity only.
+WP-03 to WP-07: the AAV result panel needs the linear_map_json artifact (topology is always "linear", every element has start, end and fraction_of_cassette) and the length_budget artifact. Do not reuse the circular seqviz renderer, per sections 6.8 and 10.2. GET /v1/aav/parts populates the promoter and polyA selectors.
+WP-03 to the owner of services/api/app.py: the AAV router is registered in the WP-03 region of services/api/routes/__init__.py but is still not served, because include_capability_routers(app) is not called from create_app. Same request WP-02 filed.
+Q7 on-target model for gRNA: a faithful published model was achievable, so one shipped. Rule Set 1 (Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501), coefficients read from a reference implementation fetched during the build and verified byte identical, pinned by test against values computed with that implementation. Outside its stated validity domain the score is withheld and a clearly labeled heuristic ranks the guides. Off-target uses the MIT specificity score (Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081), weights read the same way, withheld for SaCas9 and Cas12a because it was derived from SpCas9 data.
 
 ## Orchestrator rulings on Wave 2 spec challenges
 
