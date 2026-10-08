@@ -42,8 +42,8 @@ The sidebar is the **supporting context** for the single artifact on the canvas,
 ### Sizing
 
 - Large desktop (1440+): **256px** fixed width.
-- Narrow desktop (1024–1280): collapses to a **56px icon rail**, the "New design" button becomes a `+` icon button, the history list becomes a vertical stack of small rows showing only the validation badge dot (hover/click reveals a flyout with the row's label), and "My reported outcomes" collapses to a single icon button that opens a flyout drawer. The flyout is a 256px overlay anchored to the rail.
-- Tablet (768–1024): collapses entirely into a **hamburger in the top bar**; the rail does not render as a column.
+- Narrow desktop (1024-1280): collapses to a **56px icon rail**, the "New design" button becomes a `+` icon button, the history list becomes a vertical stack of small rows showing only the validation badge dot (hover/click reveals a flyout with the row's label), and "My reported outcomes" collapses to a single icon button that opens a flyout drawer. The flyout is a 256px overlay anchored to the rail.
+- Tablet (768-1024): collapses entirely into a **hamburger in the top bar**; the rail does not render as a column.
 - Mobile (<768): rendered from the same hamburger. See section 6.
 
 ### Styling
@@ -78,15 +78,15 @@ When no design has completed (`designId === null` or `annotatedSequence === null
 
 ### Why this is the focal-artifact-preserving choice
 
-The strip's 56px does not steal meaningful vertical space from a map that targets ~560–620px; the map remains ~85% of the canvas height. Validation/export/outcome describe the *current* design on the canvas, so co-locating them under the map keeps result-vs-artifact glance co-visible without a context switch. The right panel stays purely conversational.
+The strip's 56px does not steal meaningful vertical space from a map that targets ~560-620px; the map remains ~85% of the canvas height. Validation/export/outcome describe the *current* design on the canvas, so co-locating them under the map keeps result-vs-artifact glance co-visible without a context switch. The right panel stays purely conversational.
 
 ### Map container heights
 
 `PlasmidMapView`'s inner `data-testid="seqviz-map"` div is changed to `h-full` (preserved from v1) and its parent chain resolves a real height. Target resolved heights:
 
-- Large desktop (1440+), 900px viewport: map ~580px tall, ~880–920px wide (256 sidebar + 400 chat + 32px title + 56px tools strip + 48 top bar + 24 status bar at 1440 leaves the canvas ~924px wide and ~772px tall; minus title + strip + map-header + accessible-summary block; the SeqViz `both` viewer needs ≥640px width, comfortably met).
-- Narrow desktop (1024–1280): map ~460px tall, ~560–680px wide. At 1024 with 56px rail + 360px chat, the center is ~600px, still renders the `both` viewer; below 640px SeqViz gracefully falls back to a single pane (its existing behavior).
-- Tablet (768–1024): map ~400px tall, full column width.
+- Large desktop (1440+), 900px viewport: map ~580px tall, ~880-920px wide (256 sidebar + 400 chat + 32px title + 56px tools strip + 48 top bar + 24 status bar at 1440 leaves the canvas ~924px wide and ~772px tall; minus title + strip + map-header + accessible-summary block; the SeqViz `both` viewer needs ≥640px width, comfortably met).
+- Narrow desktop (1024-1280): map ~460px tall, ~560-680px wide. At 1024 with 56px rail + 360px chat, the center is ~600px, still renders the `both` viewer; below 640px SeqViz gracefully falls back to a single pane (its existing behavior).
+- Tablet (768-1024): map ~400px tall, full column width.
 - Mobile (<768): map fills the Map tab area minus a compact tools strip; see section 6.
 
 `center canvas` is `min-w-0` (preserve current flexbox correctness) so the map cannot push the right panel off-screen.
@@ -100,9 +100,9 @@ The strip's 56px does not steal meaningful vertical space from a map that target
 ### Width
 
 - Large desktop (1440+): **400px** fixed.
-- Narrow desktop (1024–1280): **360px** fixed.
+- Narrow desktop (1024-1280): **360px** fixed.
 
-These widths sit in the lower-middle of the 360–440px range that fits a multi-line composer + readable message cards without crowding the map. 400px leaves the center canvas ≥880px at 1440 (the dominant artifact). 440px was rejected as too greedy at 1440 (leaves only ~840px center, still fine but greedier than needed for a thread that is read ≤30% of the time relative to the map). 360px at the low end keeps the chat legible without forcing horizontal scroll on long user prompts.
+These widths sit in the lower-middle of the 360-440px range that fits a multi-line composer + readable message cards without crowding the map. 400px leaves the center canvas ≥880px at 1440 (the dominant artifact). 440px was rejected as too greedy at 1440 (leaves only ~840px center, still fine but greedier than needed for a thread that is read ≤30% of the time relative to the map). 360px at the low end keeps the chat legible without forcing horizontal scroll on long user prompts.
 
 ### Above the thread
 
@@ -130,7 +130,7 @@ The composer form is wrapped in `border-t border-line bg-paper px-md py-md` and 
 ### Narrow desktop / tablet collapse
 
 - At **narrow desktop** the chat panel stays persistently visible at 360px (no collapse button shown, 360px is genuinely affordable down to 1024).
-- At **tablet (768–1024)** the right chat panel can be toggled by an explicit `Chat` button (icon + label) in the top bar; default open at the wide end of the tablet range, default closed below ~880px where the canvas needs more room. When closed, the center column gains the width; the composer is not reachable until the panel reopens. This is the one breakpoint where the panel is not always-on; flag for UX review (UX-AUDIT-1) whether the toggle should default open or closed below 880px, see flag (c).
+- At **tablet (768-1024)** the right chat panel can be toggled by an explicit `Chat` button (icon + label) in the top bar; default open at the wide end of the tablet range, default closed below ~880px where the canvas needs more room. When closed, the center column gains the width; the composer is not reachable until the panel reopens. This is the one breakpoint where the panel is not always-on; flag for UX review (UX-AUDIT-1) whether the toggle should default open or closed below 880px, see flag (c).
 
 ---
 
@@ -141,7 +141,7 @@ The composer form is wrapped in `border-t border-line bg-paper px-md py-md` and 
 - Height: **48px** (desktop/tablet), **52px** (mobile). `bg-paper border-b border-line flex items-center px-md`.
 - **Left:** the `Construct` brand wordmark (`Construct` with `AI` in coral, Newsreader `h2`, tracking-tight). Immediately after it, a thin `h-6 w-px bg-line-strong` divider, then the relocated **Design workspace** heading `<h1 id="design-workspace-title">Design workspace</h1>` at `font-serif text-h3 text-ink` (preserves the E2E `heading "Design workspace"` assertion, the heading now lives in the top bar, not in the left section). Hidden on `<sm` to make room for the mobile segmented control.
 - **Center:** a centered block showing the current design indicator when a design is active: `<span>design-1</span>` (design_id, truncated mono-style, `text-small text-slate`) + the validation overall pill (PASS/WARN/FAIL), small. Before any design: an italic `text-slate` "no active design" hint, or simply empty. On mobile this center slot is occupied by the Map/Chat segmented control (see section 6), and the design indicator moves into the left sidebar header. Aria: the centered indicator is `aria-live="polite"` so the screen-reader announces design changes.
-- **Right:** on desktop/tablet, a `Settings` icon button (gear; opens an about/settings sheet, content TBD, currently just a `BrandAttribution`-style info block + connection state); on tablet, the `Chat` toggle button (because the panel is collapsible at 768–1024); on mobile, the hamburger button that opens the left-sidebar contents as a sheet. The `Inspect` button from v1 is REMOVED (there is no separate inspector slide-over anymore, the tools strip + right panel replace it).
+- **Right:** on desktop/tablet, a `Settings` icon button (gear; opens an about/settings sheet, content TBD, currently just a `BrandAttribution`-style info block + connection state); on tablet, the `Chat` toggle button (because the panel is collapsible at 768-1024); on mobile, the hamburger button that opens the left-sidebar contents as a sheet. The `Inspect` button from v1 is REMOVED (there is no separate inspector slide-over anymore, the tools strip + right panel replace it).
 
 ---
 
@@ -159,7 +159,7 @@ A 24px bottom bar `bg-paper border-t border-line flex items-center justify-betwe
 
 It adds genuine value for a long-job research tool. Three reasons:
 
-1. **Job status is constant-attention content.** A plasmid design job can run 30s–3min. Researchers context-switch during the wait (they read papers, they look back at the map). The alternating v1 chrome (top-bar "Design running" notice that disappeared, plus a `RightRailJobNotice` card that consumed vertical space) required the user to look at two places. A pinned bottom dot is glanceable without leaving the map.
+1. **Job status is constant-attention content.** A plasmid design job can run 30s-3min. Researchers context-switch during the wait (they read papers, they look back at the map). The alternating v1 chrome (top-bar "Design running" notice that disappeared, plus a `RightRailJobNotice` card that consumed vertical space) required the user to look at two places. A pinned bottom dot is glanceable without leaving the map.
 2. **Connection state matters for a tool whose backend may be a local worker.** The demo-fixture environment can silently disconnect; today the only signal is a failed poll. A persistent connection indicator is a research-tool convention (CLIs, IDEs).
 3. **Model attribution is a credibility signal for this audience.** PhD-track researchers using NCBI GenBank records care which model verified their construct. A non-obstructive 24px line that shows the model on every screen is cheaper than the current approach of burying it in a validation report only after a design completes.
 
@@ -181,11 +181,11 @@ Full three-pane. Grid rows:
 
 Inside the center column: title row (32px) + map (`h-full` flex-1) + tools strip (56px). The map targets ~580px tall × ~880px wide at 1440×900.
 
-### Narrow desktop (1024–1280)
+### Narrow desktop (1024-1280)
 
-Three columns `[left sidebar 56px icon rail] [center canvas 1fr] [right chat 360px]`. Top bar 48px. Status bar 24px. Map target ~460px tall × ~560–680px wide. The icon rail expands to a 256px flyout on the New-design / outcome buttons; the history stack shows dot-only rows with a flyout listing on click.
+Three columns `[left sidebar 56px icon rail] [center canvas 1fr] [right chat 360px]`. Top bar 48px. Status bar 24px. Map target ~460px tall × ~560-680px wide. The icon rail expands to a 256px flyout on the New-design / outcome buttons; the history stack shows dot-only rows with a flyout listing on click.
 
-### Tablet (768–1024)
+### Tablet (768-1024)
 
 Two columns `[left sidebar 56px icon rail] [center canvas 1fr]`; the right chat panel is **toggleable** via a `Chat` button in the top bar (open by default at ≥880px, closed by default below, see flag). When open, it overlays the right ~360px of the center canvas as a drawer with a scrim (NOT a push layout, pushing would shrink the map below the SeqViz `both`-viewer minimum). When closed, the center canvas is full width. Map target ~400px tall. The tools strip (validation/export/outcome) stays under the map regardless.
 
@@ -264,19 +264,19 @@ Going assertion-by-assertion through the flagged list. Stays-put / moves / VERIF
 - **`link "View plasmid map"` (small-viewport test, line 150):** STAYS inline in each result message in the chat thread. On mobile it is in the Chat-tab thread and clicking switches to Map tab. The link's `text`, `role="link"`, and `href="#plasmid-map"` are preserved. Assertion passes, Verify-1 must confirm the click triggers the tab hop (an injected `onClick`). No selector change.
 - **`heading "Plasmid map"` (line 151):** STAYS in `PlasmidMapView` (`#plasmid-map-title`). On mobile it is in the Map tab. After the "View plasmid map" link switches to Map, the heading is visible. Assertion passes unchanged.
 - **`text "Accessible map summary"` (line 152):** STAYS in `PlasmidMapView`. Assertion passes unchanged.
-- **`region "Feature list"` + `text "CMV promoter"` (lines 87–89 small-viewport 153):** STAY in `PlasmidMapView`. Assertion passes unchanged.
-- **`region "Export actions"` + `button "GenBank"` (lines 155–156):** MOVES from the right inspector (v1) to the center canvas tools strip. At large desktop the region + button are under the map, visible by default. At small viewport (390px, Map tab active after the View-plasmid-map click) the region + button are in the map-tab tools strip, visible without further navigation. **Assertion passes unchanged on both viewports.** (Confirm the `aria-label="Export actions"` region wrapper is preserved in the strip.)
+- **`region "Feature list"` + `text "CMV promoter"` (lines 87-89 small-viewport 153):** STAY in `PlasmidMapView`. Assertion passes unchanged.
+- **`region "Export actions"` + `button "GenBank"` (lines 155-156):** MOVES from the right inspector (v1) to the center canvas tools strip. At large desktop the region + button are under the map, visible by default. At small viewport (390px, Map tab active after the View-plasmid-map click) the region + button are in the map-tab tools strip, visible without further navigation. **Assertion passes unchanged on both viewports.** (Confirm the `aria-label="Export actions"` region wrapper is preserved in the strip.)
 - **`button "Report outcome"` (small-viewport line 158):** MOVES into the center canvas tools strip (right cell). At small viewport (Map tab), the button is in the tools strip under the map, visible after the same View-plasmid-map hop. Assertion passes **unchanged, no More sheet, no extra step** (this is the key simplification vs v1: the tools strip is on the Map tab, so exporting and reporting are reachable immediately after switching to Map).
 - **`dialog heading "What happened in the lab?"` (desktop); `dialog` heading same (mobile):** UNCHANGED. `OutcomeReportModal` is page-root. Assertions pass.
 - **`aria-label "Pending outcome prompt"` (line 257):** UNCHANGED, toast is viewport-fixed, layout-independent. Assertion passes.
 - **`region "My reported outcomes"` (line 279):** MOVES from the right inspector (v1) to the **left sidebar**. At large desktop this region is in the sidebar (collapsed by default); the test does not collapse it, so VERIFY-1 must confirm the region is present in the DOM and `toContainText`-visible while collapsed, IMPL-INSPECTOR-1 must keep the collapsible's region element in the DOM (CSS-collapsed, not unmounted) so the `region` role and `aria-label` are present. **Verify-1: assert the region renders collapsed; if `toContainText` requires the content visible, IMPL-INSPECTOR-1 should leave the list content in the DOM (hidden via height/overflow) rather than unmounting.** Default-collapsed-or-expanded is a UX-AUDIT-1 call; this spec defaults **expanded** at first paint when `reportedOutcomes.length > 0` so the assertion is satisfied without interaction (and UX-AUDIT-1 may tighten this).
-- **`text "Submit a design to render the annotated plasmid."` (line 204):** STAYS the empty-state branch of `PlasmidMapView`. At large desktop visible by default (map canvas). At small viewport, after a *partial* result (no `annotated_sequence`), the Chat tab is active by default (no auto-switch to Map because no sequence landed) and the empty-state map is in the Map tab, Verify-1 must confirm the partial-result test's `toBeVisible()` finds the text without a tab switch. **Flag: the partial-result test (lines 195–205) does not click "View plasmid map" or switch tabs. At small/no-result state the map's empty-state text lives on the Map tab. If the test runs on desktop (default viewport) this is fine, the map canvas is always visible at large desktop. If run at small viewport, VERIFY-1 must keep the empty-state map visible on the Chat tab OR auto-render its text. Recommended: render the empty-state `PlasmidMapView` in BOTH the Map and Chat canvas placeholders on mobile when no result exists, OR keep the test on default viewport. Default: keep test on default viewport (the existing test has no `setViewportSize` on the partial-result test, it is desktop).** No change needed; flagged for awareness.
+- **`text "Submit a design to render the annotated plasmid."` (line 204):** STAYS the empty-state branch of `PlasmidMapView`. At large desktop visible by default (map canvas). At small viewport, after a *partial* result (no `annotated_sequence`), the Chat tab is active by default (no auto-switch to Map because no sequence landed) and the empty-state map is in the Map tab, Verify-1 must confirm the partial-result test's `toBeVisible()` finds the text without a tab switch. **Flag: the partial-result test (lines 195-205) does not click "View plasmid map" or switch tabs. At small/no-result state the map's empty-state text lives on the Map tab. If the test runs on desktop (default viewport) this is fine, the map canvas is always visible at large desktop. If run at small viewport, VERIFY-1 must keep the empty-state map visible on the Chat tab OR auto-render its text. Recommended: render the empty-state `PlasmidMapView` in BOTH the Map and Chat canvas placeholders on mobile when no result exists, OR keep the test on default viewport. Default: keep test on default viewport (the existing test has no `setViewportSize` on the partial-result test, it is desktop).** No change needed; flagged for awareness.
 - **`testid "seqviz-map"` (line 85):** STAYS the inner `data-testid="seqviz-map"`. Assertion passes unchanged.
 - **`text "Map could not render"` (hidden check, line 88 / 154):** STAYS the `MapErrorBoundary` fallback inside `PlasmidMapView`. Assertion passes unchanged.
-- **`text "Retrieved template evidence"` / `"curated:pEGFP-N1"` (lines 83–84):** STAYS inline in the chat thread (`RetrievedTemplatesPanel`). On desktop the thread is always visible. Assertion passes unchanged.
+- **`text "Retrieved template evidence"` / `"curated:pEGFP-N1"` (lines 83-84):** STAYS inline in the chat thread (`RetrievedTemplatesPanel`). On desktop the thread is always visible. Assertion passes unchanged.
 - **`text "Refined design completed with the lentiviral backbone request captured."` (line 93):** STAYS a message in the chat thread. Assertion passes; the thread is persistent so no toggle is required to read this.
 - **`button "Design"` / `"Refine"` (lines 81 / 92):** STAYS in the composer. On desktop the composer is in the always-visible right chat panel. Assertion passes.
-- **`button "GenBank"`/`"FASTA"` download asserts (lines 96–101):** the buttons live in the tools strip; the downloads are unchanged (handler preserved). Assertion passes.
+- **`button "GenBank"`/`"FASTA"` download asserts (lines 96-101):** the buttons live in the tools strip; the downloads are unchanged (handler preserved). Assertion passes.
 
 ### Net E2E changes required (VERIFY-1)
 

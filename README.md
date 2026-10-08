@@ -1,12 +1,27 @@
 # Construct
 
-Construct is an AI-assisted plasmid design system: a researcher describes an experimental goal in natural language, the system grounds the request in real plasmid records, proposes an annotated candidate design, validates it against deterministic molecular-biology constraints, renders the plasmid map, and exports files that can move into normal cloning and review workflows.
+Construct is an AI-assisted construct design system: a researcher describes an experimental goal, the system composes a candidate from real parts and real templates, validates it against deterministic molecular-biology constraints, renders it, and exports files that can move into normal cloning and review workflows.
+
+The architecture is retrieval plus deterministic validation rather than generative sequence modelling, and that is deliberate. Every base in the output traces to the user's own input, a curated part record, a retrieved template, or a published rule.
+
+## Capabilities
+
+Four capabilities exist today. Each shares one contract, one validation report format, and one UI pattern.
+
+| Capability | What it does | Checks |
+|---|---|---|
+| **Plasmid** | Retrieval-grounded plasmid design with a circular map, conversational refinement, and GenBank and FASTA export | the inherited validation engine |
+| **AAV vector** | Composes a cassette from a curated part registry under a banded packaging limit, renders it as a linear map with a length budget table, and when it does not fit, computes which part substitution closes the gap | 14 |
+| **Assembly and primers** | Gibson, Golden Gate and simple PCR cloning: primers with nearest-neighbor melting temperatures, an order table, a bench protocol, and a Golden Gate domestication report | 19 |
+| **Guide RNA** | Enumerates and ranks guides for SpCas9, SaCas9, LbCas12a and AsCas12a across both strands, with a named published on-target model and an explicitly scoped off-target search | 10 |
+
+Everything else, including cell therapy constructs, antibodies, genetic circuits and pathway design, is on our roadmap and is not built.
 
 Two runnable surfaces matter today: `make serve-local` for the interactive local app, and `make demo` for deterministic end-to-end verification.
 
 ## What It Does
 
-Construct turns any design request into a validated plasmid artifact through a single workflow:
+For a plasmid request, the workflow is:
 
 1. A researcher describes the construct they want, such as a host, expression goal, selectable marker, reporter, cloning workflow, or template preference.
 2. The system parses the request into structured intent and retrieves relevant plasmids from an indexed corpus built from curated records and NCBI GenBank.
@@ -15,7 +30,11 @@ Construct turns any design request into a validated plasmid artifact through a s
 5. The application returns an annotated circular construct with validation evidence, retrieved-template evidence, and export actions for GenBank and FASTA.
 6. The outcome system captures wet-lab results so confirmed designs and failures can become future training signal with explicit consent and provenance.
 
-The product surface is a chat-style design workspace: ask for a plasmid, refine it conversationally, inspect the map and validation report, export the sequence, and later record what happened in the lab.
+The product surface is a chat-style design workspace with a capability selector. Pick one of the four capabilities, submit a request, inspect the result and its validation report, and export. The plasmid flow additionally supports conversational refinement and recording what happened in the lab afterwards.
+
+### Provenance and export
+
+Designs are composed only from curated parts, every base is attributable, and exports are logged. A design containing sequence that cannot be traced to a curated part record, a retrieved template, a user supplied input or a named published rule is blocked from export rather than warned about, and a check that cannot be evaluated blocks as well rather than passing by default. There is a documented interface for a sequence screening backend; no external screening backend is configured in this deployment, and the audit log records that absence explicitly rather than recording a design as clear.
 
 ## How It Works
 
@@ -41,7 +60,21 @@ Outcome capture links a design, model version, user-reported lab result, consent
 
 ## Validation
 
-Construct uses a curated validation gold set to check whether the deterministic engine recognizes both good and bad constructs. The current curated set contains 36 known-good constructs and 52 known-bad constructs with 100% combined accuracy.
+Construct uses curated gold sets to check whether the deterministic engine recognizes both good and bad designs. A capability is not considered done because it produces output. It is done when it produces output and correctly rejects bad input.
+
+**The three newer capabilities** are measured by one harness that asserts three things per known-bad case: that the overall severity matches, that the specifically named check reports the expected severity, and that no unexpected failure appears anywhere else. That third assertion is what catches a validator that happens to be right for the wrong reason.
+
+> 91 of 91 on our curated capability gold set, spanning three capability types, with 46 known-good and 45 known-bad cases.
+
+| Capability | Tier A | Tier B | Known-bad | Total |
+|---|---|---|---|---|
+| AAV vector | 10 | 5 | 17 | 32 |
+| Assembly and primers | 10 | 6 | 14 | 30 |
+| Guide RNA | 10 | 5 | 14 | 29 |
+
+**The plasmid capability** has its own older curated set of 36 known-good and 52 known-bad constructs, which it currently passes in full. That set predates the named-check assertion above, so it is measured more weakly and is quoted separately rather than folded into one combined figure.
+
+Both sets were assembled by this team and neither has a held-out split, so these numbers describe recognition on a curated set, not generalization to unseen designs.
 
 Known-good records are tiered:
 

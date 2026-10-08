@@ -1,7 +1,33 @@
-# AI Plasmid Design Platform — System Design Document
+# AI Construct Design Platform: System Design Document
 
-> **Document type:** Build specification for an autonomous coding agent (Claude Code / Codex / OpenCode / similar).
-> **Status:** Living document. This is the single source of truth for the build.
+> ## HISTORICAL DESIGN NOTE. READ THIS FIRST.
+>
+> This document is the **earlier** design record for the plasmid engine, kept as a
+> historical record of how the system was reasoned about. It is **no longer the
+> single source of truth**, and parts of it describe intent rather than anything
+> that exists.
+>
+> **What actually exists today is four capabilities:** plasmid design, AAV vector
+> design, assembly and primer design, and guide RNA design. Anything else named or
+> implied anywhere below, including specific vectors, inducible systems or
+> modalities not in that list, is on the roadmap and is not built. Treat no
+> sequence or capability claim below as current.
+>
+> For current truth, in order of authority:
+>
+> | For | Read |
+> |---|---|
+> | What the four capabilities do and how they are measured | `README.md` |
+> | How to run and demo the system | `docs/demo.md` |
+> | What is actually implemented, decided and still open | `PROGRESS.md` and `progress/` |
+> | What may and may not be claimed about the product | the claim safety register in the engine capability specification |
+> | What the provenance and export gate really enforces | `progress/WP-08.md` |
+>
+> The body below is left unedited on purpose. Correcting a historical record in
+> place would destroy the record.
+
+> **Document type:** Build specification for an autonomous coding agent.
+> **Status:** Historical. Superseded for all current claims; see the note above.
 > **Audience:** A coding agent executing the build across many sessions, plus the human supervising it.
 
 ---
