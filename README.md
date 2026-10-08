@@ -13,7 +13,7 @@ Four capabilities exist today. Each shares one contract, one validation report f
 | **Plasmid** | Retrieval-grounded plasmid design with a circular map, conversational refinement, and GenBank and FASTA export | the inherited validation engine |
 | **AAV vector** | Composes a cassette from a curated part registry under a banded packaging limit, renders it as a linear map with a length budget table, and when it does not fit, computes which part substitution closes the gap | 14 |
 | **Assembly and primers** | Gibson, Golden Gate and simple PCR cloning: primers with nearest-neighbor melting temperatures, an order table, a bench protocol, and a Golden Gate domestication report | 19 |
-| **Guide RNA** | Enumerates and ranks guides for SpCas9, SaCas9, LbCas12a and AsCas12a across both strands, with a named published on-target model and an explicitly scoped off-target search | 10 |
+| **Guide RNA** | Enumerates and ranks guides for SpCas9, SaCas9, LbCas12a and AsCas12a across both strands. Every on-target score names its published model and is reported as a prediction, not a measurement, and the off-target search states the space it actually searched | 10 |
 
 Everything else, including cell therapy constructs, antibodies, genetic circuits and pathway design, is on our roadmap and is not built.
 
@@ -76,7 +76,9 @@ The local app uses a synchronous `FakeJobQueue` and `FakeGenerator` today, with 
 
 ### Validation Layer
 
-The validation engine is deterministic rather than probabilistic. It evaluates restriction-site conflicts, repeat and synthesis-instability patterns, codon-usage scoring for intended payload coding sequences, and regulatory compatibility across promoters, origins, markers, terminators, and host context. Validation reports include actionable messages, coordinates where available, and context labels that distinguish design-construct failures from source-record uncertainty.
+The validation engine follows fixed rules. The same design produces the same verdict, and every verdict cites the threshold it was judged against. It evaluates restriction-site conflicts, repeat and synthesis-instability patterns, codon-usage scoring for intended payload coding sequences, and regulatory compatibility across promoters, origins, markers, terminators, and host context. Validation reports include actionable messages, coordinates where available, and context labels that distinguish design-construct failures from source-record uncertainty.
+
+**The engine is deterministic. The biology is not, and the distinction is load-bearing.** A restriction-site or length check is a rule scan over a sequence, and its verdict is as solid as the rule. Codon fit is a score against a chosen usage table, so a different table gives a different number. Regulatory compatibility is a curated rules table, not settled science. So determinism here means that the same input yields the same answer and that the answer shows its working: it does not mean a passing design is guaranteed to behave as intended at the bench. A check the engine cannot evaluate reports UNKNOWN with a reason rather than passing by default, which is the same principle applied to its own limits.
 
 ### Application Layer
 
