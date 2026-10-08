@@ -60,12 +60,20 @@ export type ValidationCheck = {
   start?: number;
   end?: number;
   details?: unknown;
+  // Present on reports from the AAV, assembly and guide RNA capabilities.
+  check_id?: string;
+  observed?: string;
+  threshold?: string;
+  citation?: string;
+  tier?: "A" | "B" | string;
 };
 
 export type ValidationReport = {
   overall?: "PASS" | "WARN" | "FAIL" | string;
   checks?: ValidationCheck[];
   generated_by_model_version?: string | null;
+  validator_version?: string;
+  capability?: string;
 };
 
 export type JobResultPayload = {
@@ -78,6 +86,9 @@ export type JobResultPayload = {
   retrieved_templates?: RetrievedTemplate[];
   annotated_sequence?: AnnotatedSequence | null;
   validation_report?: ValidationReport | null;
+  // Set for AAV, assembly and guide RNA results so the chat thread does not
+  // describe them as partial plasmid results.
+  capability?: string;
 };
 
 export type SessionResponse = {
