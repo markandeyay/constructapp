@@ -3,6 +3,7 @@ biopython>=1.85,<2
 boto3>=1.43,<2
 celery[redis]>=5.5,<6
 fastapi>=0.138,<1
+anthropic>=0.120,<1
 google-genai>=2.3,<3
 httpx2>=2.4,<3
 httpx>=0.28,<1

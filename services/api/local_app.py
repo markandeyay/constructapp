@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import os
 from pathlib import Path
 from collections.abc import Callable, Mapping, Sequence
@@ -25,6 +26,11 @@ from packages.data_pipeline.ingest.genbank import load_dotenv
 from packages.generation.generator import FakeGenerator
 from packages.generation.spike import GenerationSpikePipeline, ParserReannotator
 from packages.retrieval.embed_corpus import EmbedCorpusConfig, build_embedder, build_vector_store
+from packages.retrieval.anthropic_client import (
+    AnthropicIntentClient,
+    AnthropicJsonClient,
+    AnthropicRecommendationClient,
+)
 from packages.retrieval.gemini_client import GeminiIntentClient, GeminiJsonClient, GeminiRecommendationClient
 from packages.retrieval.intent_parser import FakeIntentParser, LLMIntentParser
 from packages.retrieval.recommender import LLMRecommendationGenerator, TemplateRecommendationGenerator
@@ -104,17 +110,46 @@ def _build_local_pipeline(config: EmbedCorpusConfig) -> GenerationSpikePipeline:
         embedder=embedder,
         repository=PostgresRetrievalRepository(config.database_url),
     )
-    api_key = (os.environ.get("GOOGLE_API_KEY") or "").strip()
-    if api_key:
-        gemini = GeminiJsonClient(api_key=api_key)
+    # Provider precedence: Claude, then Gemini, then neither.
+    #
+    # Claude first because it is the configured provider for this deployment and
+    # its model is pinned by an allowlist rather than by a default. Gemini stays
+    # as the fallback rather than being deleted, because it is the path the
+    # existing tests and research notes describe.
+    #
+    # With no key at all the pipeline uses FakeIntentParser and
+    # TemplateRecommendationGenerator. That is a real reduction in capability and
+    # not a silent equivalence: intent is parsed by rule instead of by model. It
+    # is reported at startup so an operator cannot mistake one for the other.
+    anthropic_key = (os.environ.get("ANTHROPIC_API_KEY") or "").strip()
+    google_key = (os.environ.get("GOOGLE_API_KEY") or "").strip()
+    if anthropic_key:
+        claude = AnthropicJsonClient.from_env()
+        parser = LLMIntentParser(AnthropicIntentClient(claude))
+        recommender = LLMRecommendationGenerator(
+            AnthropicRecommendationClient(claude),
+            name=f"claude-grounded-recommender-v1:{claude.model}",
+        )
+        logging.getLogger("construct.api").info(
+            "intent_provider_selected", extra={"provider": "anthropic", "model": claude.model}
+        )
+    elif google_key:
+        gemini = GeminiJsonClient(api_key=google_key)
         parser = LLMIntentParser(GeminiIntentClient(gemini))
         recommender = LLMRecommendationGenerator(
             GeminiRecommendationClient(gemini),
             name="gemini-grounded-recommender-v1",
         )
+        logging.getLogger("construct.api").info(
+            "intent_provider_selected", extra={"provider": "google", "model": gemini.model}
+        )
     else:
         parser = FakeIntentParser()
         recommender = TemplateRecommendationGenerator()
+        logging.getLogger("construct.api").warning(
+            "intent_provider_selected",
+            extra={"provider": "none", "detail": "rule based intent parsing, no model configured"},
+        )
     return GenerationSpikePipeline(
         parser=parser,
         retriever=retriever,
