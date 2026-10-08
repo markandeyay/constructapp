@@ -327,3 +327,54 @@ WP-08 to the owner of packages/application/designs.py, packages/generation/gener
 WP-08 to WP-11 and the operator: packages.generation.generator.CarbonGenerator splices a model sampled continuation into a template (splice_generated_segment). Those bases trace to a model, which section 11.1 item 1 makes unattributable and item 2 describes as a de novo element. It is not on the demo path, FakeGenerator is. If it is ever enabled the gate would block its output, correctly, and the section 16 claim about curated composition would need qualifying for that generator.
 WP-08 to WP-07: after ScreeningRecord.record_in_design the design's provenance carries screening:<backend id>:<outcome> and, whenever nothing was screened, a screening_note: line in plain words. If the UI shows a provenance or screening panel, render that note and never render an absence of findings as a result. ExportAuditEntry.external_screening_ran is the boolean to drive it from.
 WP-08 to WP-11: the one sentence that may be claimed about section 11 is in progress/WP-08.md section 1, with the three true elaborations beside it and the list of what may not be said. Quote from there.
+
+## Orchestrator verification of the two WP-08 findings. Both confirmed in source.
+
+FINDING A, CONFIRMED. The ML sequence generator produces unattributable bases.
+  `packages/generation/generator.py` line 128: `CarbonGenerator` calls
+  `splice_generated_segment(template_sequence, segment)` where `segment` is
+  sampled from a language model, and that helper replaces the tail of the
+  template with those sampled bases. Those bases trace to a model, not to a
+  curated part, a retrieved record, user input or a published rule, so under
+  section 11.1 item 1 the sequence is unattributable and under item 2 it is a
+  novel functional element synthesized de novo. Routed through the WP-08 gate it
+  would be BLOCKED, which is the correct behaviour.
+  Not currently reachable: `services/api/local_app.py` line 96 wires
+  `FakeGenerator()`, which is the demo and local path, consistent with section
+  1.3. `CarbonGenerator` is not wired into any served path.
+  CLAIM SAFETY CONSEQUENCE, section 16: the sentence "designs are composed only
+  from curated parts, every base is attributable" is TRUE for everything that
+  ships and everything on the demo path. It would become FALSE for any design
+  produced by `CarbonGenerator`. If that generator is ever enabled, the claim
+  must be qualified for it before any design it produces is shown or exported.
+
+FINDING B, CONFIRMED. Plasmid design provenance is dropped between layers.
+  `packages/generation/generator.py` lines 82 and 139 set
+  `parent_template_ids=[template.id]`, but `DesignStore.create` in
+  `packages/application/designs.py` accepts only `session_id`, `job_id`,
+  `annotated_sequence` and `design_id`. There is no parameter for provenance, so
+  the template attribution never reaches the store or the export route.
+  Consequence: the plasmid capability cannot satisfy the section 11.1 gate.
+  WP-08 correctly did NOT loosen the check to accommodate it. There is no plasmid
+  adapter, and `subject_for_design` raises `NoAttributionAdapter` rather than
+  returning an empty subject, so nothing passes silently. The plasmid export
+  route still uses the codec directly and is therefore not gated.
+  Closing it touches three files WP-08 does not own and changes the behaviour of
+  the one capability already on the demo path, so it was filed rather than
+  attempted. Operator decision.
+
+INHERITED DOCUMENTS WITH STALE CLAIMS, for WP-11 to audit rather than me to
+  rewrite unilaterally. `docs/demo.md` carries an "Avoid these claims" list that
+  predates this build, and one entry tells the presenter to avoid saying CRISPR
+  coverage is complete, which now reads oddly given a guide RNA capability
+  exists. `SYSTEM_DESIGN.md` is the inherited design document and describes a
+  roadmap wider than the four capabilities that exist. Neither is a false claim
+  made by this build, and both are read by a person preparing the demo, so both
+  need a pass against section 16 and open question Q9 before Saturday.
+
+NOTED, not a defect: `packages/retrieval/intent_parser.py` line 563 appends a
+  `biosecurity_review_required` constraint when a request mentions a toxin, a
+  pathogen, a select agent or gene therapy. That is a pre-existing honest flag
+  raising a review requirement, not a claim that screening ran. It fires on gene
+  therapy wording, which is exactly what an AAV request contains, so expect to
+  see it on the demo path. Conservative and correct.
