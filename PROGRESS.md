@@ -745,3 +745,42 @@ BEAT 4, guide RNA. Measured: the committed 950 bp fixture, 216 guides
 
 So every figure in the runbook is a measured figure. A presenter reading it
 aloud is not repeating anything that was estimated, rounded or assumed.
+
+## CLAIM SAFETY CORRECTION, found by the orchestrator auditing its own text
+
+THE GAP. `export_screened_design` is implemented, exported from
+  `packages/application`, and covered by tests that prove an unattributable base
+  blocks an export and that no policy flag can let one through. It has **no call
+  site outside the screening package**. No API route calls it, and `data/audit/`
+  does not exist because no audit entry has ever been written by the running
+  application.
+
+WHAT WAS WRONG. The README paragraph describing this, which the orchestrator
+  wrote, said "exports are logged" and described the blocking as though it were
+  operative. That presents a capability that exists as a capability that is
+  running. Section 16's biosafety row calls a false safety claim the one
+  overstatement that is never forgiven, and section 11.2 says to claim only what
+  is actually implemented. This was over the line and it was caught by auditing
+  the orchestrator's own text rather than anyone else's.
+
+WHAT IT NOW SAYS. The claim is split in two. What is true today: designs are
+  composed only from curated parts and every base is attributable, because the
+  three newer capabilities compose exclusively from the registry plus the user's
+  own input and each records its provenance. What exists but is not running: the
+  provenance gate, the screening interface and the audit log, stated explicitly
+  as not yet wired into a serving route, with the consequence spelled out that
+  exports from the running application do not pass through it and no audit
+  entries are being written.
+
+WHY IT WAS NOT WIRED NOW instead of disclosed. Wiring the gate into the export
+  paths is a behaviour change on every capability two days before a live demo,
+  and it cannot be complete in any case: the plasmid capability cannot satisfy
+  the gate at all, because `parent_template_ids` is dropped at the design store
+  boundary, so wiring it would either block plasmid exports or require a special
+  case that defeats the point. Disclosing accurately costs nothing and claims
+  nothing false. Wiring it, together with carrying plasmid provenance through to
+  the store, is the correct next piece of work and both are recorded.
+
+FOR THE PITCH. Say "designs are composed only from curated parts and every base
+  is attributable", which is true and demonstrable from any design's provenance
+  list. Do not say exports are screened or logged.

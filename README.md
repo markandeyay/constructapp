@@ -34,7 +34,13 @@ The product surface is a chat-style design workspace with a capability selector.
 
 ### Provenance and export
 
-Designs are composed only from curated parts, every base is attributable, and exports are logged. A design containing sequence that cannot be traced to a curated part record, a retrieved template, a user supplied input or a named published rule is blocked from export rather than warned about, and a check that cannot be evaluated blocks as well rather than passing by default. There is a documented interface for a sequence screening backend; no external screening backend is configured in this deployment, and the audit log records that absence explicitly rather than recording a design as clear.
+Designs are composed only from curated parts, and every base is attributable. The three newer capabilities compose exclusively from the curated part registry plus the user's own supplied input, and each design records the provenance of every element it used.
+
+A provenance gate is implemented and tested on top of that. It requires every base of a design to trace to a curated part record, a retrieved template, a user supplied input or a named published rule, verified span by span against the actual part records; it blocks an export outright rather than warning, and a check it cannot evaluate blocks as well rather than passing by default. It also carries a documented interface for a sequence screening backend and an append-only export audit log that records what was exported, when, the validator version and the screening result.
+
+**Stated precisely, because the distinction matters: that gate is not yet wired into a serving route.** It exists, it has tests covering the blocking behaviour, and nothing calls it from the API today, so exports returned by the running application are not currently passing through it and no audit entries are being written. Wiring it is the next step and is tracked in `PROGRESS.md`. Until then the honest claim is the first paragraph above, not the second.
+
+No external screening backend is configured in this deployment. The default backend is a named no-op whose recorded result says in terms that no external screening examined the design and must not be read as a screening result.
 
 ## How It Works
 
