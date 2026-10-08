@@ -3,7 +3,7 @@
     "case_id": "aav.good.a1.gfap_bgh_wpre_astrocyte",
     "capability": "aav",
     "tier": "A",
-    "rationale": "A 2,200 bp single stranded cassette composed from registry parts only: AAV2 ITRs, the GFAP promoter for a cns_astrocyte target, WPRE and the bGH polyA. The payload is the in-frame 405 bp 3' segment of the beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), minus strand positions 1626 to 2030. Inside the 2,000 to 4,700 bp band, promoter matched to the target tissue, strong Kozak context (G at -3 from the promoter, G at +4 from the reading frame), clean open reading frame, so every one of the fourteen checks passes.",
+    "rationale": "A 2,206 bp single stranded cassette composed from registry parts only, plus the 6 bp Kozak initiation context element the composer inserts: AAV2 ITRs, the GFAP promoter for a cns_astrocyte target, WPRE and the bGH polyA. The payload is the in-frame 405 bp 3' segment of the beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), minus strand positions 1626 to 2030. Inside the 2,000 to 4,700 bp band, promoter matched to the target tissue, strong Kozak context (GCCACCATGG: the A at -3 comes from the cited Kozak element the composer inserts, the G at +4 from the reading frame), clean open reading frame, so every one of the fourteen checks passes.",
     "input": {
       "transgene_name": "orf405_bla_segment",
       "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -17,7 +17,7 @@
     "case_id": "aav.good.a2.gfap_sv40_wpre_astrocyte",
     "capability": "aav",
     "tier": "A",
-    "rationale": "The same cassette with the 135 bp SV40 polyA in place of the 225 bp bGH polyA, 2,110 bp total. Proves the smaller functional polyA signal is recognised by aav.polya_present_functional and that the shorter cassette still clears the 2,000 bp minimum genome size.",
+    "rationale": "The same cassette with the 135 bp SV40 polyA in place of the 225 bp bGH polyA, 2,116 bp total. Proves the smaller functional polyA signal is recognised by aav.polya_present_functional and that the shorter cassette still clears the 2,000 bp minimum genome size.",
     "input": {
       "transgene_name": "orf405_bla_segment",
       "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -31,7 +31,7 @@
     "case_id": "aav.good.a3.gfap_bgh_wpre_orf312",
     "capability": "aav",
     "tier": "A",
-    "rationale": "A 2,107 bp cassette carrying a shorter real payload, the in-frame 312 bp 3' segment of the beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), which also begins ATGG so the Kozak +4 position is satisfied. A second payload length through the same element set.",
+    "rationale": "A 2,113 bp cassette carrying a shorter real payload, the in-frame 312 bp 3' segment of the beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), which also begins ATGG so the Kozak +4 position is satisfied. A second payload length through the same element set.",
     "input": {
       "transgene_name": "orf312_bla_segment",
       "transgene_sequence": "ATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -45,7 +45,7 @@
     "case_id": "aav.good.a4.gfap_bgh_wpre_orf237_near_minimum",
     "capability": "aav",
     "tier": "A",
-    "rationale": "2,032 bp, 32 bp above the 2,000 bp minimum genome size. The boundary case for aav.minimum_genome_size on the passing side: it must not warn here. Payload is the in-frame 237 bp 3' segment of the beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb).",
+    "rationale": "2,038 bp, 38 bp above the 2,000 bp minimum genome size, which the Kozak element moves further from the floor rather than closer. The boundary case for aav.minimum_genome_size on the passing side: it must not warn here. Payload is the in-frame 237 bp 3' segment of the beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb).",
     "input": {
       "transgene_name": "orf237_bla_segment",
       "transgene_sequence": "ATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -59,7 +59,7 @@
     "case_id": "aav.good.a5.self_complementary_gfap_bgh",
     "capability": "aav",
     "tier": "A",
-    "rationale": "The same 2,200 bp cassette declared self complementary. 2,200 bp is at or under the 2,400 bp self complementary target, so aav.sc_capacity passes as well as aav.packaging_limit. This is the case that shows the halved band is applied rather than merely available.",
+    "rationale": "The same 2,206 bp cassette declared self complementary. 2,206 bp is at or under the 2,400 bp self complementary target, so aav.sc_capacity passes as well as aav.packaging_limit. This is the case that shows the halved band is applied rather than merely available.",
     "input": {
       "transgene_name": "orf405_bla_segment",
       "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -125,7 +125,7 @@
     "case_id": "aav.good.a7.self_complementary_sv40",
     "capability": "aav",
     "tier": "A",
-    "rationale": "A 2,110 bp self complementary cassette with the SV40 polyA, 290 bp of headroom under the 2,400 bp self complementary target. A second point inside the halved band.",
+    "rationale": "A 2,116 bp self complementary cassette with the SV40 polyA, 284 bp of headroom under the 2,400 bp self complementary target. A second point inside the halved band.",
     "input": {
       "transgene_name": "orf405_bla_segment",
       "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -140,7 +140,7 @@
     "case_id": "aav.good.a8.packaging_limit_override",
     "capability": "aav",
     "tier": "A",
-    "rationale": "The a1 cassette with the section 6.3 packaging_limit_bp override set to 3,000 bp, which is the case for a laboratory that uses a tighter practical ceiling than the 4,700 bp default. 2,200 bp is inside the overridden band, so the verdict is unchanged and the override is proved to reach the check rather than being ignored.",
+    "rationale": "The a1 cassette with the section 6.3 packaging_limit_bp override set to 3,000 bp, which is the case for a laboratory that uses a tighter practical ceiling than the 4,700 bp default. 2,206 bp is inside the overridden band, so the verdict is unchanged and the override is proved to reach the check rather than being ignored.",
     "input": {
       "transgene_name": "orf405_bla_segment",
       "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -155,7 +155,7 @@
     "case_id": "aav.good.a9.gfap_sv40_wpre_orf312",
     "capability": "aav",
     "tier": "A",
-    "rationale": "2,017 bp, 17 bp above the 2,000 bp minimum. The tightest passing cassette the real registry and the real reading frames can produce, which makes it the sharpest guard against aav.minimum_genome_size drifting upward.",
+    "rationale": "2,023 bp, 23 bp above the 2,000 bp minimum, further from the floor than before the 6 bp Kozak element was added. The tightest passing cassette the real registry and the real reading frames can produce, which makes it the sharpest guard against aav.minimum_genome_size drifting upward.",
     "input": {
       "transgene_name": "orf312_bla_segment",
       "transgene_sequence": "ATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",

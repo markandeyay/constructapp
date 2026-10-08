@@ -370,6 +370,41 @@ class TestElementOrder:
         assert check.severity is Severity.PASS
         assert check.observed == "itr_5 -> promoter -> cds -> wpre -> polya -> itr_3"
 
+    def test_a_composed_cassette_with_the_kozak_element_passes(self):
+        from packages.core.schemas.aav import AAVRequest
+        from packages.generation.aav import AAVComposer
+
+        design = AAVComposer().compose(
+            AAVRequest(transgene_name="t", transgene_sequence=cds_of_length(1_200), target_tissue="ubiquitous")
+        )
+        assert "kozak" in [CassetteElementRole(e.role).value for e in design.elements]
+        check = check_of(validate(design), "aav.element_order")
+        assert check.severity is Severity.PASS
+        assert "kozak -> cds" in check.observed
+
+    def test_the_kozak_element_after_the_coding_sequence_fails(self):
+        kozak = CassetteElement(
+            role=CassetteElementRole.KOZAK,
+            name="Kozak initiation context",
+            sequence="GCCACC",
+            part_id=None,
+            source="published_rule:kozak_1987",
+        )
+        design = build_design(
+            elements=[
+                part_element(CassetteElementRole.ITR_5, "itr.aav2_itr_left"),
+                part_element(CassetteElementRole.PROMOTER, "promoter.mecp2_mini"),
+                cds_element(cds_of_length(1_500)),
+                kozak,
+                part_element(CassetteElementRole.POLYA, "polya.bgh"),
+                part_element(CassetteElementRole.ITR_3, "itr.aav2_itr_right"),
+            ]
+        )
+        check = check_of(validate(design), "aav.element_order")
+        assert check.severity is Severity.FAIL
+        assert "(kozak, Kozak initiation context)" in check.message
+        assert "inverts the functional order" in check.message
+
     def test_polya_before_the_coding_sequence_fails(self):
         design = build_design(
             elements=[
@@ -383,7 +418,7 @@ class TestElementOrder:
         check = check_of(validate(design), "aav.element_order")
         assert check.severity is Severity.FAIL
         assert "inverts the functional order" in check.message
-        assert "itr_5 -> enhancer -> promoter -> intron -> cds -> wpre -> polya -> itr_3" in check.message
+        assert "itr_5 -> enhancer -> promoter -> intron -> kozak -> cds -> wpre -> polya -> itr_3" in check.message
 
     def test_wpre_before_the_promoter_fails(self):
         design = build_design(
@@ -665,6 +700,35 @@ class TestKozakContext:
         assert check.severity is Severity.WARN
         assert "position +4 is A rather than G" in check.message
         assert "synonymous change" in check.message
+        # -3 is already a purine here, so there is nothing to insert and the
+        # prefix advice, which would be wrong, must not appear.
+        assert "prefix immediately before the ATG" not in check.message
+
+    def test_a_malformed_kozak_element_is_named_as_the_owner_of_minus_three(self):
+        """If the cassette's own element is not the consensus, the message says to correct the element."""
+        bad = CassetteElement(
+            role=CassetteElementRole.KOZAK,
+            name="Kozak initiation context",
+            sequence="GCCCCC",
+            part_id=None,
+            source="published_rule:kozak_1987",
+        )
+        design = build_design(
+            elements=[
+                part_element(CassetteElementRole.ITR_5, "itr.aav2_itr_left"),
+                part_element(CassetteElementRole.PROMOTER, "promoter.mecp2_mini"),
+                bad,
+                cds_element(cds_of_length(1_500)),
+                part_element(CassetteElementRole.POLYA, "polya.bgh"),
+                part_element(CassetteElementRole.ITR_3, "itr.aav2_itr_right"),
+            ]
+        )
+        check = check_of(validate(design), "aav.kozak_context")
+        assert check.severity is Severity.WARN
+        assert "position -3 is C" in check.message
+        assert "the cassette's own initiation context element" in check.message
+        assert "should be corrected" in check.message
+        assert "carries no initiation context element" not in check.message
 
     def test_no_cds_is_unknown(self):
         design = build_design(

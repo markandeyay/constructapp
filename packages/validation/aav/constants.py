@@ -282,6 +282,52 @@ Per the Kozak 1987 consensus cited on `KOZAK_CONSENSUS_MOTIF`. Configurable
 through `AAVThresholds.kozak_plus4_base`.
 """
 
+# The three constants below describe the element the composer WRITES when it
+# designs an initiation context from scratch. They are a generation choice, not
+# a validation bound, so they are deliberately NOT mirrored as `AAVThresholds`
+# fields and are NOT in `AAVThresholds.as_mapping`: the check's accept/reject
+# bars above are unchanged by them.
+
+KOZAK_PREFERRED_MINUS3 = "A"
+"""The purine written at -3 when an initiation context is designed from scratch.
+
+The analysis cited on `KOZAK_CONSENSUS_MOTIF` (Kozak 1987) finds A the commoner
+of the two purines at -3. `aav.kozak_context` accepts either purine, so this
+constant only chooses which one to WRITE and moves no threshold; the check's own
+PASS message already says so: "A and G both satisfy it, so this check accepts
+either and the threshold is the same for both, but A is the commoner of the two
+in the cited analysis."
+"""
+
+KOZAK_UPSTREAM_ELEMENT = KOZAK_CONSENSUS_MOTIF[:6].replace("R", KOZAK_PREFERRED_MINUS3)
+"""Positions -6 through -1 of the cited consensus, with R set to the preferred purine.
+
+Its length, 6 bp, is the extent of the 5' portion of the motif, not a number
+chosen here. Source: Kozak 1987, cited on `KOZAK_CONSENSUS_MOTIF`. It is derived
+from `KOZAK_CONSENSUS_MOTIF` by slicing so the value can never drift from the
+cited motif.
+"""
+
+KOZAK_ELEMENT_SOURCE = "published_rule:kozak_1987"
+"""Provenance token of the composed Kozak element.
+
+This is the WP-08 `published_rule` origin (section 11.1 item 1's fourth origin):
+the bases come from a published rule, not from a registry part, a retrieved
+record or user input. The rule is Kozak 1987, cited on `KOZAK_CONSENSUS_MOTIF`.
+"""
+
+KOZAK_ELEMENT_RULE = (
+    f"Kozak 1987 vertebrate translation initiation consensus, positions -6 to -1 of "
+    f"{KOZAK_CONSENSUS_MOTIF} with the purine at -3 instantiated as {KOZAK_PREFERRED_MINUS3} "
+    f"(Nucleic Acids Research 1987, 15:8125-8148, doi:10.1093/nar/15.20.8125)"
+)
+"""Human readable statement of the rule that produced `KOZAK_UPSTREAM_ELEMENT`.
+
+Built by interpolation from `KOZAK_CONSENSUS_MOTIF` and `KOZAK_PREFERRED_MINUS3`
+so it cannot drift from them. Source: Kozak 1987, cited on
+`KOZAK_CONSENSUS_MOTIF`.
+"""
+
 # ---------------------------------------------------------------------------
 # Polyadenylation signal recognition (section 6.4 check 12)
 # ---------------------------------------------------------------------------
@@ -429,6 +475,10 @@ class AAVThresholds:
     kozak_consensus_motif: str = KOZAK_CONSENSUS_MOTIF
     kozak_minus3_purines: tuple[str, ...] = KOZAK_MINUS3_PURINES
     kozak_plus4_base: str = KOZAK_PLUS4_BASE
+    # KOZAK_PREFERRED_MINUS3, KOZAK_UPSTREAM_ELEMENT, KOZAK_ELEMENT_SOURCE and
+    # KOZAK_ELEMENT_RULE are deliberately not fields here and not in as_mapping:
+    # they describe the element the composer writes, a generation choice, not a
+    # validation bound, so they move no threshold and no fingerprint.
     polya_signal_motifs: tuple[str, ...] = POLYA_SIGNAL_MOTIFS
     tissue_compatibility: dict[str, frozenset[str]] = None  # type: ignore[assignment]
     remediation_max_plans: int = REMEDIATION_MAX_PLANS

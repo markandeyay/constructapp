@@ -915,10 +915,14 @@ def check_homopolymer_runs(context: CheckContext) -> CheckResult:
 def _describe_upstream_source(context: CheckContext, position: int, cds_index: int) -> str:
     """Name the cassette element that supplies the base at `position`.
 
-    The composer places no initiation context element between the last upstream
-    element and the ATG, so position -3 of the transcript is whatever that
-    element happens to end on. A user told only that "position -3 is C" cannot
-    tell whose C it is, so every message that quotes the -3 base names its owner.
+    The composer now places a Kozak initiation context element between the last
+    upstream element and the ATG when the transgene begins with ATG, so for a
+    composed cassette position -3 belongs to that element. This helper's job is
+    to name the owner of the -3 base in the cases where it is still something
+    else: a caller supplied cassette, and a transgene that brought its own
+    context, where the base is whatever the last upstream element happens to end
+    on. A user told only that "position -3 is C" cannot tell whose C it is, so
+    every message that quotes the -3 base names its owner.
     Returns "" when no element covers the position, which happens only for an
     explicit cassette whose elements do not tile the sequence.
     """
@@ -935,6 +939,12 @@ def _describe_upstream_source(context: CheckContext, position: int, cds_index: i
         if from_end == 1
         else f"{from_end} bases from the 3' end of {owner.name}{identifier}"
     )
+    if owner.role is CassetteElementRole.KOZAK:
+        return (
+            f" That base is {where}, which is the cassette's own initiation context element. The base comes "
+            f"from that element's own sequence, which is not the cited consensus, so the element itself "
+            f"should be corrected."
+        )
     sentence = (
         f" That base is {where}, the element immediately 5' of the coding sequence: the cassette carries "
         f"no initiation context element between the two, so the last bases of that element become the "
@@ -966,11 +976,14 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
     The bases immediately 5' of the ATG really are the transcript's 5' UTR: the
     transcription start site sits inside the promoter, so everything from there
     to the ATG is transcribed and `cassette[start - 3]` is the mRNA's -3
-    position. What that base *is*, though, is an accident of where a curator drew
-    the upstream part's feature boundary, because nothing places an initiation
-    context element between the two. So the message names the element the base
-    came from: see `_describe_upstream_source`. Without that, a user told
-    "position -3 is C" has no way to find out whose C it is.
+    position. For a composed cassette whose transgene begins with ATG the
+    composer places a Kozak element there, so that base is the cited consensus.
+    When no such element is present, a caller supplied cassette or a transgene
+    that brought its own context, what that base *is* is an accident of where a
+    curator drew the upstream part's feature boundary, because nothing places an
+    initiation context element between the two. So the message names the element
+    the base came from: see `_describe_upstream_source`. Without that, a user
+    told "position -3 is C" has no way to find out whose C it is.
     """
     thresholds = context.thresholds
     purines = " or ".join(thresholds.kozak_minus3_purines)
@@ -1073,14 +1086,22 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
             f"choose a second codon beginning with {thresholds.kozak_plus4_base}, which for most residues is "
             f"a synonymous change and does not alter the protein"
         )
+    # Inserting the prefix only helps when -3 is what fails. When -3 is already a
+    # purine and only +4 fails, there is nothing to insert and the second codon
+    # is the only fix.
+    prefix_advice = (
+        f" The simplest change is to insert the {thresholds.kozak_consensus_motif[:6]} prefix "
+        f"immediately before the ATG."
+        if not minus3_ok
+        else ""
+    )
     strength = "an adequate but not optimal" if (minus3_ok or plus4_ok) else "a weak"
     return result(
         "aav.kozak_context",
         Severity.WARN,
         f"The initiator ATG sits in {strength} Kozak context ({window}): {' and '.join(weak)}.{source} A "
         f"weak context allows leaky scanning past the start codon and lowers the amount of protein made per "
-        f"transcript. To fix: {'; '.join(fixes)}. The simplest change is to insert the "
-        f"{thresholds.kozak_consensus_motif[:6]} prefix immediately before the ATG. If the context is "
+        f"transcript. To fix: {'; '.join(fixes)}.{prefix_advice} If the context is "
         f"deliberately weak, for example to tune expression down, this is a Tier B warning to record rather "
         f"than a failure.",
         observed=observed,

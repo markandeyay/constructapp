@@ -32,15 +32,18 @@ Checked at the time it was added, and re-checked by the validator on every run:
 ## What the demo does with it
 
 With the AAV2 ITR pair, the CAG promoter and the bGH polyA, all from the curated
-part registry, the cassette totals 5,229 bp. That is 529 bp over the 4,700 bp
-single stranded packaging target and 29 bp past the 5,200 bp hard ceiling, so it
-fails. Replacing CAG with EFS saves 1,427 bp and brings it to 3,802 bp, which
+part registry, the cassette totals 5,235 bp. That is 535 bp over the 4,700 bp
+single stranded packaging target and 35 bp past the 5,200 bp hard ceiling, so it
+fails. Replacing CAG with EFS saves 1,427 bp and brings it to 3,808 bp, which
 clears the limit.
 
 One advisory remains after the substitution, and it is worth saying out loud
 rather than hiding: lacZ begins ATGACC, so the base after the start codon is A
-where a G is preferred, and the Kozak context is weak. That is a property of the
-real gene, not of this tool, and the validator says how to fix it. Section 3.4 is
+where a G is preferred. The cassette carries a cited 6 bp Kozak element inserted
+by the composer, so position -3 is the consensus A by design and the context is
+adequate but not optimal, weak only at position +4. That is a property of the
+real gene, not of this tool, and the validator says how to fix it: choose a
+second codon beginning with G. Section 3.4 is
 exactly the argument that a warning with an explanation is the product.
 
 # Demo guide RNA target: beta-lactamase region of pUC19

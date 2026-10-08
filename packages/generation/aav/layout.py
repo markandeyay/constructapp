@@ -55,6 +55,7 @@ def length_budget(design: AAVDesign, thresholds: AAVThresholds = DEFAULT_THRESHO
                 role=item.role,
                 name=item.name,
                 part_id=item.part_id,
+                source=None if item.part_id else design.elements[item.index].source,
                 length_bp=item.length_bp,
                 running_total_bp=running,
                 headroom_bp=target - running,

@@ -6,10 +6,10 @@
     "expected_warnings": [
       {
         "check": "aav.kozak_context",
-        "justification": "The payload is the complete 861 bp beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), ATG through TAA, cloned with its own initiation codon and nothing inserted in front of it. Its fourth base is A, not the G of the Kozak consensus, so the context scores as adequate rather than optimal. Keeping a transgene's native start context is a deliberate and common choice: inserting a GCCACC linker changes the second codon of the protein, and when the native 5' end matters more than maximal initiation efficiency the correct answer is to accept a weaker Kozak and be told about it. Severity WARN, with the loss quantified as leaky scanning rather than failure, is exactly the section 3.4 outcome."
+        "justification": "The payload is the complete 861 bp beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), ATG through TAA. Because it begins with ATG and so supplies no 5' context of its own, the composer inserts the 6 bp cited Kozak element GCCACC in front of it, which makes position -3 an A and leaves the protein untouched: six bases placed 5' of the ATG change no codon. Its fourth base is A, not the G of the Kozak consensus, so the measured context is GCCACCATGA, adequate but not optimal, and position +4 alone is the weakness. Position +4 is the first base of the payload's second codon, so the only way to fix it is a change to the payload's own second codon, which the tool must not make for the user. When the native second codon matters more than maximal initiation efficiency, the correct answer is to accept a weaker Kozak and be told about it. Severity WARN, with the loss quantified as leaky scanning rather than failure, is exactly the section 3.4 outcome."
       }
     ],
-    "rationale": "A 2,656 bp cassette, otherwise identical to the Tier A set, carrying a complete real reading frame with a suboptimal native Kozak context.",
+    "rationale": "A 2,662 bp cassette, otherwise identical to the Tier A set, carrying a complete real reading frame whose native second codon gives a suboptimal +4. The case id now describes the case only partly: what is preserved is the payload's native second codon and therefore its native +4, not a native 5' context, because a payload beginning with ATG has no 5' context to preserve.",
     "input": {
       "transgene_name": "bla_beta_lactamase_orf",
       "transgene_sequence": "ATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -29,7 +29,7 @@
         "justification": "The GFAP promoter is annotated cns_astrocyte and the target tissue is retina, so the strict compatibility table warns. The design is intentional: GFAP drives expression in retinal Mueller glia, which are the macroglia of the retina, so a retina-targeted glial vector built on GFAP is a real and deliberate choice. The table is deliberately strict because only the designer knows the intended cell type, and the severity is WARN and never FAIL for that reason. Surfacing it is right; failing it would be wrong."
       }
     ],
-    "rationale": "2,200 bp, every structural and length check clean, one promoter and tissue annotation mismatch that reflects a real cell type choice rather than an error.",
+    "rationale": "2,206 bp, every structural and length check clean, one promoter and tissue annotation mismatch that reflects a real cell type choice rather than an error.",
     "input": {
       "transgene_name": "orf405_bla_segment",
       "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -47,13 +47,9 @@
       {
         "check": "aav.internal_repeats",
         "justification": "The authentic CMV immediate early promoter contains the 21 bp enhancer motif ACGGTAAATGGCCCGCCTGGC twice. That duplication is a property of the real part, not of this design: the enhancer repeat is what makes CMV strong, and removing a copy would change the part. A recombination warning on a 21 bp direct repeat is correct information to surface for a production run, and the designer's options are to accept it or to choose a different promoter."
-      },
-      {
-        "check": "aav.kozak_context",
-        "justification": "The CMV part ends GCCTCC, so the base three before the ATG is T rather than a purine. The coding sequence is placed directly against the promoter 3' end, which is what a scarless clone does, and the only way to score a purine at -3 would be to insert synthetic linker bases between the promoter and the start codon. The warning is the honest report of that tradeoff."
       }
     ],
-    "rationale": "A 2,172 bp ubiquitous cassette on the real CMV promoter. Two warnings, both intrinsic to the authentic part rather than to the design.",
+    "rationale": "A 2,178 bp ubiquitous cassette on the real CMV promoter, with one warning, intrinsic to the authentic part rather than to the design. The second warning this case used to declare, on aav.kozak_context, is gone because the construct changed, not because the bar moved. That warning's own justification recorded that \"the only way to score a purine at -3 would be to insert synthetic linker bases between the promoter and the start codon\". The composer now does exactly that, with the 6 bp Kozak 1987 element, so position -3 is a cited A instead of the T that the CMV part's curated feature boundary happened to end on, and this case's payload already carries G at +4. The initiation context is now genuinely strong and a warning would misreport the molecule. The check, its accepted bases, its threshold and its severity are all unchanged, and tests/aav/test_checks.py::test_pyrimidine_at_minus_three_warns still passes unmodified.",
     "input": {
       "transgene_name": "orf405_bla_segment",
       "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -77,7 +73,7 @@
         "justification": "The real CAG promoter carries a 14 bp run of G, which is over the 8 bp synthesis stability threshold. CAG is one of the most widely used promoters in AAV work and this run is part of its sequence, so the warning is a true statement about a synthesis and replication risk that the designer is accepting knowingly, not a defect introduced here."
       }
     ],
-    "rationale": "A 2,559 bp ubiquitous cassette on the real CAG promoter, no WPRE. The Kozak context passes here because CAG ends GGCAAA, so -3 is a purine, which isolates the two warnings that are genuinely properties of the part.",
+    "rationale": "A 2,565 bp ubiquitous cassette on the real CAG promoter, no WPRE. The Kozak context passes here by design, because the composer inserts the cited 6 bp Kozak element and so -3 is an A, rather than by the coincidence of the CAG part ending GGCAAA, which isolates the two warnings that are genuinely properties of the part.",
     "input": {
       "transgene_name": "orf405_bla_segment",
       "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",

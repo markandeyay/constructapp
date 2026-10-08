@@ -142,7 +142,7 @@ Click the AAV vector tab. Fill the form with:
 * Self-complementary: unchecked
 * **Include WPRE if it fits: leave it UNCHECKED, or the numbers below change.**
   It is checked by default. With it checked the "fixed" cassette picks up a 589
-  bp WPRE and lands at 4,391 bp, not 3,802 bp. Click the checkbox with the
+  bp WPRE and lands at 4,397 bp, not 3,808 bp. Click the checkbox with the
   mouse so you can see it is empty.
 
 The transgene must be pasted. No retrieval resolver for transgenes exists, so
@@ -151,8 +151,8 @@ inventing a sequence, which is the correct behavior.
 
 Click Compose cassette. Expected, measured:
 
-* Cassette **5,229 bp**, overall **FAIL**, Packaging limit FAIL.
-* 529 bp over the 4,700 bp target, 329 bp over the 4,900 bp soft limit, and 29
+* Cassette **5,235 bp**, overall **FAIL**, Packaging limit FAIL.
+* 535 bp over the 4,700 bp target, 335 bp over the 4,900 bp soft limit, and 35
   bp past the 5,200 bp hard ceiling.
 * The message names the fix itself: replace CAG with EFS, saving 1,427 bp.
 * The length budget table shows the running total going red at the transgene.
@@ -163,18 +163,24 @@ fix is computed. Beta-galactosidase is the classic oversized AAV cargo."
 Now change Promoter to `EFS, short EF-1 alpha core promoter (212 bp)` and click
 Compose cassette again. Expected, measured:
 
-* Cassette **3,802 bp**, Packaging limit **PASS**, overall **WARN**.
+* Cassette **3,808 bp**, Packaging limit **PASS**, overall **WARN**.
 * Both ITRs matched, orientation correct, order correct, 14 checks reported.
 
 The overall is WARN, not PASS, and you should say why before anyone asks. One
 advisory remains, `Kozak initiation context`, Tier B. It is a property of the
 real gene: lacZ begins ATGACC, so the base after the start codon is A where G is
-preferred. The report gives the fix, which is to insert a GCCRCC prefix right
-before the ATG.
+preferred. The cassette already carries a cited 6 bp Kozak element that the
+composer inserted in front of the ATG, so position -3 is the consensus A by
+design. The one remaining weakness is position +4, the first base of lacZ's own
+second codon, which is the user's biology and not the tool's to change. The
+context now reads "adequate but not optimal" (GCCACCATGA) rather than "weak".
+The report gives the fix, which is to choose a second codon beginning with G,
+a synonymous change for most residues that does not alter the protein.
 
 One sentence to say: "It lands on a warning, not a pass, because the real lacZ
-gene has a weak start context, and the report tells me exactly how to fix it,
-which is the point: a warning with an explanation is the product."
+gene has a second codon that does not begin with G, so its start context is
+adequate but not optimal, and the report tells me exactly how to fix it, which
+is the point: a warning with an explanation is the product."
 
 Request bodies, if you ever drive the API directly (`POST /v1/aav/design`):
 before `{"transgene_name": "lacZ", "transgene_sequence": "<file contents>",
@@ -282,7 +288,7 @@ gave it, and it says so in the report. It is not genome-wide."
   form state is gone. This happened once in the browser walk. Re-enter the form.
   If it keeps happening, it is the dev server restarting: check the `serve-web`
   terminal.
-* **Numbers differ from this script.** If the AAV after state shows 4,391 bp,
+* **Numbers differ from this script.** If the AAV after state shows 4,397 bp,
   the WPRE box was checked. Untick it and compose again.
 * **Plasmid beat is slow or fails and you are out of time.** Skip it. The AAV
   beat does not touch the database. Beats 2 to 4 run without Postgres.

@@ -16,6 +16,16 @@ What this adapter proves, span by span:
   must declare itself: `user_input:<field>` for a sequence the user supplied,
   `retrieved_template:<id>` for one the corpus supplied. The transgene coding
   sequence is normally the first of those.
+* A `KOZAK` element is the composer's translation initiation context element.
+  Its bases come from a published rule (Kozak 1987), the fourth origin of
+  section 11.1 (`PUBLISHED_RULE`), which is neither a registry part, a
+  retrieved record nor user input. It is attributed directly, before the
+  `classify_source` path, with the element's `source` and with its `notes`
+  (which hold the rule text) as the span's rule, because `classify_source`
+  deliberately recognises only the three prefixes above. The claim is verified
+  against `KOZAK_UPSTREAM_ELEMENT`, not taken on trust: a KOZAK element
+  carrying any other bases, or naming no source or no rule, gets no span, so
+  the export is blocked rather than passed.
 * An element whose source declares nothing leaves its span uncovered, so the
   export is blocked and the message names the element and its bases. A
   transgene resolver that returns an unprefixed token is the case this catches.
@@ -23,8 +33,9 @@ What this adapter proves, span by span:
 
 from __future__ import annotations
 
-from packages.core.schemas.aav import AAVDesign
+from packages.core.schemas.aav import AAVDesign, CassetteElementRole
 from packages.core.schemas.capability import CapabilityKind
+from packages.validation.aav.constants import KOZAK_ELEMENT_RULE, KOZAK_UPSTREAM_ELEMENT
 
 from ..attribution import AttributedSegment, AttributedSequence, ExportSubject, SequenceOrigin
 from . import REGISTRY_PART_PREFIX, classify_source
@@ -61,6 +72,23 @@ def aav_subject(
                     detail=f"{item.role.value}: {element.name}",
                 )
             )
+            continue
+        if CassetteElementRole(element.role) is CassetteElementRole.KOZAK:
+            rule = element.notes or KOZAK_ELEMENT_RULE
+            # Verified, not taken on trust: the span is emitted only when the
+            # element's bases are the bases the rule produces.
+            if element.source and rule and element.sequence == KOZAK_UPSTREAM_ELEMENT:
+                segments.append(
+                    AttributedSegment(
+                        start=item.start,
+                        end=item.end,
+                        origin=SequenceOrigin.PUBLISHED_RULE,
+                        source=element.source,
+                        rule=rule,
+                        detail=f"{item.role.value}: {element.name}",
+                    )
+                )
+            # With no source or no rule, no span: the gap blocks the export.
             continue
         source = element.source or ""
         origin = classify_source(source)

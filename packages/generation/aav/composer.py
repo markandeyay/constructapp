@@ -1,8 +1,24 @@
 """Composition of an AAV cassette from real parts (section 6.7).
 
-Nothing is invented here. Every base in the output comes from either a curated
-record in `data/parts` or from the transgene sequence the user supplied, and
-`AAVDesign.provenance` names the source of each one (section 11.1).
+Nothing is invented here. Every base in the output comes from one of three
+origins: a curated record in `data/parts`, the transgene sequence the user
+supplied, or a published rule. The third is the 6 bp Kozak initiation context
+element, `KOZAK_UPSTREAM_ELEMENT` in `packages/validation/aav/constants.py`,
+which is positions -6 to -1 of the cited Kozak 1987 consensus with the purine at
+-3 set to the preferred base (see `KOZAK_CONSENSUS_MOTIF` there for the
+citation). `AAVDesign.provenance` names the source of each one (section 11.1).
+
+The Kozak element is inserted between the promoter (or intron) and the coding
+sequence if and only if the resolved transgene begins with "ATG". A transgene
+that begins with its initiator codon supplies no 5' context of its own, which is
+the case the element is for. A transgene that does not begin with ATG has
+whatever precedes its ATG as context the caller supplied; prefixing a Kozak
+element there would place it 6 or more bases from the initiator, where it does
+nothing and would misrepresent the construct. In that case the caller's context
+is honoured and `notes` says so. A transgene that begins with neither ATG nor
+real context is a malformed CDS, which `aav.cds_integrity` reports; the composer
+does not try to repair it. Both branches leave a note: an element is never
+inserted silently.
 
 The seven steps of section 6.7 map onto `AAVComposer.compose` in order:
 resolve the transgene, select a promoter, select a polyA, include WPRE only if
@@ -49,7 +65,13 @@ from packages.core.schemas.aav import (
     CassetteElementRole,
 )
 from packages.core.schemas.capability import CapabilityKind
-from packages.validation.aav.constants import AAVThresholds, DEFAULT_THRESHOLDS
+from packages.validation.aav.constants import (
+    AAVThresholds,
+    DEFAULT_THRESHOLDS,
+    KOZAK_ELEMENT_RULE,
+    KOZAK_ELEMENT_SOURCE,
+    KOZAK_UPSTREAM_ELEMENT,
+)
 from packages.validation.aav.itr import UnknownSerotype, serotype_itr_references
 
 # A resolver turns a transgene name into (sequence, provenance entry).
@@ -220,11 +242,32 @@ class AAVComposer:
         )
         target, _soft, _hard = thresholds.band(request.self_complementary)
 
+        # The initiation context element: inserted if and only if the transgene
+        # begins with its own ATG, so it supplies no 5' context. See the module
+        # docstring for the rationale. Decided before the WPRE gate so that the
+        # gate is made against the real cassette length.
+        add_kozak = transgene.startswith("ATG")
+        if add_kozak:
+            notes.append(
+                f"Kozak initiation context element inserted: {KOZAK_UPSTREAM_ELEMENT} "
+                f"({len(KOZAK_UPSTREAM_ELEMENT)} bp) immediately 5' of the coding sequence, because the "
+                f"transgene begins with ATG and so supplies no 5' context of its own. Source: "
+                f"{KOZAK_ELEMENT_RULE}."
+            )
+        else:
+            notes.append(
+                "The transgene sequence does not begin with ATG, so it supplied its own 5' context. That "
+                "context was honoured verbatim and no initiation context element was added. If the "
+                "sequence is not meant to carry its own context, aav.cds_integrity reports a malformed "
+                "coding sequence."
+            )
+
         # Step 4: WPRE only if requested and only if it fits.
         wpre: PartRecord | None = None
         base_total = (
             reference.left.length_bp
             + promoter.length_bp
+            + (len(KOZAK_UPSTREAM_ELEMENT) if add_kozak else 0)
             + len(transgene)
             + polya.length_bp
             + reference.right.length_bp
@@ -263,6 +306,19 @@ class AAVComposer:
                 part_id=promoter.id,
                 notes=promoter.source,
             ),
+        ]
+        if add_kozak:
+            elements.append(
+                CassetteElement(
+                    role=CassetteElementRole.KOZAK,
+                    name="Kozak initiation context",
+                    sequence=KOZAK_UPSTREAM_ELEMENT,
+                    part_id=None,
+                    source=KOZAK_ELEMENT_SOURCE,
+                    notes=KOZAK_ELEMENT_RULE,
+                )
+            )
+        elements.append(
             CassetteElement(
                 role=CassetteElementRole.CDS,
                 name=f"{request.transgene_name} coding sequence",
@@ -270,8 +326,8 @@ class AAVComposer:
                 part_id=None,
                 source=transgene_source,
                 notes=f"transgene {request.transgene_name}",
-            ),
-        ]
+            )
+        )
         if wpre is not None:
             elements.append(
                 CassetteElement(
@@ -302,6 +358,10 @@ class AAVComposer:
         )
 
         provenance.extend(element.attribution for element in elements if element.part_id)
+        if add_kozak:
+            # No part_id, so the line above skips it; appended explicitly, as the
+            # transgene source is.
+            provenance.append(KOZAK_ELEMENT_SOURCE)
         provenance.append(f"serotype_reference:{reference.left.provenance.accession}")
 
         return AAVDesign(

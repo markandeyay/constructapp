@@ -83,6 +83,46 @@ def test_every_aav_element_becomes_one_span_in_cassette_order() -> None:
     ])
 
 
+def test_the_kozak_element_is_a_published_rule_span_that_names_its_rule() -> None:
+    bundle = _aav_bundle()
+    subject = aav_subject(bundle.design, validator_version=bundle.report.validator_version)
+    segments = subject.sequences[0].segments
+    rule_spans = [s for s in segments if s.origin is SequenceOrigin.PUBLISHED_RULE]
+    assert len(rule_spans) == 1
+    span = rule_spans[0]
+    assert span.source == "published_rule:kozak_1987"
+    assert span.end - span.start == 6
+    assert span.rule and "doi:10.1093/nar/15.20.8125" in span.rule
+    result = assert_provenance(subject)
+    assert result.verdict is AssertionVerdict.ATTRIBUTED, result.reason
+    assert result.bases_attributed == bundle.design.total_bp
+
+
+def test_a_kozak_element_with_no_source_leaves_a_gap_and_blocks() -> None:
+    bundle = _aav_bundle()
+    design = bundle.design
+    elements = [
+        element.model_copy(update={"source": None}) if element.role is CassetteElementRole.KOZAK else element
+        for element in design.elements
+    ]
+    subject = aav_subject(design.model_copy(update={"elements": elements}), validator_version="v")
+    assert assert_provenance(subject).verdict is AssertionVerdict.UNATTRIBUTED
+
+
+def test_a_kozak_element_with_other_bases_is_not_attributed_to_the_rule() -> None:
+    bundle = _aav_bundle()
+    design = bundle.design
+    elements = [
+        element.model_copy(update={"sequence": "TTTTTT"}) if element.role is CassetteElementRole.KOZAK else element
+        for element in design.elements
+    ]
+    subject = aav_subject(design.model_copy(update={"elements": elements}), validator_version="v")
+    assert not [s for s in subject.sequences[0].segments if s.origin is SequenceOrigin.PUBLISHED_RULE]
+    result = assert_provenance(subject)
+    assert result.verdict is AssertionVerdict.UNATTRIBUTED
+    assert any("TTTTTT" in finding.message for finding in result.findings)
+
+
 def test_an_aav_cassette_with_an_undeclared_source_blocks() -> None:
     """A transgene resolver that returns an unprefixed token is caught here."""
     bundle = _aav_bundle()

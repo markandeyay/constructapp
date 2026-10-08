@@ -197,6 +197,50 @@ class TestGenBankExport:
     def test_the_export_is_byte_stable(self, design):
         assert to_genbank(design) == to_genbank(design)
 
+    def test_the_kozak_feature_carries_its_class_source_and_citation(self):
+        from packages.generation.aav import AAVComposer
+
+        composed = AAVComposer().compose(
+            AAVRequest(transgene_name="t", transgene_sequence=cds_of_length(1_200), target_tissue="ubiquitous")
+        )
+        text = to_genbank(composed)
+        record = SeqIO.read(StringIO(text), "genbank")
+        kozak = next(
+            feature
+            for feature in record.features
+            if feature.qualifiers.get("construct_role") == ["kozak"]
+        )
+        assert kozak.type == "regulatory"
+        assert kozak.qualifiers["regulatory_class"] == ["ribosome_binding_site"]
+        assert kozak.qualifiers["construct_source"] == ["published_rule:kozak_1987"]
+        assert kozak.qualifiers["construct_part_id"] == ["none"]
+        assert len(kozak.qualifiers["note"]) == 2
+        assert "doi:10.1093/nar/15.20.8125" in kozak.qualifiers["note"][1]
+        assert str(kozak.extract(record.seq)) == "GCCACC"
+        # Only the Kozak feature gets a second note.
+        for feature in record.features:
+            if feature.qualifiers.get("construct_role") not in (None, ["kozak"]):
+                assert len(feature.qualifiers["note"]) == 1
+
+
+class TestLengthBudgetSourceColumn:
+    def test_a_row_without_a_part_shows_its_source_not_user_supplied(self):
+        from packages.generation.aav import AAVComposer
+
+        composed = AAVComposer().compose(
+            AAVRequest(transgene_name="t", transgene_sequence=cds_of_length(1_200), target_tissue="ubiquitous")
+        )
+        budget = length_budget(composed)
+        text = budget.to_text()
+        assert "published_rule:kozak_1987" in text
+        assert "user_input:transgene_sequence" in text
+        assert "user supplied" not in text
+        header, *_ = text.splitlines()
+        assert f"{'part':<30} " in header
+        kozak = next(row for row in budget.rows if row.role is CassetteElementRole.KOZAK)
+        assert kozak.source == "published_rule:kozak_1987" and kozak.part_id is None
+        assert kozak.length_bp == 6
+
 
 class TestFastaExport:
     def test_the_sequence_round_trips(self, design):

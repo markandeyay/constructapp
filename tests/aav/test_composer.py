@@ -12,6 +12,11 @@ import pytest
 from packages.core.part_registry import get_part
 from packages.core.schemas.aav import AAVRequest, CassetteElementRole
 from packages.generation.aav import AAVComposer, TransgeneUnavailable
+from packages.validation.aav.constants import (
+    KOZAK_ELEMENT_RULE,
+    KOZAK_ELEMENT_SOURCE,
+    KOZAK_UPSTREAM_ELEMENT,
+)
 
 from tests.aav.support import cds_of_length
 
@@ -183,7 +188,7 @@ class TestStepFiveItrs:
 class TestStepsSixAndSevenAssemblyAndProvenance:
     def test_elements_are_in_the_section_six_two_functional_order(self):
         design = AAVComposer().compose(request_for(include_wpre=True))
-        assert roles(design) == ["itr_5", "promoter", "cds", "wpre", "polya", "itr_3"]
+        assert roles(design) == ["itr_5", "promoter", "kozak", "cds", "wpre", "polya", "itr_3"]
 
     def test_the_cassette_sequence_is_the_elements_laid_end_to_end(self):
         design = AAVComposer().compose(request_for())
@@ -214,6 +219,7 @@ class TestStepsSixAndSevenAssemblyAndProvenance:
             "part:enhancer.wpre",
             "part:polya.sv40",
             "part:itr.aav2_itr_right",
+            "published_rule:kozak_1987",
             "serotype_reference:NC_001401.2",
         ]
 
@@ -267,8 +273,84 @@ class TestNoInventedSequence:
     def test_the_cassette_contains_no_base_outside_its_sources(self):
         sequence = cds_of_length(1_200)
         design = AAVComposer().compose(request_for(transgene_sequence=sequence, include_wpre=True))
-        accounted = sum(
-            len(get_part(element.part_id).sequence) if element.part_id else len(sequence)
-            for element in design.elements
-        )
+        # Three origins: a registry part, the user's transgene, and the 6 bp of the
+        # cited Kozak element. Each element must be one of them, so no base comes
+        # from nowhere.
+        def source_length(element) -> int:
+            if element.part_id:
+                return len(get_part(element.part_id).sequence)
+            if element.role == CassetteElementRole.KOZAK:
+                return len(KOZAK_UPSTREAM_ELEMENT)
+            return len(sequence)
+
+        accounted = sum(source_length(element) for element in design.elements)
         assert accounted == design.total_bp
+
+
+class TestKozakInitiationContextElement:
+    """The composer places the cited 6 bp Kozak element when the transgene supplies no context."""
+
+    def test_it_is_inserted_when_the_transgene_begins_with_atg(self):
+        design = AAVComposer().compose(request_for())
+        kozak = design.first_with_role(CassetteElementRole.KOZAK)
+        assert kozak is not None
+        assert kozak.sequence == KOZAK_UPSTREAM_ELEMENT == "GCCACC"
+        assert kozak.part_id is None
+        assert kozak.source == KOZAK_ELEMENT_SOURCE
+        assert kozak.notes == KOZAK_ELEMENT_RULE
+
+    def test_it_sits_immediately_before_the_coding_sequence(self):
+        design = AAVComposer().compose(request_for(include_wpre=True))
+        names = roles(design)
+        index = names.index("kozak")
+        assert names[index + 1] == "cds"
+        assert names[index - 1] == "promoter"
+        cds = design.first_with_role(CassetteElementRole.CDS)
+        assert cds is not None
+        assert cds.sequence == request_for().transgene_sequence  # the CDS bases are untouched
+
+    def test_it_is_not_inserted_when_the_transgene_does_not_begin_with_atg(self):
+        own_context = "GCCACCATGGCT" + cds_of_length(1_200)[3:]
+        design = AAVComposer().compose(request_for(transgene_sequence=own_context))
+        assert design.first_with_role(CassetteElementRole.KOZAK) is None
+        assert "kozak" not in roles(design)
+        assert KOZAK_ELEMENT_SOURCE not in design.provenance
+        cds = design.first_with_role(CassetteElementRole.CDS)
+        assert cds is not None and cds.sequence == own_context
+        joined = " ".join(design.notes)
+        assert "supplied its own 5' context" in joined
+        assert "honoured verbatim" in joined
+        assert "no initiation context element was added" in joined
+
+    def test_the_notes_name_the_element_and_its_citation_when_inserted(self):
+        design = AAVComposer().compose(request_for())
+        note = next(item for item in design.notes if item.startswith("Kozak initiation context element inserted"))
+        assert KOZAK_UPSTREAM_ELEMENT in note
+        assert "6 bp" in note
+        assert "begins with ATG" in note
+        assert "doi:10.1093/nar/15.20.8125" in note
+
+    def test_the_source_is_in_the_provenance(self):
+        design = AAVComposer().compose(request_for())
+        assert KOZAK_ELEMENT_SOURCE in design.provenance
+
+    def test_the_wpre_fit_gate_accounts_for_the_six_bp(self):
+        """EFS 212 + SV40 135 + two ITRs of 145 is 637 bp, and WPRE is 589 bp.
+
+        A 3,471 bp transgene gives 4,108 bp before WPRE, so WPRE brings it to
+        4,697 bp, under the 4,700 bp target. With the 6 bp element the same
+        transgene is 4,114 bp before WPRE and WPRE would reach 4,703 bp, over the
+        target, so WPRE must be omitted. A transgene of the same length that
+        supplies its own context gets no element and so still admits WPRE.
+        """
+        atg = cds_of_length(3_471)
+        own_context = "GCT" + atg[3:]
+        with_element = AAVComposer().compose(request_for(transgene_sequence=atg, include_wpre=True))
+        without_element = AAVComposer().compose(request_for(transgene_sequence=own_context, include_wpre=True))
+        assert without_element.first_with_role(CassetteElementRole.WPRE) is not None
+        assert without_element.total_bp == 4_697
+        assert with_element.first_with_role(CassetteElementRole.WPRE) is None
+        assert with_element.total_bp == 4_114
+        joined = " ".join(with_element.notes)
+        assert "4,703 bp against the 4,700 bp target" in joined
+        assert "The cassette is 4,114 bp without it" in joined

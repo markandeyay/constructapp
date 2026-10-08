@@ -298,14 +298,14 @@ class TestEndToEndThroughTheDesigner:
                 polya_preference="polya.bgh",
             )
         )
-        assert bundle.design.total_bp == 5_049
+        assert bundle.design.total_bp == 5_055  # was 5_049: plus the 6 bp Kozak element
         assert bundle.report.overall is Severity.FAIL
         check = check_of(bundle.report, "aav.packaging_limit")
         assert check.severity is Severity.FAIL
-        assert "349 bp over the target" in check.message
+        assert "355 bp over the target" in check.message
         assert "replace CAG (promoter.cag, 1,639 bp) with EFS (promoter.efs, 212 bp)" in check.message
         assert "saves 1,427 bp" in check.message
-        assert "bringing the cassette to 3,622 bp" in check.message
+        assert "bringing the cassette to 3,628 bp" in check.message
 
     def test_applying_the_named_substitution_makes_it_pass(self):
         """Exactly the substitution the message named, nothing else changed."""
@@ -319,7 +319,7 @@ class TestEndToEndThroughTheDesigner:
                 include_wpre=False,
             )
         )
-        assert bundle.design.total_bp == 3_622  # the resulting_bp the plan predicted
+        assert bundle.design.total_bp == 3_628  # (was 3_622, plus 6 bp Kozak) the resulting_bp the plan predicted
         assert check_of(bundle.report, "aav.packaging_limit").severity is Severity.PASS
         assert bundle.report.overall is not Severity.FAIL
 
@@ -334,7 +334,7 @@ class TestEndToEndThroughTheDesigner:
                 polya_preference="polya.bgh",
             )
         )
-        assert bundle.design.total_bp == 3_622 + 589
+        assert bundle.design.total_bp == 3_628 + 589
         assert check_of(bundle.report, "aav.packaging_limit").severity is Severity.PASS
 
     def test_the_self_complementary_failure_also_carries_remediation(self):
@@ -348,14 +348,14 @@ class TestEndToEndThroughTheDesigner:
                 polya_preference="polya.bgh",
             )
         )
-        assert bundle.design.total_bp == 2_754
+        assert bundle.design.total_bp == 2_760  # was 2_754: plus the 6 bp Kozak element
         # The single stranded band is not what fails here; the halved band is.
         assert check_of(bundle.report, "aav.packaging_limit").severity is Severity.PASS
         check = check_of(bundle.report, "aav.sc_capacity")
         assert check.severity is Severity.FAIL
         assert check.remediation
         assert "self complementary packaging target is 2,400 bp" in check.message
-        assert "354 bp over the target" in check.message
+        assert "360 bp over the target" in check.message
         assert "promoter.efs" in " ".join(check.remediation)
 
     def test_the_wpre_removal_lever_appears_on_a_supplied_cassette(self):

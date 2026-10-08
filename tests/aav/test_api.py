@@ -68,7 +68,7 @@ class TestDesignEndpoint:
         assert response.status_code == 200
         body = response.json()
         assert body["report"]["overall"] == "fail"
-        assert body["remediation"]["overage_bp"] == 349
+        assert body["remediation"]["overage_bp"] == 355  # was 349: plus the 6 bp Kozak element
         assert body["remediation"]["plans"]
         assert body["remediation"]["entries"]
         check = next(

@@ -120,6 +120,7 @@ WP-08: section 11.1 item 1 names three origins for a base (registry part, retrie
 WP-08: Appendix D fixes how many nucleotides sit between a Type IIS site and the cut but not their identity, which packages/generation/assembly/designer.py::_filler sets by a documented deterministic A, C, G, T scan. Those bases are attributed as published_rule citing that rule by file and function, never as a part or a template, and the rule text appears verbatim in the audit entry and in the provenance.
 WP-08: the declared provenance cross check (a span's source must appear in DesignResult.provenance) is applied to registry, template and user input spans and not to published_rule spans, because a capability's provenance list records the sources it drew sequence from and does not enumerate the rules its composer applied base by base. A rule derived span carries its rule, the assertion lists it, and ScreeningRecord.record_in_design writes it into the design's provenance, so it still reaches the list a user reads.
 WP-03, deferred to after the demo, from the WP-10 review: the AAV composer should place a GCCACC Kozak element between the last upstream element and the CDS when the transgene supplies no 5' context, as a 6 bp cited element in the length budget, the GenBank feature table and AAVDesign.notes. This is not fabrication, because GCCRCC is already a cited constant in packages/validation/aav/constants.py with its Kozak 1987 reference and instantiating R as the preferred purine is ordinary vector design; without it the -3 base is whatever the upstream part's curated feature boundary ends on, and intron.chimeric ending ACCTGC means every cassette including the optional intron draws the aav.kozak_context WARN whichever promoter was chosen. Not done now because it changes the bases of every exported cassette and moves the documented demo numbers, and the present behaviour is honest: it warns, and the message now names the element the base came from and how to fix it.
+RESOLVED by WP-17: the preceding deferral is closed. The composer now inserts the 6 bp element, derived from the cited constant rather than written as a literal, and discloses it in the length budget, the GenBank feature table, AAVDesign.notes and the provenance. The original text above is kept unedited as the record of when it was deferred and why. Note one thing it got wrong by implication: this does NOT clear the aav.kozak_context WARN, because check 11 also requires G at +4 and that base is the first of the transgene's second codon, which the composer must not change. See the WP-17 summary at the end of this file and progress/WP-17.md.
 
 ## Cross-WP requests
 (none yet)
@@ -1045,3 +1046,78 @@ still shows what was believed when. `make eval-capabilities` reports plasmid 88
 of 88 (known-good 36 of 36, Tier A 25 of 25, Tier B 11 of 11, known-bad 52 of 52)
 inside 179 of 179 with 0 disagreements. Markdown only: no code, test or data file
 changed. Full report in `progress/WP-16.md`.
+
+## WP-17: the deferred Kozak initiation context element, now composed
+
+The last open scientific item, recorded in `## Spec challenges` above and in
+`progress/WP-03.md` under "Not done, and why". The AAV composer now places a
+6 bp Kozak initiation context element between the promoter and the coding
+sequence, if and only if the transgene begins with ATG and therefore supplies no
+5' context of its own. Position -3 of every composed cassette is now a cited
+base instead of whatever a curator's feature boundary happened to end on.
+
+The element is not a written literal. It is derived as
+`KOZAK_CONSENSUS_MOTIF[:6].replace("R", KOZAK_PREFERRED_MINUS3)`, so it is
+positions -6 to -1 of the already cited Kozak 1987 consensus with the purine
+instantiated, and it cannot drift from that motif. It appears as a cited element
+in the length budget, in the GenBank feature table (with its citation on the
+feature), in `AAVDesign.notes` and in the provenance, where it is the fourth
+origin of section 11.1, a published rule. The attribution adapter emits that
+span only when the element's bases ARE the bases the rule produces, so the claim
+is verified rather than trusted; any other bases in a `kozak` role element leave
+the span uncovered and block the export.
+
+Not claimed: this does NOT remove the Kozak warning and composed cassettes do
+NOT now pass check 11. Check 11 needs a purine at -3 AND a G at +4. The element
+fixes -3 only. The demo payload, measured, is 3,075 bp beginning ATGACC, so its
++4 is A and the demo cassette still WARNs, now on +4 alone, with the advice
+changed from "insert a GCCRCC prefix" (which would now be impossible to act on)
+to a synonymous change to the second codon. Of the 16 gold cases that go through
+the composer, 11 now pass check 11 and 5 still WARN, every one on +4 alone.
+
+Check 11 was not relaxed: not one accepted base, threshold or severity moved,
+and `test_pyrimidine_at_minus_three_warns` passes unmodified. No request field
+was added, because section 6.3 is reproduced field for field.
+
+Spec challenge logged: `CassetteElementRole.KOZAK` is an addition to the
+section 6.2 order, which does not enumerate an initiation context element. It
+reorders nothing section 6.2 fixes and adds no check; there are still exactly
+fourteen.
+
+Numbers this moved, re-measured against the running system rather than
+recalculated. These SUPERSEDE the AAV figures recorded earlier in this file and
+in `progress/WP-03.md`, `WP-06.md`, `WP-09.md`, `WP-10.md`, `WP-11.md` and
+`WP-13.md`, none of which was rewritten: the build record is append only and
+those entries record what was true when they were written.
+
+  CAG, bGH, lacZ, no WPRE   5,229 -> 5,235 bp, FAIL, 14 checks
+  over target/soft/hard       529/329/29 -> 535/335/35 bp
+  EFS, bGH, lacZ, no WPRE   3,802 -> 3,808 bp, overall WARN, 14 checks
+  EFS, bGH, lacZ, WPRE on   4,391 -> 4,397 bp
+
+The band figures (4,700 target, 4,900 soft, 5,200 hard), the 1,427 bp CAG to EFS
+saving and the 3,075 bp lacZ length are all unchanged. `docs/demo.md` and
+`docs/demo_assets/README.md` were corrected in place, including the Kozak
+passage, which needed rewriting rather than renumbering.
+
+Exactly one gold case was regraded: `aav.good.b3.authentic_cmv_promoter` loses
+its `aav.kozak_context` WARN, because that warning's own justification said the
+only fix would be to insert linker bases between the promoter and the start
+codon, and the composer now does that with the cited element. Measured
+`-3 is A, +4 is G, context GCCACCATGG`, PASS. Its `aav.internal_repeats` WARN is
+untouched. No other case's expected warning set changed. Stale prose in several
+cases was corrected, including a biological error in b1's justification that had
+been there from the start: it claimed a `GCCACC` linker "changes the second
+codon of the protein", which six bases 5' of the ATG do not.
+
+Gates, each run: `python -m pytest -q` 1589 passed, 2 skipped (baseline 1559 and
+2); `make eval-capabilities` 179 of 179, accuracy 1.000, 0 disagreements;
+`make eval-check` all three halves PASS, 0 regressions.
+
+Reported rather than fixed, because another worker owns those files:
+`apps/web/e2e/fixtures/aav_over.json` and `aav_fixed.json` are static mocked API
+responses that still carry pre-change totals and no Kozak element. They stay
+self consistent with their own spec file, so the e2e suite passes against them,
+but they no longer match what the real API returns. The two AAV screenshots in
+`docs/demo_evidence/` likewise show the old totals and cannot be corrected as
+text. Full report in `progress/WP-17.md`.

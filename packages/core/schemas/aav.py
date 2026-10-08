@@ -91,12 +91,24 @@ class CassetteElementRole(str, Enum):
     before the promoter and places WPRE after the coding sequence. Collapsing
     them into one role would make `aav.element_order` unable to tell a
     correctly placed WPRE from a misplaced one.
+
+    `KOZAK` is an addition to the section 6.2 list. Section 6.2 names the
+    functional order and does not enumerate a translation initiation context
+    element. The role is justified on four grounds. The element sits
+    immediately 5' of the CDS, so it inverts none of the relations section 6.2
+    fixes. `aav.element_order` needs a rank for it. It must be its own role
+    rather than bases prepended to the CDS element, because the CDS element's
+    bases must stay exactly the coding sequence (`aav.cds_integrity` reads
+    it). And section 11.1 requires the 6 bp to be attributed to their own
+    source rather than absorbed into the user's transgene. Logged as a spec
+    challenge in PROGRESS.md.
     """
 
     ITR_5 = "itr_5"
     ENHANCER = "enhancer"
     PROMOTER = "promoter"
     INTRON = "intron"
+    KOZAK = "kozak"
     CDS = "cds"
     WPRE = "wpre"
     POLYA = "polya"
@@ -110,10 +122,11 @@ FUNCTIONAL_ORDER: dict[CassetteElementRole, int] = {
     CassetteElementRole.ENHANCER: 1,
     CassetteElementRole.PROMOTER: 2,
     CassetteElementRole.INTRON: 3,
-    CassetteElementRole.CDS: 4,
-    CassetteElementRole.WPRE: 5,
-    CassetteElementRole.POLYA: 6,
-    CassetteElementRole.ITR_3: 7,
+    CassetteElementRole.KOZAK: 4,
+    CassetteElementRole.CDS: 5,
+    CassetteElementRole.WPRE: 6,
+    CassetteElementRole.POLYA: 7,
+    CassetteElementRole.ITR_3: 8,
 }
 
 # Roles a cassette cannot do without (section 6.4 check 4 names promoter, CDS
@@ -127,7 +140,11 @@ REQUIRED_ROLES: tuple[CassetteElementRole, ...] = (
 # Roles that may simply be dropped when the cassette is over budget. The
 # remediation engine of section 6.6 treats removal of these as a candidate
 # change; it never proposes removing a promoter, a coding sequence, a polyA or
-# an ITR, because the cassette would then fail checks 2, 3 or 4.
+# an ITR, because the cassette would then fail checks 2, 3 or 4. KOZAK is
+# deliberately absent: the engine must never propose removing the initiation
+# context element to save 6 bp, which would reintroduce the defect it fixes.
+# It is absent from REQUIRED_ROLES too, because a transgene that carries its
+# own 5' context is a correct cassette without it.
 OPTIONAL_ROLES: tuple[CassetteElementRole, ...] = (
     CassetteElementRole.ENHANCER,
     CassetteElementRole.INTRON,
@@ -135,7 +152,11 @@ OPTIONAL_ROLES: tuple[CassetteElementRole, ...] = (
 )
 
 # Registry category that supplies each role, for the substitution search of
-# section 6.6 step 2 ("registry parts in the same category").
+# section 6.6 step 2 ("registry parts in the same category"). This dict is
+# deliberately not total over the enum: KOZAK has no registry category.
+# `SUBSTITUTABLE_ROLES` in packages/validation/aav/remediation.py gates every
+# lookup (`_candidates_for_element` returns before indexing this dict), so a
+# role with no registry category is never looked up.
 ROLE_PART_CATEGORY: dict[CassetteElementRole, str] = {
     CassetteElementRole.ITR_5: "itr",
     CassetteElementRole.ENHANCER: "enhancer",
@@ -326,6 +347,9 @@ class LengthBudgetRow(CapabilityModel):
     role: CassetteElementRole
     name: str
     part_id: str | None
+    # The element's source token for a row that carries no registry part, for
+    # example the transgene or a published rule element.
+    source: str | None = None
     length_bp: int = Field(gt=0)
     running_total_bp: int = Field(gt=0)
     headroom_bp: int  # may be negative: that is the overage
@@ -349,16 +373,16 @@ class LengthBudget(CapabilityModel):
 
     def to_text(self) -> str:
         """A fixed width table. Deterministic, so it can be snapshot tested."""
-        header = f"{'#':>2}  {'element':<26} {'part':<22} {'bp':>7} {'running':>9} {'headroom':>9}"
+        header = f"{'#':>2}  {'element':<26} {'part':<30} {'bp':>7} {'running':>9} {'headroom':>9}"
         lines = [header, "-" * len(header)]
         for row in self.rows:
             lines.append(
-                f"{row.index + 1:>2}  {row.name[:26]:<26} {(row.part_id or 'user supplied')[:22]:<22} "
+                f"{row.index + 1:>2}  {row.name[:26]:<26} {(row.part_id or row.source or 'user supplied')[:30]:<30} "
                 f"{row.length_bp:>7,} {row.running_total_bp:>9,} {row.headroom_bp:>9,}"
             )
         lines.append("-" * len(header))
         lines.append(
-            f"{'':>2}  {'TOTAL':<26} {'':<22} {self.total_bp:>7,} {self.total_bp:>9,} {self.headroom_bp:>9,}"
+            f"{'':>2}  {'TOTAL':<26} {'':<30} {self.total_bp:>7,} {self.total_bp:>9,} {self.headroom_bp:>9,}"
         )
         lines.append("")
         lines.append(self.limit_basis)

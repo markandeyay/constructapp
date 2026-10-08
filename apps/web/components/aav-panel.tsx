@@ -23,6 +23,7 @@ const ROLE_FEATURE_TYPE: Record<string, string> = {
   enhancer: "marker",
   promoter: "promoter",
   intron: "ORI",
+  kozak: "other",
   cds: "GOI",
   wpre: "marker",
   polya: "terminator"
@@ -34,6 +35,7 @@ const ROLE_LABEL: Record<string, string> = {
   enhancer: "Enhancer",
   promoter: "Promoter",
   intron: "Intron",
+  kozak: "Kozak",
   cds: "Coding sequence",
   wpre: "WPRE",
   polya: "polyA"

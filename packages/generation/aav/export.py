@@ -24,11 +24,18 @@ from packages.core.schemas.aav import AAVDesign, CassetteElementRole
 # `repeat_region` features, the promoters and polyA signals from `regulatory`
 # features with those regulatory classes, and the chimeric intron from an
 # `intron` feature. See data/parts/PROVENANCE.md.
+#
+# KOZAK maps to regulatory / ribosome_binding_site. `ribosome_binding_site` is
+# the INSDC `regulatory_class` controlled vocabulary term for a region of a
+# transcript involved in initiating translation, and a Kozak element is that
+# region in a vertebrate transcript. The INSDC vocabulary has no `kozak` class,
+# so this is the closest controlled term, not an exact one.
 GENBANK_FEATURE: dict[CassetteElementRole, tuple[str, str | None]] = {
     CassetteElementRole.ITR_5: ("repeat_region", None),
     CassetteElementRole.ENHANCER: ("regulatory", "enhancer"),
     CassetteElementRole.PROMOTER: ("regulatory", "promoter"),
     CassetteElementRole.INTRON: ("intron", None),
+    CassetteElementRole.KOZAK: ("regulatory", "ribosome_binding_site"),
     CassetteElementRole.CDS: ("CDS", None),
     CassetteElementRole.WPRE: ("regulatory", "enhancer"),
     CassetteElementRole.POLYA: ("regulatory", "polyA_signal_sequence"),
@@ -40,6 +47,7 @@ ROLE_NOTE: dict[CassetteElementRole, str] = {
     CassetteElementRole.ENHANCER: "enhancer, 5' of the promoter",
     CassetteElementRole.PROMOTER: "promoter",
     CassetteElementRole.INTRON: "intron",
+    CassetteElementRole.KOZAK: "translation initiation context element, Kozak consensus GCCRCCATGG, 5' of the start codon",
     CassetteElementRole.CDS: "transgene coding sequence",
     CassetteElementRole.WPRE: "posttranscriptional regulatory element, 3' of the coding sequence",
     CassetteElementRole.POLYA: "polyadenylation signal",
@@ -104,6 +112,13 @@ def _record(design: AAVDesign) -> SeqRecord:
             element = design.elements[item.index]
             qualifiers["construct_part_id"] = ["none"]
             qualifiers["construct_source"] = [element.source or "unattributed"]
+        if role is CassetteElementRole.KOZAK:
+            # The citation travels with the feature: the element's notes hold
+            # the rule text. Only this role gets a second note, so every other
+            # feature's output is unchanged.
+            element_notes = design.elements[item.index].notes
+            if element_notes:
+                qualifiers["note"].append(element_notes)
         if role is CassetteElementRole.CDS:
             qualifiers["codon_start"] = ["1"]
             qualifiers["transl_table"] = ["1"]

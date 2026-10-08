@@ -22,6 +22,12 @@ from packages.validation.aav.constants import (
     AAV_VALIDATOR_VERSION,
     CHECK_CITATIONS,
     ITR_IDENTITY_THRESHOLD,
+    KOZAK_CONSENSUS_MOTIF,
+    KOZAK_ELEMENT_RULE,
+    KOZAK_ELEMENT_SOURCE,
+    KOZAK_MINUS3_PURINES,
+    KOZAK_PREFERRED_MINUS3,
+    KOZAK_UPSTREAM_ELEMENT,
     MAX_DIRECT_REPEAT_BP,
     MAX_HOMOPOLYMER_RUN,
     PINNED_THRESHOLD_FINGERPRINTS,
@@ -170,6 +176,60 @@ class TestEveryConstantNamesItsSource:
     def test_constant_is_overridable_on_the_threshold_object(self, name):
         field = name.lower().removeprefix("aav_")
         assert field in AAVThresholds.__dataclass_fields__, f"{name} is not overridable as {field}"
+
+
+# The constants that describe the element the composer writes. They are a
+# generation choice, not a validation bound, so they are deliberately not
+# threshold fields: the enumeration above (which requires an overridable
+# threshold field) does not apply to them, and this one asserts the opposite.
+COMPOSED_ELEMENT_CONSTANTS = (
+    "KOZAK_PREFERRED_MINUS3",
+    "KOZAK_UPSTREAM_ELEMENT",
+    "KOZAK_ELEMENT_SOURCE",
+    "KOZAK_ELEMENT_RULE",
+)
+
+
+class TestComposedElementConstants:
+    @pytest.mark.parametrize("name", COMPOSED_ELEMENT_CONSTANTS)
+    def test_constant_exists_and_has_a_docstring(self, name):
+        assert hasattr(module, name)
+        assert _constant_docstring(name), f"{name} has no docstring"
+
+    @pytest.mark.parametrize("name", COMPOSED_ELEMENT_CONSTANTS)
+    def test_docstring_names_its_source(self, name):
+        text = _constant_docstring(name).lower()
+        assert any(marker.lower() in text for marker in SOURCE_MARKERS), (
+            f"{name} docstring names no source: {text[:160]}"
+        )
+
+    @pytest.mark.parametrize("name", COMPOSED_ELEMENT_CONSTANTS)
+    def test_constant_is_not_a_threshold_field(self, name):
+        assert name.lower() not in AAVThresholds.__dataclass_fields__
+        assert name.lower() not in AAVThresholds().as_mapping()
+
+    def test_the_element_is_the_cited_motif_prefix_with_a_as_the_purine(self):
+        assert KOZAK_UPSTREAM_ELEMENT == "GCCACC"
+        assert len(KOZAK_UPSTREAM_ELEMENT) == 6
+
+    def test_the_element_is_derived_from_the_cited_motif(self):
+        assert len(KOZAK_UPSTREAM_ELEMENT) == len(KOZAK_CONSENSUS_MOTIF[:6])
+        assert matches(KOZAK_UPSTREAM_ELEMENT, KOZAK_CONSENSUS_MOTIF[:6])
+
+    def test_the_preferred_purine_is_one_the_check_accepts(self):
+        assert KOZAK_PREFERRED_MINUS3 in KOZAK_MINUS3_PURINES
+        assert KOZAK_UPSTREAM_ELEMENT[-3] in KOZAK_MINUS3_PURINES
+
+    def test_the_source_token_and_rule_text(self):
+        assert KOZAK_ELEMENT_SOURCE == "published_rule:kozak_1987"
+        assert KOZAK_CONSENSUS_MOTIF in KOZAK_ELEMENT_RULE
+        assert "doi:10.1093/nar/15.20.8125" in KOZAK_ELEMENT_RULE
+
+
+def matches(element: str, motif: str) -> bool:
+    from packages.core.sequence import matches_iupac
+
+    return matches_iupac(element, motif)
 
 
 def _constant_docstring(name: str) -> str:
