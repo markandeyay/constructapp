@@ -1,0 +1,176 @@
+[
+  {
+    "case_id": "grna.good.a1.spcas9_forward_bla_guide",
+    "capability": "guide_rna",
+    "tier": "A",
+    "rationale": "A forward strand SpCas9 guide at window offset 154, spacer AGATCAGTTGGGTGCACGAG with the real TGG PAM immediately 3' of it. The cut site falls inside the real beta-lactamase coding sequence and in its first 60 percent, the spacer GC fraction is inside the 0.40 to 0.70 window, it carries no TTTT, no run over four, no self complementary stem at the reporting length and no BbsI site, and the delivery construct carries the spacer followed by the sgRNA scaffold, which puts no PAM beside it, so there is no self targeting and the searched space is clean. All ten checks pass. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case. The delivery construct is the real pX330 cloning context around the spacer: the CACC sense overhang, the G the human U6 promoter requires at position 1, the spacer as cloned, and the 5' end of the sgRNA scaffold, all taken from packages/validation/grna/vectors.py. It is deliberately short rather than a whole plasmid, because the whole pX330 sequence is not in this repository and the searched off-target space has to be exactly what the case says it is.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "AGATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.good.a2.spcas9_forward_bla_guide",
+    "capability": "guide_rna",
+    "tier": "A",
+    "rationale": "A forward strand SpCas9 guide at window offset 155, spacer GATCAGTTGGGTGCACGAGT with the real GGG PAM immediately 3' of it. The cut site falls inside the real beta-lactamase coding sequence and in its first 60 percent, the spacer GC fraction is inside the 0.40 to 0.70 window, it carries no TTTT, no run over four, no self complementary stem at the reporting length and no BbsI site, and the delivery construct carries the spacer followed by the sgRNA scaffold, which puts no PAM beside it, so there is no self targeting and the searched space is clean. All ten checks pass. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case. The delivery construct is the real pX330 cloning context around the spacer: the CACC sense overhang, the G the human U6 promoter requires at position 1, the spacer as cloned, and the 5' end of the sgRNA scaffold, all taken from packages/validation/grna/vectors.py. It is deliberately short rather than a whole plasmid, because the whole pX330 sequence is not in this repository and the searched off-target space has to be exactly what the case says it is.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGGATCAGTTGGGTGCACGAGTGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "GATCAGTTGGGTGCACGAGT",
+        "pam": "GGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.good.a3.spcas9_forward_bla_guide",
+    "capability": "guide_rna",
+    "tier": "A",
+    "rationale": "A forward strand SpCas9 guide at window offset 169, spacer ACGAGTGGGTTACATCGAAC with the real TGG PAM immediately 3' of it. The cut site falls inside the real beta-lactamase coding sequence and in its first 60 percent, the spacer GC fraction is inside the 0.40 to 0.70 window, it carries no TTTT, no run over four, no self complementary stem at the reporting length and no BbsI site, and the delivery construct carries the spacer followed by the sgRNA scaffold, which puts no PAM beside it, so there is no self targeting and the searched space is clean. All ten checks pass. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case. The delivery construct is the real pX330 cloning context around the spacer: the CACC sense overhang, the G the human U6 promoter requires at position 1, the spacer as cloned, and the 5' end of the sgRNA scaffold, all taken from packages/validation/grna/vectors.py. It is deliberately short rather than a whole plasmid, because the whole pX330 sequence is not in this repository and the searched off-target space has to be exactly what the case says it is.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGACGAGTGGGTTACATCGAACGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "ACGAGTGGGTTACATCGAAC",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.good.a4.spcas9_forward_bla_guide",
+    "capability": "guide_rna",
+    "tier": "A",
+    "rationale": "A forward strand SpCas9 guide at window offset 182, spacer ATCGAACTGGATCTCAACAG with the real CGG PAM immediately 3' of it. The cut site falls inside the real beta-lactamase coding sequence and in its first 60 percent, the spacer GC fraction is inside the 0.40 to 0.70 window, it carries no TTTT, no run over four, no self complementary stem at the reporting length and no BbsI site, and the delivery construct carries the spacer followed by the sgRNA scaffold, which puts no PAM beside it, so there is no self targeting and the searched space is clean. All ten checks pass. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case. The delivery construct is the real pX330 cloning context around the spacer: the CACC sense overhang, the G the human U6 promoter requires at position 1, the spacer as cloned, and the 5' end of the sgRNA scaffold, all taken from packages/validation/grna/vectors.py. It is deliberately short rather than a whole plasmid, because the whole pX330 sequence is not in this repository and the searched off-target space has to be exactly what the case says it is.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGATCGAACTGGATCTCAACAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "ATCGAACTGGATCTCAACAG",
+        "pam": "CGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.good.a5.spcas9_forward_bla_guide",
+    "capability": "guide_rna",
+    "tier": "A",
+    "rationale": "A forward strand SpCas9 guide at window offset 259, spacer TAAAGTTCTGCTATGTGGCG with the real CGG PAM immediately 3' of it. The cut site falls inside the real beta-lactamase coding sequence and in its first 60 percent, the spacer GC fraction is inside the 0.40 to 0.70 window, it carries no TTTT, no run over four, no self complementary stem at the reporting length and no BbsI site, and the delivery construct carries the spacer followed by the sgRNA scaffold, which puts no PAM beside it, so there is no self targeting and the searched space is clean. All ten checks pass. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case. The delivery construct is the real pX330 cloning context around the spacer: the CACC sense overhang, the G the human U6 promoter requires at position 1, the spacer as cloned, and the 5' end of the sgRNA scaffold, all taken from packages/validation/grna/vectors.py. It is deliberately short rather than a whole plasmid, because the whole pX330 sequence is not in this repository and the searched off-target space has to be exactly what the case says it is.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGTAAAGTTCTGCTATGTGGCGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "TAAAGTTCTGCTATGTGGCG",
+        "pam": "CGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.good.a6.spcas9_forward_bla_guide",
+    "capability": "guide_rna",
+    "tier": "A",
+    "rationale": "A forward strand SpCas9 guide at window offset 281, spacer GTATTATCCCGTATTGACGC with the real CGG PAM immediately 3' of it. The cut site falls inside the real beta-lactamase coding sequence and in its first 60 percent, the spacer GC fraction is inside the 0.40 to 0.70 window, it carries no TTTT, no run over four, no self complementary stem at the reporting length and no BbsI site, and the delivery construct carries the spacer followed by the sgRNA scaffold, which puts no PAM beside it, so there is no self targeting and the searched space is clean. All ten checks pass. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case. The delivery construct is the real pX330 cloning context around the spacer: the CACC sense overhang, the G the human U6 promoter requires at position 1, the spacer as cloned, and the 5' end of the sgRNA scaffold, all taken from packages/validation/grna/vectors.py. It is deliberately short rather than a whole plasmid, because the whole pX330 sequence is not in this repository and the searched off-target space has to be exactly what the case says it is.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGGTATTATCCCGTATTGACGCGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "GTATTATCCCGTATTGACGC",
+        "pam": "CGG",
+        "strand": 1
+      }
+    }
+  }
+]

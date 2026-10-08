@@ -1,0 +1,143 @@
+[
+  {
+    "case_id": "grna.good.b1.alternative_nag_pam",
+    "capability": "guide_rna",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "grna.pam_valid",
+        "justification": "The PAM is NAG, which Appendix C names as tolerated at substantially reduced efficiency and says to treat as a WARN level alternative rather than a primary PAM. Using one is a real and deliberate choice: when the edit has to happen within a few bases of a particular position, for example a precise knock in or the disruption of one specific codon, there may be no NGG PAM in range, and an NAG guide that cuts in the right place beats an NGG guide that cuts in the wrong one. The check reports it so the designer knows to expect lower efficiency and to screen more clones, which is exactly what a warning is for."
+      }
+    ],
+    "rationale": "A real forward strand guide at window offset 118 whose PAM is AAG, an NAG alternative. Everything else about the guide is clean. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGTCACCCAGAAACGCTGGTGAGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "TCACCCAGAAACGCTGGTGA",
+        "pam": "AAG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.good.b2.u6_motif_under_t7_transcription",
+    "capability": "guide_rna",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "grna.u6_terminator",
+        "justification": "The spacer contains TTTT, and the guide is made by in vitro transcription from a T7 template rather than expressed from a U6 promoter. TTTT is a terminator for RNA polymerase III, which transcribes U6, and it is not a terminator for T7 RNA polymerase, so under this expression system the motif does not truncate the guide and the design works. The check is still right to say something: the same spacer would be unusable the moment the guide moved into a U6 plasmid, which is the usual next step after an in vitro screen, so the warning is a real piece of forward looking information. Section 8.5 check 4 makes this FAIL under U6 and WARN otherwise for precisely this reason."
+      }
+    ],
+    "rationale": "A real guide whose spacer, TTTTGCTCACCCAGAAACGC, carries TTTT, requested with expression_system t7_in_vitro. The companion known-bad case is the same motif under U6, where it is a failure. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGTTTTGCTCACCCAGAAACGCGTTTTAGAGCTAGAAATAGCAAG",
+        "expression_system": "t7_in_vitro"
+      },
+      "guide": {
+        "spacer": "TTTTGCTCACCCAGAAACGC",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.good.b3.gc_rich_spacer",
+    "capability": "guide_rna",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "grna.gc_content",
+        "justification": "The spacer GC fraction is 0.80, above the 0.70 top of the Appendix C window. A GC rich spacer binds its target tightly, which is not in itself a problem; the reason to flag it is that tight binding also tolerates mismatches, so off target cutting rises. The guide position is dictated by where the cut has to fall and by where the PAMs are, and in a GC rich stretch of a real target every available guide is GC rich. The right response is to keep the guide, read the off target report carefully and validate the edit, which is what a WARN invites."
+      }
+    ],
+    "rationale": "A real forward strand guide at offset 254 of a GC rich stretch of the coding sequence. Every other check passes, including the off target search. This case uses the minus strand window 600 to 1100 of the same record, 500 bp. The part of the beta-lactamase reading frame inside that window runs from base 0 to base 461, which is what cds_region states: a real coding sequence truncated by the window, not an invented span.",
+    "input": {
+      "request": {
+        "target_sequence": "ACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          0,
+          461
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGCTGCGCTCGGCCCTTCCGGCGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "CTGCGCTCGGCCCTTCCGGC",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.good.b4.cloning_site_inside_the_spacer",
+    "capability": "guide_rna",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "grna.restriction_in_spacer",
+        "justification": "The spacer contains GAAGAC, the BbsI recognition site that opens pX330. For the standard cloning route this is harmless: the vector is digested with BbsI and the guide is supplied as a pair of annealed oligos that are ligated into the cut vector, so the oligos themselves are never exposed to the enzyme and the internal site is never cut. It matters later, if the guide cassette is amplified and re-digested, or if the same plasmid is reused in a Golden Gate step, so the check is right to surface it and right not to fail it. Section 8.5 check 9 makes it a WARN for exactly this reason."
+      }
+    ],
+    "rationale": "The clean guide with six bases replaced by the BbsI site, giving spacer GAAGACGTTGGGTGCACGAG. The substitution is a deliberate, declared edit to the real target window; everything around it is real pUC19, and every other check passes.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAGAAGACGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGGAAGACGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "GAAGACGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  }
+]
