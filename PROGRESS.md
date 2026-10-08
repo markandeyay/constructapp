@@ -712,3 +712,107 @@ NOT DONE, and recorded as a judgment rather than an oversight: `make lint` still
   two days from a demo, in exchange for style findings on code that has already
   had a line by line scientific review. The risk is real and the return is low.
   Worth doing in the week after.
+
+## Every claim in the demo runbook verified against the running system
+
+The runbook states specific numbers a presenter will say out loud. Each was
+re-measured by the orchestrator against the real API rather than trusted.
+
+BEAT 1, plasmid. The runbook's original primary prompt returned FAIL, which
+  defeats what beat 1 is for. Eight prompts were measured through the real
+  retrieval backed path; two pass. The beat now opens on "a bacterial cloning
+  vector with ampicillin resistance and a high copy origin", measured overall
+  PASS, 4 checks, 2,686 bp, which is pUC19. The failing yeast prompt is kept as
+  an optional answer to a challenge about whether the checks bite, with its real
+  reasons recorded, and marked explicitly as not the opener.
+
+BEAT 2, AAV. Measured: lacZ from GenBank JF300162.1 with CAG and bGH gives
+  5,229 bp and FAILS, 529 bp over the target and 29 bp past the hard ceiling.
+  The engine names the substitution itself. Applying it gives 3,802 bp and the
+  packaging check PASSES. Walked twice with identical output.
+
+BEAT 3, assembly. Both runbook fragments verified to be genuine plus strand
+  slices of the records and offsets they claim: frag_a is promoter.cbh at offset
+  100 for 150 bp, frag_b is promoter.cmv at offset 410 for 180 bp, both exact.
+  Outcome measured: overall PASS, 15 checks, no non-pass check at all, amplicons
+  of exactly 170 and 200 bp, 4 primers, and the order table CSV and junction map
+  exports both present. Every number the runbook states is correct.
+
+BEAT 4, guide RNA. Measured: the committed 950 bp fixture, 216 guides
+  enumerated, 10 returned, overall PASS with 10 checks, both export tables
+  present, and the off-target banner matching the runbook text BYTE FOR BYTE,
+  compared by string equality rather than by eye.
+
+So every figure in the runbook is a measured figure. A presenter reading it
+aloud is not repeating anything that was estimated, rounded or assumed.
+
+## CLAIM SAFETY CORRECTION, found by the orchestrator auditing its own text
+
+THE GAP. `export_screened_design` is implemented, exported from
+  `packages/application`, and covered by tests that prove an unattributable base
+  blocks an export and that no policy flag can let one through. It has **no call
+  site outside the screening package**. No API route calls it, and `data/audit/`
+  does not exist because no audit entry has ever been written by the running
+  application.
+
+WHAT WAS WRONG. The README paragraph describing this, which the orchestrator
+  wrote, said "exports are logged" and described the blocking as though it were
+  operative. That presents a capability that exists as a capability that is
+  running. Section 16's biosafety row calls a false safety claim the one
+  overstatement that is never forgiven, and section 11.2 says to claim only what
+  is actually implemented. This was over the line and it was caught by auditing
+  the orchestrator's own text rather than anyone else's.
+
+WHAT IT NOW SAYS. The claim is split in two. What is true today: designs are
+  composed only from curated parts and every base is attributable, because the
+  three newer capabilities compose exclusively from the registry plus the user's
+  own input and each records its provenance. What exists but is not running: the
+  provenance gate, the screening interface and the audit log, stated explicitly
+  as not yet wired into a serving route, with the consequence spelled out that
+  exports from the running application do not pass through it and no audit
+  entries are being written.
+
+WHY IT WAS NOT WIRED NOW instead of disclosed. Wiring the gate into the export
+  paths is a behaviour change on every capability two days before a live demo,
+  and it cannot be complete in any case: the plasmid capability cannot satisfy
+  the gate at all, because `parent_template_ids` is dropped at the design store
+  boundary, so wiring it would either block plasmid exports or require a special
+  case that defeats the point. Disclosing accurately costs nothing and claims
+  nothing false. Wiring it, together with carrying plasmid provenance through to
+  the store, is the correct next piece of work and both are recorded.
+
+FOR THE PITCH. Say "designs are composed only from curated parts and every base
+  is attributable", which is true and demonstrable from any design's provenance
+  list. Do not say exports are screened or logged.
+
+## The provenance gate was run against the real demo design. It passes.
+
+Measured by the orchestrator, driving the actual gate over the actual cassette
+the Saturday demo produces (lacZ from JF300162.1 with EFS and bGH, 3,802 bp):
+
+    allowed             True
+    blocked_reasons     none
+    provenance verdict  attributed, 3,802 of 3,802 bases
+    composition verdict satisfied
+    screening outcome   no_external_screening_ran
+
+**Every base of the demo cassette traces to a curated registry part or to the
+user's own supplied transgene**, verified span by span against the part records
+rather than asserted. That is a demonstrable fact about the design on screen and
+it needs no wiring to be true: the provenance list is in the design response and
+the UI shows it.
+
+CONSEQUENCE FOR THE WIRING DECISION. The gate is not merely implemented, it
+  succeeds on the designs the product actually produces. So wiring it into the
+  capability export routes is a small integration rather than a risky unknown,
+  and the earlier concern that it might block a working design does not apply to
+  AAV. It remains unwired for now because it is route level work across three
+  capabilities, because the plasmid capability still cannot satisfy it until
+  `parent_template_ids` reaches the design store, and because the demo is two
+  days out and the tree is green. It is the first thing to do afterwards, and it
+  is now a known quantity rather than a guess.
+
+WHAT MAY BE SAID ON SATURDAY, unchanged by any of this: designs are composed only
+  from curated parts and every base is attributable. Both halves are true today
+  and the second is demonstrable live by opening the provenance panel. Nothing
+  about screening or logging may be claimed.
