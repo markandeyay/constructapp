@@ -71,6 +71,20 @@ Compatibility implications:
 - `gemini-2.5-flash` is a stable model ID and supports structured output. Do not
   substitute a `-latest` alias or a preview ID, because alias movement would make
   tests and production behavior less reproducible.
+
+  **SUPERSEDED on the model ID, upheld on the reasoning.** `gemini-2.5-flash` now
+  returns 404 for a newly issued API key, with the message that it is "no longer
+  available to new users", which made the Gemini path unusable for a fresh setup.
+  The pinned default is now `gemini-3.8-flash`, the replacement the API names in
+  that error, verified end to end through `LLMIntentParser` against the real
+  `STRICT_DESIGN_SPEC_SCHEMA`.
+
+  The advice against a `-latest` alias stands and was followed: the new value is
+  an exact version, not `gemini-flash-latest`. The lesson is narrower than "pin
+  exact versions", which was right. It is that a model ID is not a constant, so a
+  note asserting one is stable needs a date and a way to notice when it stops
+  being true. Note also that listing the models a key may use still shows
+  `gemini-2.5-flash`; appearing in that listing is not permission to call it.
 - The Interactions API is GA and Google's recommended interface for new projects
   as of June 2026. The older `generateContent` API remains supported, but it is
   not the proposed integration surface.

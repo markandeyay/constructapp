@@ -7,7 +7,19 @@ from dataclasses import dataclass
 from typing import Any, Callable, Mapping, Protocol
 
 
-DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+#: Pinned to an exact version rather than an alias such as gemini-flash-latest,
+#: because an alias moves under the build and would change intent parsing
+#: behaviour with no commit to point at.
+#:
+#: Was gemini-2.5-flash. That id now returns 404 for a newly issued key, with the
+#: message that it is "no longer available to new users", so the Gemini path was
+#: dead on arrival for anyone setting the project up fresh. The id below is the
+#: replacement the API itself names in that error, and it was verified end to end
+#: through LLMIntentParser against the real STRICT_DESIGN_SPEC_SCHEMA.
+#:
+#: Note that listing the models a key may use still shows gemini-2.5-flash.
+#: Appearing in that listing is not permission to call it.
+DEFAULT_GEMINI_MODEL = "gemini-3.8-flash"
 GEMINI_RETRY_DELAYS_SECONDS = (1.0, 2.0, 4.0)
 TRANSIENT_GEMINI_STATUS_CODES = frozenset({429, 500, 502, 503, 504})
 GEMINI_UNAVAILABLE_MESSAGE = "The language model is temporarily unavailable. Please try again in a moment."

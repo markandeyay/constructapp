@@ -7,6 +7,7 @@ import pytest
 from google.genai import errors
 
 from packages.retrieval.gemini_client import (
+    DEFAULT_GEMINI_MODEL,
     GEMINI_UNAVAILABLE_MESSAGE,
     GeminiJsonClient,
     GeminiRecommendationClient,
@@ -57,7 +58,7 @@ def test_gemini_json_client_uses_injected_sdk_text_response(monkeypatch) -> None
     )
 
     assert json.loads(payload) == {"ok": True}
-    assert models.calls[0]["model"] == "gemini-2.5-flash"
+    assert models.calls[0]["model"] == DEFAULT_GEMINI_MODEL
     assert models.calls[0]["contents"] == "hello"
 
 
