@@ -38,9 +38,18 @@ Designs are composed only from curated parts, and every base is attributable. Th
 
 A provenance gate is implemented and tested on top of that. It requires every base of a design to trace to a curated part record, a retrieved template, a user supplied input or a named published rule, verified span by span against the actual part records; it blocks an export outright rather than warning, and a check it cannot evaluate blocks as well rather than passing by default. It also carries a documented interface for a sequence screening backend and an append-only export audit log that records what was exported, when, the validator version and the screening result.
 
-**Stated precisely, because the distinction matters: the gate is wired into one capability's serving route, not all four.** The AAV vector endpoints `POST /v1/aav/design` and `POST /v1/aav/validate` screen every response before returning it. A design whose bases all trace is returned with its GenBank and FASTA artifacts; a design carrying an unattributable span is returned with its validation report intact but with those artifacts withheld and a reason naming the coordinates and the size of the span, because the gate blocks the export rather than the design. One audit entry is appended for each outcome.
+**Stated precisely, because the distinction matters: the gate is wired into three of the four capabilities, not all four.** These routes screen every response before returning it:
 
-The plasmid, assembly and guide RNA export paths do not pass through the gate yet. For assembly and guide RNA the blocker is specific and recorded in `progress/WP-13.md`: the gate's export vocabulary is GenBank and FASTA, and those two capabilities export order tables and guide tables, so gating them means first giving the audit entry a name for a table export. Nothing in this paragraph should be read as a claim about them.
+| Endpoint | Export screened | Recorded format |
+|---|---|---|
+| `POST /v1/aav/design`, `POST /v1/aav/validate` | the GenBank and FASTA cassette records | `genbank` |
+| `POST /v1/assembly/design` | the primer order table, in both renderings | `csv` |
+| `POST /v1/assembly/order-table.csv` | the same table, as a download | `csv` |
+| `POST /v1/grna/design` | the guide table and the oligo order table | `tsv` |
+
+A design whose bases all trace is returned with its artifacts. A design carrying an unattributable span is returned with its validation report intact but with those artifacts withheld and a reason naming the coordinates and the size of the span, because the gate blocks the export rather than the design. The one exception is `POST /v1/assembly/order-table.csv`, which exists only to hand over the table and so answers a refusal with a 409 carrying the reason. One audit entry is appended for every outcome, allowed or blocked.
+
+**The plasmid export path is not screened, and the reason is architectural rather than pending work.** `GET /v1/designs/{design_id}/export` serves a stored `AnnotatedSequence`, which carries a sequence, a topology and features, and nothing that says which base came from which source; the stored `DesignRecord` carries no template identity either. The gate verifies attribution span by span against the actual source records, so screening this path would mean either asserting an attribution nothing has verified, which would make the audit log state a verified result that was never verified, or refusing every plasmid export. Neither is acceptable as a silent default. What is missing, and what it would take, is recorded in `progress/WP-14.md`.
 
 The audit log is append-only JSON Lines at `data/audit/export_audit.jsonl`, overridable with `CONSTRUCT_EXPORT_AUDIT_LOG`. It is runtime state and is not committed.
 

@@ -44,3 +44,6 @@ CONSTRUCT_ENGINE_SYSTEM_DESIGN.md
 
 # Export audit log is runtime state, not source.
 data/audit/
+
+# TypeScript incremental build cache.
+*.tsbuildinfo

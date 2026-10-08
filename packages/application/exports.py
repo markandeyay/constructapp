@@ -28,7 +28,27 @@ from .screening.audit import utc_now as _utc_now
 
 ExportFormat = Literal["genbank", "fasta"]
 
+#: Formats the codecs in this module can actually render and parse. This is the
+#: narrow vocabulary: `export_annotated_sequence` and `read_annotated_sequence`
+#: handle exactly these two and nothing else.
 SUPPORTED_EXPORT_FORMATS = frozenset({"genbank", "fasta"})
+
+#: Table exports. The assembly order table and the guide RNA guide and oligo
+#: tables are orderable DNA presented as rows rather than as an annotated
+#: sequence record, so no codec here renders them: the capability that owns the
+#: table renders it, and the gate screens the result.
+TABLE_EXPORT_FORMATS = frozenset({"csv", "tsv"})
+
+#: What the export audit log can name. Deliberately wider than
+#: `SUPPORTED_EXPORT_FORMATS` and deliberately a separate constant.
+#:
+#: These two were one vocabulary until the gate reached the table capabilities,
+#: and conflating them is a trap worth naming: `read_annotated_sequence` falls
+#: through to the FASTA parser for any format that is not GenBank, so widening
+#: `SUPPORTED_EXPORT_FORMATS` to admit "tsv" would make a TSV order table parse
+#: silently as FASTA instead of failing. The audit log needs a name for a table
+#: export; the codecs must keep refusing one.
+AUDITABLE_EXPORT_FORMATS = SUPPORTED_EXPORT_FORMATS | TABLE_EXPORT_FORMATS
 EXPORT_RECORD_ID = "annotated_sequence"
 KEYWORD_PREFIX = "CONSTRUCT_EXPORT"
 FASTA_METADATA_PREFIX = "construct_meta="
@@ -50,6 +70,21 @@ def validate_export_format(value: str) -> ExportFormat:
         expected = ", ".join(sorted(SUPPORTED_EXPORT_FORMATS))
         raise ValueError(f"unsupported export format {value!r}; expected one of: {expected}")
     return cast(ExportFormat, normalized)
+
+
+def validate_auditable_export_format(value: str) -> str:
+    """Validate a format the audit log has to record, table formats included.
+
+    Separate from `validate_export_format` on purpose. That one guards the
+    codecs and must keep rejecting a table format; this one guards the audit
+    entry, which has to be able to say "tsv" so that a blocked guide RNA export
+    records what was actually refused.
+    """
+    normalized = value.strip().lower()
+    if normalized not in AUDITABLE_EXPORT_FORMATS:
+        expected = ", ".join(sorted(AUDITABLE_EXPORT_FORMATS))
+        raise ValueError(f"unsupported export format {value!r}; expected one of: {expected}")
+    return normalized
 
 
 def export_annotated_sequence(sequence: AnnotatedSequence, *, format: str) -> str:
@@ -93,12 +128,13 @@ def export_screened_design(
     cassette is linear and the plasmid path is circular, so each capability
     keeps its own codec and this function gates them all identically.
 
-    `format` is validated against `SUPPORTED_EXPORT_FORMATS` here so a blocked
-    or permitted entry always records a format this build can actually write.
+    `format` is validated against `AUDITABLE_EXPORT_FORMATS` here so a blocked
+    or permitted entry always records a format this build can actually write,
+    whether that is a sequence record or a table the owning capability rendered.
     """
     return _screen_and_export(
         subject,
-        export_format=validate_export_format(format),
+        export_format=validate_auditable_export_format(format),
         payloads=payloads,
         validation_overall=validation_overall,
         backend=backend,

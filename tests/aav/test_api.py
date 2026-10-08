@@ -28,21 +28,6 @@ def transgene():
     return cds_of_length(1_200)
 
 
-@pytest.fixture(autouse=True)
-def audit_path(tmp_path, monkeypatch):
-    """Redirect the export audit log for every test in this module.
-
-    Autouse and module wide rather than scoped to the screening tests, because
-    every request to `/v1/aav/design` is a screened export and writes an entry.
-    Without this the suite appends to the repository's own `data/audit` log,
-    which both dirties a real operational record and makes the entry counts in
-    the screening tests depend on how many other tests ran first.
-    """
-    path = tmp_path / "export_audit.jsonl"
-    monkeypatch.setenv("CONSTRUCT_EXPORT_AUDIT_LOG", str(path))
-    return path
-
-
 class TestDesignEndpoint:
     def test_a_valid_request_returns_a_full_bundle(self, client, transgene):
         response = client.post(
@@ -240,10 +225,10 @@ class TestExportScreeningGate:
     that the route releases attributable DNA and withholds unattributable DNA,
     not that a stub was called.
 
-    Every test redirects the audit log into `tmp_path`. The log location is read
-    when the log is constructed, which is once per screened export, so setting
-    the environment variable is enough and the real `data/audit` log is never
-    touched by the suite.
+    The audit log is redirected into a temporary file by the suite wide
+    `export_audit_path` fixture in `tests/conftest.py`, so these tests read the
+    entries their own request wrote and the real `data/audit` log is never
+    touched.
     """
 
     @staticmethod
@@ -255,7 +240,7 @@ class TestExportScreeningGate:
         return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
     def test_a_fully_attributed_design_exports_with_its_artifacts(
-        self, client, transgene, audit_path
+        self, client, transgene, export_audit_path
     ):
         body = client.post(
             "/v1/aav/design",
@@ -273,14 +258,14 @@ class TestExportScreeningGate:
         assert artifacts["genbank"]
         assert artifacts["fasta"]
 
-        entries = self._audit_entries(audit_path)
+        entries = self._audit_entries(export_audit_path)
         assert len(entries) == 1
         assert entries[0]["decision"] == "exported"
         assert entries[0]["capability"] == "aav"
         assert entries[0]["blocked_reasons"] == []
 
     def test_an_unattributable_span_withholds_the_artifacts_and_says_why(
-        self, client, transgene, audit_path
+        self, client, transgene, export_audit_path
     ):
         design = client.post(
             "/v1/aav/design",
@@ -320,12 +305,12 @@ class TestExportScreeningGate:
         # screened export and is recorded as one, then the tampered design is
         # recorded as blocked. Asserting both keeps the setup call visible
         # rather than pretending the gate ran only once.
-        entries = self._audit_entries(audit_path)
+        entries = self._audit_entries(export_audit_path)
         assert [entry["decision"] for entry in entries] == ["exported", "blocked"]
         assert entries[-1]["blocked_reasons"]
 
     def test_a_blocked_export_is_recorded_before_it_is_refused(
-        self, client, transgene, audit_path
+        self, client, transgene, export_audit_path
     ):
         """Item 4 is unconditional: a refusal that leaves no record is a hole."""
         design = client.post(
@@ -342,6 +327,6 @@ class TestExportScreeningGate:
 
         client.post("/v1/aav/validate", json=design)
 
-        entries = self._audit_entries(audit_path)
+        entries = self._audit_entries(export_audit_path)
         assert [entry["decision"] for entry in entries] == ["exported", "blocked"]
         assert entries[-1]["validator_version"]

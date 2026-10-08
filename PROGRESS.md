@@ -915,3 +915,49 @@ DEFECT FOUND AND FIXED HERE, recorded because the near miss is instructive: the
 Gates after the change: full suite 1540 passed 2 skipped, up from 1537 by the
 three tests added; `make eval-capabilities` 179 of 179 unchanged; all four demo
 beats byte identical to their pre-wiring baseline.
+
+## WP-14: screening gate wired into assembly and guide RNA
+
+Three of the four capabilities now screen before returning an export. Assembly
+gates its primer order table on both the design endpoint and the dedicated CSV
+endpoint, and guide RNA gates its guide table and oligo order table. Full report
+in `progress/WP-14.md`.
+
+The WP-13 blocker was removed without introducing the bug that the obvious fix
+would have caused. Widening `SUPPORTED_EXPORT_FORMATS` to admit "tsv" would have
+made `read_annotated_sequence` parse a TSV order table as FASTA instead of
+failing, because it falls through to the FASTA parser for anything that is not
+GenBank. So the codec vocabulary and the audit vocabulary are now separate
+constants, with that trap documented next to them.
+
+CONTRACT CHANGE, made explicitly: `AssemblyOutputs.order_table` and
+  `order_table_csv` no longer require at least one row. The old constraint assumed
+  a composed assembly always has a table to hand over, which stopped being true
+  once a withheld table became possible. Empty means withheld, a caller must read
+  `export_blocked` rather than infer from a non-empty table, and no placeholder row
+  is ever substituted because section 4.3 forbids one.
+
+PLASMID IS STILL NOT GATED, and this is a decision left open rather than work left
+  undone. `DesignRecord` stores only an `AnnotatedSequence`, which carries no
+  per-base source, and neither it nor `AnnotatedFeature` records where any base
+  came from. The template id exists upstream and the corpus keeps full sequences,
+  so a verified attribution is reachable, but not without threading the id into the
+  design record and giving `assert_provenance` a corpus reader. The two honest
+  options are to refuse every plasmid export or to leave the path ungated and
+  documented. The second is the current state and the README says so in those
+  terms. What was deliberately not done: emitting a whole-sequence span attributed
+  to a template nobody verified, which would make the audit log assert a verified
+  result that was never verified.
+
+ALSO RECORDED, because it bounds what may be claimed: `assert_provenance`
+  base-compares only registry part segments, against `data/parts`. A retrieved
+  template or user input segment is only checked for being declared. That is sound
+  for the three gated capabilities, whose spans are either registry parts or the
+  user's own bytes, and it is the weakness any future plasmid adapter must not be
+  built on.
+
+Gates: full suite 1545 passed 2 skipped, up from 1540; `make eval-capabilities`
+179 of 179 unchanged; `make eval-check` exit 0 with no regressions; all four demo
+beats byte identical to the pre-gate baseline; web app typecheck, lint and build
+all exit 0. Both tamper checks confirm the new tests are not vacuous, including one
+that now fails for the missing-audit-log defect WP-13 found.

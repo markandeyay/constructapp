@@ -29,7 +29,7 @@ from packages.core.part_registry import PartCategory, list_parts
 from packages.core.schemas.aav import AAVDesign, AAVRequest
 from packages.generation.aav.designer import AAVDesigner
 from packages.validation.aav.remediation import remediation_entries
-from services.api.routes._screening import screen_export, withhold_artifacts
+from services.api.routes._screening import screen_export, sequence_payloads, withhold_artifacts
 
 router = APIRouter(prefix="/v1/aav", tags=["aav"])
 
@@ -65,6 +65,10 @@ def _bundle_payload(bundle: Any) -> dict[str, Any]:
     # input or a named published rule, and writes one audit entry either way. A
     # refusal withholds the artifacts and keeps the report, because section 11.1
     # blocks the export rather than the design.
+    payloads, export_format = sequence_payloads(bundle.result.artifacts or {})
+    if export_format is None:
+        return payload
+
     subject = aav_subject(
         bundle.design,
         validator_version=bundle.report.validator_version,
@@ -72,7 +76,8 @@ def _bundle_payload(bundle: Any) -> dict[str, Any]:
     )
     allowed, reason = screen_export(
         subject,
-        (bundle.result.artifacts or {}),
+        payloads,
+        export_format=export_format,
         validation_overall=bundle.report.overall,
     )
     if not allowed:

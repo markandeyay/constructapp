@@ -562,10 +562,23 @@ class JunctionMapEntry(CapabilityModel):
 
 
 class AssemblyOutputs(CapabilityModel):
-    """Everything section 7.7 lists, assembled into one payload."""
+    """Everything section 7.7 lists, assembled into one payload.
 
-    order_table: list[OrderTableRow] = Field(min_length=1)
-    order_table_csv: str = Field(min_length=1)
+    `order_table` and `order_table_csv` required at least one row until the
+    section 11.1 provenance gate reached this capability. That constraint
+    encoded an assumption that is no longer true: a composed assembly always has
+    primers, but an assembly whose primers cannot all be attributed has an order
+    table that must not be handed over. Both fields are therefore allowed to be
+    empty, and empty means withheld rather than absent.
+
+    A caller must read `AssemblyResponse.export_blocked` instead of inferring
+    from a non-empty table that an export was permitted. Nothing fills these
+    fields with a placeholder row: section 4.3 forbids a placeholder sequence
+    precisely because it would be exported as orderable DNA.
+    """
+
+    order_table: list[OrderTableRow] = Field(default_factory=list)
+    order_table_csv: str = ""
     protocol: Protocol
     junction_map: list[JunctionMapEntry] = Field(default_factory=list)
     junction_map_text: str = ""
@@ -585,6 +598,14 @@ class AssemblyResponse(CapabilityModel):
     outputs: AssemblyOutputs
     provenance: list[str] = Field(min_length=1)
     parameters_used: dict[str, Any] = Field(min_length=1)
+
+    #: Section 11.1. True when the provenance gate refused this design's order
+    #: table, in which case `outputs.order_table` and `outputs.order_table_csv`
+    #: are empty and `export_block_reason` names the span that could not be
+    #: attributed. The design and the validation report are still populated,
+    #: because the gate blocks the export and not the design.
+    export_blocked: bool = False
+    export_block_reason: str | None = None
 
 
 DesignInput = Annotated[AssemblyDesign, Field(description="Section 7 assembly design")]

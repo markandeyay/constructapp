@@ -7,22 +7,27 @@ and records the result. The gate itself lives in
 `packages.application.export_screened_design`. This module is the thin layer that
 lets a capability route call it without each route repeating the same handling.
 
-Two deliberate choices, both of which follow from section 11.1 rather than from
+Three deliberate choices, all of which follow from section 11.1 rather than from
 convenience.
 
 **A blocked export does not fail the request.** Section 11.1 blocks the EXPORT,
-not the design. A researcher whose cassette carries an unattributable span needs
-to see the validation report and the span, not an opaque server error, and a
+not the design. A researcher whose design carries an unattributable span needs to
+see the validation report and the span, not an opaque server error, and a
 provenance problem presented as a 500 looks like a fault in the tool rather than
 a fact about the design. So the route still returns the design, the report and
 everything else, and withholds only the exportable artifacts, with the gate's own
 finding text saying why.
 
-**Only sequence bearing artifacts are gated.** The gate exists to stop
-unattributable DNA being handed to someone who will order it. Artifacts that are
-views of a design rather than orderable sequence, for example a length budget
-table or a map rendering, are released or withheld with the rest but are not
-themselves what the gate is reasoning about.
+**The format is the caller's to state, not this module's to guess.** An AAV
+cassette exports as a sequence record and an assembly order table exports as
+CSV. Deriving one from an artifact's file extension would work until a capability
+named an artifact differently, and would then mislabel an audit entry silently.
+The route names its own format.
+
+**Each route clears its own artifacts.** The three capabilities keep their
+exports in three different shapes: a dict of rendered artifacts, a response model
+field, a dict of named tables. A single clearing function would have to know all
+three, so instead this module reports the decision and the route acts on it.
 """
 
 from __future__ import annotations
@@ -33,10 +38,9 @@ from packages.application import export_screened_design
 from packages.application.exports import SUPPORTED_EXPORT_FORMATS
 from packages.application.screening import ExportBlocked, JsonlExportAuditLog
 
-# The artifact keys that carry orderable DNA and that the gate can describe.
-# `SUPPORTED_EXPORT_FORMATS` is the gate's own vocabulary, so an artifact is
-# gated exactly when the gate has a name for what it is.
-GATED_ARTIFACT_KEYS = frozenset(SUPPORTED_EXPORT_FORMATS)
+# The artifact keys that carry an orderable sequence record. Used only by the
+# capabilities whose exports ARE sequence records, which is AAV today.
+SEQUENCE_ARTIFACT_KEYS = frozenset(SUPPORTED_EXPORT_FORMATS)
 
 # Preferred format to record in the audit entry when a design offers several.
 _FORMAT_PREFERENCE = ("genbank", "fasta")
@@ -56,38 +60,36 @@ def audit_log() -> JsonlExportAuditLog:
 
 def screen_export(
     subject: Any,
-    artifacts: Mapping[str, str],
+    payloads: Mapping[str, str],
     *,
+    export_format: str,
     validation_overall: Any = None,
 ) -> tuple[bool, str | None]:
-    """Run the gate over a design's sequence bearing artifacts.
+    """Run the gate over the payloads a route is about to return.
 
     Returns `(allowed, reason)`. `reason` is None when the export is allowed and
     otherwise carries the gate's own text, which names the sequence, the
     coordinates and the offending bases.
 
-    An audit entry is written by the gate for both outcomes, which is section
-    11.1 item 4. This function adds nothing to that record and interprets
-    nothing: if the gate refuses, the refusal is reported as the gate phrased it.
+    An audit entry is written for both outcomes, which is section 11.1 item 4.
+    This function adds nothing to that record and interprets nothing: if the gate
+    refuses, the refusal is reported as the gate phrased it.
     """
-    sequence_artifacts = {
+    screened = {
         name: payload
-        for name, payload in artifacts.items()
-        if name in GATED_ARTIFACT_KEYS and isinstance(payload, str) and payload
+        for name, payload in payloads.items()
+        if isinstance(payload, str) and payload
     }
-    if not sequence_artifacts:
-        # Nothing orderable to screen. Not an approval, just nothing in scope.
+    if not screened:
+        # Nothing to screen. Not an approval, just nothing in scope: a design
+        # that produced no artifact cannot have one withheld.
         return True, None
 
-    export_format = next(
-        (name for name in _FORMAT_PREFERENCE if name in sequence_artifacts),
-        sorted(sequence_artifacts)[0],
-    )
     try:
         export_screened_design(
             subject,
             format=export_format,
-            payloads=sequence_artifacts,
+            payloads=screened,
             validation_overall=validation_overall,
             audit_log=audit_log(),
         )
@@ -98,15 +100,47 @@ def screen_export(
     return True, None
 
 
-def withhold_artifacts(payload: dict[str, Any], reason: str) -> dict[str, Any]:
-    """Strip the exportable artifacts from a response and say why.
+def sequence_payloads(artifacts: Mapping[str, Any]) -> tuple[dict[str, str], str | None]:
+    """Pick the sequence record artifacts out of a capability's artifact dict.
 
-    Everything else in the response is left untouched, so the caller still sees
-    the design, the validation report and any capability specific views.
+    Returns the payloads and the format to record, or an empty dict and None when
+    the design rendered no sequence record. Only for a capability whose exports
+    are GenBank or FASTA records.
+    """
+    found = {
+        name: payload
+        for name, payload in artifacts.items()
+        if name in SEQUENCE_ARTIFACT_KEYS and isinstance(payload, str) and payload
+    }
+    if not found:
+        return {}, None
+    export_format = next(
+        (name for name in _FORMAT_PREFERENCE if name in found),
+        sorted(found)[0],
+    )
+    return found, export_format
+
+
+def mark_blocked(payload: dict[str, Any], reason: str) -> dict[str, Any]:
+    """Record on a response that its export was refused, and why.
+
+    Does not touch the artifacts: the caller clears whatever it holds, because
+    only the caller knows the shape of its own exports.
+    """
+    payload["export_blocked"] = True
+    payload["export_block_reason"] = reason
+    return payload
+
+
+def withhold_artifacts(payload: dict[str, Any], reason: str) -> dict[str, Any]:
+    """Strip a `DesignResult.artifacts` dict from a response and say why.
+
+    The shape this handles is `payload["result"]["artifacts"]`, which is the
+    section 5.1 `DesignResult`. Everything else in the response is left
+    untouched, so the caller still sees the design, the validation report and any
+    capability specific views.
     """
     result = payload.get("result")
     if isinstance(result, dict):
         result["artifacts"] = {}
-    payload["export_blocked"] = True
-    payload["export_block_reason"] = reason
-    return payload
+    return mark_blocked(payload, reason)

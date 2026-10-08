@@ -3,9 +3,12 @@
 from .design_jobs import GenerationDesignJobHandler, build_generation_design_job_handler
 from .designs import DesignRecord, DesignStore, InMemoryDesignStore, PostgresDesignStore
 from .exports import (
+    AUDITABLE_EXPORT_FORMATS,
+    TABLE_EXPORT_FORMATS,
     export_annotated_sequence,
     export_screened_design,
     read_annotated_sequence,
+    validate_auditable_export_format,
     validate_export_format,
 )
 from .jobs import (
@@ -55,5 +58,8 @@ __all__ = [
     "export_annotated_sequence",
     "export_screened_design",
     "read_annotated_sequence",
+    "AUDITABLE_EXPORT_FORMATS",
+    "TABLE_EXPORT_FORMATS",
+    "validate_auditable_export_format",
     "validate_export_format",
 ]

@@ -27,6 +27,7 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 
+from packages.application.screening.adapters.grna import grna_subject
 from packages.core.schemas.capability import CapabilityKind
 from packages.core.schemas.grna import GuideRNADesign, GuideRNARequest
 from packages.generation.grna import GuideRNAGenerator, render_guide_table, render_oligo_table
@@ -44,6 +45,7 @@ from packages.validation.grna import (
     GuideRNAValidator,
     geometry_facts,
 )
+from services.api.routes._screening import mark_blocked, screen_export
 from packages.validation.grna.ontarget import (
     HEURISTIC_CITATION,
     HEURISTIC_DOMAIN,
@@ -66,16 +68,46 @@ def design_guides(request: GuideRNARequest) -> dict[str, Any]:
         result, design_result = generator.design_result(request)
     except (KeyError, ValueError) as error:
         raise HTTPException(status_code=UNPROCESSABLE, detail=str(error)) from error
-    return {
+    exports = {
+        "guide_table.tsv": render_guide_table(result),
+        "oligo_order_table.tsv": render_oligo_table(result),
+    }
+    payload = {
         "capability": CapabilityKind.GUIDE_RNA.value,
         "off_target_space_statement": result.off_target_space_statement,
         "result": result.model_dump(mode="json"),
         "design_result": design_result.model_dump(mode="json"),
-        "exports": {
-            "guide_table.tsv": render_guide_table(result),
-            "oligo_order_table.tsv": render_oligo_table(result),
-        },
+        "exports": exports,
+        "export_blocked": False,
+        "export_block_reason": None,
     }
+
+    # Section 11.1: screen before any export action. Every spacer is attributed
+    # by locating it on the target the user supplied, and every cloning oligo by
+    # its spacer plus the named vector overhang rule, so the target sequence is
+    # required rather than optional: a subject built without it attributes
+    # nothing and blocks. The tables are TSV, which the audit vocabulary names
+    # but no codec in this build renders.
+    subject = grna_subject(
+        result,
+        validator_version=design_result.report.validator_version,
+        target_sequence=request.target_sequence,
+        declared_provenance=list(result.provenance or []),
+    )
+    allowed, reason = screen_export(
+        subject,
+        exports,
+        export_format="tsv",
+        validation_overall=design_result.report.overall,
+    )
+    if not allowed:
+        # The guide table and the oligo order table are what a researcher orders
+        # from, so those are withheld. The ranked guides stay in `result` because
+        # section 11.1 blocks the export and not the design, and the report has
+        # to remain readable for the researcher to act on the reason.
+        payload["exports"] = {}
+        return mark_blocked(payload, reason or "export blocked by the provenance gate")
+    return payload
 
 
 @router.post("/validate", summary="Validate one supplied guide RNA")

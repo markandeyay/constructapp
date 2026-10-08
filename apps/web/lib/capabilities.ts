@@ -179,6 +179,8 @@ export type AavDesignResponse = {
   length_budget_text: string;
   remediation: AavRemediation;
   notes: string[];
+  export_blocked?: boolean;
+  export_block_reason?: string | null;
 };
 
 export type AavParts = {
@@ -296,6 +298,8 @@ export type AssemblyDesignResponse = {
   };
   provenance: string[];
   parameters_used: Record<string, unknown>;
+  export_blocked?: boolean;
+  export_block_reason?: string | null;
 };
 
 // ---- Guide RNA ----------------------------------------------------------
@@ -412,6 +416,8 @@ export type GrnaDesignResponse = {
   };
   design_result: { report: CapabilityReport };
   exports: Record<string, string>;
+  export_blocked?: boolean;
+  export_block_reason?: string | null;
 };
 
 export type GrnaScoreReference = {

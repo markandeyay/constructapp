@@ -18,6 +18,7 @@ import json
 
 from fastapi import APIRouter, HTTPException, status
 
+from packages.application.screening.adapters.assembly import assembly_subject
 from packages.core.schemas.assembly import (
     AssemblyDesign,
     AssemblyRequest,
@@ -30,6 +31,7 @@ from packages.validation.assembly.checks import ALL_CHECK_IDS, APPLICABLE_CHECKS
 from packages.validation.assembly.constants import CITATIONS, VALIDATOR_VERSION
 from packages.validation.assembly.settings import settings_for
 from packages.validation.assembly.validator import AssemblyValidator, parameters_used
+from services.api.routes._screening import screen_export
 
 router = APIRouter(prefix="/v1/assembly", tags=["assembly"])
 
@@ -56,13 +58,39 @@ def design_assembly(request: AssemblyRequest) -> AssemblyResponse:
     report = AssemblyValidator().validate(design)
     outputs = build_outputs(design, report)
     settings = settings_for(request)
-    return AssemblyResponse(
+    response = AssemblyResponse(
         design_id=_design_id(request),
         design=design,
         outputs=outputs,
         provenance=design.provenance,
         parameters_used=parameters_used(request, settings, report),
     )
+
+    # Section 11.1: screen before any export action. The order table is the
+    # orderable DNA this capability produces, so it is what the gate guards. Each
+    # primer is attributed from its template span plus, for Golden Gate, the
+    # named overhang rule that produced its tail; a primer whose tail cannot be
+    # traced to that rule leaves a span uncovered and blocks.
+    subject = assembly_subject(
+        design,
+        validator_version=report.validator_version,
+        declared_provenance=list(design.provenance or []),
+    )
+    allowed, reason = screen_export(
+        subject,
+        {"order_table.csv": outputs.order_table_csv},
+        export_format="csv",
+        validation_overall=report.overall,
+    )
+    if not allowed:
+        # Withhold the table in both renderings. The design, the protocol, the
+        # junction map and the report all survive: section 11.1 blocks the
+        # export, and the researcher needs the report to act on the reason.
+        response.outputs.order_table = []
+        response.outputs.order_table_csv = ""
+        response.export_blocked = True
+        response.export_block_reason = reason or "export blocked by the provenance gate"
+    return response
 
 
 @router.post("/design", response_model=AssemblyResponse)
@@ -95,6 +123,20 @@ def post_order_table_csv(request: AssemblyRequest) -> dict[str, str]:
     call. Section 7.7: "it must be copy-pasteable and CSV-exportable."
     """
     response = design_assembly(request)
+    if response.export_blocked:
+        # This endpoint exists only to hand over the table, so there is nothing
+        # to return but the refusal. A 409 rather than a 200 with an empty body:
+        # a caller downloading a file needs the refusal to be unmistakable, and
+        # unlike the design endpoint there is no report here to read instead.
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "code": "export_blocked",
+                "message": response.export_block_reason
+                or "export blocked by the provenance gate",
+                "retryable": False,
+            },
+        )
     return {
         "filename": f"{response.design_id}-order-table.csv",
         "csv": response.outputs.order_table_csv,
