@@ -712,3 +712,36 @@ NOT DONE, and recorded as a judgment rather than an oversight: `make lint` still
   two days from a demo, in exchange for style findings on code that has already
   had a line by line scientific review. The risk is real and the return is low.
   Worth doing in the week after.
+
+## Every claim in the demo runbook verified against the running system
+
+The runbook states specific numbers a presenter will say out loud. Each was
+re-measured by the orchestrator against the real API rather than trusted.
+
+BEAT 1, plasmid. The runbook's original primary prompt returned FAIL, which
+  defeats what beat 1 is for. Eight prompts were measured through the real
+  retrieval backed path; two pass. The beat now opens on "a bacterial cloning
+  vector with ampicillin resistance and a high copy origin", measured overall
+  PASS, 4 checks, 2,686 bp, which is pUC19. The failing yeast prompt is kept as
+  an optional answer to a challenge about whether the checks bite, with its real
+  reasons recorded, and marked explicitly as not the opener.
+
+BEAT 2, AAV. Measured: lacZ from GenBank JF300162.1 with CAG and bGH gives
+  5,229 bp and FAILS, 529 bp over the target and 29 bp past the hard ceiling.
+  The engine names the substitution itself. Applying it gives 3,802 bp and the
+  packaging check PASSES. Walked twice with identical output.
+
+BEAT 3, assembly. Both runbook fragments verified to be genuine plus strand
+  slices of the records and offsets they claim: frag_a is promoter.cbh at offset
+  100 for 150 bp, frag_b is promoter.cmv at offset 410 for 180 bp, both exact.
+  Outcome measured: overall PASS, 15 checks, no non-pass check at all, amplicons
+  of exactly 170 and 200 bp, 4 primers, and the order table CSV and junction map
+  exports both present. Every number the runbook states is correct.
+
+BEAT 4, guide RNA. Measured: the committed 950 bp fixture, 216 guides
+  enumerated, 10 returned, overall PASS with 10 checks, both export tables
+  present, and the off-target banner matching the runbook text BYTE FOR BYTE,
+  compared by string equality rather than by eye.
+
+So every figure in the runbook is a measured figure. A presenter reading it
+aloud is not repeating anything that was estimated, rounded or assumed.
