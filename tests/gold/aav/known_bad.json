@@ -10,6 +10,20 @@
       "remediation"
     ],
     "allowed_extra_fail": [],
+    "expected_warnings": [
+      {
+        "check": "aav.internal_repeats",
+        "justification": "Measured: 4 direct repeats over 20 bp in the 5,050 bp inter-ITR region, the longest 1,467 bp at cassette positions 1,785 and 3,501. The payload is a tandem concatenation of whole copies of one reading frame, assembled to put the cassette at the exact length this case is about, so a long direct repeat is present by construction and cannot be removed without changing that length."
+      },
+      {
+        "check": "aav.homopolymer_runs",
+        "justification": "Measured: one run of 14 consecutive G at cassette position 558, inside the CAG promoter. promoter.cag carries a 14 base G run at its own offset 412, over the 8 bp reporting threshold, so any design built on CAG trips this check. Removing the warning would mean editing a real part, which section 4.3 forbids, or abandoning the promoter this case is sized around."
+      },
+      {
+        "check": "aav.kozak_context",
+        "justification": "Measured: context GGCAAAATGA, adequate but not optimal because position +4 is A rather than G. That is the first base of the payload's second codon, a property of the payload rather than of the packaging defect under test."
+      }
+    ],
     "input": {
       "transgene_name": "payload_3186",
       "transgene_sequence": "ATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAATAA",
@@ -30,6 +44,20 @@
       "remediation"
     ],
     "allowed_extra_fail": [],
+    "expected_warnings": [
+      {
+        "check": "aav.internal_repeats",
+        "justification": "Measured: 4 direct repeats over 20 bp in the 4,510 bp inter-ITR region, the longest 927 bp at cassette positions 1,785 and 3,501. The payload is a tandem concatenation of whole copies of one reading frame, assembled to put the cassette at the exact length this case is about, so a long direct repeat is present by construction and cannot be removed without changing that length."
+      },
+      {
+        "check": "aav.homopolymer_runs",
+        "justification": "Measured: one run of 14 consecutive G at cassette position 558, inside the CAG promoter. promoter.cag carries a 14 base G run at its own offset 412, over the 8 bp reporting threshold, so any design built on CAG trips this check. Removing the warning would mean editing a real part, which section 4.3 forbids, or abandoning the promoter this case is sized around."
+      },
+      {
+        "check": "aav.kozak_context",
+        "justification": "Measured: context GGCAAAATGA, adequate but not optimal because position +4 is A rather than G. The same three warnings fire here as in the hard limit case above and for the same reasons, so declaring both sets identically is itself a check on the pair."
+      }
+    ],
     "input": {
       "transgene_name": "payload_2646",
       "transgene_sequence": "ATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTTAA",
@@ -50,6 +78,16 @@
       "remediation"
     ],
     "allowed_extra_fail": [],
+    "expected_warnings": [
+      {
+        "check": "aav.internal_repeats",
+        "justification": "Measured: 2 direct repeats over 20 bp in the 2,710 bp inter-ITR region, the longest 858 bp at cassette positions 837 and 1,695. The payload is a tandem concatenation of whole copies of one reading frame, assembled to put the cassette at the exact length this case is about, so a long direct repeat is present by construction and cannot be removed without changing that length."
+      },
+      {
+        "check": "aav.kozak_context",
+        "justification": "Measured: context CAAGCTATGA, adequate but not optimal because position +4 is A rather than G. Neither warning concerns capacity, so aav.sc_capacity stays the only failure and aav.packaging_limit still passes, which is the split this case exists to prove. There is deliberately no aav.homopolymer_runs entry: this design uses promoter.gfap, which carries no long run, so the two packaging limit cases warn where this one does not, and the declared sets now record that difference."
+      }
+    ],
     "input": {
       "transgene_name": "payload_1794",
       "transgene_sequence": "ATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCATAA",
@@ -398,6 +436,12 @@
     "rationale": "Every required element is present and every sequence is real, but the polyA sits between the promoter and the coding sequence instead of after it. Transcription would terminate and polyadenylate before reaching the transgene, so the cassette expresses nothing. aav.required_elements passes, because presence is all it checks, and the length is unchanged, so aav.element_order is the only check that can catch this: it compares the element roles against the section 6.2 functional order. The Kozak warning that comes with it is a true consequence of the polyA now sitting in front of the start codon, and it is a WARN, so the case still has exactly one failure.",
     "must_also_report": [],
     "allowed_extra_fail": [],
+    "expected_warnings": [
+      {
+        "check": "aav.kozak_context",
+        "justification": "Measured: context CTATGGATGG, position -3 is T where a purine is required, and the validator attributes that base to the last bases of polya.bgh, the element now sitting immediately 5' of the coding sequence. The warning is therefore a direct consequence of the mis-ordering under test and cannot be separated from it; it is a WARN, so aav.element_order remains the only failure."
+      }
+    ],
     "input": {
       "design_id": "aav-bad-element-order",
       "transgene_name": "orf405_bla_segment",
@@ -450,9 +494,15 @@
     "expect_overall": "warn",
     "expect_check": "aav.promoter_tissue_match",
     "expect_severity": "warn",
-    "rationale": "A liver-targeted vector driven by the hSyn1 promoter, which is neuron specific. The cassette is 2,437 bp, structurally perfect and comfortably inside the packaging band, so no length or structural check sees anything: this is precisely the design error section 6.2 says no length check will catch. The transgene would simply not be expressed in hepatocytes. aav.promoter_tissue_match is the check that must catch it, comparing the part's tissue_specificity annotation with the requested target_tissue, and the severity is WARN because the designer, not the registry, knows the intended cell type. The payload is the complete 861 bp beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), ATG through TAA, whose native initiation context also warns; that is a WARN, so the case still reports no failure at all, which is the expected outcome.",
+    "rationale": "A liver-targeted vector driven by the hSyn1 promoter, which is neuron specific. The cassette is 2,437 bp, structurally perfect and comfortably inside the packaging band, so no length or structural check sees anything: this is precisely the design error section 6.2 says no length check will catch. The transgene would simply not be expressed in hepatocytes. aav.promoter_tissue_match is the check that must catch it, comparing the part's tissue_specificity annotation with the requested target_tissue, and the severity is WARN because the designer, not the registry, knows the intended cell type. The payload is the complete 861 bp beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), ATG through TAA. Its initiation context warns, and the measured reason is not the payload alone: the context is CAGTCGATGA, weak because position -3 is T where a purine is required and position +4 is A rather than G, and the validator attributes the -3 base to the last bases of promoter.hsyn1, the element immediately 5' of the coding sequence, calling it a promoter feature boundary rather than anything chosen for translation. Only +4 comes from the payload. An earlier version of this rationale credited the whole warning to the payload's native initiation context, which was false in the half that matters: the warning is a side effect of the neuron promoter this case has to use, and that promoter cannot be changed without removing the defect under test. It is a WARN, so the case still reports no failure at all, which is the expected outcome.",
     "must_also_report": [],
     "allowed_extra_fail": [],
+    "expected_warnings": [
+      {
+        "check": "aav.kozak_context",
+        "justification": "Measured: context CAGTCGATGA, weak because position -3 is T where a purine is required and position +4 is A rather than G. The validator attributes the -3 base to the last bases of promoter.hsyn1, the element immediately 5' of the coding sequence, and calls it a promoter feature boundary rather than anything chosen for translation; only the +4 base comes from the payload. The warning is therefore a side effect of the neuron promoter this case must use, and it is a WARN, so the case still reports no failure at all, which is its expected outcome."
+      }
+    ],
     "input": {
       "transgene_name": "bla_beta_lactamase_orf",
       "transgene_sequence": "ATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
@@ -632,6 +682,16 @@
     "allowed_extra_fail": [],
     "expected_unknown": [
       "aav.promoter_tissue_match"
+    ],
+    "expected_warnings": [
+      {
+        "check": "aav.kozak_context",
+        "justification": "Measured: context GTTCCTATGG, position -3 is C where a purine is required, and the validator attributes that base to the last bases of itr.aav2_itr_left, because the initiator ATG now sits against the ITR instead of a promoter. The warning cannot be removed while the promoter is missing."
+      },
+      {
+        "check": "aav.minimum_genome_size",
+        "justification": "Measured: 1,509 bp, 491 bp under the 2,000 bp floor, because the removed promoter is 691 bp. It cannot be engineered away: the largest real payload available here is the 861 bp beta-lactamase reading frame and substituting it would still leave 1,965 bp, under the floor. That is the difference from the companion case aav.bad.no_polya, which removes only 225 bp, can be enlarged to clear the floor, and therefore declares no incidental warnings at all."
+      }
     ],
     "input": {
       "design_id": "aav-bad-no-promoter",
