@@ -145,5 +145,94 @@
         "hairpin_engine": "window"
       }
     }
+  },
+  {
+    "case_id": "assembly.good.a7.pcr_cloning_single_fragment",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "One fragment, one primer pair, 150 bp amplicon. The smallest complete design the capability accepts, and the baseline the pinned primer known-bad cases are built on: with one fragment there are no junctions, so checks 11 to 18 are omitted and the primer checks are isolated.",
+    "input": {
+      "request": {
+        "strategy": "pcr_cloning",
+        "fragments": [
+          {
+            "name": "frag",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.a8.pcr_cloning_single_fragment_puc19",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "The same shape over a different real record, a 150 bp slice of pUC19, so the clean primer verdict does not depend on the GC rich promoter records.",
+    "input": {
+      "request": {
+        "strategy": "pcr_cloning",
+        "fragments": [
+          {
+            "name": "frag",
+            "sequence": "CAAGGCGATTAAGTTGGGTAACGCCAGGGTTTTCCCAGTCACGACGTTGTAAAACGACGGCCAGTGAATTCGAGCTCGGTACCCGGGGATCCTCTAGAGTCGACCTGCAGGCATGCAAGCTTGGCGTAATCATGGTCATAGCTGTTTCCT",
+            "source": "pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), plus strand offset 330, 150 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.a9.gibson_cbh_and_puc19",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "A clean Gibson assembly joining a promoter record to a pUC19 slice, which is the real shape of the work: a regulatory part into a vector backbone.",
+    "input": {
+      "request": {
+        "strategy": "gibson",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "GCAGATTGTACTGAGAGTGCACCATATGCGGTGTGAAATACCGCACAGATGCGTAAGGAGAAAATACCGCATCAGGCGCCATTCGCCATTCAGGCTGCGCAACTGTTGGGAAGGGCGATCGGTGCGGGCCTCTTCGCTATTACGCCAGCT",
+            "source": "pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), plus strand offset 160, 150 bp",
+            "role": "vector"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.a10.golden_gate_bsai_into_puc19",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "A clean BsaI Golden Gate assembly of a promoter part into a pUC19 slice. The second Golden Gate pair in the Tier A set, with the vector role declared on the backbone fragment.",
+    "input": {
+      "request": {
+        "strategy": "golden_gate",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "CACAATTCCACACAACATACGAGCCGGAAGCATAAAGTGTAAAGCCTGGGGTGCCTAATGAGTGAGCTAACTCACATTAATTGCGTTGCGCTCACTGCCCGCTTTCCAGTCGGGAAACCTGTCGTGCCAGCTGCATTAATGAATCGGCCA",
+            "source": "pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), plus strand offset 500, 150 bp",
+            "role": "vector"
+          }
+        ],
+        "hairpin_engine": "window",
+        "enzyme": "BsaI"
+      }
+    }
   }
 ]

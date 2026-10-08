@@ -109,5 +109,55 @@
         "hairpin_engine": "window"
       }
     }
+  },
+  {
+    "case_id": "assembly.good.b5.gc_rich_promoter_primer",
+    "capability": "assembly",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "primer.gc_content",
+        "justification": "A primer sits outside the 40 to 60 percent GC window because this part of the CBh promoter record is GC rich, and the primer has to sit at the fragment boundary. The 40 to 60 percent window is a recommendation for typical primers, not a synthesis limit: the much wider 20 to 80 percent window is the one that describes what can actually be made and amplified. Promoters and other regulatory elements are frequently GC rich, so a validator that failed this would reject a large part of real regulatory cloning."
+      }
+    ],
+    "rationale": "A single real 150 bp fragment from a GC rich stretch of the CBh record. The one warning is composition that the target sequence dictates.",
+    "input": {
+      "request": {
+        "strategy": "pcr_cloning",
+        "fragments": [
+          {
+            "name": "frag",
+            "sequence": "GACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCTGAGCAAGAGGTAAGGGTTTAAGGGATGGTTGGTTGGTGGGGTATTAATGTTTAATTACCTGGAGCACCTGCCTGAAATCACTT",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 636, 150 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.b6.polya_homopolymer_run",
+    "capability": "assembly",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "primer.homopolymer",
+        "justification": "A primer carries a run of more than five identical bases because the bGH polyadenylation signal itself contains one. The run is in the part, not in the primer design: amplifying the real bGH polyA means amplifying its homopolymer. Long runs cause polymerase slippage and raise the synthesis error rate, which is a real risk and worth surfacing, but it is a property of the sequence being cloned, so WARN rather than FAIL is right."
+      }
+    ],
+    "rationale": "A single 150 bp fragment of the real bGH polyA record. The only warning comes from the part's own homopolymer run.",
+    "input": {
+      "request": {
+        "strategy": "pcr_cloning",
+        "fragments": [
+          {
+            "name": "frag",
+            "sequence": "CTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTG",
+            "source": "the bGH polyA record behind part polya.bgh, plus strand offset 0, 150 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
   }
 ]
