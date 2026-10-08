@@ -85,6 +85,26 @@ CAPABILITY_REGISTRY: dict[CapabilityKind, CapabilitySpec] = {
     # ==== WP-03: AAV. Only WP-03 writes here. ====
     # ==== /WP-03 ====
     # ==== WP-04: assembly. Only WP-04 writes here. ====
+    CapabilityKind.ASSEMBLY: CapabilitySpec(
+        kind=CapabilityKind.ASSEMBLY,
+        label="Assembly and primers",
+        description=(
+            "Primer and assembly design for Gibson, Golden Gate and simple PCR cloning: "
+            "nearest-neighbor melting temperatures with salt correction, secondary structure and "
+            "dimer checks, Golden Gate domestication, and an order table plus a bench protocol."
+        ),
+        request_schema="packages.core.schemas.assembly:AssemblyRequest",
+        result_schema="packages.core.schemas.assembly:AssemblyResponse",
+        generator="packages.generation.assembly.designer:AssemblyGenerator",
+        validator_ref="packages.validation.assembly.validator:build_validator",
+        design_model_ref="packages.core.schemas.assembly:AssemblyDesign",
+        api_route="/v1/assembly",
+        notes=(
+            "Section 7. A gold case input is an AssemblyDesign. Supplying only `request` lets the "
+            "deterministic designer compose the primers before validation, which is what a "
+            "fragment-level case wants; pinning `primers` targets a primer-level check directly."
+        ),
+    ),
     # ==== /WP-04 ====
     # ==== WP-05: guide RNA. Only WP-05 writes here. ====
     # ==== /WP-05 ====

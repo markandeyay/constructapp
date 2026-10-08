@@ -34,6 +34,7 @@ CAPABILITY_ROUTERS: tuple[RouterInclude, ...] = (
     # ==== WP-03: AAV. Only WP-03 writes here. ====
     # ==== /WP-03 ====
     # ==== WP-04: assembly. Only WP-04 writes here. ====
+    RouterInclude("assembly", "services.api.routes.assembly:router"),
     # ==== /WP-04 ====
     # ==== WP-05: guide RNA. Only WP-05 writes here. ====
     # ==== /WP-05 ====
