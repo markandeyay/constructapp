@@ -85,6 +85,21 @@ class AttributedSegment(CapabilityModel):
     rule: str | None = None
     detail: str | None = None
 
+    #: The bare id of the retrieved template, carried separately from `source`
+    #: for the same reason `part_id` is: so a verifier can look the record up
+    #: without parsing a token. Required, together with the source coordinates
+    #: below, before a template span can be verified rather than believed.
+    template_id: str | None = None
+
+    #: Where these bases sit inside the source record, when the source is a
+    #: record whose own coordinates differ from the span's. A registry part needs
+    #: none, because a part span is the whole part and is compared against the
+    #: whole record. A retrieved template span is a sub range of a much longer
+    #: record, so without these the bases could not be located and the claim
+    #: could only be taken on trust. Both or neither.
+    source_start: int | None = Field(default=None, ge=0)
+    source_end: int | None = Field(default=None, gt=0)
+
     @field_validator("source")
     @classmethod
     def source_not_blank(cls, value: str) -> str:
@@ -116,6 +131,37 @@ class AttributedSegment(CapabilityModel):
             raise ValueError(
                 "a registry_part segment must carry part_id so the record can be looked up "
                 "and compared base for base (section 11.1 item 2)"
+            )
+        return self
+
+    @model_validator(mode="after")
+    def source_coordinates_are_complete_and_consistent(self) -> AttributedSegment:
+        """One source coordinate without the other cannot locate anything.
+
+        The equal length requirement is what makes a mislabelled span detectable
+        at construction rather than believed at verification time: a span
+        claiming 300 bases of a template for 200 bases of output is rejected
+        here, so a verifier never has to decide what such a claim meant.
+        """
+        if (self.source_start is None) != (self.source_end is None):
+            raise ValueError(
+                f"segment ({self.start}, {self.end}) gives one source coordinate without the "
+                "other; a source range needs both ends or it cannot locate the bases"
+            )
+        if self.source_start is None or self.source_end is None:
+            return self
+        if self.source_end <= self.source_start:
+            raise ValueError(
+                f"source range ({self.source_start}, {self.source_end}) must satisfy "
+                "start < end (zero-based, end exclusive)"
+            )
+        produced = self.end - self.start
+        consumed = self.source_end - self.source_start
+        if produced != consumed:
+            raise ValueError(
+                f"segment ({self.start}, {self.end}) covers {produced:,} bp but claims "
+                f"{consumed:,} bp of {self.source!r}; a span must account for the same number "
+                "of bases on both sides or it cannot be verified"
             )
         return self
 

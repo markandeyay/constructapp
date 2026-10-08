@@ -8,6 +8,7 @@ import math
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
+from collections.abc import Callable, Mapping, Sequence
 from typing import Any, Literal
 from uuid import uuid4
 
@@ -28,7 +29,10 @@ from packages.application import (
     SessionStore,
 )
 from packages.application.designs import DesignStore, InMemoryDesignStore
-from packages.application.exports import export_annotated_sequence
+from packages.application.exports import export_annotated_sequence, export_screened_design
+from packages.application.screening import ExportBlocked, JsonlExportAuditLog, block_findings
+from packages.application.screening.adapters.plasmid import plasmid_subject
+from packages.validation.plasmid import VALIDATOR_VERSION as PLASMID_VALIDATOR_VERSION
 from packages.application.observability import (
     MetricsCollector,
     configure_logging,
@@ -39,7 +43,6 @@ from packages.application.observability import (
 )
 from packages.core.schemas import AnnotatedSequence, OutcomeReport
 from packages.generation.registry import ModelRegistry
-from services.api.routes import include_capability_routers
 
 
 MAX_PROMPT_LENGTH = 2_000
@@ -196,8 +199,22 @@ def create_app(
     model_registry: Any | None = None,
     rate_limiter: InMemoryRateLimiter | None = None,
     rate_limit_config: RateLimitConfig | None = None,
+    template_reader: Callable[[Sequence[str]], Mapping[str, str]] | None = None,
 ) -> FastAPI:
-    """Build the FastAPI app with injectable collaborators for tests."""
+    """Build the FastAPI app with injectable collaborators for tests.
+
+    `template_reader` maps retrieved template ids to those templates' full
+    sequences, and is what lets the section 11.1 gate verify a plasmid export
+    rather than record an unchecked claim about it. It is injected rather than
+    constructed here because reading the corpus needs the retrieval layer, which
+    this module does not depend on; `build_local_app` supplies one backed by the
+    real corpus.
+
+    With no reader, a plasmid export is refused rather than served unscreened. A
+    template claim that cannot be checked is UNKNOWN and UNKNOWN blocks, which is
+    section 3.3 constraint 4. A deployment that wants plasmid exports must supply
+    the reader that makes verifying them possible.
+    """
 
     configure_logging()
     logger = logging.getLogger("construct.api")
@@ -494,6 +511,24 @@ def create_app(
         design = designs.get(design_id)
         if design is None:
             raise _http_error(status.HTTP_404_NOT_FOUND, "design_not_found", "Design not found.")
+
+        # Section 11.1: screen before handing over the file. Unlike the three
+        # capability routes, there is nothing else in this response to return, so
+        # a refusal is a 409 rather than a 200 with the artifact withheld.
+        #
+        # Every span of a plasmid candidate names a corpus template and the
+        # coordinates of its bases inside that record, and the gate fetches the
+        # record and compares. A design with no spans, which includes every
+        # design stored before they were recorded, covers nothing and is refused:
+        # that is the intended direction, because the alternative is exporting
+        # sequence whose origin nothing states.
+        subject = plasmid_subject(
+            design.annotated_sequence,
+            design_id=design.design_id,
+            validator_version=PLASMID_VALIDATOR_VERSION,
+            sequence_spans=design.sequence_spans,
+            template_ids=design.template_ids,
+        )
         try:
             payload = export_annotated_sequence(design.annotated_sequence, format=format)
         except Exception as exc:
@@ -503,6 +538,38 @@ def create_app(
                 "The design export could not be prepared.",
                 retryable=True,
             ) from exc
+
+        template_sequences: Mapping[str, str] | None = None
+        if template_reader is not None and design.template_ids:
+            try:
+                template_sequences = template_reader(list(design.template_ids))
+            except Exception:  # noqa: BLE001 - a lookup failure must not become a pass
+                # Left as None, so the gate reports UNKNOWN and blocks. Swallowing
+                # the error into an allowed export is the one outcome that would
+                # be wrong here.
+                logger.exception("export_template_lookup_failed")
+                template_sequences = None
+        try:
+            export_screened_design(
+                subject,
+                format=format,
+                payloads={format: payload},
+                templates=template_sequences,
+                audit_log=JsonlExportAuditLog(),
+            )
+        except ExportBlocked as blocked:
+            reasons = list(blocked.record.blocked_reasons or [])
+            findings = block_findings(blocked)
+            raise _http_error(
+                status.HTTP_409_CONFLICT,
+                "export_blocked",
+                " ".join(reasons) if reasons else str(blocked),
+                # The summary says every problem is listed with its coordinates,
+                # so the problems travel with it rather than being named and then
+                # withheld.
+                details={"findings": findings} if findings else None,
+            ) from None
+
         media_type = "text/plain" if format == "fasta" else "application/genbank"
         suffix = "fasta" if format == "fasta" else "gb"
         return Response(
@@ -571,6 +638,14 @@ def create_app(
     # Each capability package registers itself there; without this call the
     # routers are declared but never served. Done here, after the plasmid routes
     # are defined, so a capability router cannot shadow an existing path.
+    # Imported here rather than at module scope to keep importing this module
+    # from triggering `services.api.__init__`, which imports this module back.
+    # That cycle is harmless under a normal import, because the package is in
+    # sys.modules by then, but it breaks when a loader executes this file
+    # directly: `pytest tests/services` alone fails on it. Deferring the import
+    # to call time removes the cycle without changing behaviour.
+    from services.api.routes import include_capability_routers
+
     included = include_capability_routers(app)
     logger.info("api_capability_routers_included", extra={"capabilities": included})
 
@@ -669,10 +744,15 @@ def _http_error(
     *,
     retryable: bool = False,
     headers: dict[str, str] | None = None,
+    details: dict[str, Any] | None = None,
 ) -> HTTPException:
+    """`details` carries extra structured context; the handler puts it in `details`."""
+    detail: dict[str, Any] = {"code": code, "message": message, "retryable": retryable}
+    if details:
+        detail.update(details)
     return HTTPException(
         status_code=status_code,
-        detail={"code": code, "message": message, "retryable": retryable},
+        detail=detail,
         headers=headers,
     )
 

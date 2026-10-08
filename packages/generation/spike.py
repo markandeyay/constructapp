@@ -324,6 +324,11 @@ def spike_result_as_dict(result: GenerationSpikeResult) -> dict[str, Any]:
             for item in result.retrieved_templates
         ],
         "recommendations": [item.model_dump(mode="json") for item in result.recommendations],
+        # Dumping the whole GeneratedSequence rather than picking fields is what
+        # carries sequence_spans through serialization. The spans are only useful
+        # downstream if they survive the hop into JSON intact, so this must stay a
+        # whole-model dump: naming fields here would silently drop any field added
+        # to the model later, and a dropped span reads as unattributed bases.
         "generated": result.generated.model_dump(mode="json"),
         "annotated_sequence": result.reannotated_sequence.model_dump(mode="json"),
         "validation_report": result.validation_report.model_dump(mode="json"),

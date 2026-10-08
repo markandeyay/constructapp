@@ -961,3 +961,54 @@ Gates: full suite 1545 passed 2 skipped, up from 1540; `make eval-capabilities`
 beats byte identical to the pre-gate baseline; web app typecheck, lint and build
 all exit 0. Both tamper checks confirm the new tests are not vacuous, including one
 that now fails for the missing-audit-log defect WP-13 found.
+
+## WP-15: verified provenance for the plasmid export path
+
+All four capabilities now screen before export. The plasmid path is gated, and
+unlike the other three its template attribution is verified against the corpus
+record rather than asserted: one changed base in a 4,245 bp candidate is refused,
+with the finding naming the template and the number of differing positions. Full
+report in `progress/WP-15.md`.
+
+WP-14 left this as a choice between leaving plasmid ungated and refusing every
+plasmid export, and named a third option without taking it. This package took the
+third: thread real spans from the generator, through persistence, into a plasmid
+adapter, and extend the provenance assertion to compare a template span against
+the record it names at the coordinates it claims.
+
+THE COMPARISON IS AGAINST THE LIVE CORPUS, not a copy stored with the design.
+  Storing the template's bases alongside the candidate would have made the lookup
+  free and the verification worthless, because it would compare the design against
+  a copy written at the same moment by the same code.
+
+THE READER'S ABSENCE REFUSES RATHER THAN PERMITS. A deployment with no corpus
+  reader cannot verify a template claim, so plasmid exports are refused there.
+  Serving them unscreened instead would be exactly the silent default that section
+  3.3 constraint 4 forbids. This also means every design stored before spans were
+  recorded is refused, which is the intended direction.
+
+DEFECT FOUND BY SELF CHECK of the delegated work: the Carbon generator's span
+  arithmetic was correct, but correct only because a function two calls away
+  normalized its input, and `normalize_dna` strips whitespace. Had that moved, the
+  span would have silently credited model written bases to a real record. The span
+  is now checked against the candidate before it is made: a prefix that does not
+  reproduce the record yields no span, which blocks. The value was right; what it
+  depended on was not acceptable on that path.
+
+BEHAVIOUR TIGHTENED: a retrieved template span used to be checked only for having
+  its token declared. It is now compared against its record, and a span with no id,
+  no coordinates, or no supplied record is UNKNOWN and blocks. Nothing relied on
+  the looser behaviour, which was checked first.
+
+PRE-EXISTING FRAGILITY FOUND AND FIXED: `pytest tests/services` alone failed to
+  collect, on pristine master too, confirmed by stashing. A module scope import
+  cycle between `services/api/app.py` and the package `__init__` broke the test
+  shim; the full suite only passed because an alphabetically earlier test imported
+  the module normally first. The import is now deferred into `create_app`.
+
+Gates: full suite 1559 passed 2 skipped, up from 1545; `make eval-capabilities`
+179 of 179 unchanged; `make eval-check` exit 0 with no regressions; all four demo
+beats byte identical to the original pre-gate baseline; web typecheck exit 0;
+corpus unchanged at 4,455 records. Cost 31.7 ms with a corpus lookup per export,
+8.3 ms with the template in memory, so the comparison is cheap and the database
+round trip is the cost. Caching was not invented here.

@@ -136,6 +136,32 @@ def test_generation_spike_pipeline_runs_end_to_end_with_fakes() -> None:
     ]
 
 
+def test_spike_result_dict_preserves_generated_sequence_spans() -> None:
+    # Serialization is where provenance is most easily lost, because the dict form
+    # is what crosses into the job queue and the API. Assert the spans arrive.
+    spec = DesignSpec(organism="Escherichia coli", vector_type="bacterial_cloning_vector")
+    pipeline = GenerationSpikePipeline(
+        parser=FakeIntentParser({"span request": spec}),
+        retriever=FakeRetriever([_template()]),
+        generator=FakeGenerator(),
+        reannotator=FakeReannotator(_annotated()),
+        constraint_engine=StubConstraintEngine(),
+    )
+
+    serialized = spike_result_as_dict(pipeline.run("span request"))
+
+    assert serialized["generated"]["sequence_spans"] == [
+        {
+            "start": 0,
+            "end": 400,
+            "source": "retrieved_template:curated:pUC19",
+            "source_id": "curated:pUC19",
+            "source_start": 0,
+            "source_end": 400,
+        }
+    ]
+
+
 def test_generation_spike_pipeline_optionally_generates_recommendations() -> None:
     spec = DesignSpec(organism="Escherichia coli", vector_type="bacterial_cloning_vector")
     template = _template()

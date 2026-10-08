@@ -112,6 +112,7 @@ def export_screened_design(
     backend: ScreeningBackend | None = None,
     policy: ScreeningPolicy | None = None,
     parts: dict[str, PartRecord] | None = None,
+    templates: Mapping[str, str] | None = None,
     audit_log: ExportAuditLog | None = None,
     now: Callable[[], datetime] = _utc_now,
 ) -> ScreenedExport:
@@ -140,6 +141,7 @@ def export_screened_design(
         backend=backend,
         policy=policy,
         parts=parts,
+        templates=templates,
         audit_log=audit_log,
         now=now,
     )

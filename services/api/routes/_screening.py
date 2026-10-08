@@ -32,11 +32,12 @@ three, so instead this module reports the decision and the route acts on it.
 
 from __future__ import annotations
 
+
 from typing import Any, Mapping
 
 from packages.application import export_screened_design
 from packages.application.exports import SUPPORTED_EXPORT_FORMATS
-from packages.application.screening import ExportBlocked, JsonlExportAuditLog
+from packages.application.screening import ExportBlocked, JsonlExportAuditLog, block_findings
 
 # The artifact keys that carry an orderable sequence record. Used only by the
 # capabilities whose exports ARE sequence records, which is AAV today.

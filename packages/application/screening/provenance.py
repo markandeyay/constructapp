@@ -37,14 +37,28 @@ one raised, so a blocked export can be fixed in one pass:
    registry, and its bases equal that record's sequence, forward or reverse
    complement. A span that claims a registry part but does not reproduce it is
    a modified element, not a curated one.
+7. Every `RETRIEVED_TEMPLATE` segment that carries source coordinates is
+   compared against the template record it names, base for base, at those
+   coordinates. This is the same standard check 6 applies to a registry part,
+   extended to a record the span covers only part of, which is why the segment
+   carries `source_start` and `source_end`: without them the bases could not be
+   located in the record and the claim could only be believed.
 
-Determinism (section 3.3 constraint 3): this is a pure function of the subject
-and the on-disk part registry. There is no randomness and no model call.
+   A template span whose record was not supplied, or which carries no source
+   coordinates, is `UNKNOWN` rather than a pass. Stated plainly because it is
+   the difference between a verified attribution and a recorded assertion: a
+   span saying "these bases came from template X" is evidence only once someone
+   has fetched X and looked.
+
+Determinism (section 3.3 constraint 3): this is a pure function of the subject,
+the on-disk part registry and the template sequences passed in. There is no
+randomness and no model call.
 """
 
 from __future__ import annotations
 
 from enum import Enum
+from typing import Mapping
 
 from pydantic import Field
 
@@ -164,10 +178,39 @@ def _registry_match(segment: AttributedSegment, bases: str, record: PartRecord) 
     )
 
 
+def _template_match(segment: AttributedSegment, bases: str, template: str) -> str | None:
+    """None when the bases reproduce the named template at the claimed coordinates.
+
+    Deliberately stricter than the registry comparison in one respect and looser
+    in another. Stricter: the coordinates must be inside the record, so a span
+    claiming bases past the end of its template is reported rather than silently
+    clamped by Python slicing. Looser: no reverse complement fallback, because a
+    template span records a copy from a specific orientation of a specific range,
+    and a range that matches only when flipped is not the range the span claims.
+    """
+    if segment.source_start is None or segment.source_end is None:
+        return None
+    if segment.source_end > len(template):
+        return (
+            f"claims bases ({segment.source_start}, {segment.source_end}) of template "
+            f"{segment.template_id!r}, which is only {len(template):,} bp long"
+        )
+    expected = template[segment.source_start : segment.source_end]
+    if bases == expected:
+        return None
+    differing = sum(1 for left, right in zip(bases, expected) if left != right)
+    return (
+        f"claims bases ({segment.source_start}, {segment.source_end}) of template "
+        f"{segment.template_id!r} but differs from that record in {differing:,} of "
+        f"{len(expected):,} positions; a modified template is not the template it names"
+    )
+
+
 def assert_provenance(
     subject: ExportSubject,
     *,
     parts: dict[str, PartRecord] | None = None,
+    templates: Mapping[str, str] | None = None,
 ) -> ProvenanceAssertion:
     """Run the section 11.1 item 1 assertion. Only `ATTRIBUTED` permits an export.
 
@@ -176,6 +219,19 @@ def assert_provenance(
     on-disk registry in `data/parts` is loaded; if that load fails the verdict
     is `UNKNOWN` with the loader's message, because a registry claim that
     cannot be checked is not a verified one.
+
+    `templates` maps a retrieved template id to that template's full sequence, so
+    a `RETRIEVED_TEMPLATE` span carrying source coordinates can be compared
+    against the record it names instead of being taken on trust. A span that
+    names a template absent from this mapping is UNKNOWN and blocks, on the same
+    reasoning as a missing registry: an unverifiable claim is not a verified one
+    (section 3.3 constraint 4).
+
+    A span with no source coordinates cannot be located in its record, so it
+    cannot be verified either. That is also UNKNOWN rather than a pass. The
+    distinction matters because the three capabilities wired before this one emit
+    template spans without coordinates nowhere, and user input spans everywhere,
+    and a user input span has nothing external to compare against by definition.
     """
     if not subject.sequences:
         return ProvenanceAssertion(
@@ -207,6 +263,8 @@ def assert_provenance(
     origins: list[SequenceOrigin] = []
     rules: list[str] = []
     needs_registry = False
+    needs_templates = False
+    unverifiable_templates: list[str] = []
 
     for item in subject.sequences:
         bases_checked += item.length_bp
@@ -234,6 +292,23 @@ def assert_provenance(
                 rules.append(segment.rule)
             if segment.origin is SequenceOrigin.REGISTRY_PART:
                 needs_registry = True
+            if segment.origin is SequenceOrigin.RETRIEVED_TEMPLATE:
+                needs_templates = True
+                # A template span that cannot be located in its record cannot be
+                # compared against it. Collected as an unverifiable claim rather
+                # than waved through: section 3.3 constraint 4.
+                if not (segment.template_id or "").strip() or segment.source_start is None:
+                    unverifiable_templates.append(
+                        f"segment ({segment.start}, {segment.end}) of {item.name!r} names "
+                        f"template source {segment.source!r} but carries "
+                        + (
+                            "no template id"
+                            if not (segment.template_id or "").strip()
+                            else "no source coordinates"
+                        )
+                        + ", so its bases could not be located in that record and the claim "
+                        "could not be verified"
+                    )
 
         checked = item.model_copy(update={"segments": in_range})
 
@@ -326,6 +401,74 @@ def assert_provenance(
                     )
                 )
 
+        # Template spans, compared against the records they name. Separate loop
+        # from the registry one above only because it needs a different record
+        # source; the standard applied is the same, which is that a span naming a
+        # record must reproduce that record at the coordinates it claims.
+        if templates is not None:
+            for segment in in_range:
+                if segment.origin is not SequenceOrigin.RETRIEVED_TEMPLATE:
+                    continue
+                template_id = (segment.template_id or "").strip()
+                if not template_id or segment.source_start is None:
+                    continue  # already collected as unverifiable above
+                record_sequence = templates.get(template_id)
+                if record_sequence is None:
+                    unverifiable_templates.append(
+                        f"segment ({segment.start}, {segment.end}) of {item.name!r} claims "
+                        f"template {template_id!r}, whose record was not supplied to the "
+                        "assertion, so its bases could not be compared against it"
+                    )
+                    continue
+                mismatch = _template_match(segment, checked.bases(segment), record_sequence)
+                if mismatch is not None:
+                    findings.append(
+                        AttributionFinding(
+                            sequence_name=item.name,
+                            kind="retrieved_template_mismatch",
+                            start=segment.start,
+                            end=segment.end,
+                            message=(
+                                f"segment ({segment.start}, {segment.end}) of {item.name!r} "
+                                f"{mismatch}. Section 11.1 item 1."
+                            ),
+                        )
+                    )
+
+    if needs_templates and templates is None:
+        return ProvenanceAssertion(
+            verdict=AssertionVerdict.UNKNOWN,
+            sequences_checked=len(subject.sequences),
+            bases_checked=bases_checked,
+            bases_attributed=0,
+            origins_used=origins,
+            rules_applied=rules,
+            findings=findings,
+            reason=(
+                "this design claims bases from a retrieved template, but no template records "
+                "were supplied to the assertion, so those claims could not be verified against "
+                "the records they name. Section 3.3 constraint 4: this is UNKNOWN, not a pass, "
+                "and the export is blocked."
+            ),
+        )
+
+    if unverifiable_templates:
+        return ProvenanceAssertion(
+            verdict=AssertionVerdict.UNKNOWN,
+            sequences_checked=len(subject.sequences),
+            bases_checked=bases_checked,
+            bases_attributed=0,
+            origins_used=origins,
+            rules_applied=rules,
+            findings=findings,
+            reason=(
+                f"{len(unverifiable_templates)} template claim(s) could not be verified: "
+                + "; ".join(unverifiable_templates)
+                + ". Section 3.3 constraint 4: an unverified claim is UNKNOWN, not a pass, and "
+                "the export is blocked."
+            ),
+        )
+
     if needs_registry and registry is None:
         return ProvenanceAssertion(
             verdict=AssertionVerdict.UNKNOWN,
@@ -376,7 +519,8 @@ def assert_provenance(
             f"every one of {bases_checked:,} bp across {len(subject.sequences)} sequence(s) is "
             "covered by a span naming a curated registry part, a retrieved template, a user "
             "supplied input or a named rule, each source is in the design's recorded provenance, "
-            "and every registry span reproduces its registry record base for base."
+            "every registry span reproduces its registry record base for base, and every "
+            "template span reproduces the named template at the coordinates it claims."
         ),
     )
 

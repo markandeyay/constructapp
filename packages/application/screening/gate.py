@@ -162,6 +162,7 @@ def screen_design(
     backend: ScreeningBackend | None = None,
     policy: ScreeningPolicy | None = None,
     parts: dict[str, PartRecord] | None = None,
+    templates: Mapping[str, str] | None = None,
 ) -> ScreeningRecord:
     """Run the three section 11.1 steps that precede the audit entry.
 
@@ -173,7 +174,7 @@ def screen_design(
     active_policy = policy or DEFAULT_POLICY
     active_backend: ScreeningBackend = backend or NoExternalScreeningBackend()
 
-    provenance = assert_provenance(subject, parts=parts)
+    provenance = assert_provenance(subject, parts=parts, templates=templates)
     composition = assert_registry_only_composition(subject, parts=parts)
     screening = run_screening_backend(active_backend, subject)
 
@@ -223,6 +224,7 @@ def evaluate_export(
     backend: ScreeningBackend | None = None,
     policy: ScreeningPolicy | None = None,
     parts: dict[str, PartRecord] | None = None,
+    templates: Mapping[str, str] | None = None,
     audit_log: ExportAuditLog | None = None,
     now: Callable[[], datetime] = utc_now,
 ) -> tuple[ScreeningRecord, ExportAuditEntry]:
@@ -232,7 +234,7 @@ def evaluate_export(
     block is reported, so there is no path that produces an export decision
     without a record of it (section 11.1 item 4).
     """
-    record = screen_design(subject, backend=backend, policy=policy, parts=parts)
+    record = screen_design(subject, backend=backend, policy=policy, parts=parts, templates=templates)
     entry = build_entry(
         capability=subject.capability,
         design_id=subject.design_id,
@@ -278,6 +280,7 @@ def screen_and_export(
     backend: ScreeningBackend | None = None,
     policy: ScreeningPolicy | None = None,
     parts: dict[str, PartRecord] | None = None,
+    templates: Mapping[str, str] | None = None,
     audit_log: ExportAuditLog | None = None,
     now: Callable[[], datetime] = utc_now,
 ) -> ScreenedExport:
@@ -295,6 +298,7 @@ def screen_and_export(
         backend=backend,
         policy=policy,
         parts=parts,
+        templates=templates,
         audit_log=audit_log,
         now=now,
     )
@@ -322,3 +326,22 @@ __all__ = [
     "screen_and_export",
     "screen_design",
 ]
+
+
+def block_findings(blocked: ExportBlocked) -> list[str]:
+    """The per span problems behind a refusal, as messages carrying coordinates.
+
+    The provenance assertion's summary reason ends with "every problem is listed
+    in findings with its coordinates", and until this existed nothing put those
+    findings in front of a caller, so the summary named a detail the API never
+    returned. A researcher told that 3,075 bp of 3,802 bp are unattributable
+    still has to be told which 3,075.
+
+    Defensive attribute access throughout: this runs on the error path, and a
+    helper that raises while explaining a refusal would replace a clear 409 with
+    an opaque 500.
+    """
+    record = getattr(blocked, "record", None)
+    provenance = getattr(record, "provenance", None)
+    findings = list(getattr(provenance, "findings", None) or [])
+    return [finding.message for finding in findings if getattr(finding, "message", None)]

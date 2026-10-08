@@ -49,12 +49,27 @@ class GenerationDesignJobHandler:
                 "retrieved_templates": [],
                 "recommendations": [],
                 "recommendation_text": None,
+                # Kept in the clarification shape too so both branches return the
+                # same keys: a caller reading the result should not have to know
+                # which branch produced it to know which keys exist.
+                "template_ids": [],
+                "sequence_spans": [],
             }
         serialized = spike_result_as_dict(result)
+        # Taken from the typed candidate rather than from `serialized`, because the
+        # spans have to reach the store as SequenceSpan objects: round-tripping
+        # them through the dict would hand the store unvalidated JSON.
+        # DesignPipeline only promises `run() -> Any`, so a pipeline that exposes
+        # no candidate records no attribution rather than a guessed one.
+        generated = getattr(result, "generated", None)
+        template_ids = list(generated.parent_template_ids) if generated is not None else []
+        sequence_spans = list(generated.sequence_spans) if generated is not None else []
         design = self.design_store.create(
             session_id=session_id,
             job_id=job_id,
             annotated_sequence=result.reannotated_sequence,
+            template_ids=template_ids,
+            sequence_spans=sequence_spans,
         )
         return {
             "design_id": design.design_id,
@@ -65,6 +80,11 @@ class GenerationDesignJobHandler:
             "retrieved_templates": serialized["retrieved_templates"],
             "recommendations": serialized["recommendations"],
             "recommendation_text": _recommendation_text(serialized["recommendations"]),
+            # The job result is the only form of this design most callers ever
+            # see, so the attribution travels with it instead of being readable
+            # only out of the design store.
+            "template_ids": template_ids,
+            "sequence_spans": [span.model_dump(mode="json") for span in sequence_spans],
         }
 
 

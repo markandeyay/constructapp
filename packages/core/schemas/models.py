@@ -237,10 +237,72 @@ class RetrievalResult(SchemaModel):
         return self
 
 
+class SequenceSpan(SchemaModel):
+    """Where one half open span of a generated sequence came from.
+
+    This exists so the section 11.1 provenance gate can be told not merely which
+    template a candidate was grounded in, but which bases of the candidate came
+    from which bases of that template. The second part is what makes the claim
+    checkable: a gate holding only a template id can confirm that an id was
+    recorded, while a gate holding coordinates can fetch the named record and
+    compare the bases.
+
+    `start` and `end` index the generated sequence. `source_start` and
+    `source_end` index the source record. The two ranges are required to be the
+    same length, which is what makes a mislabelled span detectable rather than
+    merely wrong: a span claiming 300 bases of a template for 200 bases of
+    output is rejected when it is constructed, not silently believed.
+
+    `source` is the provenance token, for example `retrieved_template:<id>`, and
+    must be a token the design also records in its own provenance. `source_id` is
+    the bare id, carried separately so a verifier can look the record up without
+    parsing the token.
+
+    Bases with no span are not an error here. They are unattributed, and the gate
+    blocks on them. A generator that splices in sequence of its own invention
+    should emit no span for those bases rather than inventing a source for them.
+    """
+
+    start: int = Field(ge=0)
+    end: int = Field(gt=0)
+    source: str = Field(min_length=1)
+    source_id: str = Field(min_length=1)
+    source_start: int = Field(ge=0)
+    source_end: int = Field(gt=0)
+
+    @model_validator(mode="after")
+    def spans_ordered_and_equal_length(self) -> SequenceSpan:
+        if self.end <= self.start:
+            raise ValueError(
+                f"span ({self.start}, {self.end}) must satisfy start < end "
+                "(zero-based, end exclusive)"
+            )
+        if self.source_end <= self.source_start:
+            raise ValueError(
+                f"source span ({self.source_start}, {self.source_end}) must satisfy "
+                "start < end (zero-based, end exclusive)"
+            )
+        produced = self.end - self.start
+        consumed = self.source_end - self.source_start
+        if produced != consumed:
+            raise ValueError(
+                f"span ({self.start}, {self.end}) covers {produced:,} bp but claims "
+                f"{consumed:,} bp of {self.source!r}; a span must account for the same "
+                "number of bases on both sides or it cannot be verified"
+            )
+        return self
+
+
 class GeneratedSequence(SchemaModel):
     annotated_sequence: AnnotatedSequence
     model_version: str = Field(min_length=1)
     parent_template_ids: list[str] = Field(default_factory=list)
+
+    #: Section 11.1. Per span attribution of the generated bases, empty when the
+    #: generator records none. An empty list is not a claim that the sequence is
+    #: unattributable, it is the absence of a claim, and the gate treats it as
+    #: such: nothing is covered, so nothing may be exported.
+    sequence_spans: list[SequenceSpan] = Field(default_factory=list)
 
 
 class OutcomeReport(SchemaModel):

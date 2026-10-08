@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from collections.abc import Callable, Mapping, Sequence
 from typing import Any
 
 import psycopg
@@ -58,7 +59,31 @@ def build_local_app() -> FastAPI:
         job_queue=queue,
         design_store=stores["design_store"],
         outcome_store=stores["outcome_store"],
+        template_reader=_build_template_reader(config.database_url),
     )
+
+
+def _build_template_reader(database_url: str) -> Callable[[Sequence[str]], Mapping[str, str]]:
+    """Read the full sequence of named corpus templates, for the section 11.1 gate.
+
+    This is what turns a plasmid export from a recorded claim into a verified one.
+    The gate holds a span saying which bases of the candidate came from which
+    bases of a named template, and it needs the template itself to compare
+    against. The corpus keeps the whole sequence of every record it holds, so the
+    comparison is against the actual source and not against a copy stored next to
+    the design, which would be comparing the design to itself.
+
+    A template this returns nothing for is not a pass: the gate reports UNKNOWN
+    for the claim it could not check and the export is blocked.
+    """
+    repository = PostgresRetrievalRepository(database_url)
+
+    def read(template_ids: Sequence[str]) -> Mapping[str, str]:
+        return {
+            plasmid.id: plasmid.sequence for plasmid in repository.get_plasmids(list(template_ids))
+        }
+
+    return read
 
 
 def _run_app_migrations() -> None:

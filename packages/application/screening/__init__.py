@@ -66,6 +66,7 @@ from .composition import (
     assert_registry_only_composition,
 )
 from .gate import (
+    block_findings,
     DECISION_BLOCKED,
     DECISION_EXPORTED,
     DEFAULT_POLICY,
@@ -123,6 +124,7 @@ __all__ = [
     "SequenceOrigin",
     "assert_provenance",
     "assert_registry_only_composition",
+    "block_findings",
     "default_audit_log_path",
     "evaluate_export",
     "run_screening_backend",

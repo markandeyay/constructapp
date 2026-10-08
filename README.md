@@ -38,7 +38,7 @@ Designs are composed only from curated parts, and every base is attributable. Th
 
 A provenance gate is implemented and tested on top of that. It requires every base of a design to trace to a curated part record, a retrieved template, a user supplied input or a named published rule, verified span by span against the actual part records; it blocks an export outright rather than warning, and a check it cannot evaluate blocks as well rather than passing by default. It also carries a documented interface for a sequence screening backend and an append-only export audit log that records what was exported, when, the validator version and the screening result.
 
-**Stated precisely, because the distinction matters: the gate is wired into three of the four capabilities, not all four.** These routes screen every response before returning it:
+**All four capabilities screen before export.** Every one of these routes runs the gate on its response before returning it, and appends one audit entry per outcome, allowed or blocked:
 
 | Endpoint | Export screened | Recorded format |
 |---|---|---|
@@ -46,10 +46,19 @@ A provenance gate is implemented and tested on top of that. It requires every ba
 | `POST /v1/assembly/design` | the primer order table, in both renderings | `csv` |
 | `POST /v1/assembly/order-table.csv` | the same table, as a download | `csv` |
 | `POST /v1/grna/design` | the guide table and the oligo order table | `tsv` |
+| `GET /v1/designs/{id}/export` | the stored plasmid record | `genbank` or `fasta` |
 
-A design whose bases all trace is returned with its artifacts. A design carrying an unattributable span is returned with its validation report intact but with those artifacts withheld and a reason naming the coordinates and the size of the span, because the gate blocks the export rather than the design. The one exception is `POST /v1/assembly/order-table.csv`, which exists only to hand over the table and so answers a refusal with a 409 carrying the reason. One audit entry is appended for every outcome, allowed or blocked.
+A design whose bases all trace is returned with its artifacts. A design carrying an unattributable span is returned with its validation report intact but with those artifacts withheld and a reason naming the coordinates and the size of the span, because the gate blocks the export rather than the design. Two routes exist only to hand over a file and so answer a refusal with a 409 carrying the reason and the per span findings: the assembly CSV endpoint and the plasmid export endpoint.
 
-**The plasmid export path is not screened, and the reason is architectural rather than pending work.** `GET /v1/designs/{design_id}/export` serves a stored `AnnotatedSequence`, which carries a sequence, a topology and features, and nothing that says which base came from which source; the stored `DesignRecord` carries no template identity either. The gate verifies attribution span by span against the actual source records, so screening this path would mean either asserting an attribution nothing has verified, which would make the audit log state a verified result that was never verified, or refusing every plasmid export. Neither is acceptable as a silent default. What is missing, and what it would take, is recorded in `progress/WP-14.md`.
+### What "verified" means here, and where it stops
+
+The distinction worth being precise about is between an attribution the system *records* and one it *checks*.
+
+For the AAV, assembly and guide RNA capabilities, a span naming a curated registry part is compared against the record in `data/parts` base for base, so a modified element is caught and rejected as not a curated one. A span naming the user's own submitted sequence has nothing external to compare against, by definition: the bases are the user's and the record of them is the request.
+
+For a plasmid, the candidate is grounded in a retrieved corpus template, so its bases do have an external record and the corpus keeps it. Each stored plasmid span therefore carries the coordinates of its bases inside that template, and at export the gate fetches the named corpus record and compares. Changing a single base of a 4,245 bp candidate is enough to be refused, with the finding naming the template and the number of differing positions. This is the only capability whose template attribution is verified rather than asserted, because it is the only one whose source records are retained in full.
+
+A claim the gate cannot check is never a pass. A plasmid export whose template record is unavailable, or whose design records no spans at all, is refused: an unverifiable claim is UNKNOWN, and UNKNOWN blocks. That includes every design stored before spans were recorded. A deployment must supply the corpus reader that makes verification possible in order to serve plasmid exports at all, which is deliberate.
 
 The audit log is append-only JSON Lines at `data/audit/export_audit.jsonl`, overridable with `CONSTRUCT_EXPORT_AUDIT_LOG`. It is runtime state and is not committed.
 

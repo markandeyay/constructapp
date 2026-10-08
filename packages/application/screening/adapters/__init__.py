@@ -110,7 +110,12 @@ def subject_for_design(design: Any, **kwargs: Any) -> ExportSubject:
 #: Capabilities an adapter exists for. A capability absent from this set cannot
 #: pass the gate, and `progress/WP-08.md` records why for each one.
 ADAPTED_CAPABILITIES = frozenset(
-    {CapabilityKind.AAV, CapabilityKind.ASSEMBLY, CapabilityKind.GUIDE_RNA}
+    {
+        CapabilityKind.AAV,
+        CapabilityKind.ASSEMBLY,
+        CapabilityKind.GUIDE_RNA,
+        CapabilityKind.PLASMID,
+    }
 )
 
 __all__ = [
