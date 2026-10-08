@@ -784,3 +784,35 @@ WHY IT WAS NOT WIRED NOW instead of disclosed. Wiring the gate into the export
 FOR THE PITCH. Say "designs are composed only from curated parts and every base
   is attributable", which is true and demonstrable from any design's provenance
   list. Do not say exports are screened or logged.
+
+## The provenance gate was run against the real demo design. It passes.
+
+Measured by the orchestrator, driving the actual gate over the actual cassette
+the Saturday demo produces (lacZ from JF300162.1 with EFS and bGH, 3,802 bp):
+
+    allowed             True
+    blocked_reasons     none
+    provenance verdict  attributed, 3,802 of 3,802 bases
+    composition verdict satisfied
+    screening outcome   no_external_screening_ran
+
+**Every base of the demo cassette traces to a curated registry part or to the
+user's own supplied transgene**, verified span by span against the part records
+rather than asserted. That is a demonstrable fact about the design on screen and
+it needs no wiring to be true: the provenance list is in the design response and
+the UI shows it.
+
+CONSEQUENCE FOR THE WIRING DECISION. The gate is not merely implemented, it
+  succeeds on the designs the product actually produces. So wiring it into the
+  capability export routes is a small integration rather than a risky unknown,
+  and the earlier concern that it might block a working design does not apply to
+  AAV. It remains unwired for now because it is route level work across three
+  capabilities, because the plasmid capability still cannot satisfy it until
+  `parent_template_ids` reaches the design store, and because the demo is two
+  days out and the tree is green. It is the first thing to do afterwards, and it
+  is now a known quantity rather than a guess.
+
+WHAT MAY BE SAID ON SATURDAY, unchanged by any of this: designs are composed only
+  from curated parts and every base is attributable. Both halves are true today
+  and the second is demonstrable live by opening the provenance panel. Nothing
+  about screening or logging may be claimed.
