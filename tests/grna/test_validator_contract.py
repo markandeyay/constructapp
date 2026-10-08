@@ -122,17 +122,38 @@ class TestRegistryWiring:
         assert "/v1/grna/validate" in paths
         assert "/v1/grna/reference" in paths
 
-    def test_other_regions_are_untouched(self) -> None:
-        """WP-05 writes only in its own region (section 13.1)."""
+    def test_each_region_holds_only_its_own_capability(self) -> None:
+        """No package wrote outside its own delimited region (section 13.1).
+
+        Before the Wave 2 merge this asserted that the WP-03 and WP-04 regions
+        were empty, which held only while this branch was the sole capability in
+        the tree. After the sequenced merge all three regions are populated by
+        design, so the durable invariant is containment rather than emptiness:
+        each region mentions its own capability and no other package's.
+        """
         from pathlib import Path
 
         text = Path("packages/core/capability_registry.py").read_text(encoding="utf-8")
-        aav = text.split("# ==== WP-03: AAV. Only WP-03 writes here. ====")[1].split(
-            "# ==== /WP-03 ====")[0]
-        assembly = text.split("# ==== WP-04: assembly. Only WP-04 writes here. ====")[1].split(
-            "# ==== /WP-04 ====")[0]
-        assert aav.strip() == ""
-        assert assembly.strip() == ""
+
+        def region(start: str, end: str) -> str:
+            return text.split(start)[1].split(end)[0].lower()
+
+        aav = region(
+            "# ==== WP-03: AAV. Only WP-03 writes here. ====", "# ==== /WP-03 ===="
+        )
+        assembly = region(
+            "# ==== WP-04: assembly. Only WP-04 writes here. ====", "# ==== /WP-04 ===="
+        )
+        guide_rna = region(
+            "# ==== WP-05: guide RNA. Only WP-05 writes here. ====", "# ==== /WP-05 ===="
+        )
+
+        # Each region is the only place its own capability is registered, and no
+        # region reaches into another package's territory.
+        assert "guide_rna" not in aav and "assembly" not in aav
+        assert "guide_rna" not in assembly and "aav" not in assembly
+        assert "aav" not in guide_rna and "assembly" not in guide_rna
+        assert "guide_rna" in guide_rna
 
 
 class TestDeterminism:

@@ -39,6 +39,7 @@ from packages.application.observability import (
 )
 from packages.core.schemas import AnnotatedSequence, OutcomeReport
 from packages.generation.registry import ModelRegistry
+from services.api.routes import include_capability_routers
 
 
 MAX_PROMPT_LENGTH = 2_000
@@ -565,6 +566,13 @@ def create_app(
                 for prompt in prompts
             ]
         )
+
+    # Mount the capability routers declared in the section 13.3 router block.
+    # Each capability package registers itself there; without this call the
+    # routers are declared but never served. Done here, after the plasmid routes
+    # are defined, so a capability router cannot shadow an existing path.
+    included = include_capability_routers(app)
+    logger.info("api_capability_routers_included", extra={"capabilities": included})
 
     return app
 

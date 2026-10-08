@@ -233,3 +233,42 @@ WP-03 to WP-06: AAV gold cases go in tests/gold/aav/. The registry design_model 
 WP-03 to WP-07: the AAV result panel needs the linear_map_json artifact (topology is always "linear", every element has start, end and fraction_of_cassette) and the length_budget artifact. Do not reuse the circular seqviz renderer, per sections 6.8 and 10.2. GET /v1/aav/parts populates the promoter and polyA selectors.
 WP-03 to the owner of services/api/app.py: the AAV router is registered in the WP-03 region of services/api/routes/__init__.py but is still not served, because include_capability_routers(app) is not called from create_app. Same request WP-02 filed.
 Q7 on-target model for gRNA: a faithful published model was achievable, so one shipped. Rule Set 1 (Nat Biotechnol 2014;32(12):1262-1267, doi:10.1038/nbt.3026, PMID 25184501), coefficients read from a reference implementation fetched during the build and verified byte identical, pinned by test against values computed with that implementation. Outside its stated validity domain the score is withheld and a clearly labeled heuristic ranks the guides. Off-target uses the MIT specificity score (Nat Biotechnol 2013;31(9):827-832, doi:10.1038/nbt.2647, PMID 23873081), weights read the same way, withheld for SaCas9 and Cas12a because it was derived from SpCas9 data.
+
+## Orchestrator rulings on Wave 2 spec challenges
+
+RULING 1, WP-05's tenth check `grna.off_target_hits`: ACCEPTED as 8.6-mandated,
+  not invented. Section 6.4 says in terms "These are the checks. Do not add an
+  invented one", and WP-03 was held to exactly fourteen. Section 8.5 carries no
+  such sentence, and section 8.6 specifies FAIL, WARN and PASS conditions for
+  off-target findings. `ValidationReport` is the only place a severity can live,
+  so without this check a dangerous off-target could not move `overall`, which
+  would defeat the purpose of 8.6. The check is documented as deriving from 8.6.
+
+RULING 2, author surnames in citations: ACCEPTED. Section 3.3 constraint 6 and
+  section 2.2 forbid personal names, but section 2.2 scopes that to "any personal
+  name in code comments, docstrings, or AUTHORS-style files" in the context of
+  stripping the previous branding, and Appendix E itself writes "Doench and
+  colleagues", "Hsu and colleagues", "Engler and colleagues" and "Gibson and
+  colleagues". The specification therefore uses author attribution for scientific
+  citation as a matter of course. Appendix E also requires that a coefficient be
+  read rather than recalled, and that claim is unauditable unless the code names
+  the file and symbol the values were read from. So: scientific citations and
+  third-party identifier names stay; no shipped model name, user-facing message
+  or payload carries a surname, which WP-05 already ensured and tested.
+
+INTEGRATION REPAIRS by the orchestrator, none of them capability logic:
+  1. `pytest.ini` added with importlib import mode. The merge produced duplicate
+     test module basenames (tests/aav and tests/assembly each had test_checks,
+     test_constants and test_outputs), which broke collection. The alternative,
+     adding __init__.py per test directory, would put tests/ on sys.path where
+     tests/services/ shadows the real services namespace package.
+  2. `tests/grna/test_validator_contract.py` region test rewritten. It asserted
+     the WP-03 and WP-04 registry regions were EMPTY, true only while feat/grna
+     was the sole capability in the tree. Now asserts the durable section 13.1
+     invariant: each region holds its own capability and reaches into no other.
+  3. `services/api/app.py` now calls `include_capability_routers(app)`. WP-02 and
+     WP-03 both filed this as a cross-WP request and nobody owned it. Without it
+     the capability routers were registered and never served. Verified
+     behaviourally: /v1/aav/parts, /v1/assembly/checks and /v1/grna/reference all
+     return 200.
+  4. `.gitattributes` marks PROGRESS.md as union merge, per section 0.4.
