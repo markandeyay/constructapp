@@ -87,10 +87,39 @@
       },
       "total": 29,
       "unknown_check_reports": 6
+    },
+    {
+      "accuracy": 1.0,
+      "capability": "plasmid",
+      "correct": 88,
+      "disagreements": [],
+      "known_bad": {
+        "accuracy": 1.0,
+        "correct": 52,
+        "total": 52
+      },
+      "known_good": {
+        "accuracy": 1.0,
+        "correct": 36,
+        "total": 36
+      },
+      "malformed": 0,
+      "tier_a": {
+        "accuracy": 1.0,
+        "correct": 25,
+        "total": 25
+      },
+      "tier_b": {
+        "accuracy": 1.0,
+        "correct": 11,
+        "total": 11
+      },
+      "total": 88,
+      "unknown_check_reports": 0
     }
   ],
-  "correct": 91,
+  "correct": 179,
   "disagreement_count": 0,
   "gold_root": "tests/gold",
-  "total": 91
+  "total": 179
 }

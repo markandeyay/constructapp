@@ -80,6 +80,11 @@ EXPECTED_CAPABILITIES: dict[str, str] = {
     "aav": "aav",
     "assembly": "assembly",
     "grna": "guide_rna",
+    # Plasmid pre-dates the shared contract and reaches the runner through the
+    # adapter in packages.validation.plasmid. It is listed here, not left to
+    # directory discovery, so that losing tests/gold/plasmid/ reports a
+    # capability with zero cases instead of quietly reporting three.
+    "plasmid": "plasmid",
 }
 
 # Severity order used to recompute overall (section 5.4 rule 1). UNKNOWN is not
