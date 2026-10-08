@@ -55,6 +55,12 @@
   "rationale": "The forward primer is a real 22 bp slice that folds back on itself with a stem that includes its own 3' terminus. A 3' stem is the damaging case, because it sequesters the base the polymerase has to extend from, so the primer does not prime at all rather than merely competing with annealing. That is why section 7.5 check 6 is FAIL for a 3' stem past the hard threshold and WARN for an internal one, and primer.hairpin is the only check that folds a primer against itself. primer.self_dimer also WARNs, over a 16 bp overlap ending at the forward primer's own 3' terminus, and it is declared here because it cannot be separated from the defect: a 3' hairpin is intramolecular self complementarity, and the same self complementary bases read between two copies of the oligo are an extendable self dimer. The two checks measure one physical property in two geometries, so any input that fails primer.hairpin on a 3' stem will draw this warning as well. primer.hairpin is the only FAIL in the report. Engine note, added when the window stem thresholds were recalibrated: this case is pinned to the ViennaRNA engine rather than to the sliding window fallback, because the defect it asserts is a free energy claim and only the free energy engine can evaluate it as one. The forward primer GACTTTCCATTGACGTCAATGG folds to a 6 bp stem closing a 4 nt loop with its 3 prime end base paired, measured at -3.90 kcal/mol under the DNA parameter set, which is past the -3.0 failure level, so the failure this case expects is real and is reported for the reason named. The recalibrated window fallback reports the same stem as a warning rather than a failure, which is deliberate: a 6 bp 3 prime stem passes -3.0 almost always at 22 nt but only about half the time at 60 nt, and a failure the primary engine would contradict half the time is not a failure. The fallback remains covered by the other assembly cases, which stay pinned to it.",
   "must_also_report": [],
   "allowed_extra_fail": [],
+  "expected_warnings": [
+   {
+    "check": "primer.self_dimer",
+    "justification": "Measured: frag_F pairs with itself over 16 bp ending at its own 3' terminus, against a limit of 3 bp. Inseparable from the defect in principle and not merely in practice: a 3' hairpin is intramolecular self complementarity, and the same bases read between two copies of the oligo are an extendable self dimer, so any input that fails primer.hairpin on a 3' stem draws this warning too. primer.hairpin remains the only FAIL."
+   }
+  ],
   "input": {
    "request": {
     "strategy": "pcr_cloning",
@@ -102,6 +108,12 @@
   "rationale": "The forward and reverse primers are complementary across their 3' ends, so the two oligos anneal to each other and each extends on the other. The product is primer dimer, which consumes the primers and the polymerase and competes with the real template, and it amplifies exponentially because it carries both priming sites. primer.hetero_dimer is the only check that aligns the two primers of a pair against each other with the 3' end weighted, which is what section 7.4 says matters, so it is the check that must catch this. Both primers are real slices. One further check WARNs and is declared here: primer.tm_in_range, because the forward primer is 18 bp and melts at 54.9 C, 5.1 C under the 60.0 C target and so outside the 57.0 to 63.0 C window, though well inside the 10 C band that would make it a FAIL. That is a property of the slice chosen to put the two 3' ends in register rather than a second defect, and primer.hetero_dimer is the only check that aligns the pair against each other. No check FAILs.",
   "must_also_report": [],
   "allowed_extra_fail": [],
+  "expected_warnings": [
+   {
+    "check": "primer.tm_in_range",
+    "justification": "Measured: frag_F at 54.9 C, 5.1 C under the 60.0 C target and so outside the 57.0 to 63.0 C window, though well inside the 10 C band that would make it a FAIL. That is a property of the 18 bp slice chosen to put the two 3' ends in register, not a second defect, and no check in this report FAILs."
+   }
+  ],
   "input": {
    "request": {
     "strategy": "pcr_cloning",
@@ -377,6 +389,12 @@
   "rationale": "One overhang is pinned to AATT, which is its own reverse complement. A palindromic overhang anneals to a second copy of itself, so the fragment can be ligated in either orientation and half the product is inverted. The two overhangs in this assembly are distinct, so gg.overhang_uniqueness passes and cannot catch it: self complementarity is a different property from collision, which is why section 7.5 lists checks 15 and 16 separately. The all AT composition of AATT also draws the check 17 warning, which is a WARN and leaves this case with exactly one failure.",
   "must_also_report": [],
   "allowed_extra_fail": [],
+  "expected_warnings": [
+   {
+    "check": "gg.overhang_composition",
+    "justification": "Measured: the frag_b to frag_a overhang AATT is all A and T, so it also draws the section 7.5 check 17 warning. It is the same four pinned bases the palindrome is made of, reported against a different property, and it is a WARN, so gg.overhang_not_palindromic stays the only failure."
+   }
+  ],
   "input": {
    "request": {
     "strategy": "golden_gate",
@@ -525,6 +543,12 @@
   "rationale": "One terminal homology arm is pinned to 6 bp, against a 15 to 40 bp window. Gibson assembly works by chewing back the 5' ends with an exonuclease and letting the single stranded overhangs anneal at 50 C; a 6 bp overhang does not hold at that temperature, so the junction simply does not form and nothing assembles. gibson.overlap_length is the check that must catch it, and section 7.5 makes it FAIL rather than WARN because the reaction does not work at all. The low melting temperature of the same 6 bp arm also draws the check 12 warning, which is a true consequence and is a WARN.",
   "must_also_report": [],
   "allowed_extra_fail": [],
+  "expected_warnings": [
+   {
+    "check": "gibson.overlap_tm",
+    "justification": "Measured: the frag_b to frag_a overlap melts at -3.9 C, 51.9 C under the 48.0 C floor. It is the same 6 bp arm the length check fails on, so the warning is an arithmetic consequence of the length under test. The negative Celsius value is a known message artifact of extrapolating the nearest-neighbor model below its validity range, recorded in WP-06 section 10.6 and owned by WP-04; the gold data here is correct either way."
+   }
+  ],
   "input": {
    "request": {
     "strategy": "gibson",
@@ -795,6 +819,20 @@
   "rationale": "The fragment is 11,135 bp, over the 10,000 bp ceiling that the standard high fidelity polymerase protocol is documented to. An amplicon this long needs a long range polymerase, a longer extension time and a different protocol, and attempting it with the default program gives either no product or a smear. assembly.amplicon_size is the only check that measures the expected product length, so it is the one that must catch it, and it is a WARN because a long amplicon is achievable with the right enzyme rather than impossible. The fragment is a concatenation of whole real records already in this repository, assembled only to reach a length past the ceiling without inventing a single base; the EF1A record appears twice, in the interior only, so that both primer binding regions stay unique and primer.specificity_in_template is not the check that fires. Three primer checks WARN as well, and they are declared here rather than left implicit. The primers are pinned to the two ends of the concatenation, so their composition is whatever those real records happen to carry and could not be tuned without moving the ends and changing the length this case is about: primer.tm_in_range on the forward primer at 65.6 C, 5.6 C from the 60.0 C target; primer.pair_tm_delta at 6.8 C between 65.6 C and 58.8 C; and primer.gc_content on both, 61% forward and 38% reverse, just outside the 40% to 60% window. None of them is a FAIL and none of them concerns product length, so assembly.amplicon_size remains the only check that measures the defect and the only non-pass check that is not a side effect of where the primers had to sit.",
   "must_also_report": [],
   "allowed_extra_fail": [],
+  "expected_warnings": [
+   {
+    "check": "primer.tm_in_range",
+    "justification": "Measured: frag_F at 65.6 C, 5.6 C from the 60.0 C target. The primers are pinned to the two ends of the 11,135 bp concatenation and cannot be moved without changing the length this case is about, so their composition is whatever those real records carry."
+   },
+   {
+    "check": "primer.pair_tm_delta",
+    "justification": "Measured: 6.8 C between frag_F at 65.6 C and frag_R at 58.8 C, over the 5.0 C limit. An arithmetic consequence of where the two primers had to sit, not a second defect."
+   },
+   {
+    "check": "primer.gc_content",
+    "justification": "Measured: frag_F at 61% and frag_R at 38%, just outside the 40% to 60% window. None of these three concerns product length, so assembly.amplicon_size remains the only check that measures the defect."
+   }
+  ],
   "input": {
    "request": {
     "strategy": "pcr_cloning",
@@ -818,6 +856,16 @@
   "rationale": "One primer is a GC rich real 18 bp slice whose melting temperature is more than 10 C above the 60.0 C target. The binding region TGGCCCGCCTGGCTGACC is 14 of 18 bases G or C, 78% GC, and melts at 71.9 C, which is 11.9 C over target. Section 7.5 check 1 grades this in two bands: outside 3 C is a WARN, because a few degrees is recoverable by changing the annealing temperature, and more than 10 C is a FAIL, because no single annealing temperature can serve this primer and the rest of the assembly at the same time. This case pins the FAIL band; the pair_tm_delta case above pins the WARN band of a neighbouring check, so the two together show the grading is real rather than cosmetic. Two further checks WARN, and both are arithmetic consequences of the same 71.9 C primer rather than separate defects, so they are stated here rather than left for a reader to find: primer.gc_content at 78%, over the 60% ceiling, and primer.pair_tm_delta at 12.5 C against the 59.4 C reverse primer. Neither can be removed without removing the defect, because at 18 bp a primer cannot reach 11.9 C above target without being GC rich, and it cannot sit 11.9 C from target while staying within 5.0 C of a reverse primer that is on target. The reverse primer is the same 20 bp pUC19 slice at offset 330 that the hairpin and hetero-dimer cases use, and at 59.4 C and 45% GC it is itself inside every window, so both warnings are attributable to the forward primer alone.",
   "must_also_report": [],
   "allowed_extra_fail": [],
+  "expected_warnings": [
+   {
+    "check": "primer.gc_content",
+    "justification": "Measured: frag_F at 78%, over the 60% ceiling. It cannot be removed without removing the defect: at 18 bp a primer cannot reach 11.9 C above the 60.0 C target without being GC rich."
+   },
+   {
+    "check": "primer.pair_tm_delta",
+    "justification": "Measured: 12.5 C between frag_F at 71.9 C and frag_R at 59.4 C. Arithmetic from the same primer: one sitting 11.9 C from target cannot also stay within 5.0 C of a reverse primer that is on target. frag_R is the same 20 bp pUC19 slice at offset 330 used by the hairpin and hetero-dimer cases and is itself inside every window, so both warnings are attributable to the forward primer alone."
+   }
+  ],
   "input": {
    "request": {
     "strategy": "pcr_cloning",

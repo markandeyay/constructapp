@@ -15,6 +15,7 @@ Known-bad case (section 9.3)::
       "rationale": "...",
       "must_also_report": ["remediation_suggestion"],
       "allowed_extra_fail": [],
+      "expected_warnings": [{"check": "aav.kozak_context", "justification": "..."}],
       "input": {}
     }
 
@@ -23,7 +24,18 @@ A known-bad case is correct only when ALL of these hold:
 1. the report overall severity equals ``expect_overall``;
 2. the check named by ``expect_check`` is present and reports ``expect_severity``;
 3. no OTHER check reports FAIL (unless listed in ``allowed_extra_fail``);
-4. every ``must_also_report`` entry is satisfied (see ``_must_report``).
+4. every ``must_also_report`` entry is satisfied (see ``_must_report``);
+5. if and only if ``expected_warnings`` is present, the incidental WARN set equals
+   the declared set exactly (see ``_judge_bad``).
+
+``expected_warnings`` on a known-bad case is OPTIONAL. Omitting the key asserts
+nothing about warnings, which is how every case behaved before the key existed.
+Including it (even as an empty list) makes the assertion exact in both
+directions: an undeclared warning that fires is a disagreement, and a declared
+warning that stops firing is a disagreement. The first catches drift in the
+validator, the second catches drift in the case, and only the pair of them keeps
+a rationale's isolation claim honest. The shape is Tier B's shape, so authors
+learn one format.
 
 Known-good case (sections 3.4 and 9.2)::
 
@@ -234,7 +246,7 @@ def judge_case(case: dict[str, Any], report: Any, source: str = "") -> CaseOutco
 
     if has_tier:
         return _judge_good(case, case_id, source, declared, by_id, warns, fails, unknown, allowed_unknown, problems)
-    return _judge_bad(case, case_id, source, report, checks, declared, by_id, fails, unknown, problems)
+    return _judge_bad(case, case_id, source, report, checks, declared, by_id, warns, fails, unknown, problems)
 
 
 def _judge_good(
@@ -301,10 +313,29 @@ def _judge_bad(
     checks: list[tuple[str, str, Any]],
     declared: str,
     by_id: dict[str, str],
+    warns: list[str],
     fails: list[str],
     unknown: list[str],
     problems: list[str],
 ) -> CaseOutcome:
+    """Judge a known-bad case against its report.
+
+    Four assertions, the fourth optional. ``expected_warnings`` has the Tier B
+    shape, a list of ``{"check": id, "justification": text}`` with a non-empty
+    justification on every entry, and the same exact-match semantics: when the
+    key is present the set of WARN check ids must equal the declared set, so a
+    warning that fires undeclared and a declared warning that stops firing are
+    both disagreements. When the key is absent nothing about warnings is
+    asserted, which is the pre-existing behaviour and remains correct for a case
+    with no incidental warnings.
+
+    The check named by ``expect_check`` is NEVER part of that WARN set, whatever
+    ``expect_severity`` says. Assertion 2 already pins the named check's
+    severity, so a case expecting a WARN there does not declare it twice, and
+    listing the named check in ``expected_warnings`` is a malformed case rather
+    than a tolerated duplicate. ``expected_warnings`` therefore means precisely
+    "the incidental warnings, the ones the case is not about".
+    """
     expect_overall = str(case.get("expect_overall", "")).lower()
     expect_check = case.get("expect_check")
     expect_severity = str(case.get("expect_severity", "")).lower()
@@ -347,6 +378,46 @@ def _judge_bad(
             "(the case may be failing for the wrong reason)"
         )
 
+    # Assertion 4 (optional): the incidental WARN set, exact when declared.
+    warn_clause = "; WARN not asserted (no 'expected_warnings' key)"
+    if "expected_warnings" in case:
+        documented: list[str] = []
+        entries = case.get("expected_warnings")
+        if not isinstance(entries, list):
+            problems.append(
+                "malformed case: 'expected_warnings' must be a list of "
+                "{'check': id, 'justification': text}"
+            )
+            entries = []
+        for entry in entries:
+            if not isinstance(entry, dict) or not entry.get("check") or not entry.get("justification"):
+                problems.append(
+                    "malformed case: each expected_warnings entry needs a 'check' id and a non-empty "
+                    "'justification'; a declared warning with no reason records nothing"
+                )
+            elif str(entry["check"]) == expect_check:
+                problems.append(
+                    f"malformed case: expected_warnings must not list the named check {expect_check}; "
+                    f"expect_severity already asserts it, and expected_warnings covers only the "
+                    "incidental warnings"
+                )
+            else:
+                documented.append(str(entry["check"]))
+        incidental = [cid for cid in warns if cid != expect_check]
+        want = sorted(set(documented))
+        missing = [cid for cid in want if cid not in incidental]
+        unexpected_warn = [cid for cid in incidental if cid not in want]
+        if missing or unexpected_warn:
+            problems.append(
+                "incidental WARN set does not match 'expected_warnings': "
+                f"declared {{{', '.join(want) or 'none'}}}, "
+                f"reported {{{', '.join(incidental) or 'none'}}}"
+                + (f"; declared but NOT reported: {', '.join(missing)}" if missing else "")
+                + (f"; reported but NOT declared: {', '.join(unexpected_warn)}" if unexpected_warn else "")
+                + f" (the WARN set must match exactly; the named check {expect_check} is excluded)"
+            )
+        warn_clause = f"; WARN exactly on {{{', '.join(want) or 'none'}}} besides {expect_check}"
+
     # Optional: required report content.
     for item in must:
         if not _must_report(report, checks, item):
@@ -355,6 +426,7 @@ def _judge_bad(
     expected = (
         f"overall={expect_overall}; {expect_check}={expect_severity}; no other FAIL"
         + (f" except {', '.join(extra_allowed)}" if extra_allowed else "")
+        + warn_clause
     )
     shown = {cid: by_id[cid] for cid in sorted(by_id) if by_id[cid] != "pass"}
     actual = f"overall={declared}; {expect_check}={actual_for_check}; non-pass checks={shown or '{}'}"

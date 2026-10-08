@@ -122,6 +122,115 @@ def test_must_also_report():
     assert runner.judge_case(sev_form, rep(chk("aav.packaging_limit", "fail"), chk("aav.x", "warn"))).correct
 
 
+# ---- known-bad: the optional expected_warnings assertion -------------------
+#
+# The tests above prove the runner catches a case failing for the wrong reason.
+# These prove it catches a case WARNING for an undeclared reason, and a case
+# whose declared warning has quietly stopped firing.
+
+
+def test_bad_case_without_the_key_is_unaffected_by_any_warning():
+    # No 'expected_warnings' key: warnings are not asserted at all, exactly as before.
+    report = rep(chk("aav.packaging_limit", "fail"), chk("aav.kozak_context", "warn"), chk("aav.internal_repeats", "warn"))
+    out = runner.judge_case(bad_case(), report)
+    assert out.correct, out.problems
+    assert "WARN not asserted" in out.expected
+
+
+def test_bad_case_declared_warning_set_matching_exactly_agrees():
+    case = bad_case(expected_warnings=[{"check": "aav.kozak_context", "justification": "GGCAAAATGA, +4 is A"}])
+    out = runner.judge_case(case, rep(chk("aav.packaging_limit", "fail"), chk("aav.kozak_context", "warn")))
+    assert out.correct, out.problems
+    assert "WARN exactly on {aav.kozak_context}" in out.expected
+
+
+def test_bad_case_undeclared_warning_that_fires_is_a_disagreement():
+    # The validator grew a warning the case never claimed: drift in the validator.
+    case = bad_case(expected_warnings=[{"check": "aav.kozak_context", "justification": "GGCAAAATGA, +4 is A"}])
+    report = rep(
+        chk("aav.packaging_limit", "fail"),
+        chk("aav.kozak_context", "warn"),
+        chk("aav.internal_repeats", "warn"),
+    )
+    out = runner.judge_case(case, report)
+    assert not out.correct
+    text = " | ".join(out.problems)
+    assert "reported but NOT declared: aav.internal_repeats" in text
+    assert "declared {aav.kozak_context}" in text
+    assert "reported {aav.internal_repeats, aav.kozak_context}" in text
+    assert "declared but NOT reported" not in text
+
+
+def test_bad_case_declared_warning_that_does_not_fire_is_a_disagreement():
+    # The thresholds moved and the warning stopped firing: drift in the case.
+    case = bad_case(expected_warnings=[{"check": "primer.hairpin", "justification": "5 bp stem on a composed primer"}])
+    out = runner.judge_case(case, rep(chk("aav.packaging_limit", "fail")))
+    assert not out.correct
+    text = " | ".join(out.problems)
+    assert "declared but NOT reported: primer.hairpin" in text
+    assert "reported {none}" in text
+
+
+def test_bad_case_declaring_no_incidental_warnings_asserts_isolation():
+    # An empty list is a real claim: this case is isolated. A warning then breaks it.
+    case = bad_case(expected_warnings=[])
+    assert runner.judge_case(case, rep(chk("aav.packaging_limit", "fail"))).correct
+    out = runner.judge_case(case, rep(chk("aav.packaging_limit", "fail"), chk("aav.kozak_context", "warn")))
+    assert not out.correct
+    assert any("reported but NOT declared: aav.kozak_context" in p for p in out.problems)
+
+
+def test_bad_case_named_check_expecting_warn_is_not_declared_twice():
+    # expect_severity already pins the named check, so the WARN set excludes it.
+    case = bad_case(expect_overall="warn", expect_severity="warn", expected_warnings=[])
+    assert runner.judge_case(case, rep(chk("aav.packaging_limit", "warn"))).correct
+    with_incidental = bad_case(
+        expect_overall="warn",
+        expect_severity="warn",
+        expected_warnings=[{"check": "aav.kozak_context", "justification": "native initiation context"}],
+    )
+    assert runner.judge_case(
+        with_incidental, rep(chk("aav.packaging_limit", "warn"), chk("aav.kozak_context", "warn"))
+    ).correct
+
+
+def test_bad_case_declaring_the_named_check_is_malformed():
+    case = bad_case(
+        expect_overall="warn",
+        expect_severity="warn",
+        expected_warnings=[{"check": "aav.packaging_limit", "justification": "the defect under test"}],
+    )
+    out = runner.judge_case(case, rep(chk("aav.packaging_limit", "warn")))
+    assert not out.correct
+    assert any("must not list the named check aav.packaging_limit" in p for p in out.problems)
+
+
+def test_bad_case_expected_warning_entry_needs_a_non_empty_justification():
+    no_reason = bad_case(expected_warnings=[{"check": "aav.kozak_context"}])
+    blank = bad_case(expected_warnings=[{"check": "aav.kozak_context", "justification": ""}])
+    report = rep(chk("aav.packaging_limit", "fail"), chk("aav.kozak_context", "warn"))
+    for case in (no_reason, blank):
+        out = runner.judge_case(case, report)
+        assert not out.correct
+        assert any("non-empty 'justification'" in p for p in out.problems)
+
+
+def test_bad_case_expected_warnings_must_be_a_list():
+    out = runner.judge_case(bad_case(expected_warnings={"check": "a", "justification": "b"}), rep(chk("aav.packaging_limit", "fail")))
+    assert not out.correct
+    assert any("'expected_warnings' must be a list" in p for p in out.problems)
+
+
+def test_bad_case_warning_assertion_is_independent_of_the_fail_assertions():
+    # A FAIL elsewhere and an undeclared WARN are reported as two separate problems.
+    case = bad_case(expected_warnings=[])
+    report = rep(chk("aav.packaging_limit", "fail"), chk("aav.element_order", "fail"), chk("aav.kozak_context", "warn"))
+    out = runner.judge_case(case, report)
+    text = " | ".join(out.problems)
+    assert "unexpected FAIL" in text and "aav.element_order" in text
+    assert "reported but NOT declared: aav.kozak_context" in text
+
+
 # ---- known-good tiering ---------------------------------------------------
 
 
