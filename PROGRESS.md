@@ -505,3 +505,42 @@ NOTE for the assembly demo beat: an arbitrary pair of 400 bp promoter slices
   produces overall FAIL, which is correct behaviour and not a defect, because
   nothing about two random slices makes a good Gibson pair. The runbook needs
   fragments chosen to assemble cleanly. Routed to WP-11.
+
+## Operational findings that affect Saturday
+
+DOCKER ENGINE WEDGED, FIXED. Docker Desktop's Linux engine began returning
+  "500 Internal Server Error" from its named pipe for every container API call,
+  including `docker ps`, `docker compose ps` and `scripts/check_services.py`.
+  Nothing in this build caused it and nothing in this build can prevent it.
+  Fix that worked, in one command: `docker desktop restart`. The engine came back
+  immediately. The containers were stopped by the restart, so follow it with
+  `docker compose up -d --wait`. The corpus survived in its volume.
+  This belongs in the runbook's "if it breaks" section and it is in WP-11's brief.
+
+CORPUS STATE, recorded precisely because it is inconsistent. The background
+  expansion ingest kept running after it was last observed and grew the corpus
+  from 194 records to 1,298. Embeddings were generated when the corpus was 194,
+  so 1,298 plasmid records now sit alongside 194 embeddings.
+  Measured consequence: none that breaks a gate. `make eval-check` exits 0 with
+  all three halves passing, 91 of 91 capability gold cases agreeing and plasmid
+  validation accuracy 1.0, because the unembedded records are invisible to
+  semantic retrieval.
+  Deliberately NOT remediated, with the reasoning recorded so the next person can
+  disagree: running `make embed-corpus` would embed the remaining 1,104 records
+  and add that many semantic distractors to a retrieval task whose gold set was
+  designed against a corpus of about 82. That would probably lower retrieval
+  ranking and force another baseline reset, two days before a demo, in exchange
+  for tidiness rather than correctness. The present state is honest and every
+  gate passes on it.
+  If anyone does run `make embed-corpus`, expect retrieval metrics to move and
+  expect the regression check to need a fresh baseline. Do not do it on Saturday
+  morning.
+
+PORT 55432, repeated here because it is the single most likely cold start
+  failure. A native postgresql-x64-18 Windows service owns 5432 on this machine
+  and has no `plasmid` role. The gitignored `.env` already sets POSTGRES_PORT to
+  55432 and the connection URLs to match. `.env.example` still documents 5432,
+  which is correct for a machine without that conflict. Regenerating `.env` from
+  the example on THIS machine reintroduces the failure, which presents as a
+  Postgres authentication error rather than a connection refusal, because the
+  native service answers and then rejects the credentials.
