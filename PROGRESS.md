@@ -859,3 +859,32 @@ README CORRECTION CAUGHT BEFORE IT SHIPPED. The updated table first carried
   capability's re-grade. Measured and corrected to 11 and 5. Every row now adds
   up and the headline figure, the known-good total and the known-bad total are
   all checked against the table programmatically rather than by eye.
+
+## Correction: the corpus is 4,455 records, not 1,298, and why
+
+The background expansion ingest recorded earlier as having grown the corpus to
+1,298 records had NOT finished. It was still running, and was found nearly twenty
+hours after it started with 1,085 seconds of CPU consumed, still inserting. It
+has been stopped.
+
+Final state: **4,455 plasmid records against 194 embeddings.** The earlier figure
+of 1,298 was a snapshot of a process still in flight and is superseded.
+
+MEASURED CONSEQUENCE, which is the part that matters: none that breaks a gate.
+  The full suite was run against this corpus and `make eval-check` still exits 0
+  with all three halves passing, including the regression thresholds. Semantic
+  retrieval is unaffected because the 4,261 unembedded records have no vectors,
+  and the retrieval gold targets were already present and embedded.
+
+STILL DELIBERATELY NOT REMEDIATED, same reasoning as before and now better
+  evidenced. Running `make embed-corpus` would embed 4,261 further records and
+  add that many semantic distractors to a retrieval task whose gold set was built
+  against a corpus of about 82. It would also take a long time on CPU. Deleting
+  them would be destroying real retrieved records to improve a cosmetic number.
+  The present state is honest, every gate passes on it, and it is documented.
+
+LESSON WORTH KEEPING: a long running background job was started and then reasoned
+  about from a single snapshot of its output, and that snapshot was written into
+  the build record as though it were a final state. The job then ran for another
+  nineteen hours. Check that a background job has actually exited before
+  recording what it produced.
