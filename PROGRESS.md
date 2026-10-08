@@ -5,6 +5,7 @@ WP-00 CLAIMED by orchestrator at 2026-10-07T00:00:00Z
 WP-01 CLAIMED by wp01-rebrand at 2026-10-07T00:00:00Z
 WP-02 CLAIMED by wp02-contract at 2026-10-07T22:48:16Z
 WP-09 CLAIMED by wp09-harness at 2026-10-07T22:48:59Z
+WP-03 CLAIMED by wp03-aav at 2026-10-07T23:30:00Z
 
 ## Done
 WP-00 DONE by orchestrator at 2026-10-07T00:00:00Z
@@ -34,6 +35,10 @@ WP-02 DONE by wp02-contract at 2026-10-07T23:17:37Z
   Contract, capability registry (with WP-03/04/05 regions) and router block, 14 real GenBank-sourced AAV parts (1 omitted: polya.synthetic_short), shared sequence utilities.
   Full suite 520 passed 2 skipped. Detail and provenance table in progress/WP-02.md and data/parts/PROVENANCE.md.
 
+WP-03 DONE by wp03-aav at 2026-10-08T01:05:00Z
+  Section 6 complete: all 14 section 6.4 checks, the banded limit, the section 6.6 remediation engine, section 6.7 composition, linear map, length budget, GenBank and FASTA.
+  Full suite 924 passed 2 skipped (baseline was 520/2); tests/aav 404 passed; eval-capabilities exit 0. Detail in progress/WP-03.md.
+
 ## Blocked
 BLOCKED worktree checkout in C:\Users\yalam\constructapp denied by the local
   permission classifier. Build proceeds in a scratchpad clone that shares the
@@ -49,6 +54,12 @@ The immutable spec file itself contains the old names (lines 17, 248, 251, 270, 
 WP-02: CheckResult gained one optional field `remediation: list[str] | None = None` at the coordinator's instruction, because sections 6.5, 6.6 and 9.3 require structured remediation that section 5.1 has no field for.
 WP-02: .gitignore edited (not a WP-02 file) to un-ignore data/parts/, because data/* is ignored and the registry could not be committed otherwise.
 WP-02: section 4.3 example shows tissue_specificity null for CMV; ubiquitous promoters ship with the explicit value "ubiquitous" to match the AAVRequest target_tissue vocabulary.
+
+WP-03: section 6.7 step 2 reads "the user's preference if given and compatible", which could mean silently substituting an incompatible promoter. The composer keeps the stated promoter_preference, records why in AAVDesign.notes, and lets aav.promoter_tissue_match report the WARN that section 6.4 check 8 exists to produce; silently discarding a stated choice would hide the mistake the check is for.
+WP-03: section 6.4 lists aav.packaging_limit and aav.sc_capacity separately, so check 1 always measures against the single stranded band and check 7 against the halved one. That way the section 9.4 case of an scAAV cassette sized legally for ssAAV reports exactly one FAIL, on the check that names the reason, which the gold harness requires.
+WP-03: aav.internal_repeats scopes itself to the region between the ITRs. The two AAV2 reference ITRs share their 125 bp hairpin core verbatim (right equals reverse complement of D plus the same core), so the ITR pair of every correct cassette is an exact 125 bp direct repeat and counting it would WARN on every valid design, which section 3.4 calls worse than no validator. Checks 2, 3 and 14 police the ITR relationship instead.
+WP-03: section 9.3 writes must_also_report: ["remediation_suggestion"], but the field WP-02 added is named remediation and CheckResult forbids extra fields, so a gold case must use ["remediation"] or the object form. Noted for WP-06.
+WP-03: section 6.3 allows resolving a transgene by name, but this build has no transgene corpus and validators must not need a database, so the composer refuses with a message naming the fix rather than producing a placeholder sequence that would be exported as orderable DNA. AAVComposer(transgene_resolver=...) is the hook.
 
 ## Cross-WP requests
 (none yet)
@@ -161,3 +172,6 @@ only under the weaker assertion its own harness makes. Closing the gap needs a
 validator adapter plus a conversion of 88 existing cases to the new case format.
 That is real work and it is not started. Recorded for an operator decision
 rather than attempted unilaterally late in the build.
+WP-03 to WP-06: AAV gold cases go in tests/gold/aav/. The registry design_model is AAVValidationInput, which accepts either a full AAVDesign cassette (needed for the order, missing ITR, tandem ITR and CDS cases) or an AAVRequest (more readable for the packaging limit cases). Assert remediation with must_also_report: ["remediation"], not "remediation_suggestion"; the field is named remediation. Remediation is carried on aav.packaging_limit and aav.sc_capacity only.
+WP-03 to WP-07: the AAV result panel needs the linear_map_json artifact (topology is always "linear", every element has start, end and fraction_of_cassette) and the length_budget artifact. Do not reuse the circular seqviz renderer, per sections 6.8 and 10.2. GET /v1/aav/parts populates the promoter and polyA selectors.
+WP-03 to the owner of services/api/app.py: the AAV router is registered in the WP-03 region of services/api/routes/__init__.py but is still not served, because include_capability_routers(app) is not called from create_app. Same request WP-02 filed.
