@@ -1,3 +1,5 @@
+> Historical design or research note, kept for the record and not current. Current truth lives in `README.md`, `docs/demo.md` and `PROGRESS.md`.
+
 # Phase 2 Fine-Tune Run V1 Preflight
 
 - Date: 2026-06-10

@@ -42,3 +42,18 @@ rather than hiding: lacZ begins ATGACC, so the base after the start codon is A
 where a G is preferred, and the Kozak context is weak. That is a property of the
 real gene, not of this tool, and the validator says how to fix it. Section 3.4 is
 exactly the argument that a warning with an explanation is the product.
+
+# Demo guide RNA target: beta-lactamase region of pUC19
+
+`grna_target_bla_pUC19.txt` is the 950 bp target sequence of gold case
+`grna.good.a1.spcas9_forward_bla_guide` in `tests/gold/grna/tier_a.json`, a real
+beta-lactamase region. Pasted into the Guide RNA tab with SpCas9, Knockout and
+the target-and-construct-only search space, it returns 10 of 216 enumerated
+guides with overall PASS, and the off-target statement names 950 bp and says it
+is not genome-wide.
+
+# Demo assembly pair
+
+The two Gibson fragments in `docs/demo.md` are the fragments of gold case
+`assembly.good.a1.gibson_two_fragments` in `tests/gold/assembly/tier_a.json`,
+plus strand slices of the CBh and CMV promoter records. Overall PASS, 15 checks.

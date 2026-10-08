@@ -1,3 +1,5 @@
+> Historical research note. For what is implemented, see `progress/WP-08.md`.
+
 # Track J — Biosecurity & compliance — findings
 
 ## Scope

@@ -64,6 +64,9 @@ WP-08 DONE by wp08-screening at 2026-10-08T02:40:00Z
 WP-06 DONE by wp06-gold at 2026-10-08T03:05:00Z
   Gold sets for all three new capabilities: 91 cases, 30 Tier A, 16 Tier B, 45 known-bad, every known-bad case naming the check that must catch it. make eval-capabilities 91/91 agree, 0 disagreements, exit 0, and still exit 0 with CAPABILITY_GOLD_REQUIRE=1 so no capability is silently uncovered.
   Full suite unchanged at 1370 passed, 2 skipped. Sequences are slices of data/parts and of pUC19 GenBank L09137.1; one synthetic gRNA target and every synthetic edit is declared in its own rationale. Four uses of allowed_extra_fail, each a genuine two-check cascade, all listed in progress/WP-06.md.
+WP-11 DONE by wp11-demo at 2026-10-08T15:28:17Z
+  Runbook rewritten, historical banners added, all four capabilities walked in a browser with evidence in docs/demo_evidence.
+  Full gate green: make test, eval-all, eval-check, demo, web build, lint, e2e. Details in progress/WP-11.md.
 
 ## Blocked
 BLOCKED worktree checkout in C:\Users\yalam\constructapp denied by the local

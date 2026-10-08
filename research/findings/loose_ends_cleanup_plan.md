@@ -1,3 +1,5 @@
+> Historical design or research note, kept for the record and not current. Current truth lives in `README.md`, `docs/demo.md` and `PROGRESS.md`.
+
 # Loose Ends Cleanup Plan
 
 Scope: `PROGRESS.md` at `b8df563` on branch `cleanup-loose-ends`. Phase 2 fine-tuning execution items are excluded from actionable cleanup because they remain intentionally spend-gated.
