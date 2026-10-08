@@ -443,5 +443,344 @@
         }
       ]
     }
+  },
+  {
+    "case_id": "aav.bad.neuron_promoter_with_liver_target",
+    "capability": "aav",
+    "expect_overall": "warn",
+    "expect_check": "aav.promoter_tissue_match",
+    "expect_severity": "warn",
+    "rationale": "A liver-targeted vector driven by the hSyn1 promoter, which is neuron specific. The cassette is 2,437 bp, structurally perfect and comfortably inside the packaging band, so no length or structural check sees anything: this is precisely the design error section 6.2 says no length check will catch. The transgene would simply not be expressed in hepatocytes. aav.promoter_tissue_match is the check that must catch it, comparing the part's tissue_specificity annotation with the requested target_tissue, and the severity is WARN because the designer, not the registry, knows the intended cell type. The payload is the complete 861 bp beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), ATG through TAA, whose native initiation context also warns; that is a WARN, so the case still reports no failure at all, which is the expected outcome.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "transgene_name": "bla_beta_lactamase_orf",
+      "transgene_sequence": "ATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "liver",
+      "promoter_preference": "promoter.hsyn1",
+      "polya_preference": "polya.bgh",
+      "include_wpre": true
+    }
+  },
+  {
+    "case_id": "aav.bad.long_internal_direct_repeat",
+    "capability": "aav",
+    "expect_overall": "warn",
+    "expect_check": "aav.internal_repeats",
+    "expect_severity": "warn",
+    "rationale": "A 60 bp stretch of the reading frame is duplicated in frame immediately after itself, so the cassette carries a 60 bp direct repeat between the ITRs while the coding sequence stays a clean open reading frame: the duplication is a whole number of codons and adds no stop, so aav.cds_integrity still passes and cannot catch it. Direct repeats above 20 bp recombine during vector production, which deletes the intervening sequence and yields a mixed, partly truncated preparation. aav.internal_repeats is the only check that looks for repeated substrings inside the cassette, so it is the one that must catch it. The duplication is a deliberate synthetic edit to a real frame.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "design_id": "aav-bad-internal-repeat",
+      "transgene_name": "orf405_duplicated_60bp",
+      "target_tissue": "cns_astrocyte",
+      "serotype": "AAV2",
+      "self_complementary": false,
+      "elements": [
+        {
+          "role": "itr_5",
+          "name": "AAV2 left ITR",
+          "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+          "part_id": "itr.aav2_itr_left"
+        },
+        {
+          "role": "promoter",
+          "name": "GFAP promoter",
+          "sequence": "GATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGCAAGCT",
+          "part_id": "promoter.gfap"
+        },
+        {
+          "role": "cds",
+          "name": "orf405 with a 60 bp in-frame duplication",
+          "sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+          "source": "pUC19 beta-lactamase open reading frame, GenBank L09137.1 minus strand"
+        },
+        {
+          "role": "wpre",
+          "name": "WPRE",
+          "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+          "part_id": "enhancer.wpre"
+        },
+        {
+          "role": "polya",
+          "name": "bGH polyA",
+          "sequence": "CTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTGGGGTGGGGCAGGACAGCAAGGGGGAGGATTGGGAAGACAATAGCAGGCATGCTGGGGATGCGGTGGGCTCTATGG",
+          "part_id": "polya.bgh"
+        },
+        {
+          "role": "itr_3",
+          "name": "AAV2 right ITR",
+          "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+          "part_id": "itr.aav2_itr_right"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "aav.bad.genome_below_minimum_size",
+    "capability": "aav",
+    "expect_overall": "warn",
+    "expect_check": "aav.minimum_genome_size",
+    "expect_severity": "warn",
+    "rationale": "An 887 bp cassette: AAV2 ITRs, the 225 bp MeCP2 mini promoter, a 237 bp payload and the 135 bp SV40 polyA, with no WPRE. Everything is structurally correct, the promoter matches the cns_neuron target and the reading frame is clean, so the only thing wrong is that the genome is 1,113 bp below the 2,000 bp floor. Genomes this small package inefficiently and raise the empty capsid fraction, so the titer per production run drops. aav.minimum_genome_size is the only check that looks at the lower end of the band, which makes it the one that must catch it, and it is a WARN because the vector does work, just less well, and the fix is to add stuffer sequence.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "design_id": "aav-bad-below-minimum",
+      "transgene_name": "orf237_bla_segment",
+      "target_tissue": "cns_neuron",
+      "serotype": "AAV2",
+      "self_complementary": false,
+      "elements": [
+        {
+          "role": "itr_5",
+          "name": "AAV2 left ITR",
+          "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+          "part_id": "itr.aav2_itr_left"
+        },
+        {
+          "role": "promoter",
+          "name": "MeCP2 mini promoter",
+          "sequence": "CAATTGAGGGCGTCACCGCTAAGGCTCCGCCCCAGCCTGGGCTCCACAACCAATGAAGGGTAATCTCGACAAAGAGCAAGGGGTGGGGCGCGGGCGCGCAGGTGCAGCAGCACACAGGCTGGTCGGGAGGGCGGGGCGCGACGTCTGCCGTGCGGGGTCCCGGCATCGGTTGCGCGCGCGCTCCCTCCTCTCGGAGAGAGGGCTGTGGTAAAACCCGTCCGGAAA",
+          "part_id": "promoter.mecp2_mini"
+        },
+        {
+          "role": "cds",
+          "name": "orf237_bla_segment",
+          "sequence": "ATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+          "source": "pUC19 beta-lactamase open reading frame, GenBank L09137.1 minus strand"
+        },
+        {
+          "role": "polya",
+          "name": "SV40 polyA",
+          "sequence": "AACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATC",
+          "part_id": "polya.sv40"
+        },
+        {
+          "role": "itr_3",
+          "name": "AAV2 right ITR",
+          "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+          "part_id": "itr.aav2_itr_right"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "aav.bad.itr_identity_below_threshold",
+    "capability": "aav",
+    "expect_overall": "fail",
+    "expect_check": "aav.itr_present_both",
+    "expect_severity": "fail",
+    "rationale": "Both ITRs are present and in the inverted orientation, but the 5' ITR carries 21 transversions, dropping its identity to the AAV2 reference below the 0.95 threshold. The D element is untouched, so aav.itr_orientation still decides inverted correctly and passes, which isolates the defect: this is an ITR that is in the right place and the right orientation and is simply no longer an AAV2 ITR. aav.itr_present_both is the check that must catch it, because it is the one that measures identity against the serotype reference rather than merely counting elements, and that distinction is what makes presence checking useful.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "design_id": "aav-bad-itr-identity",
+      "transgene_name": "orf405_bla_segment",
+      "target_tissue": "cns_astrocyte",
+      "serotype": "AAV2",
+      "self_complementary": false,
+      "elements": [
+        {
+          "role": "itr_5",
+          "name": "degenerate 5' ITR",
+          "sequence": "GTGGCCAATCCCTCGCTGCGCTCTCGCTAGCTCACGGAGGCCTGGCGACAAAAGGTAGCCCGAAGCCCGGTCTTTGCACGGGCGTCCTCAGGGAGCGATCGAGCGAGCAGAGCGGGAGTTGCCAACGCCATCAATAGGGGGTCCT",
+          "source": "AAV2 left ITR (itr.aav2_itr_left) with 21 transversions introduced for this case"
+        },
+        {
+          "role": "promoter",
+          "name": "GFAP promoter",
+          "sequence": "GATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGCAAGCT",
+          "part_id": "promoter.gfap"
+        },
+        {
+          "role": "cds",
+          "name": "orf405_bla_segment",
+          "sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+          "source": "pUC19 beta-lactamase open reading frame, GenBank L09137.1 minus strand"
+        },
+        {
+          "role": "wpre",
+          "name": "WPRE",
+          "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+          "part_id": "enhancer.wpre"
+        },
+        {
+          "role": "polya",
+          "name": "bGH polyA",
+          "sequence": "CTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTGGGGTGGGGCAGGACAGCAAGGGGGAGGATTGGGAAGACAATAGCAGGCATGCTGGGGATGCGGTGGGCTCTATGG",
+          "part_id": "polya.bgh"
+        },
+        {
+          "role": "itr_3",
+          "name": "AAV2 right ITR",
+          "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+          "part_id": "itr.aav2_itr_right"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "aav.bad.missing_promoter",
+    "capability": "aav",
+    "expect_overall": "fail",
+    "expect_check": "aav.required_elements",
+    "expect_severity": "fail",
+    "rationale": "The promoter element is removed, so the coding sequence sits directly against the 5' ITR. Nothing drives transcription, so the vector packages and expresses nothing. aav.required_elements is the check that must catch it. Two other checks correctly decline to guess: aav.promoter_tissue_match reports UNKNOWN because there is no promoter annotation to compare with the target tissue, which must never read as a pass. The companion case to aav.bad.no_polya, with the other required element.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "expected_unknown": [
+      "aav.promoter_tissue_match"
+    ],
+    "input": {
+      "design_id": "aav-bad-no-promoter",
+      "transgene_name": "orf405_bla_segment",
+      "target_tissue": "cns_astrocyte",
+      "serotype": "AAV2",
+      "self_complementary": false,
+      "elements": [
+        {
+          "role": "itr_5",
+          "name": "AAV2 left ITR",
+          "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+          "part_id": "itr.aav2_itr_left"
+        },
+        {
+          "role": "cds",
+          "name": "orf405_bla_segment",
+          "sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+          "source": "pUC19 beta-lactamase open reading frame, GenBank L09137.1 minus strand"
+        },
+        {
+          "role": "wpre",
+          "name": "WPRE",
+          "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+          "part_id": "enhancer.wpre"
+        },
+        {
+          "role": "polya",
+          "name": "bGH polyA",
+          "sequence": "CTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTGGGGTGGGGCAGGACAGCAAGGGGGAGGATTGGGAAGACAATAGCAGGCATGCTGGGGATGCGGTGGGCTCTATGG",
+          "part_id": "polya.bgh"
+        },
+        {
+          "role": "itr_3",
+          "name": "AAV2 right ITR",
+          "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+          "part_id": "itr.aav2_itr_right"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "aav.bad.homopolymer_run_in_payload",
+    "capability": "aav",
+    "expect_overall": "warn",
+    "expect_check": "aav.homopolymer_runs",
+    "expect_severity": "warn",
+    "rationale": "Twelve adenines are inserted in frame into the reading frame, which is four lysine codons, so the open reading frame stays clean and aav.cds_integrity passes. A run of twelve identical bases is over the 8 bp threshold: long homopolymers cause polymerase slippage during synthesis and during vector replication, so the ordered DNA and the packaged genome can both differ from the design. aav.homopolymer_runs is the only check that measures single base runs, so it is the one that must catch it. The insertion is a deliberate synthetic edit to a real frame, chosen to be in frame precisely so that no other check can fire.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "design_id": "aav-bad-homopolymer",
+      "transgene_name": "orf405_with_poly_a_run",
+      "target_tissue": "cns_astrocyte",
+      "serotype": "AAV2",
+      "self_complementary": false,
+      "elements": [
+        {
+          "role": "itr_5",
+          "name": "AAV2 left ITR",
+          "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+          "part_id": "itr.aav2_itr_left"
+        },
+        {
+          "role": "promoter",
+          "name": "GFAP promoter",
+          "sequence": "GATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGCAAGCT",
+          "part_id": "promoter.gfap"
+        },
+        {
+          "role": "cds",
+          "name": "orf405 with a 12 base adenine run inserted in frame",
+          "sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGAAAAAAAAAAAACAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+          "source": "pUC19 beta-lactamase open reading frame, GenBank L09137.1 minus strand"
+        },
+        {
+          "role": "wpre",
+          "name": "WPRE",
+          "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+          "part_id": "enhancer.wpre"
+        },
+        {
+          "role": "polya",
+          "name": "bGH polyA",
+          "sequence": "CTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTGGGGTGGGGCAGGACAGCAAGGGGGAGGATTGGGAAGACAATAGCAGGCATGCTGGGGATGCGGTGGGCTCTATGG",
+          "part_id": "polya.bgh"
+        },
+        {
+          "role": "itr_3",
+          "name": "AAV2 right ITR",
+          "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+          "part_id": "itr.aav2_itr_right"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "aav.bad.itr_motif_inside_the_cassette",
+    "capability": "aav",
+    "expect_overall": "warn",
+    "expect_check": "aav.itr_internal_sites",
+    "expect_severity": "warn",
+    "rationale": "The first 21 bases of the AAV2 ITR are inserted in frame into the payload, so a copy of an ITR motif sits inside the cassette as well as at both ends. The ITRs themselves are correct and correctly oriented, and the reading frame survives because the insertion is a whole number of codons that adds no stop. An internal ITR motif gives the replication machinery a third place to resolve, which produces snapback and truncated genomes during production. aav.itr_internal_sites is the check that exists for exactly this and it is the only one that compares the interior against the serotype ITR reference on both strands. The insertion is a deliberate synthetic edit.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "design_id": "aav-bad-itr-internal",
+      "transgene_name": "orf405_with_itr_motif",
+      "target_tissue": "cns_astrocyte",
+      "serotype": "AAV2",
+      "self_complementary": false,
+      "elements": [
+        {
+          "role": "itr_5",
+          "name": "AAV2 left ITR",
+          "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+          "part_id": "itr.aav2_itr_left"
+        },
+        {
+          "role": "promoter",
+          "name": "GFAP promoter",
+          "sequence": "GATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGCAAGCT",
+          "part_id": "promoter.gfap"
+        },
+        {
+          "role": "cds",
+          "name": "orf405 with a 21 bp ITR motif inserted in frame",
+          "sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGTTGGCCACTCCCTCTCTGCGCCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+          "source": "pUC19 beta-lactamase open reading frame, GenBank L09137.1 minus strand"
+        },
+        {
+          "role": "wpre",
+          "name": "WPRE",
+          "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+          "part_id": "enhancer.wpre"
+        },
+        {
+          "role": "polya",
+          "name": "bGH polyA",
+          "sequence": "CTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTGGGGTGGGGCAGGACAGCAAGGGGGAGGATTGGGAAGACAATAGCAGGCATGCTGGGGATGCGGTGGGCTCTATGG",
+          "part_id": "polya.bgh"
+        },
+        {
+          "role": "itr_3",
+          "name": "AAV2 right ITR",
+          "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+          "part_id": "itr.aav2_itr_right"
+        }
+      ]
+    }
   }
 ]

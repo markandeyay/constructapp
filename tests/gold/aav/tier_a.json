@@ -120,5 +120,100 @@
         }
       ]
     }
+  },
+  {
+    "case_id": "aav.good.a7.self_complementary_sv40",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "A 2,110 bp self complementary cassette with the SV40 polyA, 290 bp of headroom under the 2,400 bp self complementary target. A second point inside the halved band.",
+    "input": {
+      "transgene_name": "orf405_bla_segment",
+      "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "cns_astrocyte",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.sv40",
+      "include_wpre": true,
+      "self_complementary": true
+    }
+  },
+  {
+    "case_id": "aav.good.a8.packaging_limit_override",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "The a1 cassette with the section 6.3 packaging_limit_bp override set to 3,000 bp, which is the case for a laboratory that uses a tighter practical ceiling than the 4,700 bp default. 2,200 bp is inside the overridden band, so the verdict is unchanged and the override is proved to reach the check rather than being ignored.",
+    "input": {
+      "transgene_name": "orf405_bla_segment",
+      "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "cns_astrocyte",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.bgh",
+      "include_wpre": true,
+      "packaging_limit_bp": 3000
+    }
+  },
+  {
+    "case_id": "aav.good.a9.gfap_sv40_wpre_orf312",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "2,017 bp, 17 bp above the 2,000 bp minimum. The tightest passing cassette the real registry and the real reading frames can produce, which makes it the sharpest guard against aav.minimum_genome_size drifting upward.",
+    "input": {
+      "transgene_name": "orf312_bla_segment",
+      "transgene_sequence": "ATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "cns_astrocyte",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.sv40",
+      "include_wpre": true
+    }
+  },
+  {
+    "case_id": "aav.good.a10.explicit_cassette_self_complementary",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "The explicit element by element cassette again, declared self complementary, 2,110 bp with the SV40 polyA. Covers the self complementary band through the AAVDesign arm of the input union rather than through the composer.",
+    "input": {
+      "design_id": "aav-gold-a10",
+      "transgene_name": "orf405_bla_segment",
+      "target_tissue": "cns_astrocyte",
+      "serotype": "AAV2",
+      "self_complementary": true,
+      "elements": [
+        {
+          "role": "itr_5",
+          "name": "AAV2 left ITR",
+          "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+          "part_id": "itr.aav2_itr_left"
+        },
+        {
+          "role": "promoter",
+          "name": "GFAP promoter",
+          "sequence": "GATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGCAAGCT",
+          "part_id": "promoter.gfap"
+        },
+        {
+          "role": "cds",
+          "name": "orf405_bla_segment",
+          "sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+          "source": "pUC19 beta-lactamase open reading frame, GenBank L09137.1 minus strand"
+        },
+        {
+          "role": "wpre",
+          "name": "WPRE",
+          "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+          "part_id": "enhancer.wpre"
+        },
+        {
+          "role": "polya",
+          "name": "SV40 polyA",
+          "sequence": "AACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATC",
+          "part_id": "polya.sv40"
+        },
+        {
+          "role": "itr_3",
+          "name": "AAV2 right ITR",
+          "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+          "part_id": "itr.aav2_itr_right"
+        }
+      ]
+    }
   }
 ]
