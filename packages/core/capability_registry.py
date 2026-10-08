@@ -70,12 +70,18 @@ PLASMID_SPEC = CapabilitySpec(
     request_schema="packages.core.schemas.models:DesignSpec",
     result_schema="packages.core.schemas.models:GeneratedSequence",
     generator="packages.generation.generator:SequenceGenerator",
+    validator_ref="packages.validation.plasmid.validator:build_validator",
+    design_model_ref="packages.core.schemas.plasmid:PlasmidDesign",
     api_route="/v1/sessions",
     notes=(
-        "Pre-dates the shared contract. Its generator and its validator "
-        "(packages.validation.engine.ConstraintEngine) use the original interfaces, not "
-        "CapabilityGenerator and CapabilityValidator, so no validator_ref is registered and the "
-        "gold-set runner reports plasmid cases as unevaluable until an adapter exists."
+        "Pre-dates the shared contract. Its generator still uses the original interface, not "
+        "CapabilityGenerator. Its verdicts still come from packages.validation.engine.ConstraintEngine, "
+        "which decides every plasmid check; validator_ref points at the adapter in "
+        "packages.validation.plasmid, which only reshapes that engine's report into the section 5.1 "
+        "ValidationReport of CheckResult objects. design_model is PlasmidDesign, which carries the two "
+        "inputs the engine already takes, so a gold case input is a curated record's design_spec and "
+        "annotated_sequence unchanged and the plasmid gold set runs through the same runner, and the "
+        "same section 9.3 assertions, as the other three capabilities."
     ),
 )
 

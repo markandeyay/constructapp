@@ -103,10 +103,21 @@ def test_load_router_rejects_malformed_references() -> None:
         routes.load_router(routes.RouterInclude("aav", "missing_colon"))
 
 
+def test_validator_factory_raises_when_a_capability_registers_no_validator() -> None:
+    unregistered = CapabilitySpec(kind=CapabilityKind.AAV, label="AAV", description="d")
+    with pytest.raises(LookupError, match="registers no validator"):
+        unregistered.validator_factory()
+    assert unregistered.design_model is None
+
+
+def test_plasmid_registers_the_adapter_so_the_gold_runner_can_resolve_it() -> None:
+    validator = PLASMID_SPEC.validator_factory()
+    assert validator.kind == CapabilityKind.PLASMID
+    assert callable(validator.validate)
+    assert PLASMID_SPEC.design_model is resolve_reference("packages.core.schemas.plasmid:PlasmidDesign")
+
+
 def test_validator_factory_and_design_model_for_the_gold_runner() -> None:
-    with pytest.raises(LookupError):
-        PLASMID_SPEC.validator_factory()
-    assert PLASMID_SPEC.design_model is None
     spec = CapabilitySpec(
         kind=CapabilityKind.AAV,
         label="AAV",
