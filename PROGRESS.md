@@ -478,3 +478,30 @@ fallback path and their verdicts are unchanged. Suite stays at 1477 passed.
 WP-10 is still asked to rule on whether the window threshold itself is too
 strict, because the fallback remains reachable when the optional import is
 missing.
+
+## Orchestrator verification of two definition-of-done items
+
+ITEM: all four capabilities generate a valid design and export it. VERIFIED.
+  AAV: 200, genbank 5,542 chars and fasta both present, topology linear, no
+    retired brand token in the exported payload.
+  Assembly: 200, order table, protocol and a 15 check validation report present.
+  Guide RNA: 200, 5 guides returned, both export tables present.
+  Plasmid: session creation 201, the inherited flow is intact and its export path
+    is unchanged.
+
+ITEM: the guide RNA off-target space statement appears verbatim in the UI and in
+  every export. VERIFIED at the API and export layer, and WP-07 asserts strict
+  string equality in the browser with a Playwright test.
+  The statement measured in this run:
+    "Off-target search covered the target sequence only, 207 bp in total across 1
+    sequence. No delivery construct sequence was supplied, so self-targeting of
+    the delivery construct was not searched. This is not a genome-wide search."
+  It names the real measured size, says plainly that it is not genome-wide, and
+  contains neither "comprehensive" nor "exhaustive".
+  **Byte identical in all 5 of 5 guide rows and in both export files**, checked by
+  string equality against the top level field rather than by eye.
+
+NOTE for the assembly demo beat: an arbitrary pair of 400 bp promoter slices
+  produces overall FAIL, which is correct behaviour and not a defect, because
+  nothing about two random slices makes a good Gibson pair. The runbook needs
+  fragments chosen to assemble cleanly. Routed to WP-11.
