@@ -1,0 +1,5 @@
+# PROGRESS.md is the one multi-writer file, per specification section 0.4: each
+# agent appends one line and never rewrites an existing line. Union merge keeps
+# both sides of a concurrent append instead of raising a conflict, which matches
+# that contract exactly.
+PROGRESS.md merge=union
