@@ -1,0 +1,149 @@
+[
+  {
+    "case_id": "assembly.good.a1.gibson_two_fragments",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "A two fragment Gibson assembly: 150 bp of the CBh promoter record and 180 bp of the CMV promoter record. The designer composes 20 bp terminal homology arms, both junctions are distinct, both overlaps melt above the 48 C floor, every primer sits inside the Tm, GC, length and structure windows, and both amplicons are inside the PCR size window. Fifteen checks apply and all fifteen pass. Every sequence in this case is a plus strand slice of a real GenBank record already in this repository, at the offset the fragment source field records. The offsets are chosen, the bases are not. hairpin_engine is pinned to window in every assembly gold case. ViennaRNA is an optional import that is not in requirements.txt, so leaving the engine on auto would make the verdict depend on whether the package happens to be installed, which section 3.3 constraint 1 forbids for a gold set.",
+    "input": {
+      "request": {
+        "strategy": "gibson",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "ATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAAC",
+            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.a2.gibson_cbh_and_ef1a",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "A second clean Gibson pair, CBh with EF1A, so the Tier A set does not rest on one fragment pair. Same fifteen applicable checks, same clean verdict.",
+    "input": {
+      "request": {
+        "strategy": "gibson",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "TGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGGTAAGTGCCGTGTGTGGTTCCCGCGGGCCTGGCCTCTTTACGGGTTATGGCCCTTGCGTGCCTTGAATTACTTCCACCTGGCTGCAGTACGTGATTCTTGATCC",
+            "source": "the EF1A promoter record behind part promoter.ef1a, plus strand offset 160, 180 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.a3.golden_gate_bsai",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "A two fragment BsaI Golden Gate assembly. Neither fragment carries GGTCTC on either strand, so gg.enzyme_site_internal passes; the two 4 bp fusion overhangs are distinct, neither is its own reverse complement and neither is all GC or all AT; the overhang topology gives exactly one assembly order. Sixteen checks apply and all sixteen pass.",
+    "input": {
+      "request": {
+        "strategy": "golden_gate",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
+            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp"
+          }
+        ],
+        "hairpin_engine": "window",
+        "enzyme": "BsaI"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.a4.golden_gate_bsmbi",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "The same strategy with BsmBI, whose recognition site is CGTCTC rather than GGTCTC. A different enzyme record from Appendix D, so the enzyme table is exercised rather than assumed, and the fragments are free of CGTCTC on both strands.",
+    "input": {
+      "request": {
+        "strategy": "golden_gate",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "CTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGAC",
+            "source": "the GFAP promoter record behind part promoter.gfap, plus strand offset 310, 180 bp"
+          }
+        ],
+        "hairpin_engine": "window",
+        "enzyme": "BsmBI"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.a5.golden_gate_bbsi",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "BbsI, whose Appendix D cut offsets are (2/6) rather than (1/5), so the tail the designer builds is a different length from the BsaI and BsmBI cases. A clean pass here shows the per enzyme geometry is read from the enzyme record.",
+    "input": {
+      "request": {
+        "strategy": "golden_gate",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "GACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCG",
+            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 420, 180 bp"
+          }
+        ],
+        "hairpin_engine": "window",
+        "enzyme": "BbsI"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.a6.pcr_cloning_two_fragments",
+    "capability": "assembly",
+    "tier": "A",
+    "rationale": "Simple PCR cloning of two fragments with no enzyme named. Eleven checks apply: the ten primer checks and the amplicon size check. The Gibson and Golden Gate checks are omitted rather than reported PASS, because asserting a result for a check that was never run would be a false pass.",
+    "input": {
+      "request": {
+        "strategy": "pcr_cloning",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "GGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAG",
+            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 490, 150 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  }
+]

@@ -1,0 +1,113 @@
+[
+  {
+    "case_id": "assembly.good.b1.gibson_window_engine_stem",
+    "capability": "assembly",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "primer.hairpin",
+        "justification": "A Gibson primer is a 20 bp homology arm plus a 20 to 27 nt binding region, so it is a 40 to 47 nt oligo, and a 4 bp self complementary stem closing a loop of at least 3 nt occurs by chance in almost every oligo that long. The primer cannot be moved: a Gibson primer has to begin exactly at the junction or bases are lost from the finished construct, so the stem is not a design choice that could have been made differently. The warning is reported and the design is used, which is the section 3.4 outcome. Worth knowing for anyone reading this case: the same two primers carry no significant hairpin under the ViennaRNA free energy engine, which is the engine section 7.4 and open question Q6 prefer; the sliding window stem count is the documented fallback and it is deliberately conservative."
+      }
+    ],
+    "rationale": "The two fragment Gibson pair from WP-04's own fixtures, 180 bp of the CBh record at offset 532 and 180 bp of the CMV record at offset 462. Every junction, overlap, specificity and size check passes; the one warning is the window engine's stem count. hairpin_engine is pinned to window in every assembly gold case. ViennaRNA is an optional import that is not in requirements.txt, so leaving the engine on auto would make the verdict depend on whether the package happens to be installed, which section 3.3 constraint 1 forbids for a gold set.",
+    "input": {
+      "request": {
+        "strategy": "gibson",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCTGAGCAAGAG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 532, 180 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTCCATAGAAGAC",
+            "source": "GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 462, 180 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.b2.golden_gate_gc_rich_overhang",
+    "capability": "assembly",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "gg.overhang_composition",
+        "justification": "The fusion overhang is GCGG, which is all G and C. A scarless Golden Gate join takes its 4 bp overhang from the downstream fragment's own first four bases, and this junction falls in a GC rich stretch of the EF1A promoter. The alternatives are to move the junction, which changes which bases end up in the construct, or to insert filler and leave a scar, which defeats the point of using a Type IIS enzyme. An all GC overhang ligates less efficiently, so the correct behaviour is to say so and let the designer decide, which is why Appendix D and section 7.5 check 17 make this a WARN and not a FAIL."
+      }
+    ],
+    "rationale": "A BsaI Golden Gate assembly whose downstream fragment begins GCGG. Every other check, including the two overhang failure conditions in checks 15 and 16, passes.",
+    "input": {
+      "request": {
+        "strategy": "golden_gate",
+        "fragments": [
+          {
+            "name": "frag_a",
+            "sequence": "CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp"
+          },
+          {
+            "name": "frag_b",
+            "sequence": "GCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGGTAAGTGCCGTGTGTGGTT",
+            "source": "the EF1A promoter record behind part promoter.ef1a, plus strand offset 105, 150 bp"
+          }
+        ],
+        "hairpin_engine": "window",
+        "enzyme": "BsaI"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.b3.small_insert_amplicon",
+    "capability": "assembly",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "assembly.amplicon_size",
+        "justification": "The amplicon is 60 bp, under the 100 bp floor. Small parts of this size are ordinary: an epitope tag, a linker, a localisation signal, a short terminator. The floor exists because a 60 bp product is hard to tell from primer dimer on a gel and is easy to lose in a cleanup column, which is advice about how to run the reaction rather than a reason not to build the construct. The right answer is to warn and to say what to do about it, which the message does."
+      }
+    ],
+    "rationale": "A single 60 bp real fragment amplified by PCR. Every primer check passes; the only warning is the deliberate small size of the part.",
+    "input": {
+      "request": {
+        "strategy": "pcr_cloning",
+        "fragments": [
+          {
+            "name": "frag",
+            "sequence": "GGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTG",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 119, 60 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  },
+  {
+    "case_id": "assembly.good.b4.fixed_boundary_three_prime_base",
+    "capability": "assembly",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "primer.three_prime_stability",
+        "justification": "One primer's 3' terminal region fails the composition rule in section 7.5 check 5. The primer ends where the fragment ends, and the fragment boundary is the thing being cloned: moving the primer by two bases to improve the 3' end would amplify a different fragment. A 3' end that is not ideal reduces priming efficiency, which is fixed by raising the annealing stringency or by adding a cycle, not by changing the construct, so the correct severity is WARN."
+      }
+    ],
+    "rationale": "A single real 150 bp fragment whose own terminus determines the primer's 3' end. Every other primer and amplicon check passes.",
+    "input": {
+      "request": {
+        "strategy": "pcr_cloning",
+        "fragments": [
+          {
+            "name": "frag",
+            "sequence": "ACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTAC",
+            "source": "GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 96, 150 bp"
+          }
+        ],
+        "hairpin_engine": "window"
+      }
+    }
+  }
+]
