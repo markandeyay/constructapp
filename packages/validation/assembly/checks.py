@@ -266,14 +266,11 @@ def check_pair_tm_delta(context: Context) -> CheckResult | None:
         delta = abs(forward_tm - reverse_tm)
         values.append(f"{forward.name}/{reverse.name} {delta:.1f} C")
         if delta > limit:
-            lower, higher = (
-                (forward, forward_tm, reverse, reverse_tm)
-                if forward_tm < reverse_tm
-                else (reverse, reverse_tm, forward, forward_tm)
-            )
+            cooler, warmer = (forward, reverse) if forward_tm < reverse_tm else (reverse, forward)
             offenders.append(
                 f"{forward.name} {forward_tm:.1f} C against {reverse.name} {reverse_tm:.1f} C, "
-                f"a {delta:.1f} C difference; lengthen {lower[0].name} or shorten {higher[2].name}"
+                f"a {delta:.1f} C difference; lengthen the binding region of {cooler.name} or "
+                f"shorten the binding region of {warmer.name} until they are within {limit:.1f} C"
             )
     observed = "; ".join(values)
     threshold = f"at most {limit:.1f} C within a pair"

@@ -85,19 +85,11 @@ def _coding_frame(fragment: Fragment, position: int) -> tuple[int, int] | None:
     return None
 
 
-def _edits_destroying_site(
-    sequence: str,
-    site_start: int,
-    site_end: int,
-    enzyme: TypeIISEnzyme,
-    *,
-    circular: bool,
-) -> set[int]:
-    """Positions inside the site whose change could destroy it.
+def _site_positions(sequence: str, site_start: int, site_end: int) -> set[int]:
+    """The positions a candidate edit may change: the recognition site's own span.
 
-    Every position of the recognition site qualifies, so this is simply the
-    site's own span. It is a function rather than a range literal because a
-    circular fragment's site can wrap the origin.
+    A function rather than a range literal because a site in a circular fragment
+    can wrap the origin, in which case the span is two intervals.
     """
     if site_end <= len(sequence):
         return set(range(site_start, site_end))
@@ -221,9 +213,7 @@ def domesticate_fragment(
     edits: list[DomesticationEdit] = []
     unresolved: list[UndomesticatableSite] = []
     for hit in hits:
-        positions = _edits_destroying_site(
-            fragment.sequence, hit.start, hit.end, enzyme, circular=fragment.is_circular
-        )
+        positions = _site_positions(fragment.sequence, hit.start, hit.end)
         coding_positions = {position for position in positions if _coding_frame(fragment, position)}
         edit: DomesticationEdit | None = None
 

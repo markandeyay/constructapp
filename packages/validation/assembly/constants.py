@@ -297,7 +297,7 @@ AMPLICON_MAX_BP: int = 10_000
 # numbers. The generated protocol states the product it is based on, and that
 # the lab must confirm it against the lot insert.
 
-# Annealing temperature offset, in degrees C, below the lower primer Tm.
+# PROTOCOL. Annealing temperature offset, in degrees C, below the lower primer Tm.
 # Section 7.7 requires the annealing temperature to be "derived from the
 # computed Tm rather than assumed", which this is.
 # CHOSEN DEFAULT: five degrees below the lower of the pair's two Tm values is
@@ -308,13 +308,15 @@ AMPLICON_MAX_BP: int = 10_000
 # applied.
 ANNEALING_OFFSET_BELOW_MIN_TM_C: float = 5.0
 
-# Floor and ceiling, in degrees C, for the derived annealing temperature, so a
+# PROTOCOL. Floor and ceiling, in degrees C, for the derived annealing
+# temperature, so a
 # pathological Tm cannot produce an impossible thermocycler step.
 # TOOL DEFAULT: the NEB Q5 protocol states an annealing range of 50 to 72 C.
 ANNEALING_MIN_C: float = 50.0
 ANNEALING_MAX_C: float = 72.0
 
-# PCR cycling, NEB Q5 High-Fidelity DNA Polymerase standard protocol.
+# PROTOCOL, TOOL DEFAULT: PCR cycling, NEB Q5 High-Fidelity DNA Polymerase
+# standard protocol.
 PCR_INITIAL_DENATURATION_C: float = 98.0
 PCR_INITIAL_DENATURATION_S: int = 30
 PCR_DENATURATION_C: float = 98.0
@@ -325,14 +327,16 @@ PCR_EXTENSION_S_PER_KB: int = 30
 PCR_FINAL_EXTENSION_S: int = 120
 PCR_CYCLES: int = 30
 
-# Gibson assembly incubation, NEBuilder HiFi DNA Assembly protocol: 50 C for
+# PROTOCOL, TOOL DEFAULT: Gibson assembly incubation, NEBuilder HiFi DNA
+# Assembly protocol: 50 C for
 # 15 minutes for two or three fragments, 60 minutes for four to six.
 GIBSON_INCUBATION_C: float = 50.0
 GIBSON_INCUBATION_MIN_FEW_FRAGMENTS: int = 15
 GIBSON_INCUBATION_MIN_MANY_FRAGMENTS: int = 60
 GIBSON_FEW_FRAGMENTS_MAX: int = 3
 
-# Golden Gate cycling, NEB Golden Gate Assembly protocol: cycles of 37 C
+# PROTOCOL, TOOL DEFAULT: Golden Gate cycling, NEB Golden Gate Assembly
+# protocol: cycles of 37 C
 # digestion and 16 C ligation, followed by a 60 C final digestion.
 GOLDEN_GATE_DIGEST_C: float = 37.0
 GOLDEN_GATE_DIGEST_S: int = 300
@@ -342,7 +346,8 @@ GOLDEN_GATE_CYCLES: int = 30
 GOLDEN_GATE_FINAL_DIGEST_C: float = 60.0
 GOLDEN_GATE_FINAL_DIGEST_S: int = 300
 
-# Restriction digest for simple PCR cloning, the standard condition for the
+# PROTOCOL, TOOL DEFAULT: restriction digest for simple PCR cloning, the
+# standard condition for the
 # great majority of NEB restriction enzymes.
 PCR_CLONING_DIGEST_C: float = 37.0
 PCR_CLONING_DIGEST_MIN: int = 60
@@ -442,7 +447,10 @@ CITATIONS: dict[str, str] = {
         "Section 7.5 check 9: the binding region must occur exactly once in the "
         "supplied template set. Both strands are searched."
     ),
-    "primer.homopolymer": "Primer3 default PRIMER_MAX_POLY_X 5.",
+    "primer.homopolymer": (
+        "Primer3 default PRIMER_MAX_POLY_X 5. A longer run slips during oligo synthesis and "
+        "during polymerase extension."
+    ),
     "gibson.overlap_length": (
         "Gibson et al. 2009, Nat Methods 6:343-345 used 40 bp overlaps; the "
         "NEBuilder HiFi DNA Assembly protocol recommends 15 to 20 bp for a few "

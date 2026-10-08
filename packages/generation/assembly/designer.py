@@ -21,18 +21,16 @@ exhaustive scan in A, C, G, T order. Same request, same primers, always.
 
 from __future__ import annotations
 
-from packages.core.schemas.capability import CapabilityKind
 from packages.core.schemas.assembly import (
     Amplicon,
     AssemblyDesign,
     AssemblyRequest,
-    Fragment,
     Junction,
     Primer,
 )
+from packages.core.schemas.capability import CapabilityKind
 from packages.core.sequence import clean_sequence, reverse_complement
 from packages.core.sequence.tm import melting_temperature
-from packages.validation.assembly import constants
 from packages.validation.assembly.codon_usage import HostCodonUsage
 from packages.validation.assembly.domestication import build_report
 from packages.validation.assembly.enzymes import (
@@ -369,19 +367,10 @@ class AssemblyGenerator:
         return compose(request, host_codon_usage=host_codon_usage_from_request(request))
 
 
-def fragment_by_name(request: AssemblyRequest, name: str) -> Fragment | None:
-    """The fragment with this name, or None for the vector backbone pseudo-fragment."""
-    for fragment in request.fragments:
-        if fragment.name == name:
-            return fragment
-    return None
-
-
 __all__ = [
     "VECTOR_BACKBONE_NAME",
     "AssemblyGenerator",
     "choose_binding_region",
     "compose",
-    "fragment_by_name",
     "host_codon_usage_from_request",
 ]
