@@ -192,7 +192,7 @@ def resolver_returning(report_for):
 
 def test_zero_cases_reports_zero_and_exits_zero(tmp_path):
     result = runner.evaluate_all(tmp_path, resolver=lambda c: pytest.fail("resolver must not be called"))
-    assert [c["capability"] for c in result["capabilities"]] == ["aav", "assembly", "grna"]
+    assert [c["capability"] for c in result["capabilities"]] == ["aav", "assembly", "grna", "plasmid"]
     assert all(c["total"] == 0 and c["accuracy"] is None for c in result["capabilities"])
     assert runner.exit_code(result) == 0
     assert "0 cases found" in runner.render_text(result)

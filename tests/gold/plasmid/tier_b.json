@@ -1,0 +1,1640 @@
+[
+  {
+    "case_id": "plasmid.good.b.genbank_u47626_2",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated bacterial_cloning_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Cloning vector PinPoint<TM> Xa-1, complete sequence",
+    "accession": "U47626",
+    "vector_profile": "bacterial_cloning_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/U47626"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/U47626.2.gb",
+      "references": [
+        {
+          "journal": "Submitted (30-JAN-1996) R&D, Promega Corporation, 5445 East Cheryl Parkway, Madison, WI 53711, USA",
+          "title": "Direct Submission"
+        },
+        {
+          "journal": "Submitted (12-JUL-2000) R&D, Promega Corporation, 5445 East Cheryl Parkway, Madison, WI 53711, USA",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Cloning vector PinPoint<TM> Xa-1, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "GOI": [
+        "Biotin purification tag"
+      ],
+      "MCS": [
+        "multiple cloning site"
+      ],
+      "ORI": [
+        "pMB1/pUC origin"
+      ],
+      "marker": [
+        "ampR"
+      ],
+      "promoter": [
+        "SP6 RNA polymerase promoter",
+        "T7 RNA polymerase promoter",
+        "tac promoter"
+      ]
+    },
+    "source_plasmid_id": "genbank:U47626.2",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Cloning vector PinPoint<TM> Xa-1, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=3331",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "ampR"
+        ],
+        "organism": "Escherichia coli",
+        "promoter_type": "SP6 RNA polymerase promoter",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "bacterial_cloning_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.95,
+            "end": 386,
+            "name": "Biotin purification tag",
+            "start": 0,
+            "strand": 1,
+            "type": "GOI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 441,
+            "name": "multiple cloning site",
+            "start": 386,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.95,
+            "end": 468,
+            "name": "SP6 RNA polymerase promoter",
+            "start": 448,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 1779,
+            "name": "ampR",
+            "start": 918,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.8274151103565365,
+            "end": 2538,
+            "name": "pMB1/pUC origin",
+            "start": 1949,
+            "strand": -1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2815,
+            "name": "T7 RNA polymerase promoter",
+            "start": 2795,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 3282,
+            "name": "tac promoter",
+            "start": 3201,
+            "strand": 1,
+            "type": "promoter"
+          }
+        ],
+        "sequence": "ATGAAACTGAAGGTAACAGTCAACGGCACTGCGTATGACGTTGACGTTGACGTCGACAAGTCACACGAAAACCCGATGGGCACCATCCTGTTCGGCGGCGGCACCGGCGGCGCGCCGGCACCGGCAGCAGGTGGCGCAGGCGCCGGTAAGGCCGGAGAGGGCGAGATTCCCGCTCCGCTGGCCGGCACCGTCTCCAAGATCCTCGTGAAGGAGGGTGACACGGTCAAGGCTGGTCAGACCGTGCTCGTTCTCGAGGCCATGAAGATGGAGACCGAGATCAACGCTCCCACCGACGGCAAGGTCGAGAAGGTCCTGGTCAAGGAGCGTGACGCGGTGCAGGGCGGTCAGGGTCTCATCAAGATCGGGGATCTCGAGCTCATCGAAGGTCGCGAAGCTTCAGCTGGGATCCGGTACCGATATCAGATCTCCCGGGGCGGCCGCGATCTGGTTCTATAGTGTCACCTAAATCGTATGTGTATGATACATAAGGTTATGTATTAATTGTAGCCGCGTTCTAACGACAATATGTCCATATGGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGACGAAAGGGCCTCGTGATACGCCTATTTTTATAGGTTAATGTCATGATAATAATGGTTTCTTAGACGTCAGGTGGCACTTTTCGGGGAAATGTGCGCGGAACCCCTATTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTTCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGGTTAACCTGGCTTATCGAAATTAATACGACTCACTATAGGGAGACCGGCCTCGAGCAGCAAGGAGATGGCGCCCAACAGTCCCCCGGCCACGGGGCCTGCCACCATACCCACGCCGAAACAAGCGCTCATGAGCCCGAAGTGGCGAGCCCGATCTTCCCCATCGGTGATGTCGGCGATATAGGCGCCAGCAACCGCACCTGTGGCGCCGGTGATGCCGGCCACGATGCGTCCGGCGTAGAGGATCGATCCGGGCTTATCGACTGCACGGTGCACCAATGCTTCTGGCGTCAGGCAGCCATCGGAAGCTGTGGTATGGCTGTGCAGGTCGTAAATCACTGCATAATTCGTGTCGCTCAAGGCGCACTCCCGTTCTGGATAATGTTTTTTGCGCCGACATCATAACGGTTCTGGCAAATATTCTGAAATGAGCTGTTGACAATTAATCATCGGCTCGTATAATGTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGAATTCCCAGCTTGGCTGCAGAACCATTCCATTCGTTGATCCGGGAGTAACTCAC",
+        "topology": "circular",
+        "vector_profile": "bacterial_cloning_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "regulatory_compatibility",
+        "justification": "Non-blocking regulatory-context warning retained as a documented source-record caveat. Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_u47627_1",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated bacterial_cloning_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Cloning vector PinPoint<TM> Xa-2, complete sequence",
+    "accession": "U47627",
+    "vector_profile": "bacterial_cloning_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/U47627"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/U47627.1.gb",
+      "references": [
+        {
+          "journal": "Submitted (30-JAN-1996) R&D, Promega Corporation, 5445 East Cheryl Parkway, Madison, WI 53711, USA",
+          "title": "Direct Submission"
+        },
+        {
+          "journal": "Submitted (12-JUL-2000) R&D, Promega Corporation, 5445 East Cheryl Parkway, Madison, WI 53711, USA",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Cloning vector PinPoint<TM> Xa-2, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "GOI": [
+        "Biotin purification tag"
+      ],
+      "MCS": [
+        "multiple cloning site"
+      ],
+      "ORI": [
+        "pMB1/pUC origin"
+      ],
+      "marker": [
+        "ampR"
+      ],
+      "promoter": [
+        "SP6 RNA polymerase promoter",
+        "T7 RNA polymerase promoter",
+        "tac promoter"
+      ]
+    },
+    "source_plasmid_id": "genbank:U47627.1",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Cloning vector PinPoint<TM> Xa-2, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=3332",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "ampR"
+        ],
+        "organism": "Escherichia coli",
+        "promoter_type": "SP6 RNA polymerase promoter",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "bacterial_cloning_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.95,
+            "end": 386,
+            "name": "Biotin purification tag",
+            "start": 0,
+            "strand": 1,
+            "type": "GOI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 442,
+            "name": "multiple cloning site",
+            "start": 386,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.95,
+            "end": 469,
+            "name": "SP6 RNA polymerase promoter",
+            "start": 449,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 1780,
+            "name": "ampR",
+            "start": 919,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.8273302207130729,
+            "end": 2539,
+            "name": "pMB1/pUC origin",
+            "start": 1950,
+            "strand": -1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2816,
+            "name": "T7 RNA polymerase promoter",
+            "start": 2796,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 3283,
+            "name": "tac promoter",
+            "start": 3202,
+            "strand": 1,
+            "type": "promoter"
+          }
+        ],
+        "sequence": "ATGAAACTGAAGGTAACAGTCAACGGCACTGCGTATGACGTTGACGTTGACGTCGACAAGTCACACGAAAACCCGATGGGCACCATCCTGTTCGGCGGCGGCACCGGCGGCGCGCCGGCACCGGCAGCAGGTGGCGCAGGCGCCGGTAAGGCCGGAGAGGGCGAGATTCCCGCTCCGCTGGCCGGCACCGTCTCCAAGATCCTCGTGAAGGAGGGTGACACGGTCAAGGCTGGTCAGACCGTGCTCGTTCTCGAGGCCATGAAGATGGAGACCGAGATCAACGCTCCCACCGACGGCAAGGTCGAGAAGGTCCTGGTCAAGGAGCGTGACGCGGTGCAGGGCGGTCAGGGTCTCATCAAGATCGGGGATCTCGAGCTCATCGAAGGTCGCGAAAGCTTCAGCTGGGATCCGGTACCGATATCAGATCTCCCGGGGCGGCCGCGATCTGGTTCTATAGTGTCACCTAAATCGTATGTGTATGATACATAAGGTTATGTATTAATTGTAGCCGCGTTCTAACGACAATATGTCCATATGGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGACGAAAGGGCCTCGTGATACGCCTATTTTTATAGGTTAATGTCATGATAATAATGGTTTCTTAGACGTCAGGTGGCACTTTTCGGGGAAATGTGCGCGGAACCCCTATTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCATTGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGGTTAACCTGGCTTATCGAAATTAATACGACTCACTATAGGGAGACCGGCCTCGAGCAGCAAGGAGATGGCGCCCAACAGTCCCCCGGCCACGGGGCCTGCCACCATACCCACGCCGAAACAAGCGCTCATGAGCCCGAAGTGGCGAGCCCGATCTTCCCCATCGGTGATGTCGGCGATATAGGCGCCAGCAACCGCACCTGTGGCGCCGGTGATGCCGGCCACGATGCGTCCGGCGTAGAGGATCGATCCGGGCTTATCGACTGCACGGTGCACCAATGCTTCTGGCGTCAGGCAGCCATCGGAAGCTGTGGTATGGCTGTGCAGGTCGTAAATCACTGCATAATTCGTGTCGCTCAAGGCGCACTCCCGTTCTGGATAATGTTTTTTGCGCCGACATCATAACGGTTCTGGCAAATATTCTGAAATGAGCTGTTGACAATTAATCATCGGCTCGTATAATGTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGAATTCCCAGCTTGGCTGCAGAACCATTCCATTCGTTGATCCGGGAGTAACTCAC",
+        "topology": "circular",
+        "vector_profile": "bacterial_cloning_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "regulatory_compatibility",
+        "justification": "Non-blocking regulatory-context warning retained as a documented source-record caveat. Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_u47628_1",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated bacterial_cloning_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Cloning vector PinPoint<TM> Xa-3, complete sequence",
+    "accession": "U47628",
+    "vector_profile": "bacterial_cloning_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/U47628"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/U47628.1.gb",
+      "references": [
+        {
+          "journal": "Submitted (30-JAN-1996) R&D, Promega Corporation, 5445 East Cheryl Parkway, Madison, WI 53711, USA",
+          "title": "Direct Submission"
+        },
+        {
+          "journal": "Submitted (12-JUL-2000) R&D, Promega Corporation, 5445 East Cheryl Parkway, Madison, WI 53711, USA",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Cloning vector PinPoint<TM> Xa-3, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "GOI": [
+        "Biotin purification tag"
+      ],
+      "MCS": [
+        "multiple cloning site"
+      ],
+      "ORI": [
+        "pMB1/pUC origin"
+      ],
+      "marker": [
+        "ampR"
+      ],
+      "promoter": [
+        "SP6 RNA polymerase promoter",
+        "T7 RNA polymerase promoter",
+        "tac promoter"
+      ]
+    },
+    "source_plasmid_id": "genbank:U47628.1",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Cloning vector PinPoint<TM> Xa-3, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=3333",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "ampR"
+        ],
+        "organism": "Escherichia coli",
+        "promoter_type": "SP6 RNA polymerase promoter",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "bacterial_cloning_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.95,
+            "end": 386,
+            "name": "Biotin purification tag",
+            "start": 0,
+            "strand": 1,
+            "type": "GOI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 443,
+            "name": "multiple cloning site",
+            "start": 386,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.95,
+            "end": 470,
+            "name": "SP6 RNA polymerase promoter",
+            "start": 450,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 1781,
+            "name": "ampR",
+            "start": 920,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.8273302207130729,
+            "end": 2540,
+            "name": "pMB1/pUC origin",
+            "start": 1951,
+            "strand": -1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2817,
+            "name": "T7 RNA polymerase promoter",
+            "start": 2797,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 3284,
+            "name": "tac promoter",
+            "start": 3203,
+            "strand": 1,
+            "type": "promoter"
+          }
+        ],
+        "sequence": "ATGAAACTGAAGGTAACAGTCAACGGCACTGCGTATGACGTTGACGTTGACGTCGACAAGTCACACGAAAACCCGATGGGCACCATCCTGTTCGGCGGCGGCACCGGCGGCGCGCCGGCACCGGCAGCAGGTGGCGCAGGCGCCGGTAAGGCCGGAGAGGGCGAGATTCCCGCTCCGCTGGCCGGCACCGTCTCCAAGATCCTCGTGAAGGAGGGTGACACGGTCAAGGCTGGTCAGACCGTGCTCGTTCTCGAGGCCATGAAGATGGAGACCGAGATCAACGCTCCCACCGACGGCAAGGTCGAGAAGGTCCTGGTCAAGGAGCGTGACGCGGTGCAGGGCGGTCAGGGTCTCATCAAGATCGGGGATCTCGAGCTCATCGAAGGTCGCGAAAAGCTTCAGCTGGGATCCGGTACCGATATCAGATCTCCCGGGGCGGCCGCGATCTGGTTCTATAGTGTCACCTAAATCGTATGTGTATGATACATAAGGTTATGTATTAATTGTAGCCGCGTTCTAACGACAATATGTCCATATGGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGACGAAAGGGCCTCGTGATACGCCTATTTTTATAGGTTAATGTCATGATAATAATGGTTTCTTAGACGTCAGGTGGCACTTTTCGGGGAAATGTGCGCGGAACCCCTATTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCATTGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGGTTAACCTGGCTTATCGAAATTAATACGACTCACTATAGGGAGACCGGCCTCGAGCAGCAAGGAGATGGCGCCCAACAGTCCCCCGGCCACGGGGCCTGCCACCATACCCACGCCGAAACAAGCGCTCATGAGCCCGAAGTGGCGAGCCCGATCTTCCCCATCGGTGATGTCGGCGATATAGGCGCCAGCAACCGCACCTGTGGCGCCGGTGATGCCGGCCACGATGCGTCCGGCGTAGAGGATCGATCCGGGCTTATCGACTGCACGGTGCACCAATGCTTCTGGCGTCAGGCAGCCATCGGAAGCTGTGGTATGGCTGTGCAGGTCGTAAATCACTGCATAATTCGTGTCGCTCAAGGCGCACTCCCGTTCTGGATAATGTTTTTTGCGCCGACATCATAACGGTTCTGGCAAATATTCTGAAATGAGCTGTTGACAATTAATCATCGGCTCGTATAATGTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGAATTCCCAGCTTGGCTGCAGAACCATTCCATTCGTTGATCCGGGAGTAACTCAC",
+        "topology": "circular",
+        "vector_profile": "bacterial_cloning_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "regulatory_compatibility",
+        "justification": "Non-blocking regulatory-context warning retained as a documented source-record caveat. Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_u39574_1",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated bacterial_expression_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Expression cloning vector pBVI02, including biotin synthetase (bioB) and beta-lactamase (bla) genes, complete sequence",
+    "accession": "U39574",
+    "vector_profile": "bacterial_expression_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/U39574"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/U39574.1.gb",
+      "references": [
+        {
+          "journal": "Unpublished",
+          "title": "Cloning, sequencing and expression of bioB genes of Methylobacillus flagellatum and Corynebacterium glutamicum"
+        },
+        {
+          "journal": "Submitted (27-OCT-1995) Vitaly Vassin, Institute of Genetics and Selection of Industrial Microorganisms, 1st Dorozhny proezd, 1, Moscow, 113545, Russia",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Expression cloning vector pBVI02, including biotin synthetase (bioB) and beta-lactamase (bla) genes, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "GOI": [
+        "bioB"
+      ],
+      "ORI": [
+        "pMB1/pUC origin"
+      ],
+      "marker": [
+        "bla"
+      ],
+      "promoter": [
+        "lac promoter"
+      ]
+    },
+    "source_plasmid_id": "genbank:U39574.1",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Expression cloning vector pBVI02, including biotin synthetase (bioB) and beta-lactamase (bla) genes, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=3748",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "bla"
+        ],
+        "organism": "Escherichia coli",
+        "promoter_type": "lac promoter",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "bacterial_expression_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.95,
+            "end": 1061,
+            "name": "bla",
+            "start": 200,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.8273302207130729,
+            "end": 1820,
+            "name": "pMB1/pUC origin",
+            "start": 1231,
+            "strand": -1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2186,
+            "name": "lac promoter",
+            "start": 2129,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 3243,
+            "name": "bioB",
+            "start": 2217,
+            "strand": 1,
+            "type": "GOI"
+          }
+        ],
+        "sequence": "GACGAAAGGGCCTCGTGATACGCCTATTTTTATAGGTTAATGTCATGATAATAATGGTTTCTTAGACGTCAGGTGGCACTTTTCGGGGAAATGTGCGCGGAACCCCTATTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCATTGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGCTGGCACGACAGGTTTCCCGACTGGAAAGCGGGCAGTGAGCGCAACGCAATTAATGTGAGTTAGCTCACTCATTAGGCACCCCAGGCTTTACACTTTATGCTTCCGGCTCGTATGTTGTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGCTATGACCATGATTACGAATTCCCATCGCATGCGAGACTCAGTGATTGACATACGCGGCCTTGACCGTGTCCAACGTGCAAGGGTGCAGGCGAAGGAAGAAGCGCCAAAACGCTGGAGTGTGGATGATATTGTGGCATTGTTCGAGTTGCCATTTTCAGATCTGATGCACAGGGCACAGTCCGTGCATCGCGAGAATTTCGATCCCAATGGTGTGCAGGTCAGTACCTTGCTTTCCATCAAGACCGGTGGTTGTTCTGAGGACTGTGGCTATTGTCCTCAGGCCGCCCGCTACCACACCGATGTGGAAAAGCAGGATTTGCATGCAGCTGGAAGAGGTACTCGCAGTCGCGTGCTGCCAAGGAGAATGCGCCAGCCGTTCTGCATGGCTGCATGGCAGCCCAAGCAGCGCGACCTCGAGCCCGTGCTGGCCATGATTCGCGAAGTGAAAGCCATGGGCCTGGAAACTTGCGCTACTCTTGGAATGCTGAAAGATGGGCAGGCCGAGCAATTGAAGGAAGCGGGTCTCGACTACTACAACCATAACTTGGACACTGCGCCTGAATACTACGGCGAAGTCATCACGACCCGCACCTACCAGGACCGCCTGGATACGCTGGATCGTGTGCGCGAACAGGACATCAACGTCTGCTGTGGCGGCATTATCGGCATGGGGGAGTCCCGCGTCCAGCGTGCCGGACTTCTTGCGCAGCTTGCCAATATGGAGCGTCCGCCCGAAAGCGTGCCGGATCAACTGCTGACGCAGGTGGAAGGCACACCGATGTATGGCATGGACGAGCTGGACCCGTTTGAATTCGTGCGCACGATCGCGGCTGCCCGCATCACGATGCCGCAAAGTTTCGTGCGGTTGTCCGTTGGCCGCCAAAGCATGCATGAGGGCATCCAGGCCTTGTGCTTCCTGGCTGGTGCCAACTCGATTTTCTATGGTGAGAAGCTGCTGACCACGGGCAACCCTGAAGCCGAAGCTGACCGCAAGTTATTCGACAAACTCGGCATCCATCCGCTTTAAGTCACGATGCCTTCCATGCTGGAATCTCACCGGCAGAAGCAGCCACCCCATTGCTGGACGCATTACAAGCCGAGCTCCTGCAGGCATGCGATATCCCATGGAAGCTTGGCACTGGCCGTCGTTTTACAACGTCGTGACTGGGAAAACCCTGGCGTTACCCAACTTAATCGCCTTGCAGCACATCCCCCTTTCGCCAGCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATGGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGA",
+        "topology": "circular",
+        "vector_profile": "bacterial_expression_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "regulatory_compatibility",
+        "justification": "Non-blocking regulatory-context warning retained as a documented source-record caveat. Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_dq666274_1",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated bacterial_cloning_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Cloning vector pDNR-LIB, complete sequence",
+    "accession": "DQ666274",
+    "vector_profile": "bacterial_cloning_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/DQ666274"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/DQ666274.1.gb",
+      "references": [
+        {
+          "journal": "Submitted (02-JUN-2006) Informatics, Clontech, 1290 Terra Bella ave., Mountain View, CA 94043, USA",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Cloning vector pDNR-LIB, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "MCS": [
+        "MCS A; multiple cloning site",
+        "MCS B; multiple cloning site"
+      ],
+      "ORI": [
+        "pUC origin of replication"
+      ],
+      "marker": [
+        "CmR"
+      ],
+      "promoter": [
+        "T7 RNA polymerase"
+      ],
+      "terminator": [
+        "SV40 late polyA"
+      ]
+    },
+    "source_plasmid_id": "genbank:DQ666274.1",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Cloning vector pDNR-LIB, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=4161",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "CmR"
+        ],
+        "organism": "Escherichia coli",
+        "promoter_type": "T7 RNA polymerase",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "bacterial_cloning_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.95,
+            "end": 99,
+            "name": "MCS A; multiple cloning site",
+            "start": 44,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.8220945945945946,
+            "end": 292,
+            "name": "SV40 late polyA",
+            "start": 100,
+            "strand": -1,
+            "type": "terminator"
+          },
+          {
+            "confidence": 0.95,
+            "end": 351,
+            "name": "MCS B; multiple cloning site",
+            "start": 291,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.95,
+            "end": 1189,
+            "name": "CmR",
+            "start": 529,
+            "strand": -1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.95,
+            "end": 3980,
+            "name": "pUC origin of replication",
+            "start": 3336,
+            "strand": 1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 4109,
+            "name": "T7 RNA polymerase",
+            "start": 4090,
+            "strand": 1,
+            "type": "promoter"
+          }
+        ],
+        "sequence": "GCGGCCGCATAACTTCGTATAGCATACATTATACGAAGTTATCAGTCGACGGTACCGGACATATGCCCGGGAATTCGGCCATTACGGCCTGCAGGATCCGAAAAAACCTCCCACACCTCCCCCTGAACCTGAAACATAAAATGAATGCAATTGTTGTTGTTAACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATCCGGCCGCCTCGGCCCTCGAGAAGCTTTCTAGACCATTCGTTTGGCGCGCGGGCCCAGTAGGTAAGTGAACATGGTCATAGCTGTTTCCCTAGGAGATCCTGGTATGACTAGTGCTTGGATTCTCACCAATAAAAAACGCCCGGCGGCAACCGAGCGTTCTGAACAAATCCAGATGGAGTTCTGAGGTCATTACTGGATCTATCAACAGGAGTCCAAGCGAGCTCGATATCAAATTACGCCCCGCCCTGCCACTCATCGCAGTACTGTTGTAATTCATTAAGCATTCTGCCGACATGGAAGCCATCACAAACGGCATGATGAACCTGAATCGCCAGCGGCATCAGCACCTTGTCGCCTTGCGTATAATATTTGCCCATGGTGAAAACGGGGGCGAAGAAGTTGTCCATATTGGCCACGTTTAAATCAAAACTGGTGAAACTCACCCAGGGATTGGCTGAGACGAAAAACATATTCTCAATAAACCCTTTAGGGAAATAGGCCAGGTTTTCACCGTAACACGCCACATCTTGCGAATATATGTGTAGAAACTGCCGGAAATCGTCGTGGTATTCACTCCAGAGCGATGAAAACGTTTCAGTTTGCTCATGGAAAACGGTGTAACAAGGGTGAACACTATCCCATATCACCAGCTCACCGTCTTTCATTGCCATACGAAATTCCGGATGAGCATTCATCAGGCGGGCAAGAATGTGAATAAAGGCCGGATAAAACTTGTGCTTATTTTTCTTTACGGTCTTTAAAAAGGCCGTAATATCCAGCTGAACGGTCTGGTTATAGGTACATTGAGCAACTGACTGAAATGCCTCAAAATGTTCTTTACGATGCCATTGGGATATATCAACGGTGGTATATCCAGTGATTTTTTTCTCCATTTTAGCTTCCTTAGCTCCTGAAAGATCCATAACTTCGTATAGCATACATTATACGAAGTTATGCGGCCGCGACGTCAATGCCAATAGGATATCGGCATTTTCTTTTGCGTTTTTATTTGTTAACTGTTAATTGTCCTTGTTCAAGGATGCTGTCTTTGACAACAGATGTTTTCTTGCCTTTGATGTTCAGCAGGAAGCTAGGCGCAAACGTTGATTGTTTGTCTGCGTAGAATCCTCTGTTTGTCATATAGCTTGTAATCACGACATTGTTTCCTTTCGCTTGAGGTACAGCGAAGTGTGAGTAAGTAAAGGTTACATCGTTAGGATCAAGATCCATTTTTAACACAAGGCCAGTTTTGTTCAGCGGCTTGTATGGGCCAGTTAAAGAATTAGAAACATAACCAAGCATGTAAATATCGTTAGACGTAATGCCGTCAATCGTCATTTTTGATCCGCGGGAGTCAGTGAACAGGTACCATTTGCCGTTCATTTTAAAGACGTTCGCGCGTTCAATTTCATCTGTTACTGTGTTAGATGCAATCAGCGGTTTCATCACTTTTTTCAGTGTGTAATCATCGTTTAGCTCAATCATACCGAGAGCGCCGTTTGCTAACTCAGCCGTGCGTTTTTTATCGCTTTGCAGAAGTTTTTGACTTTCTTGACGGAAGAATGATGTGCTTTTGCCATAGTATGCTTTGTTAAATAAAGATTCTTCGCCTTGGTAGCCATCTTCAGTTCCAGTGTTTGCTTCAAATACTAAGTATTTGTGGCCTTTATCTTCTACGTAGTGAGGATCTCTCAGCGTATGGTTGTCGCCTGAGCTGTAGTTGCCTTCATCGATGAACTGCTGTACATTTTGATACGTTTTTCCGTCACCGTCAAAGATTGATTTATAATCCTCTACACCGTTGATGTTCAAAGAGCTGTCTGATGCTGATACGTTAACTTGTGCAGTTGTCAGTGTTTGTTTGCCGTAATGTTTACCGGAGAAATCAGTGTAGAATAAACGGATTTTTCCGTCAGATGTAAATGTGGCTGAACCTGACCATTCTTGTGTTTGGTCTTTTAGGATAGAATCATTTGCATCGAATTTGTCGCTGTCTTTAAAGACGCGGCCAGCGTTTTTCCAGCTGTCAATAGAAGTTTCGCCGACTTTTTGATAGAACATGTAAATCGATGTGTCATCCGCATTTTTAGGATCTCCGGCTAATGCAAAGACGATGTGGTAGCCGTGATAGTTTGCGACAGTGCCGTCAGCGTTTTGTAATGGCCAGCTGTCCCAAACGTCCAGGCCTTTTGCAGAAGAGATATTTTTAATTGTGGACGAATCGAACTCAGGAACTTGATATTTTTCATTTTTTTGCTGTTCAGGGATTTGCAGCATATCATGGCGTGTAATATGGGAAATGCCGTATGTTTCCTTATATGGCTTTTGGTTCGTTTCTTTCGCAAACGCTTGAGTTGCGCCTCCTGCCAGCAGTGCGGTAGTAAAGGTTAATACTGTTGCTTGTTTTGCAAACTTTTTGATGTTCATCGTTCATGTCTCCTTTTTTATGTACTGTGTTAGCGGTCTGCTTCTTCCAGCCCTCCTGTTTGAAGATGGCAAGTTAGTTACGCACAATAAAAAAAGACCTAAAATATGTAAGGGGTGACGCCAAAGTATACACTTTGCCCTTTACACATTTTAGGTCTTGCCTGCTTTATCAGTAACAAACCCGCGCGATTTACTTTTCGACCTCATTCTATTAGACTCTCGTTTGGATTGCAACTGGTCTATTTTCCTCTTTTGTTTGATAGAAAATCATAAAAGGATTTGCAGACTACGGGCCTAAAGAACTAAAAAATCTATCTGTTTCTTTTCATTCTCTGTATTTTTTATAGTTTCTGTTGCATGGGCATAAAGTTGCCTTTTTAATCACAATTCAGAAAATATCATAATATCTCATTTCACTAAATAATAGTGAACGGCAGGTATATGTGGCGCGCCTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTTCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTACGCGTGTAAAACGACGGCCAGTAGATCTGTAATACGACTCACTATAGGGCGCTAGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAA",
+        "topology": "circular",
+        "vector_profile": "bacterial_cloning_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "repeat_and_instability",
+        "justification": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review. Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_u19585_1",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated bacterial_expression_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Cloning vector pPROEX-1, complete sequence",
+    "accession": "U19585",
+    "vector_profile": "bacterial_expression_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/U19585"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/U19585.1.gb",
+      "references": [
+        {
+          "journal": "Unpublished",
+          "title": "Plasmid pPROEX - cloning vector for protein expression and purification"
+        },
+        {
+          "journal": "Focus 16, 81-84 (1994)",
+          "title": "Efficient protein expression and simple purification using the pPROEX-1 system"
+        },
+        {
+          "journal": "Submitted (09-JAN-1995) Mary E. Horton, Technical Services, Life Technologies, Inc., 8400 Helgerman Court, Gaithersburg, MD 20884-9980, USA",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Cloning vector pPROEX-1, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "GOI": [
+        "Lac repressor"
+      ],
+      "MCS": [
+        "restriction-site dense MCS candidate (8 sites)"
+      ],
+      "ORI": [
+        "pMB1/pUC origin",
+        "ORI Escherichia coli pMB1",
+        "f1 origin"
+      ],
+      "marker": [
+        "beta-lactamase"
+      ],
+      "promoter": [
+        "Trc"
+      ]
+    },
+    "source_plasmid_id": "genbank:U19585.1",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Cloning vector pPROEX-1, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=4733",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "beta-lactamase"
+        ],
+        "organism": "Escherichia coli",
+        "promoter_type": "Trc",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "bacterial_expression_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.95,
+            "end": 266,
+            "name": "Trc",
+            "start": 192,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.55,
+            "end": 422,
+            "name": "restriction-site dense MCS candidate (8 sites)",
+            "start": 342,
+            "strand": 0,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.95,
+            "end": 1802,
+            "name": "beta-lactamase",
+            "start": 941,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.8274999999999999,
+            "end": 2561,
+            "name": "pMB1/pUC origin",
+            "start": 1972,
+            "strand": -1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2571,
+            "name": "ORI Escherichia coli pMB1",
+            "start": 2563,
+            "strand": 1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.8262938596491227,
+            "end": 3237,
+            "name": "f1 origin",
+            "start": 2783,
+            "strand": -1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 4694,
+            "name": "Lac repressor",
+            "start": 3611,
+            "strand": 1,
+            "type": "GOI"
+          }
+        ],
+        "sequence": "GTTTGACAGCTTATCATCGACTGCACGGTGCACCAATGCTTCTGGCGTCAGGCAGCCATCGGAAGCTGTGGTATGGCTGTGCAGGTCGTAAATCACTGCATAATTCGTGTCGCTCAAGGCGCACTCCCGTTCTGGATAATGTTTTTTGCGCCGACATCATAACGGTTCTGGCAAATATTCTGAAATGAGCTGTTGACAATTAATCATCCGGTCCGTATAATCTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGACCATGGGTCATCATCATCATCATCACGATTACGATATCCCAACGACCGAAAACCTGTATTTTCAGGGCGCCCATATGGGAATTCAAAGGCCTACGTCGACGAGCTCACTAGTCGCGGCCGCTTCTAGAGGATCCCTCGAGGCATGCGGTACCAAGCTTGGCTGTTTTGGCGGATGAGAGAAGATTTTCAGCCTGATACAGATTAAATCAGAACGCAGAAGCGGTCTGATAAAACAGAATTTGCCTGGCGGCAGTAGCGCGGTGGTCCCACCTGACCCCATGCCGAACTCAGAAGTGAAACGCCGTAGCGCCGATGGTAGTGTGGGGTCTCCCCATGCGAGAGTAGGGAACTGCCAGGCATCAAATAAAACGAAAGGCTCAGTCGAAAGACTGGGCCTTTCGTTTTATCTGTTGTTTGTCGGTGAACGCTCTCCTGAGTAGGACAAATCCGCCGGGAGCGGATTTGAACGTTGCGAAGCAACGGCCCGGAGGGTGGCGGGCAGGACGCCCGCCATAAACTGCCAGGCATCAAATTAAGCAGAAGGCCATCCTGACGGATGGCCTTTTTGCGTTTCTACAAACTCTTTTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTGTTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTACAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATAATTTTGTTAAAATTCGCGTTAAATTTTTGTTAAATCAGCTCATTTTTTAACCAATAGGCCGAAATCGGCAAAATCCCTTATAAATCAAAAGAATAGACCGAGATAGGGTTGAGTGTTGTTCCAGTTTGGAACAAGAGTCCACTATTAAAGAACGTGGACTCCAACGTCAAAGGGCGAAAAACCGTCTATCAGGGCGATGGCCCACTACGTGAACCATCACCCTAATCAAGTTTTTTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACCCTAAAGGGAGCCCCCGATTTAGAGCTTGACGGGGAAAGCCGGCGAACGTGGCGAGAAAGGAAGGGAAGAAAGCGAAAGGAGCGGGCGCTAGGGCGCTGGCAAGTGTAGCGGTCACGCTGCGCGTAACCACCACACCCGCCGCGCTTAATGCGCCGCTACAGGGCGCGTCCATTCGCCATTCAGGCTGCTATGGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGTATACACTCCGCTATCGCTACGTGACTGGGTCATGGCTGCGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGGCAGCAGATCAATTCGCGCGCGAAGGCGAAGCGGCATGCATTTACGTTGACACCATCGAATGGTGCAAAACCTTTCGCGGTATGGCATGATAGCGCCCGGAAGAGAGTCAATTCAGGGTGGTGAATGTGAAACCAGTAACGTTATACGATGTCGCAGAGTATGCCGGTGTCTCTTATCAGACCGTTTCCCGCGTGGTGAACCAGGCCAGCCACGTTTCTGCGAAAACGCGGGAAAAAGTGGAAGCGGCGATGGCGGAGCTGAATTACATTCCCAACCGCGTGGCACAACAACTGGCGGGCAAACAGTCGTTGCTGATTGGCGTTGCCACCTCCAGTCTGGCCCTGCACGCGCCGTCGCAAATTGTCGCGGCGATTAAATCTCGCGCCGATCAACTGGGTGCCAGCGTGGTGGTGTCGATGGTAGAACGAAGCGGCGTCGAAGCCTGTAAAGCGGCGGTGCACAATCTTCTCGCGCAACGCGTCAGTGGGCTGATCATTAACTATCCGCTGGATGACCAGGATGCCATTGCTGTGGAAGCTGCCTGCACTAATGTTCCGGCGTTATTTCTTGATGTCTCTGACCAGACACCCATCAACAGTATTATTTTCTCCCATGAAGACGGTACGCGACTGGGCGTGGAGCATCTGGTCGCATTGGGTCACCAGCAAATCGCGCTGTTAGCGGGCCCATTAAGTTCTGTCTCGGCGCGTCTGCGTCTGGCTGGCTGGCATAAATATCTCACTCGCAATCAAATTCAGCCGATAGCGGAACGGGAAGGCGACTGGAGTGCCATGTCCGGTTTTCAACAAACCATGCAAATGCTGAATGAGGGCATCGTTCCCACTGCGATGCTGGTTGCCAACGATCAGATGGCGCTGGGCGCAATGCGCGCCATTACCGAGTCCGGGCTGCGCGTTGGTGCGGATATCTCGGTAGTGGGATACGACGATACCGAAGACAGCTCATGTTATATCCCGCCGTCAACCACCATCAAACAGGATTTTCGCCTGCTGGGGCAAACCAGCGTGGACCGCTTGCTGCAACTCTCTCAGGGCCAGGCGGTGAAGGGCAATCAGCTGTTGCCCGTCTCACTGGTGAAAAGAAAAACCACCCTGGCACCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGCTGGCACGACAGGTTTCCCGACTGGAAAGCGGGCAGTGAGCGCAACGCAATTAATGTGAGTTAGCGCGAATTGATCTG",
+        "topology": "circular",
+        "vector_profile": "bacterial_expression_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "regulatory_compatibility",
+        "justification": "Non-blocking regulatory-context warning retained as a documented source-record caveat. Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_af031813_1",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated bacterial_expression_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Expression vector pMal-X, complete sequence",
+    "accession": "AF031813",
+    "vector_profile": "bacterial_expression_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/AF031813"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/AF031813.1.gb",
+      "references": [
+        {
+          "journal": "Anal. Biochem. 264 (1), 87-97 (1998)",
+          "pubmed_id": "9784192",
+          "title": "The maltose-binding protein as a scaffold for monovalent display of peptides derived from phage libraries"
+        },
+        {
+          "journal": "Submitted (28-OCT-1997) IMBB, Simon Fraser University, 8888 University Drive, Burnaby, BC V5A 1S6, Canada",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Expression vector pMal-X, complete sequence",
+      "source_topology": "linear"
+    },
+    "feature_evidence": {
+      "GOI": [
+        "lacI",
+        "malE/lacZ-alpha fusion"
+      ],
+      "MCS": [
+        "malE/lacZ-alpha fusion"
+      ],
+      "ORI": [
+        "M13 origin of replication (+ -)",
+        "pMB1/pUC origin"
+      ],
+      "marker": [
+        "ampR"
+      ],
+      "promoter": [
+        "lacI",
+        "Ptac promoter",
+        "lac promoter region"
+      ]
+    },
+    "source_plasmid_id": "genbank:AF031813.1",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Expression vector pMal-X, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=6748",
+          "topology=linear"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "ampR"
+        ],
+        "organism": "Escherichia coli",
+        "promoter_type": "lacI",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "plasmid"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.95,
+            "end": 46,
+            "name": "lacI",
+            "start": 14,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 1163,
+            "name": "lacI",
+            "start": 80,
+            "strand": 1,
+            "type": "GOI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 1433,
+            "name": "Ptac promoter",
+            "start": 1405,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 3018,
+            "name": "malE/lacZ-alpha fusion",
+            "start": 1527,
+            "strand": 1,
+            "type": "GOI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2836,
+            "name": "malE/lacZ-alpha fusion",
+            "start": 2724,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.8274999999999999,
+            "end": 2995,
+            "name": "lac promoter region",
+            "start": 2837,
+            "strand": -1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 4380,
+            "name": "ampR",
+            "start": 3519,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.95,
+            "end": 4935,
+            "name": "M13 origin of replication (+ -)",
+            "start": 4421,
+            "strand": 1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.8274999999999999,
+            "end": 5634,
+            "name": "pMB1/pUC origin",
+            "start": 5045,
+            "strand": -1,
+            "type": "ORI"
+          }
+        ],
+        "sequence": "CCGACACCATCGAATGGTGCAAAACCTTTCGCGGTATGGCATGATAGCGCCCGGAAGAGAGTCAATTCAGGGTGGTGAATGTGAAACCAGTAACGTTATACGATGTCGCAGAGTATGCCGGTGTCTCTTATCAGACCGTTTCCCGCGTGGTGAACCAGGCCAGCCACGTTTCTGCGAAAACGCGGGAAAAAGTGGAAGCGGCGATGGCGGAGCTGAATTACATTCCCAACCGCGTGGCACAACAACTGGCGGGCAAACAGTCGTTGCTGATTGGCGTTGCCACCTCCAGTCTGGCCCTGCACGCGCCGTCGCAAATTGTCGCGGCGATTAAATCTCGCGCCGATCAACTGGGTGCCAGCGTGGTGGTGTCGATGGTAGAACGAAGCGGCGTCGAAGCCTGTAAAGCGGCGGTGCACAATCTTCTCGCGCAACGCGTCAGTGGGCTGATCATTAACTATCCGCTGGATGACCAGGATGCCATTGCTGTGGAAGCTGCCTGCACTAATGTTCCGGCGTTATTTCTTGATGTCTCTGACCAGACACCCATCAACAGTATTATTTTCTCCCATGAAGACGGTACGCGACTGGGCGTGGAGCATCTGGTCGCATTGGGTCACCAGCAAATCGCGCTGTTAGCGGGCCCATTAAGTTCTGTCTCGGCGCGTCTGCGTCTGGCTGGCTGGCATAAATATCTCACTCGCAATCAAATTCAGCCGATAGCGGAACGGGAAGGCGACTGGAGTGCCATGTCCGGTTTTCAACAAACCATGCAAATGCTGAATGAGGGCATCGTTCCCACTGCGATGCTGGTTGCCAACGATCAGATGGCGCTGGGCGCAATGCGCGCCATTACCGAGTCCGGGCTGCGCGTTGGTGCGGATATCTCGGTAGTGGGATACGACGATACCGAAGACAGCTCATGTTATATCCCGCCGTTAACCACCATCAAACAGGATTTTCGCCTGCTGGGGCAAACCAGCGTGGACCGCTTGCTGCAACTCTCTCAGGGCCAGGCGGTGAAGGGCAATCAGCTGTTGCCCGTCTCACTGGTGAAAAGAAAAACCACCCTGGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGCTGGCACGACAGGTTTCCCGACTGGAAAGCGGGCAGTGAGCGCAACGCAATTAATGTGAGTTAGCTCACTCATTAGGCACAATTCTCGAGTTTGACAGCTTATCATCGACTGCACGGTGCACCAATGCTTCTGGCGTCAGGCAGCCATCGGAAGCTGTGGTATGGCTGTGCAGGTCGTAAATCACTGCATAATTCGTGTCGCTCAAGGCGCACTCCCGTTCTGGATAATGTTTTTTGCGCCGACATCATAACGGTTCTGGCAAATATTCTGAAATGAGCTGTTGACAATTAATCATCGGCTCGTATAATGTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGCCAGTCCGTTTAGGTGTTTTCACGAGCACTTCACCAACAAGGACCATAGATTATGAAAATAAAAACAGGTGCACGCATCCTCGCATTATCCGCATTAACGACGATGATGTTTTCCGCCTCAAGCTTCGCCTATGACGTTCCGGACTACGCAGCTGCAGAAGAAGGTAAACTGGTAATCTGGATTAACGGCGATAAAGGCTATAACGGTCTCGCTGAAGTCGGTAAGAAATTCGAGAAAGATACCGGAATTAAAGTCACCGTTGAGCATCCGGATAAACTGGAAGAGAAATTCCCACAGGTTGCGGCAACTGGCGATGGCCCTGACATTATCTTCTGGGCACACGACCGCTTTGGTGGCTACGCTCAATCTGGCCTGTTGGCTGAAATCACCCCGGACAAAGCGTTCCAGGACAAGCTGTATCCGTTTACCTGGGATGCCGTACGTTACAACGGCAAGCTGATTGCTTACCCGATCGCTGTTGAAGCGTTATCGCTGATTTATAACAAAGATCTGCTGCCGAACCCGCCAAAAACCTGGGAAGAGATCCCGGCGCTGGATAAAGAACTGAAAGCGAAAGGTAAGAGCGCGCTGATGTTCAACCTGCAAGAACCGTACTTCACCTGGCCGCTGATTGCTGCTGACGGGGGTTATGCGTTCAAGTATGAAAACGGCAAGTACGACATTAAAGACGTGGGCGTGGATAACGCTGGCGCGAAAGCGGGTCTGACCTTCCTGGTTGACCTGATTAAAAACAAACACATGAATGCAGACACCGATTACTCCATCGCAGAAGCTGCCTTTAATAAAGGCGAAACAGCGATGACCATCAACGGCCCGTGGGCATGGTCCAACATCGACACCAGCAAAGTGAATTATGGTGTAACGGTACTGCCGACCTTCAAGGGTCAACCATCCAAACCGTTCGTTGGCGTGCTGAGCGCAGGTATTAACGCCGCCAGTCCGAACAAAGAGCTGGCAAAAGAGTTCCTCGAAAACTATCTGCTGACTGATGAAGGTCTGGAAGCGGTTAATAAAGACAAACCGCTGGGTGCCGTAGCGCTGAAGTCTTACGAGGAAGAGTTGGCGAAAGATCCACGTATTGCCGCCACCATGGAAAACGCCCAGAAAGGTGAAATCATGCCGAACATCCCGCAGATGTCCGCTTTCTGGTATGCCGTGCGTACTGCGGTGATCAACGCCGCCAGCGGTCGTCAGACTGTCGATGAAGCCCTGAAAGACGCGCAGACTAATTCGAGCTCGAACAACAACAACAATAACAATAACAACAACCTCGGGATCGAGGGAAGGATTTCAGAATTCGGATCCTCTAGAGTCGACCTGCATGGTACCGCCAGCTTGGCACTGGCCGTCGTTTTACAACGTCGTGACTGGGAAAACCCTGGCGTTACCCAACTTAATCGCCTTGCAGCACATCCCCCTTTCGCCAGCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGCAGCTTGGCTGTTTTGGCGGATGAGATAAGATTTTCAGCCTGATACAGATTAAATCAGAACGCAGAAGCGGTCTGATAAAACAGAATTTGCCTGGCGGCAGTAGCGCGGTGGTCCCACCTGACCCCATGCCGAACTCAGAAGTGAAACGCCGTAGCGCCGATGGTAGTGTGGGGTCTCCCCATGCGAGAGTAGGGAACTGCCAGGCATCAAATAAAACGAAAGGCTCAGTCGAAAGACTGGGCCTTTCGTTTTATCTGTTGTTTGTCGGTGAACGCTCTCCTGAGTAGGACAAATCCGCCGGGAGCGGATTTGAACGTTGCGAAGCAACGGCCCGGAGGGTGGCGGGCAGGACGCCCGCCATAAACTGCCAGGCATCAAATTAAGCAGAAGGCCATCCTGACGGATGGCCTTTTTGCGTTTCTACAAACTCTTTTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTCTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTGTTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTACCCCGGTTGATAATCAGAAAAGCCCCAAAAACAGGAAGATTGTATAAGCAAATATTTAAATTGTAAACGTTAATATTTTGTTAAAATTCGCGTTAAATTTTTGTTAAATCAGCTCATTTTTTAACCAATAGGCCGAAATCGGCAAAATCCCTTATAAATCAAAAGAATAGCCCGAGATAGGGTTGAGTGTTGTTCCAGTTTGGAACAAGAGTCCACTATTAAAGAACGTGGACTCCAACGTCAAAGGGCGAAAAACCGTCTATCAGGGCGATGGCCCACTACGTGAACCATCACCCAAATCAAGTTTTTTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACCCTAAAGGGAGCCCCCGATTTAGAGCTTGACGGGGAAAGCCGGCGAACGTGGCGAGAAAGGAAGGGAAGAAAGCGAAAGGAGCGGGCGCTAGGGCGCTGGCAAGTGTAGCGGTCACGCTGCGCGTAACCACCACACCCGCCGCGCTTAATGCGCCGCTACAGGGCGCGTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATGGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGTATACACTCCGCTATCGCTACGTGACTGGGTCATGGCTGCGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGGCAGCTGCGGTAAAGCTCATCAGCGTGGTCGTGCAGCGATTCACAGATGTCTGCCTGTTCATCCGCGTCCAGCTCGTTGAGTTTCTCCAGAAGCGTTAATGTCTGGCTTCTGATAAAGCGGGCCATGTTAAGGGCGGTTTTTTCCTGTTTGGTCACTTGATGCCTCCGTGTAAGGGGGAATTTCTGTTCATGGGGGTAATGATACCGATGAAACGAGAGAGGATGCTCACGATACGGGTTACTGATGATGAACATGCCCGGTTACTGGAACGTTGTGAGGGTAAACAACTGGCGGTATGGATGCGGCGGGACCAGAGAAAAATCACTCAGGGTCAATGCCAGCGCTTCGTTAATACAGATGTAGGTGTTCCACAGGGTAGCCAGCAGCATCCTGCGATGCAGATCCGGAACATAATGGTGCAGGGCGCTGACTTCCGCGTTTCCAGACTTTACGAAACACGGAAACCGAAGACCATTCATGTTGTTGCTCAGGTCGCAGACGTTTTGCAGCAGCAGTCGCTTCACGTTCGCTCGCGTATCGGTGATTCATTCTGCTAACCAGTAAGGCAACCCCGCCAGCCTAGCCGGGTCCTCAACGACAGGAGCACGATCATGCGCACCCGTGGCCAGGACCCAACGCTGCCCGAAATT",
+        "topology": "linear",
+        "vector_profile": "bacterial_expression_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "regulatory_compatibility",
+        "justification": "Non-blocking regulatory-context warning retained as a documented source-record caveat. Regulatory warning retained only as expected report shape; source is a complete annotated vector record, but the local parser lacks enough downstream cassette context for a stronger PASS."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_u47121_2",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated mammalian_expression_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Cloning vector pSI, mammalian expression vector, complete sequence",
+    "accession": "U47121",
+    "vector_profile": "mammalian_expression_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/U47121"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/U47121.2.gb",
+      "references": [
+        {
+          "journal": "Promega Notes 49, 7-11 (1994)",
+          "title": "pCI and pSI Mammalian Expression Vectors"
+        },
+        {
+          "journal": "Submitted (25-JAN-1996) Melinda Brady, R&D, Promega Corporation, 5445 East Cheryl Parkway, Madison, WI 53711, USA",
+          "title": "Direct Submission"
+        },
+        {
+          "journal": "Submitted (13-SEP-1999) Melinda Brady, R&D, Promega Corporation, 5445 East Cheryl Parkway, Madison, WI 53711, USA",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Cloning vector pSI, mammalian expression vector, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "MCS": [
+        "multiple cloning sites"
+      ],
+      "ORI": [
+        "phage f1 region",
+        "pMB1/pUC origin"
+      ],
+      "marker": [
+        "ampR"
+      ],
+      "promoter": [
+        "SV40 enhancer and early promoter",
+        "T7 promoter"
+      ],
+      "terminator": [
+        "SV40 late polyadenylation signal"
+      ]
+    },
+    "source_plasmid_id": "genbank:U47121.2",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Cloning vector pSI, mammalian expression vector, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=3632",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "ampR"
+        ],
+        "organism": "mammalian cells and Escherichia coli",
+        "promoter_type": "SV40 enhancer and early promoter",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "mammalian_expression_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.95,
+            "end": 419,
+            "name": "SV40 enhancer and early promoter",
+            "start": 0,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 678,
+            "name": "T7 promoter",
+            "start": 659,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 730,
+            "name": "multiple cloning sites",
+            "start": 677,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.95,
+            "end": 958,
+            "name": "SV40 late polyadenylation signal",
+            "start": 736,
+            "strand": 1,
+            "type": "terminator"
+          },
+          {
+            "confidence": 0.95,
+            "end": 1503,
+            "name": "phage f1 region",
+            "start": 1047,
+            "strand": 1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2800,
+            "name": "ampR",
+            "start": 1939,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.8274151103565365,
+            "end": 3559,
+            "name": "pMB1/pUC origin",
+            "start": 2970,
+            "strand": -1,
+            "type": "ORI"
+          }
+        ],
+        "sequence": "GCGCAGCACCATGGCCTGAAATAACCTCTGAAAGAGGAACTTGGTTAGGTACCTTCTGAGGCGGAAAGAACCAGCTGTGGAATGTGTGTCAGTTAGGGTGTGGAAAGTCCCCAGGCTCCCCAGCAGGCAGAAGTATGCAAAGCATGCATCTCAATTAGTCAGCAACCAGGTGTGGAAAGTCCCCAGGCTCCCCAGCAGGCAGAAGTATGCAAAGCATGCATCTCAATTAGTCAGCAACCATAGTCCCGCCCCTAACTCCGCCCATCCCGCCCCTAACTCCGCCCAGTTCCGCCCATTCTCCGCCCCATGGCTGACTAATTTTTTTTATTTATGCAGAGGCCGAGGCCGCCTCGGCCTCTGAGCTATTCCAGAAGTAGTGAGGAGGCTTTTTTGGAGGCCTAGGCTTTTGCAAAAAGCTTGATTCTTCTGACACAACAGTCTCGAACTTAAGCTGCAGAAGTTGGTCGTGAGGCACTGGGCAGGTAAGTATCAAGGTTACAAGACAGGTTTAAGGAGACCAATAGAAACTGGGCTTGTCGAGACAGAGAAGACTCTTGCGTTTCTGATAGGCACCTATTGGTCTTACTGACATCCACTTTGCCTTTCTCTCCACAGGTGTCCACTCCCAGTTCAATTACAGCTCTTAAGGCTAGAGTACTTAATACGACTCACTATAGGCTAGCCTCGAGAATTCACGCGTGGTACCTCTAGAGTCGACCCGGGCGGCCGCTTCGAGCAGACATGATAAGATACATTGATGAGTTTGGACAAACCACAACTAGAATGCAGTGAAAAAAATGCTTTATTTGTGAAATTTGTGATGCTATTGCTTTATTTGTAACCATTATAAGCTGCAATAAACAAGTTAACAACAACAATTGCATTCATTTTATGTTTCAGGTTCAGGGGGAGGTGTGGGAGGTTTTTTAAAGCAAGTAAAACCTCTACAAATGTGGTAAAATCGATAAGGATCCGGGCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGACGCGCCCTGTAGCGGCGCATTAAGCGCGGCGGGTGTGGTGGTTACGCGCAGCGTGACCGCTACACTTGCCAGCGCCCTAGCGCCCGCTCCTTTCGCTTTCTTCCCTTCCTTTCTCGCCACGTTCGCCGGCTTTCCCCGTCAAGCTCTAAATCGGGGGCTCCCTTTAGGGTTCCGATTTAGTGCTTTACGGCACCTCGACCCCAAAAAACTTGATTAGGGTGATGGTTCACGTAGTGGGCCATCGCCCTGATAGACGGTTTTTCGCCCTTTGACGTTGGAGTCCACGTTCTTTAATAGTGGACTCTTGTTCCAAACTGGAACAACACTCAACCCTATCTCGGTCTATTCTTTTGATTTATAAGGGATTTTGCCGATTTCGGCCTATTGGTTAAAAAATGAGCTGATTTAACAAAAATTTAACGCGAATTTTAACAAAATATTAACGCTTACAATTTCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATGGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGACGAAAGGGCCTCGTGATACGCCTATTTTTATAGGTTAATGTCATGATAATAATGGTTTCTTAGACGTCAGGTGGCACTTTTCGGGGAAATGTGCGCGGAACCCCTATTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTTCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGGCTCGACAGATCT",
+        "topology": "circular",
+        "vector_profile": "mammalian_expression_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "repeat_and_instability",
+        "justification": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review. Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_af041805_1",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated yeast_shuttle_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Cloning vector yGALset983, complete sequence",
+    "accession": "AF041805",
+    "vector_profile": "yeast_shuttle_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/AF041805"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/AF041805.1.gb",
+      "references": [
+        {
+          "journal": "BioTechniques 24 (5), 782-786 (1998)",
+          "pubmed_id": "9591127",
+          "title": "Vectors for expressing T7 epitope- and His6 affinity-tagged fusion proteins in S. cerevisiae"
+        },
+        {
+          "journal": "Submitted (09-JAN-1998) Plant Biology, University of Minnesota, 220 Biological Sciences Center, St. Paul, MN 55108, USA",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Cloning vector yGALset983, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "MCS": [
+        "multiple cloning sites"
+      ],
+      "ORI": [
+        "S. cerevisiae 2 micron plasmid STB and ARS region",
+        "pUC origin"
+      ],
+      "marker": [
+        "beta-lactamase"
+      ],
+      "promoter": [
+        "T7 promoter",
+        "S. cerevisiae GAL10 promoter"
+      ],
+      "terminator": [
+        "T7 terminator"
+      ]
+    },
+    "source_plasmid_id": "genbank:AF041805.1",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Cloning vector yGALset983, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=6483",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "beta-lactamase"
+        ],
+        "organism": "Saccharomyces cerevisiae and Escherichia coli",
+        "promoter_type": "S. cerevisiae GAL10 promoter",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "yeast_shuttle_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.8274999999999999,
+            "end": 92,
+            "name": "T7 promoter",
+            "start": 69,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 793,
+            "name": "S. cerevisiae GAL10 promoter",
+            "start": 111,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 982,
+            "name": "multiple cloning sites",
+            "start": 935,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.8274999999999999,
+            "end": 1118,
+            "name": "T7 terminator",
+            "start": 1030,
+            "strand": -1,
+            "type": "terminator"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2831,
+            "name": "S. cerevisiae 2 micron plasmid STB and ARS region",
+            "start": 1238,
+            "strand": 1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 5542,
+            "name": "beta-lactamase",
+            "start": 4681,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.95,
+            "end": 6295,
+            "name": "pUC origin",
+            "start": 6294,
+            "strand": 1,
+            "type": "ORI"
+          }
+        ],
+        "sequence": "GCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGATCTCGATCCCGCGAAATTAATACGACTCACTATAGGGAGACCACAACGGTTTCCCTCTAGGATCCGGGGTTTTTTCTCCTTGACGTTAAAGTATAGAGGTATATTAACAATTTTTTGTTGATACTTTTATTACATTTGAATAAGAAGTAATACAAACCGAAAATGTTGAAAGTATTAGTTAAAGTGGTTATGCAGTTTTTGCATTTATATATCTGTTAATAGATCAAAAATCATCGCTTCGCTGATTAATTACCCCAGAAATAAGGCTAAAAAACTAATCGCATTATCATCCTATGGTTGTTAATTTGATTCGTTCATTTGAAGGTTTGTGGGGCCAGGTTACTGCCAATTTTTCCTCTTCATAACCATAAAAGCTAGTATTGTAGAATCTTTATTGTTCGGAGCAGTGCGGCGCGAGGCACATCTGCGTTTCAGGAACGCGACCGGTGAAGACGAGGACGCACGGAGGAGAGTCTTCCTTCGGAGGGCTGTCACCCGCTCGGCGGCTTCTAATCCGTACTTCAATATAGCAATGAGCAGTTAAGCGTATTACTGAAAGTTCCAAAGAGAAGGTTTTTTTAGGCTAAGATAATGGGGCTCTTTACATTTCCACAACATATAAGTAAGATTAGATATGGATATGTATATGGATATGTATATGGTGGTAATGCCATGTAATATGATTATTAAACTTCTTTGCGTCCATCCAAAAAAAAAGTAAGAATTTTTGAAAATTCGAATTCTAGATAATTTTGTTTAACTTTAAGAAGGAGATATACATATGCGGGGTTCTCATCATCATCATCATCATGGTATGGCTAGCATGACTGGTGGACAGCAAATGGGTCGGGATCTGTACGACGATGACGATAAGGATCGATGGGGATCCGAGCTCGAGATCTGCAGCTGGTACCATGGAATTCGAAGCTTGATCCGGCTGCTAACAAAGCCCGAAAGGAAGCTGAGTTGGCTGCTGCCACCGCTGAGCAATAACTAGCATAACCCCTTGGGGCCTCTAAACGGGTCTTGAGGGGTTTTTTGCTGAAAGGAGGAACTATATCCGGATCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATATCGGATCGTACTTGTTACCCATCATTGAATTTTGAACATCCGAACCTGGGAGTTTTCCCTGAAACAGATAGTATATTTGAACCTGTATAATAATATATAGTCTAGCGCTTTACGGAAGACAATGTATGTATTTCGGTTCCTGGAGAAACTATTGCATCTATTGCATAGGTAATCTTGCACGTCGCATCCCCGGTTCATTTTCTGCGTTTCCATCTTGCACTTCAATAGCATATCTTTGTTAACGAAGCATCTGTGCTTCATTTTGTAGAACAAAAATGCAACGCGAGAGCGCTAATTTTTCAAACAAAGAATCTGAGCTGCATTTTTACAGAACAGAAATGCAACGCGAAAGCGCTATTTTACCAACGAAGAATCTGTGCTTCATTTTTGTAAAACAAAAATGCAACGCGAGAGCGCTAATTTTTCAAACAAAGAATCTGAGCTGCATTTTTACAGAACAGAAATGCAACGCGAGAGCGCTATTTTACCAACAAAGAATCTATACTTCTTTTTTGTTCTACAAAAATGCATCCCGAGAGCGCTATTTTTCTAACAAAGCATCTTAGATTACTTTTTTTCTCCTTTGTGCGCTCTATAATGCAGTCTCTTGATAACTTTTTGCACTGTAGGTCCGTTAAGGTTAGAAGAAGGCTACTTTGGTGTCTATTTTCTCTTCCATAAAAAAAGCCTGACTCCACTTCCCGCGTTTACTGATTACTAGCGAAGCTGCGGGTGCATTTTTTCAAGATAAAGGCATCCCCGATTATATTCTATACCGATGTGGATTGCGCATACTTTGTGAACAGAAAGTGATAGCGTTGATGATTCTTCATTGGTCAGAAAATTATGAACGGTTTCTTCTATTTTGTCTCTATATACTACGTATAGGAAATGTTTACATTTTCGTATTGTTTTCGATTCACTCTATGAATAGTTCTTACTACAATTTTTTTGTCTAAAGAGTAATACTAGAGATAAACATAAAAAATGTAGAGGTCGAGTTTAGATGCAAGTTCAAGGAGCGAAAGGTGGATGGGTAGGTTATATAGGGATATAGCACAGAGATATATAGCAAAGAGATACTTTTGAGCAATGTTTGTGGAAGCGGTATTCGCAATATTTTAGTAGCTCGTTACAGTCCGGTGCGTTTTTGGTTTTTTGAAAGTGCGTCTTCAGAGCGCTTTTGGTTTTCAAAAGCGCTCTGAAGTTCCTATACTTTCTAGCTAGAGAATAGGAACTTCGGAATAGGAACTTCAAAGCGTTTCCGAAAACGAGCGCTTCCGAAAATGCAACGCGAGCTGCGCACATACAGCTCACTGTTCACGTCGCACCTATATCTGCGTGTTGCCTGTATATATATATACATGAGAAGAACGGCATAGTGCGTGTTTATGCTTAAATGCGTACTTATATGCGTCTATTTATGTAGGATGAAAGGTAGTCTAGTACCTCCTGTGATATTATCCCATTCCATGCGGGGTATCGTATGCTTCCTTCAGCACTACCCTTTAGCTGTTCTATATGCTGCCACTCCTCAATTGGATTAGTCTCATCCTTCAATGCTATCATTTCCTTTGATATTGGATCGATCCGATGATAAGCTGTCAAACATGAGAATTAATTCTACCCTATGAACATATTCCATTTTGTAATTTCGTGTCGTTTCTATTATGAATTTCATTTATAAAGTTTATGTACAAATATCATAAAAAAAGAGAATCTTTTTAAGCAAGGATTTTCTTAACTTCTTCGGCGACAGCATCACCGACTTCGGTGGTACTGTTGGAACCACCTAAATCACCAGTTCTGATACCTGCATCCAAAACCTTTTTAACTGCATCTTCAATGGCCTTACCTTCTTCAGGCAAGTTCAATGACAATTTCAACATCATTGCAGCAGACAAGATAGTGGCGATAGGGTCAACCTTATTCTTTGGCAAATCTGGAGCAGAACCGTGGCATGGTTCGTACAAACCAAATGCGGTGTTCTTGTCTGGCAAAGAGGCCAAGGACGCAGATGGCAACAAACCCAAGGAACCTGGGATAACGGAGGCTTCATCGGAGATGATATCACCAAACATGTTGCTGGTGATTATAATACCATTTAGGTGGGTTGGGTTCTTAACTAGGATCATGGCGGCAGAATCAATCAATTGATGTTGAACCTTCAATGTAGGAAATTCGTTCTTGATGGTTTCCTCCACAGTTTTTCTCCATAATCTTGAAGAGGCCAAAACATTAGCTTTATCCAAGGACCAAATAGGCAATGGTGGCTCATGTTGTAGGGCCATGAAAGCGGCCATTCTTGTGATTCTTTGCACTTCTGGAACGGTGTATTGTTCACTATCCCAAGCGACACCATCACCATCGTCTTCCTTTCTCTTACCAAAGTAAATACCTCCCACTAATTCTCTGACAACAACGAAGTCAGTACCTTTAGCAAATTGTGGCTTGATTGGAGATAAGTCTAAAAGAGAGTCGGATGCAAAGTTACATGGTCTTAAGTTGGCGTACAATTGAAGTTCTTTACGGATTTTTAGTAAACCTTGTTCAGGTCTAACACTACCTGTACCCCATTTAGGACCACCCACAGCACCTAACAAAACGGCATCAACCTTCTTGGAGGCTTCCAGCGCCTCATCTGGAAGTGGGACACCTGTAGCATCGATAGCAGCACCACCAATTAAATGATTTTCGAAATCGAACTTGACATTGGAACGAACATCAGAAATAGCTTTAAGAACCTTAATGGCTTCGGCTGTGATCTTGACCAACGTGGTCACCTGGCAAAACGACGATCTTCTTAGGGGCAGACATAGGGGCAGACATTAGAATGTATATCCTTGAAATATATATATATATTGCTGAAATGTAAAAGGTAAGAAAAGTTAGAATAAGACGATTGCTAACCACCTATTGGAAAAAACAATAGGTCCTTAAATAATATTGTCAACTTCAAGTATTGTGATGCAAGCATTTAGTCATGAACGCTTCTCTATTCTATATGAAAAGCCGGTTCCGGCCTCTCACCTTTCCTTTTTCTCCCAATTTTTCAGTTGAAAAAGGTATATGCGCGGCGACCTCTGAAATTAACAAAAAATTTCCAGTCATCGAATTTGTCTGTGCGATAGCGCCCCTGTGTGTTCTCGTTATGTTGAGGAAAAAAATAATGGTTGCTAAGAGATTCGAACTCTTGCATCTTACGATACCTGAGTATTCCCACAGTTAATTCTTGAAGACGAAAGGGCCTCGTGATACGCCTATTTTTATAGGTTAATGTCATGATAATAATGGTTTCTTAGACGTCAGGTGGCACTTTTCGGGGAAATGTGCGCGGAACCCCTATTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGA",
+        "topology": "circular",
+        "vector_profile": "yeast_shuttle_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "repeat_and_instability",
+        "justification": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review. Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_af041806_1",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated yeast_shuttle_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Cloning vector yGALset984, complete sequence",
+    "accession": "AF041806",
+    "vector_profile": "yeast_shuttle_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/AF041806"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/AF041806.1.gb",
+      "references": [
+        {
+          "journal": "BioTechniques 24 (5), 782-786 (1998)",
+          "pubmed_id": "9591127",
+          "title": "Vectors for expressing T7 epitope- and His6 affinity-tagged fusion proteins in S. cerevisiae"
+        },
+        {
+          "journal": "Submitted (09-JAN-1998) Plant Biology, University of Minnesota, 220 Biological Sciences Center, St. Paul, MN 55108, USA",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Cloning vector yGALset984, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "MCS": [
+        "multiple cloning sites"
+      ],
+      "ORI": [
+        "S. cerevisiae 2 micron plasmid STB and ARS region",
+        "pUC origin"
+      ],
+      "marker": [
+        "beta-lactamase"
+      ],
+      "promoter": [
+        "T7 promoter",
+        "S. cerevisiae GAL10 promoter"
+      ],
+      "terminator": [
+        "T7 terminator"
+      ]
+    },
+    "source_plasmid_id": "genbank:AF041806.1",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Cloning vector yGALset984, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=5731",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "beta-lactamase"
+        ],
+        "organism": "Saccharomyces cerevisiae and Escherichia coli",
+        "promoter_type": "S. cerevisiae GAL10 promoter",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "yeast_shuttle_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.8274999999999999,
+            "end": 92,
+            "name": "T7 promoter",
+            "start": 69,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 793,
+            "name": "S. cerevisiae GAL10 promoter",
+            "start": 111,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 982,
+            "name": "multiple cloning sites",
+            "start": 935,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.8274999999999999,
+            "end": 1118,
+            "name": "T7 terminator",
+            "start": 1030,
+            "strand": -1,
+            "type": "terminator"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2831,
+            "name": "S. cerevisiae 2 micron plasmid STB and ARS region",
+            "start": 1238,
+            "strand": 1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 4790,
+            "name": "beta-lactamase",
+            "start": 3929,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.95,
+            "end": 5543,
+            "name": "pUC origin",
+            "start": 5542,
+            "strand": 1,
+            "type": "ORI"
+          }
+        ],
+        "sequence": "GCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGATCTCGATCCCGCGAAATTAATACGACTCACTATAGGGAGACCACAACGGTTTCCCTCTAGGATCCGGGGTTTTTTCTCCTTGACGTTAAAGTATAGAGGTATATTAACAATTTTTTGTTGATACTTTTATTACATTTGAATAAGAAGTAATACAAACCGAAAATGTTGAAAGTATTAGTTAAAGTGGTTATGCAGTTTTTGCATTTATATATCTGTTAATAGATCAAAAATCATCGCTTCGCTGATTAATTACCCCAGAAATAAGGCTAAAAAACTAATCGCATTATCATCCTATGGTTGTTAATTTGATTCGTTCATTTGAAGGTTTGTGGGGCCAGGTTACTGCCAATTTTTCCTCTTCATAACCATAAAAGCTAGTATTGTAGAATCTTTATTGTTCGGAGCAGTGCGGCGCGAGGCACATCTGCGTTTCAGGAACGCGACCGGTGAAGACGAGGACGCACGGAGGAGAGTCTTCCTTCGGAGGGCTGTCACCCGCTCGGCGGCTTCTAATCCGTACTTCAATATAGCAATGAGCAGTTAAGCGTATTACTGAAAGTTCCAAAGAGAAGGTTTTTTTAGGCTAAGATAATGGGGCTCTTTACATTTCCACAACATATAAGTAAGATTAGATATGGATATGTATATGGATATGTATATGGTGGTAATGCCATGTAATATGATTATTAAACTTCTTTGCGTCCATCCAAAAAAAAAGTAAGAATTTTTGAAAATTCGAATTCTAGATAATTTTGTTTAACTTTAAGAAGGAGATATACATATGCGGGGTTCTCATCATCATCATCATCATGGTATGGCTAGCATGACTGGTGGACAGCAAATGGGTCGGGATCTGTACGACGATGACGATAAGGATCGATGGGGATCCGAGCTCGAGATCTGCAGCTGGTACCATGGAATTCGAAGCTTGATCCGGCTGCTAACAAAGCCCGAAAGGAAGCTGAGTTGGCTGCTGCCACCGCTGAGCAATAACTAGCATAACCCCTTGGGGCCTCTAAACGGGTCTTGAGGGGTTTTTTGCTGAAAGGAGGAACTATATCCGGATCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATATCGGATCGTACTTGTTACCCATCATTGAATTTTGAACATCCGAACCTGGGAGTTTTCCCTGAAACAGATAGTATATTTGAACCTGTATAATAATATATAGTCTAGCGCTTTACGGAAGACAATGTATGTATTTCGGTTCCTGGAGAAACTATTGCATCTATTGCATAGGTAATCTTGCACGTCGCATCCCCGGTTCATTTTCTGCGTTTCCATCTTGCACTTCAATAGCATATCTTTGTTAACGAAGCATCTGTGCTTCATTTTGTAGAACAAAAATGCAACGCGAGAGCGCTAATTTTTCAAACAAAGAATCTGAGCTGCATTTTTACAGAACAGAAATGCAACGCGAAAGCGCTATTTTACCAACGAAGAATCTGTGCTTCATTTTTGTAAAACAAAAATGCAACGCGAGAGCGCTAATTTTTCAAACAAAGAATCTGAGCTGCATTTTTACAGAACAGAAATGCAACGCGAGAGCGCTATTTTACCAACAAAGAATCTATACTTCTTTTTTGTTCTACAAAAATGCATCCCGAGAGCGCTATTTTTCTAACAAAGCATCTTAGATTACTTTTTTTCTCCTTTGTGCGCTCTATAATGCAGTCTCTTGATAACTTTTTGCACTGTAGGTCCGTTAAGGTTAGAAGAAGGCTACTTTGGTGTCTATTTTCTCTTCCATAAAAAAAGCCTGACTCCACTTCCCGCGTTTACTGATTACTAGCGAAGCTGCGGGTGCATTTTTTCAAGATAAAGGCATCCCCGATTATATTCTATACCGATGTGGATTGCGCATACTTTGTGAACAGAAAGTGATAGCGTTGATGATTCTTCATTGGTCAGAAAATTATGAACGGTTTCTTCTATTTTGTCTCTATATACTACGTATAGGAAATGTTTACATTTTCGTATTGTTTTCGATTCACTCTATGAATAGTTCTTACTACAATTTTTTTGTCTAAAGAGTAATACTAGAGATAAACATAAAAAATGTAGAGGTCGAGTTTAGATGCAAGTTCAAGGAGCGAAAGGTGGATGGGTAGGTTATATAGGGATATAGCACAGAGATATATAGCAAAGAGATACTTTTGAGCAATGTTTGTGGAAGCGGTATTCGCAATATTTTAGTAGCTCGTTACAGTCCGGTGCGTTTTTGGTTTTTTGAAAGTGCGTCTTCAGAGCGCTTTTGGTTTTCAAAAGCGCTCTGAAGTTCCTATACTTTCTAGCTAGAGAATAGGAACTTCGGAATAGGAACTTCAAAGCGTTTCCGAAAACGAGCGCTTCCGAAAATGCAACGCGAGCTGCGCACATACAGCTCACTGTTCACGTCGCACCTATATCTGCGTGTTGCCTGTATATATATATACATGAGAAGAACGGCATAGTGCGTGTTTATGCTTAAATGCGTACTTATATGCGTCTATTTATGTAGGATGAAAGGTAGTCTAGTACCTCCTGTGATATTATCCCATTCCATGCGGGGTATCGTATGCTTCCTTCAGCACTACCCTTTAGCTGTTCTATATGCTGCCACTCCTCAATTGGATTAGTCTCATCCTTCAATGCTATCATTTCCTTTGATATTGGATCGATCCGATGATAAGCTGTCAAACATGAGAATTGATCTTTTATGCTTGCTTTTCAAAAGGCTTGCAGGCAAGTGCACAAACAATACTTAAATAAATACTACTCAGTAATAACCTATTTCTTAGCATTTTTGACGAAATTTGCTATTTTGTTAGAGTCTTTTACACCATTTGTCTCCACACCTCCGCTTACATCAACACCAATAACGCCATTTAATCTAAGCGCATCACCAACATTTTCTGGCGTCAGTCCACCAGCTAACATAAAATGTAAGCTCTCGGGGCTCTCTTGCCTTCCAACCCAGTCAGAAATCGAGTTCCAATCCAAAAGTTCACCTGTCCCACCTGCTTCTGAATCAAACAAGGGAATAAACGAATGAGGTTTCTGTGAAGCTGCACTGAGTAGTATGTTGCAGTCTTTTGGAAATACGAGTCTTTTAATAACTGGCAAACCGAGGAACTCTTGGTATTCTTGCCACGACTCATCTCCATGCAGTTGGACGATATCAATGCCGTAATCATTGACCAGAGCCAAAACATCCTCCTTAGGTTGATTACGAAACACGCCAACCAAGTATTTCGGAGTGCCTGAACTATTTTTATATGCTTTTACAAGACTTGAAATTTTCCTTGCAATAACCGGGTCAATTGTTCTCTTTCTATTGGGCACACATATAATACCCAGCAAGTCAGCATCGGAATCTAGTGCACATTCTGCGGCCTCTGTGCTCTGCAAGCCGCAAACTTTCACCAATGGACCAGAACTACCTGTGAAATTAATAACAGACATACTCCAAGCTGCCTTTGTGTGCTTAATCACGTATACTCACGTGCTCAATAGTCACCAATGCCCTCCCTCTTGGCCCTCTCCTTTTCTTTTTTCGACCGAATTAATTCTTGAAGACGAAAGGGCCTCGTGATACGCCTATTTTTATAGGTTAATGTCATGATAATAATGGTTTCTTAGACGTCAGGTGGCACTTTTCGGGGAAATGTGCGCGGAACCCCTATTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGA",
+        "topology": "circular",
+        "vector_profile": "yeast_shuttle_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "repeat_and_instability",
+        "justification": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review. Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      }
+    ]
+  },
+  {
+    "case_id": "plasmid.good.b.genbank_af041807_1",
+    "capability": "plasmid",
+    "tier": "B",
+    "rationale": "Known-good because this is a complete annotated yeast_shuttle_vector record from the local corpus, with cached source sequence metadata and required propagation/selection features parsed from the raw record. The Phase 3 validation engine returns only non-blocking WARN checks, captured explicitly in warn_justifications.",
+    "name": "Cloning vector yGALset985, complete sequence",
+    "accession": "AF041807",
+    "vector_profile": "yeast_shuttle_vector",
+    "tier_label": "accepted-with-caveats",
+    "known_good_basis": [
+      "complete_annotated_corpus_record",
+      "cached_raw_genbank_record",
+      "phase3_constraint_engine_expected_pass_or_justified_warn"
+    ],
+    "citation_source_evidence": {
+      "citations": [
+        "https://www.ncbi.nlm.nih.gov/nuccore/AF041807"
+      ],
+      "curated_manifest_notes": null,
+      "publication_doi": null,
+      "raw_ref": "raw/genbank/AF041807.1.gb",
+      "references": [
+        {
+          "journal": "BioTechniques 24 (5), 782-786 (1998)",
+          "pubmed_id": "9591127",
+          "title": "Vectors for expressing T7 epitope- and His6 affinity-tagged fusion proteins in S. cerevisiae"
+        },
+        {
+          "journal": "Submitted (09-JAN-1998) Plant Biology, University of Minnesota, 220 Biological Sciences Center, St. Paul, MN 55108, USA",
+          "title": "Direct Submission"
+        }
+      ],
+      "source_description": "Cloning vector yGALset985, complete sequence",
+      "source_topology": "circular"
+    },
+    "feature_evidence": {
+      "MCS": [
+        "multiple cloning sites"
+      ],
+      "ORI": [
+        "S. cerevisiae 2 micron plasmid STB and ARS region",
+        "pUC origin"
+      ],
+      "marker": [
+        "beta-lactamase"
+      ],
+      "promoter": [
+        "T7 promoter",
+        "S. cerevisiae GAL10 promoter"
+      ],
+      "terminator": [
+        "T7 terminator"
+      ]
+    },
+    "source_plasmid_id": "genbank:AF041807.1",
+    "converted_from": "data/eval/validation/curated_known_good.jsonl",
+    "input": {
+      "design_spec": {
+        "application": "Cloning vector yGALset985, complete sequence",
+        "cell_line": null,
+        "clarification_needed": false,
+        "clarification_question": null,
+        "cloning_method": null,
+        "constraints": [
+          "target_length_bp=5973",
+          "topology=circular"
+        ],
+        "genes": [],
+        "inducer": null,
+        "markers": [
+          "beta-lactamase"
+        ],
+        "organism": "Saccharomyces cerevisiae and Escherichia coli",
+        "promoter_type": "S. cerevisiae GAL10 promoter",
+        "publication_doi": null,
+        "source": "genbank",
+        "tags": [],
+        "vector_type": "yeast_shuttle_vector"
+      },
+      "annotated_sequence": {
+        "annotation_complete": true,
+        "features": [
+          {
+            "confidence": 0.8274999999999999,
+            "end": 92,
+            "name": "T7 promoter",
+            "start": 69,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 793,
+            "name": "S. cerevisiae GAL10 promoter",
+            "start": 111,
+            "strand": 1,
+            "type": "promoter"
+          },
+          {
+            "confidence": 0.95,
+            "end": 981,
+            "name": "multiple cloning sites",
+            "start": 925,
+            "strand": 1,
+            "type": "MCS"
+          },
+          {
+            "confidence": 0.8274999999999999,
+            "end": 1108,
+            "name": "T7 terminator",
+            "start": 1020,
+            "strand": -1,
+            "type": "terminator"
+          },
+          {
+            "confidence": 0.95,
+            "end": 2830,
+            "name": "S. cerevisiae 2 micron plasmid STB and ARS region",
+            "start": 1237,
+            "strand": 1,
+            "type": "ORI"
+          },
+          {
+            "confidence": 0.95,
+            "end": 5032,
+            "name": "beta-lactamase",
+            "start": 4171,
+            "strand": 1,
+            "type": "marker"
+          },
+          {
+            "confidence": 0.95,
+            "end": 5785,
+            "name": "pUC origin",
+            "start": 5784,
+            "strand": 1,
+            "type": "ORI"
+          }
+        ],
+        "sequence": "GCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGATCTCGATCCCGCGAAATTAATACGACTCACTATAGGGAGACCACAACGGTTTCCCTCTAGGATCCGGGGTTTTTTCTCCTTGACGTTAAAGTATAGAGGTATATTAACAATTTTTTGTTGATACTTTTATTACATTTGAATAAGAAGTAATACAAACCGAAAATGTTGAAAGTATTAGTTAAAGTGGTTATGCAGTTTTTGCATTTATATATCTGTTAATAGATCAAAAATCATCGCTTCGCTGATTAATTACCCCAGAAATAAGGCTAAAAAACTAATCGCATTATCATCCTATGGTTGTTAATTTGATTCGTTCATTTGAAGGTTTGTGGGGCCAGGTTACTGCCAATTTTTCCTCTTCATAACCATAAAAGCTAGTATTGTAGAATCTTTATTGTTCGGAGCAGTGCGGCGCGAGGCACATCTGCGTTTCAGGAACGCGACCGGTGAAGACGAGGACGCACGGAGGAGAGTCTTCCTTCGGAGGGCTGTCACCCGCTCGGCGGCTTCTAATCCGTACTTCAATATAGCAATGAGCAGTTAAGCGTATTACTGAAAGTTCCAAAGAGAAGGTTTTTTTAGGCTAAGATAATGGGGCTCTTTACATTTCCACAACATATAAGTAAGATTAGATATGGATATGTATATGGATATGTATATGGTGGTAATGCCATGTAATATGATTATTAAACTTCTTTGCGTCCATCCAAAAAAAAAGTAAGAATTTTTGAAAATTCGAATTCTAGATAATTTTGTTTAACTTTAAGAAGGAGATATACATATGCGGGGTTCTCATCATCATCATCATCATGGTATGGCTAGCATGACTGGTGGACAGCAAATGGGTCGGGATCTGTACGACGATGACGATAAGGATCCGAGCTCGAGATCTGCAGCTGGTACCATGGAATTCGAAGCTTGATCCGGCTGCTAACAAAGCCCGAAAGGAAGCTGAGTTGGCTGCTGCCACCGCTGAGCAATAACTAGCATAACCCCTTGGGGCCTCTAAACGGGTCTTGAGGGGTTTTTTGCTGAAAGGAGGAACTATATCCGGATCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATATCGGATCGTACTTGTTACCCATCATTGAATTTTGAACATCCGAACCTGGGAGTTTTCCCTGAAACAGATAGTATATTTGAACCTGTATAATAATATATAGTCTAGCGCTTTACGGAAGACAATGTATGTATTTCGGTTCCTGGAGAAACTATTGCATCTATTGCATAGGTAATCTTGCACGTCGCATCCCCGGTTCATTTTCTGCGTTTCCATCTTGCACTTCAATAGCATATCTTTGTTAACGAAGCATCTGTGCTTCATTTTGTAGAACAAAAATGCAACGCGAGAGCGCTAATTTTTCAAACAAAGAATCTGAGCTGCATTTTTACAGAACAGAAATGCAACGCGAAAGCGCTATTTTACCAACGAAGAATCTGTGCTTCATTTTTGTAAAACAAAAATGCAACGCGAGAGCGCTAATTTTTCAAACAAAGAATCTGAGCTGCATTTTTACAGAACAGAAATGCAACGCGAGAGCGCTATTTTACCAACAAAGAATCTATACTTCTTTTTTGTTCTACAAAAATGCATCCCGAGAGCGCTATTTTTCTAACAAAGCATCTTAGATTACTTTTTTTCTCCTTTGTGCGCTCTATAATGCAGTCTCTTGATAACTTTTTGCACTGTAGGTCCGTTAAGGTTAGAAGAAGGCTACTTTGGTGTCTATTTTCTCTTCCATAAAAAAAGCCTGACTCCACTTCCCGCGTTTACTGATTACTAGCGAAGCTGCGGGTGCATTTTTTCAAGATAAAGGCATCCCCGATTATATTCTATACCGATGTGGATTGCGCATACTTTGTGAACAGAAAGTGATAGCGTTGATGATTCTTCATTGGTCAGAAAATTATGAACGGTTTCTTCTATTTTGTCTCTATATACTACGTATAGGAAATGTTTACATTTTCGTATTGTTTTCGATTCACTCTATGAATAGTTCTTACTACAATTTTTTTGTCTAAAGAGTAATACTAGAGATAAACATAAAAAATGTAGAGGTCGAGTTTAGATGCAAGTTCAAGGAGCGAAAGGTGGATGGGTAGGTTATATAGGGATATAGCACAGAGATATATAGCAAAGAGATACTTTTGAGCAATGTTTGTGGAAGCGGTATTCGCAATATTTTAGTAGCTCGTTACAGTCCGGTGCGTTTTTGGTTTTTTGAAAGTGCGTCTTCAGAGCGCTTTTGGTTTTCAAAAGCGCTCTGAAGTTCCTATACTTTCTAGCTAGAGAATAGGAACTTCGGAATAGGAACTTCAAAGCGTTTCCGAAAACGAGCGCTTCCGAAAATGCAACGCGAGCTGCGCACATACAGCTCACTGTTCACGTCGCACCTATATCTGCGTGTTGCCTGTATATATATATACATGAGAAGAACGGCATAGTGCGTGTTTATGCTTAAATGCGTACTTATATGCGTCTATTTATGTAGGATGAAAGGTAGTCTAGTACCTCCTGTGATATTATCCCATTCCATGCGGGGTATCGTATGCTTCCTTCAGCACTACCCTTTAGCTGTTCTATATGCTGCCACTCCTCAATTGGATTAGTCTCATCCTTCAATGCTATCATTTCCTTTGATATTGGATCGATCCGATGATAAGCTGTCAAACATGAGAATTGGGTAATAACTGATATAATTAAATTGAAGCTCTAATTTGTGAGTTTAGTATACATGCATTTACTTATAATACAGTTTTTTAGTTTTGCTGGCCGCATCTTCTCAAATATGCTTCCCAGCCTGCTTTTCTGTAACGTTCACCCTCTACCTTAGCATCCCTTCCCTTTGCAAATAGTCCTCTTCCAACAATAATAATGTCAGATCCTGTAGAGACCACATCATCCACGGTTCTATACTGTTGACCCAATGCGTCTCCCTTGTCATCTAAACCCACACCGGGTGTCATAATCAACCAATCGTAACCTTCATCTCTTCCACCCATGTCTCTTTGAGCAATAAAGCCGATAACAAAATCTTTGTCGCTCTTCGCAATGTCAACAGTACCCTTAGTATATTCTCCAGTAGATAGGGAGCCCTTGCATGACAATTCTGCTAACATCAAAAGGCCTCTAGGTTCCTTTGTTACTTCTTCTGCCGCCTGCTTCAAACCGCTAACAATACCTGGGCCCACCACACCGTGTGCATTCGTAATGTCTGCCCATTCTGCTATTCTGTATACACCCGCAGAGTACTGCAATTTGACTGTATTACCAATGTCAGCAAATTTTCTGTCTTCGAAGAGTAAAAAATTGTACTTGGCGGATAATGCCTTTAGCGGCTTAACTGTGCCCTCCATGGAAAAATCAGTCAAGATATCCACATGTGTTTTTAGTAAACAAATTTTGGGACCTAATGCTTCAACTAACTCCAGTAATTCCTTGGTGGTACGAACATCCAATGAAGCACACAAGTTTGTTTGCTTTTCGTGCATGATATTAAATAGCTTGGCAGCAACAGGACTAGGATGAGTAGCAGCACGTTCCTTATATGTAGCTTTCGACATGATTTATCTTCGTTTCCTGCATGTTTTTGTTCTGTGCAGTTGGGTTAAGAATACTGGGCAATTTCATGTTTCTTCAACACTACATATGCGTATATATACCAATCTAAGTCTGTGCTCCTTCCTTCGTTCTTCCTTCTGTTCGGAGATTACCGAATCAAAAAAATTTCAAAGAAACCGAAATCAAAAAAAAGAATAAAAAAAAAATGATGAATTGAATTGAAAAGCTAATTCTTGAAGACGAAAGGGCCTCGTGATACGCCTATTTTTATAGGTTAATGTCATGATAATAATGGTTTCTTAGACGTCAGGTGGCACTTTTCGGGGAAATGTGCGCGGAACCCCTATTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGA",
+        "topology": "circular",
+        "vector_profile": "yeast_shuttle_vector"
+      }
+    },
+    "expected_warnings": [
+      {
+        "check": "repeat_and_instability",
+        "justification": "Intentional reviewed vector architecture; the warning should remain visible for synthesis and stable-propagation review. Non-blocking repeat/instability warning retained because the cached public source is a complete deposited plasmid and the check is below the Phase 3 blocking threshold."
+      }
+    ]
+  }
+]
