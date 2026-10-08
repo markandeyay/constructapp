@@ -583,3 +583,56 @@ MEASURED FACT worth keeping, since it constrains every future AAV gold case:
   using either promoter therefore trips `aav.homopolymer_runs`, which cannot be
   engineered away without editing a real registry part, which section 4.3
   forbids. The two CAG sized cases now say so rather than claiming isolation.
+
+## Orchestrator independent verification of the hairpin fix and the web surfaces
+
+HAIRPIN THRESHOLDS, re-measured by the orchestrator rather than accepted. Random
+  oligos at 50 percent GC, 2,000 repetitions per length, against the corrected
+  code:
+    20 nt  WARN 0.004   3 prime FAIL 0.001
+    47 nt  WARN 0.090   3 prime FAIL 0.006
+    60 nt  WARN 0.200   3 prime FAIL 0.008
+  The 47 nt WARN rate was 0.899 before the change. This reproduces WP-04's own
+  figures closely and independently, on a different seed. The check went from
+  firing on nine designs in ten to roughly one in eleven.
+
+THE DISPUTED PRIMER, verified with ViennaRNA directly by the orchestrator.
+  Sequence GACTTTCCATTGACGTCAATGG, 22 nt, under dna_mathews2004:
+    MFE structure  ......((((((....))))))
+    MFE energy     -3.90 kcal/mol
+    3 prime end paired: yes, the final five positions are all closing brackets
+  So it is a genuine 6 bp stem with a 4 nt loop that sequesters the 3 prime end,
+  and it is past the -3.0 FAIL level. WP-04's figure was exact. The known-bad
+  case that asserts a FAIL here is correct, and the engine it pins was wrong,
+  which is why the resolution is to pin it to the engine the build actually uses
+  rather than to weaken the case.
+
+NOTE on a disagreement between two agents, resolved by measurement. WP-10's
+  review derived the 6 and 7 thresholds from a hand calculation giving a 4 bp
+  stem a positive folding energy. WP-04 measured instead and found a 4 bp stem
+  folds at about -1.0 in isolation and -0.4 in context, because the review's loop
+  penalty was too harsh and its stacking term slightly weak. WP-04 shipped 6 and
+  7 anyway on a better basis: not where the mean energy lands, but how often the
+  primary engine agrees when the fallback fires, which is 0.88 at 6 bp against
+  0.52 at 5 bp. The right answer for the wrong reason was corrected to the right
+  answer for the right reason, by the package that owns the code disagreeing with
+  its reviewer and measuring.
+
+WEB SURFACES, verified by the orchestrator reading the captured evidence rather
+  than trusting the report. All four capabilities render correctly:
+    AAV: a LINEAR badge and a linear cassette map drawn to scale, 5,229 bp,
+      dashed markers at the 4,700 target, 4,900 soft and 5,200 hard limits, a
+      hatched span for the overage, and the length budget table showing element,
+      bp, running total and headroom with 529 over in red. FAIL, 14 checks.
+    Guide RNA: the off-target space statement rendered verbatim in a prominent
+      banner at the top of the result, stating 950 bp across 1 sequence, saying
+      plainly it is not a genome-wide search, and disclosing that no delivery
+      construct was supplied so self-targeting was not searched. Both strands
+      rendered with guide positions. The three section 8.6 scopes are the three
+      radio options. PASS, 10 checks.
+    Assembly: a junction map with the 20 bp homology arm drawn and explained,
+      its real sequence and an overlap melting temperature of 60.7 C, with an
+      order table CSV export. PASS, 15 checks.
+    Plasmid: the inherited circular flow, unchanged.
+  The header reads Construct in every capture, and the four capability tabs are
+  present in every one.
