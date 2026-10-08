@@ -48,13 +48,13 @@
       "malformed": 0,
       "tier_a": {
         "accuracy": 1.0,
-        "correct": 10,
-        "total": 10
+        "correct": 11,
+        "total": 11
       },
       "tier_b": {
         "accuracy": 1.0,
-        "correct": 6,
-        "total": 6
+        "correct": 5,
+        "total": 5
       },
       "total": 30,
       "unknown_check_reports": 0
