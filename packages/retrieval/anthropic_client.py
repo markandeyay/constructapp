@@ -13,20 +13,34 @@ the payload; a malformed response is the consumer's `ValueError`, not a silently
 repaired object.
 
 Three things differ from the Gemini client, each forced by the API rather than
-chosen:
+chosen. All three were established by calling the live API, not from
+documentation:
 
-**Structured output comes from a forced tool call.** The Messages API has no
-"respond in this JSON schema" parameter. The schema is therefore declared as a
-tool's `input_schema` and the model is required to call it through
-`tool_choice`, so the response arrives as that tool's validated input. Reading
-JSON back out of prose would be guesswork by comparison.
+**Structured output uses `output_config`, the native JSON schema feature.** An
+earlier version of this module declared the schema as a tool and forced it with
+`tool_choice`, which is the usual way to get schema conformant JSON from the
+Messages API. The live API rejects it for these models: `tool_choice: type "tool"
+and "any" are not supported for this model`. The native format parameter is both
+supported and a better fit, since the payload arrives as text already conforming
+to the schema rather than as a tool call to unwrap.
+
+**`temperature` is not sent, because it is deprecated for these models.** The API
+rejects the request outright with `temperature is deprecated for this model`.
+This has a consequence worth stating rather than glossing: the Gemini client
+pins temperature to zero, and this one cannot, so identical input is not
+guaranteed to produce an identical DesignSpec. The schema constrains the SHAPE of
+the output and says nothing about its content. Section 3.3 constraint 3 is not
+weakened by this, because that constraint governs validators and no validator
+calls a model; the deterministic engine decides every verdict either way. What is
+affected is intent parsing, where the model's reading of a free text request may
+vary between calls.
 
 **`system` is a parameter, not a message.** `LLMIntentParser` builds a message
 list whose first entry has role "system". Anthropic takes the system prompt
 separately, so system entries are lifted out and concatenated, and the remaining
 user and assistant turns pass through in order.
 
-**The model is an allowlist, not a default.** See `ALLOWED_MODELS`.
+And the model is an allowlist, not a default. See `ALLOWED_MODELS`.
 """
 
 from __future__ import annotations
@@ -98,6 +112,55 @@ class AnthropicUnavailableError(RuntimeError):
                 }
             )
         )
+
+
+#: JSON Schema keywords the structured output dialect rejects. Established from
+#: the live API, which answers for example
+#: `output_config.format.schema: For 'integer' type, property 'minimum' is not
+#: supported` with a 400.
+#:
+#: These are all VALUE constraints, not structural ones. Stripping them changes
+#: what the model is told, not what is accepted: both consumers validate the
+#: returned payload against a pydantic model that still carries every one of
+#: these rules, so a rank of 0 or an empty plasmid_id is still rejected, just one
+#: layer later and as a `ValueError` rather than as a schema violation. The
+#: alternative, weakening the pydantic models to match this dialect, would have
+#: removed a real check from the whole system to satisfy one provider.
+UNSUPPORTED_SCHEMA_KEYWORDS = frozenset(
+    {
+        "minimum",
+        "maximum",
+        "exclusiveMinimum",
+        "exclusiveMaximum",
+        "multipleOf",
+        "minLength",
+        "maxLength",
+        "pattern",
+        "minItems",
+        "maxItems",
+        "uniqueItems",
+        "minProperties",
+        "maxProperties",
+    }
+)
+
+
+def sanitize_schema(schema: Any) -> Any:
+    """Recursively drop keywords the structured output dialect does not accept.
+
+    Structure is preserved exactly: types, properties, required, items, enum and
+    additionalProperties all survive, so the model is still told the shape it has
+    to produce and which values are permitted where an enum says so.
+    """
+    if isinstance(schema, Mapping):
+        return {
+            key: sanitize_schema(value)
+            for key, value in schema.items()
+            if key not in UNSUPPORTED_SCHEMA_KEYWORDS
+        }
+    if isinstance(schema, (list, tuple)):
+        return [sanitize_schema(item) for item in schema]
+    return schema
 
 
 def validate_model(model: str) -> str:
@@ -184,23 +247,15 @@ class AnthropicJsonClient:
         schema: Mapping[str, Any],
     ) -> Any:
         client = self._client()
-        tool = {
-            "name": STRUCTURED_OUTPUT_TOOL,
-            "description": (
-                "Return the result as this tool's input. Every field required by the "
-                "schema must be present."
-            ),
-            "input_schema": dict(schema),
-        }
         request: dict[str, Any] = {
             "model": self.model,
             "max_tokens": self.max_tokens,
-            # Zero temperature, because an intent parser that returns a different
-            # DesignSpec for the same sentence is not one anybody can validate.
-            "temperature": 0,
             "messages": messages,
-            "tools": [tool],
-            "tool_choice": {"type": "tool", "name": STRUCTURED_OUTPUT_TOOL},
+            # The native structured output format. No `temperature` key: these
+            # models reject it as deprecated, which the module docstring covers.
+            "output_config": {
+                "format": {"type": "json_schema", "schema": sanitize_schema(dict(schema))},
+            },
         }
         if system:
             request["system"] = system
@@ -287,25 +342,42 @@ def _split_system(
 
 
 def _structured_payload(response: Any) -> str:
-    """Pull the forced tool call's input out of a response, as a JSON string.
+    """The schema conforming JSON text from a response, as a string.
 
-    Raises when the model answered in prose instead of calling the tool, which
-    `tool_choice` should make impossible; it is checked because a stop reason of
-    `max_tokens` can truncate a response into exactly that shape, and a
-    truncated structured result must fail rather than be half parsed.
+    `output_config` makes the model's text blocks the structured payload, so the
+    text is concatenated and returned without being parsed here. The caller
+    parses and validates it against a pydantic model, and a payload that does not
+    survive that is the caller's error to report.
+
+    Truncation is checked first and explicitly. A `max_tokens` stop leaves
+    syntactically invalid JSON, and the resulting error would otherwise surface as
+    an unhelpful decode failure several layers away from its cause.
+
+    A `tool_use` block is still read, so a response produced by the older forced
+    tool request shape is understood rather than rejected. Nothing in this module
+    sends that shape any more, and these models refuse it, but a cached or
+    replayed response costs one branch to keep working.
     """
-    for block in getattr(response, "content", None) or []:
-        if getattr(block, "type", None) == "tool_use" and getattr(block, "name", None) == (
-            STRUCTURED_OUTPUT_TOOL
-        ):
-            return json.dumps(getattr(block, "input", None))
-
     stop_reason = getattr(response, "stop_reason", None)
     if stop_reason == "max_tokens":
         raise ValueError(
             "Anthropic client response was truncated before the structured result was "
             "complete; raise max_tokens"
         )
+
+    text_parts: list[str] = []
+    for block in getattr(response, "content", None) or []:
+        if getattr(block, "type", None) == "tool_use" and getattr(block, "name", None) == (
+            STRUCTURED_OUTPUT_TOOL
+        ):
+            return json.dumps(getattr(block, "input", None))
+        text = getattr(block, "text", None)
+        if isinstance(text, str):
+            text_parts.append(text)
+
+    payload = "".join(text_parts).strip()
+    if payload:
+        return payload
     raise ValueError(
         f"Anthropic client returned no structured payload (stop_reason={stop_reason!r})"
     )
