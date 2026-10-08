@@ -139,5 +139,40 @@
         "strand": 1
       }
     }
+  },
+  {
+    "case_id": "grna.good.b5.cut_upstream_of_the_coding_sequence",
+    "capability": "guide_rna",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "grna.position_in_cds",
+        "justification": "The cut site falls outside the annotated coding sequence, upstream of it. For a knockout that is usually a mistake, because a cut in a non coding region is repaired without changing the protein, which is why the check warns. It is a deliberate strategy in one case: cutting immediately upstream of the initiator region to remove the start codon and its context, which prevents translation even where a frameshift inside the coding sequence would be rescued by an internal alternative start. The designer has to know which of the two situations they are in, so a warning that names the distance to the coding sequence is the right output, and the severity must not be FAIL."
+      }
+    ],
+    "rationale": "A real guide upstream of the beta-lactamase reading frame, with cds_region narrowed to 600 to 911 of the window so that the cut lands outside it. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case.",
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          600,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "AGATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
   }
 ]

@@ -336,5 +336,137 @@
         "strand": 1
       }
     }
+  },
+  {
+    "case_id": "grna.bad.moderate_off_target_with_seed_mismatches",
+    "capability": "guide_rna",
+    "expect_overall": "warn",
+    "expect_check": "grna.off_target_hits",
+    "expect_severity": "warn",
+    "rationale": "A second site in the searched space differs from the protospacer at three positions, all of them inside the 12 nt PAM proximal seed. Section 8.6 requires the implementation to weight PAM proximal mismatches far more heavily than distal ones, because the seed is where binding is decided, so a site with a disrupted seed is a moderate risk rather than a likely cut. This case is the pair to the seed matched single mismatch case above: same check, same searched space, different severity, and the difference comes entirely from where the mismatches sit. If the position weighting were ever flattened the two cases would converge and one of them would fail, which is what makes the pair worth having. Only the three substituted bases are synthetic.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGAAGATCAGTTGGGTTCAAGATTGGTCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGA",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "AGATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.spacer_one_nucleotide_short_for_spcas9",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.spacer_length",
+    "expect_severity": "fail",
+    "rationale": "A 19 nt spacer for SpCas9, which Appendix C gives 20 nt. A single base lost from an oligo order or a truncated copy and paste gives exactly this, and the guide is still close enough to the real protospacer to look right. Shortening the spacer moves the register against the PAM and reduces activity sharply. grna.spacer_length is the check that must catch it; it is a separate case from the SaCas9 length case because that one tests the per nuclease table and this one tests the off by one, which is the commoner mistake. spacer_start is supplied so the placement is forced rather than inferred, which is how a deliberately mis-registered guide is expressed.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "GATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1,
+        "spacer_start": 155
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.cas12a_pam_fourth_base_is_t",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.pam_valid",
+    "expect_severity": "fail",
+    "rationale": "A LbCas12a guide whose PAM is given as TTTT. Appendix C's motif is TTTV, and the IUPAC code V means A, C or G and excludes T, so TTTT is not a Cas12a PAM even though it is one base away from three that are. This is the mistake of reading TTTV as four T residues or as any T rich tetramer. grna.pam_valid is the check that must catch it, and this case is the complement of the offset case: there the motif was satisfied and the position was wrong, here the position is right and the motif is not, so between them they show the check tests both halves of the requirement rather than one.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "expected_unknown": [
+      "grna.position_in_cds",
+      "grna.self_targeting",
+      "grna.restriction_in_spacer"
+    ],
+    "input": {
+      "request": {
+        "target_sequence": "CCAGGCACCAGGCACCTTTAGCACGTCAGTCAGGATCCAGTCCTTTCAGGCACCAGGCACC",
+        "target_name": "CAS12A_OFFSET_TARGET",
+        "nuclease": "LbCas12a",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10
+      },
+      "guide": {
+        "spacer": "GCACGTCAGTCAGGATCCAGTCC",
+        "pam": "TTTT",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.cut_outside_the_coding_sequence_for_a_knockout",
+    "capability": "guide_rna",
+    "expect_overall": "warn",
+    "expect_check": "grna.position_in_cds",
+    "expect_severity": "warn",
+    "rationale": "A knockout guide whose cut site lands past the end of the declared coding sequence, in the 3' region. A cut outside the coding sequence is repaired without changing the protein, so the knockout does not happen and the experiment reads as a failed transfection rather than as a design error. grna.position_in_cds is the only check that knows where the coding sequence is. It is the pair to the Tier B case where a cut upstream of the coding sequence is deliberate: the same check, the same severity, and the difference is entirely in the designer's intent, which is why the severity is WARN and the message names the distance rather than rejecting the guide.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          231,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "AGATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
   }
 ]
