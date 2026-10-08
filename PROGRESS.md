@@ -426,3 +426,55 @@ DEMO SCRIPT ISSUE, worth the operator deciding before Saturday. Section 15.3
        WP-02 scope and not a quick fix.
   Nothing here is a defect. The checks are behaving as specified and the
   remediation engine does its job. It is a question of which true story to tell.
+
+## Orchestrator mechanical audit of the appendix constants. 43 of 43 correct.
+
+Scope: can a script verify, without any biological judgment, that every value the
+specification fixes appears in the code with exactly the specified value, and
+that every constant names a source. Biological judgment is WP-10's job and is
+separate. Expected values were transcribed from the specification, not recalled.
+
+RESULT, all confirmed present and correct:
+  Appendix A: all 10 nearest-neighbor pairs with both enthalpy and entropy, both
+    initiation terms, the symmetry correction, R = 1.987, salt coefficient 0.368.
+  Appendix C: all four nucleases with their PAM motif, PAM side and spacer
+    length, including that a five-prime PAM side is represented explicitly in
+    code rather than a three-prime offset being hard coded, which Appendix C
+    names as the likeliest integration bug. Plus the GC window 0.40 to 0.70, max
+    homopolymer run 4, the U6 terminator motif, and the seed range 8 to 12.
+  Appendix D: all five Type IIS enzymes with their recognition sequences, and
+    every overhang length consistent with its stated cut offsets.
+  Section 6.5: all ten AAV thresholds at their specified values.
+
+SOURCING, section 3.3 constraint 1 and section 14.1: 116 module-level constants
+  scanned across the three capability constants modules and the shared
+  thermodynamics module. Every one carries a source in its surrounding
+  documentation. The audit initially flagged ITR_INTERNAL_MOTIF_BP, which turned
+  out to be a false positive in the audit heuristic rather than a gap: the
+  constant is documented at length, states explicitly that it is a method
+  parameter and not a biological constant, records that the motif set comes from
+  the registry records so nothing is invented, and ties the window to
+  MAX_DIRECT_REPEAT_BP. The explanation sits further below the constant than the
+  heuristic's scan window reached.
+
+## Open question Q6 resolved properly: ViennaRNA is now a declared dependency.
+
+Q6 asks whether ViennaRNA is installable, and section 7.4 says to PREFER it for
+hairpin free energy when it is. It is installable, version 2.7.2, and WP-04 wired
+both engines. But it was never added to `requirements.txt`, so a fresh `make
+setup` would have installed nothing and the hairpin check would have silently
+fallen back to the sliding-window score on every new machine.
+
+That mattered more than a missing line usually does, because WP-06 measured that
+under the window fallback EVERY clean two-fragment Gibson and Golden Gate design
+draws a `primer.hairpin` WARN: a 4 bp stem closing a 3 nt loop occurs by chance
+in nearly any 40 to 47 nt tailed primer, and a tailed primer cannot be moved off
+its junction. That is the section 3.4 failure mode, a check that warns on
+everything and so trains the user to ignore it.
+
+Added `ViennaRNA>=2.7,<3`. No threshold was changed. The 30 assembly gold cases
+pin `hairpin_engine` to `window` deliberately, so they still exercise the
+fallback path and their verdicts are unchanged. Suite stays at 1477 passed.
+WP-10 is still asked to rule on whether the window threshold itself is too
+strict, because the fallback remains reachable when the optional import is
+missing.
