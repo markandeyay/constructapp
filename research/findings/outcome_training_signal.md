@@ -1,3 +1,5 @@
+> Historical design or research note, kept for the record and not current. Current truth lives in `README.md`, `docs/demo.md` and `PROGRESS.md`.
+
 # Outcome-To-Training-Signal Pipeline
 
 - Prepared: 2026-06-07

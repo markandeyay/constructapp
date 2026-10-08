@@ -371,23 +371,36 @@ transgene variant or a dual vector approach. Configurable through
 # Validator version and the threshold pin table (section 5.4 rule 4)
 # ---------------------------------------------------------------------------
 
-AAV_VALIDATOR_VERSION = "aav-1.0.0"
+AAV_VALIDATOR_VERSION = "aav-1.1.0"
 """Version stamped onto every `ValidationReport` this capability produces.
 
 Section 5.4 rule 4: bump this whenever any threshold above changes, so a stored
 report stays interpretable. `PINNED_THRESHOLD_FINGERPRINTS` makes that
 mechanical: a threshold edited without a bump changes the fingerprint and the
 test in tests/aav/test_constants.py fails.
+
+A severity change is the same kind of event and gets the same treatment, because
+a stored report is only interpretable if the verdict it carries can be read back
+against the rule that produced it. 1.1.0 is that case: no threshold value moved,
+so the fingerprint is unchanged from 1.0.0, but `aav.itr_orientation` now reports
+WARN rather than PASS for an inverted ITR pair whose D sequences face the
+cassette ends instead of the transgene. A report stamped aav-1.0.0 may carry a
+PASS on that check for a design that aav-1.1.0 warns on, and the two entries in
+the pin table sharing one fingerprint record exactly that: the measurements did
+not change, the verdict did.
 """
 
 PINNED_THRESHOLD_FINGERPRINTS: dict[str, str] = {
     "aav-1.0.0": "26088420ff7718304ff861f7e334bb2d6731f964fbc22d38ca2d0978bd2927b7",
+    "aav-1.1.0": "26088420ff7718304ff861f7e334bb2d6731f964fbc22d38ca2d0978bd2927b7",
 }
 """Each released `validator_version` mapped to the fingerprint it shipped with.
 
 Maintained with `packages.core.schemas.capability.thresholds_fingerprint` over
 `AAVThresholds().as_mapping()`. Adding a threshold, removing one or changing a
-value all change the fingerprint, which is the point.
+value all change the fingerprint, which is the point. Two versions may share a
+fingerprint, which says that the thresholds were untouched and something else,
+a severity or a message, changed instead.
 """
 
 

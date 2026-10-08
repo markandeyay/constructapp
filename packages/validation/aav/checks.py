@@ -359,6 +359,18 @@ def check_itr_orientation(context: CheckContext) -> CheckResult:
     configurations, so the flip and flop difference in the reference records
     cannot produce a false verdict. See `packages.validation.aav.itr` for the
     method and for the fallback.
+
+    Four outcomes, all on this one check id, because section 6.4 fixes the check
+    list at fourteen and this is the check whose subject ITR orientation is:
+
+    * PASS, an inverted pair with the D sequences facing the transgene.
+    * WARN, an inverted pair with the D sequences facing the cassette ends.
+      Inverted, so not the tandem failure, but not a functional genome either,
+      and it is the one arrangement a user could otherwise take into production
+      on the strength of a pass.
+    * FAIL, a tandem pair.
+    * UNKNOWN, fewer than two ITRs, no serotype reference, or an arrangement the
+      D element anchor and the identity margin fallback both leave undecided.
     """
     design = context.design
     left = design.first_with_role(CassetteElementRole.ITR_5)
@@ -382,20 +394,32 @@ def check_itr_orientation(context: CheckContext) -> CheckResult:
         )
     verdict = orientation_of_pair(left.sequence, right.sequence, context.itr_reference, context.thresholds)
     observed = f"{verdict.arrangement} ({verdict.method})"
-    if verdict.arrangement == "inverted":
-        extra = (
-            ""
-            if verdict.canonical
-            else " Check 3 tests inverted against tandem, and this pair is inverted, so it is not a "
-            "failure. The outward facing D sequence is still worth confirming: in the reference genome "
-            "the D element of each ITR faces the transgene. If that was not intentional, reverse "
-            "complement the whole cassette, or replace both ITRs with the registry records."
+    if verdict.arrangement == "inverted" and not verdict.canonical:
+        return result(
+            "aav.itr_orientation",
+            Severity.WARN,
+            f"The two ITRs are inverted relative to each other, but they are oriented so that the D "
+            f"sequences face outward, toward the cassette ends, instead of inward toward the transgene: "
+            f"{verdict.detail}. This is not the functional arrangement. The D sequence has to face the "
+            f"transgene for the terminal resolution site to be cut on the correct side of the hairpin, so a "
+            f"D outward pair does not resolve correctly, and a cassette built this way will not give "
+            f"functional vector even though its two ITRs are inverted rather than in tandem. Do not take "
+            f"this design into production as it stands. To fix, either reverse complement the whole "
+            f"cassette, which swaps the two ITRs as well as their sequences and so restores the inward "
+            f"facing arrangement, or replace both ITRs with the registry records: "
+            f"{context.itr_reference.left.id} at the 5' end and {context.itr_reference.right.id} at the "
+            f"3' end, which are already in the correct orientation. This is a warning rather than a failure "
+            f"because the pair is inverted and this check's failure condition is a tandem pair; treat it as "
+            f"a defect to correct, not as a caveat to record.",
+            observed=f"inverted but D outward ({verdict.method})",
+            threshold="inverted arrangement required",
         )
+    if verdict.arrangement == "inverted":
         return result(
             "aav.itr_orientation",
             Severity.PASS,
             f"The ITRs are inverted relative to each other, which is the required arrangement: "
-            f"{verdict.detail}. No change is needed.{extra}",
+            f"{verdict.detail}. No change is needed.",
             observed=observed,
             threshold="inverted arrangement required",
         )
@@ -888,6 +912,48 @@ def check_homopolymer_runs(context: CheckContext) -> CheckResult:
 # ---------------------------------------------------------------------------
 
 
+def _describe_upstream_source(context: CheckContext, position: int, cds_index: int) -> str:
+    """Name the cassette element that supplies the base at `position`.
+
+    The composer places no initiation context element between the last upstream
+    element and the ATG, so position -3 of the transcript is whatever that
+    element happens to end on. A user told only that "position -3 is C" cannot
+    tell whose C it is, so every message that quotes the -3 base names its owner.
+    Returns "" when no element covers the position, which happens only for an
+    explicit cassette whose elements do not tile the sequence.
+    """
+    owner = next(
+        (item for item in context.layout if item.start <= position < item.end and item.index != cds_index),
+        None,
+    )
+    if owner is None:
+        return ""
+    from_end = owner.end - position
+    identifier = f" ({owner.part_id})" if owner.part_id else ""
+    where = (
+        f"the last base of {owner.name}{identifier}"
+        if from_end == 1
+        else f"{from_end} bases from the 3' end of {owner.name}{identifier}"
+    )
+    sentence = (
+        f" That base is {where}, the element immediately 5' of the coding sequence: the cassette carries "
+        f"no initiation context element between the two, so the last bases of that element become the "
+        f"5' UTR and set this position."
+    )
+    if owner.role == CassetteElementRole.INTRON:
+        sentence += (
+            " Note that the intron, not the promoter, is the last element before the coding sequence "
+            "whenever it is included, so it sets position -3 whichever promoter was chosen. Removing the "
+            "intron hands the position back to the promoter."
+        )
+    elif owner.role == CassetteElementRole.PROMOTER:
+        sentence += (
+            " It is a promoter feature boundary rather than anything chosen for translation, so changing "
+            "promoter changes this base by coincidence, not by design."
+        )
+    return sentence
+
+
 def check_kozak_context(context: CheckContext) -> CheckResult:
     """Check 11: an ATG with a recognisable Kozak context precedes the CDS.
 
@@ -896,6 +962,15 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
     separately. UNKNOWN when there is no CDS, when the CDS does not start with
     ATG (which aav.cds_integrity already reports), or when fewer than three
     bases precede the start codon, because then position -3 does not exist.
+
+    The bases immediately 5' of the ATG really are the transcript's 5' UTR: the
+    transcription start site sits inside the promoter, so everything from there
+    to the ATG is transcribed and `cassette[start - 3]` is the mRNA's -3
+    position. What that base *is*, though, is an accident of where a curator drew
+    the upstream part's feature boundary, because nothing places an initiation
+    context element between the two. So the message names the element the base
+    came from: see `_describe_upstream_source`. Without that, a user told
+    "position -3 is C" has no way to find out whose C it is.
     """
     thresholds = context.thresholds
     purines = " or ".join(thresholds.kozak_minus3_purines)
@@ -962,6 +1037,17 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
             else f" The full {thresholds.kozak_consensus_motif} consensus is not matched at every position, "
             f"which is common and not a problem once -3 and +4 are right."
         )
+        # The consensus is written R at -3, so A and G both satisfy this check and
+        # the threshold is the same for either. The cited analysis nonetheless
+        # finds A the commoner purine there, which is worth saying when the base
+        # is G so that a designer starting from scratch knows which to choose.
+        if minus3 == "G" and "A" in thresholds.kozak_minus3_purines:
+            extra += (
+                " One refinement, which does not change this verdict: the consensus is written with a "
+                "purine at -3 and A and G both satisfy it, so this check accepts either and the threshold "
+                "is the same for both, but A is the commoner of the two in the cited analysis. If the "
+                "context is being designed rather than inherited, prefer A at -3."
+            )
         return result(
             "aav.kozak_context",
             Severity.PASS,
@@ -973,9 +1059,11 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
         )
     weak: list[str] = []
     fixes: list[str] = []
+    source = ""
     if not minus3_ok:
         weak.append(f"position -3 is {minus3}, where a purine ({purines}) is required")
         fixes.append(f"change the base 3 nt upstream of the ATG to {purines}")
+        source = _describe_upstream_source(context, start - 3, cds_layout.index)
     if not plus4_ok:
         weak.append(
             f"position +4 is {plus4} rather than {thresholds.kozak_plus4_base}, which is the first base of "
@@ -985,12 +1073,12 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
             f"choose a second codon beginning with {thresholds.kozak_plus4_base}, which for most residues is "
             f"a synonymous change and does not alter the protein"
         )
-    strength = "adequate but not optimal" if (minus3_ok or plus4_ok) else "weak"
+    strength = "an adequate but not optimal" if (minus3_ok or plus4_ok) else "a weak"
     return result(
         "aav.kozak_context",
         Severity.WARN,
-        f"The initiator ATG sits in a {strength} Kozak context ({window}): {' and '.join(weak)}. A weak "
-        f"context allows leaky scanning past the start codon and lowers the amount of protein made per "
+        f"The initiator ATG sits in {strength} Kozak context ({window}): {' and '.join(weak)}.{source} A "
+        f"weak context allows leaky scanning past the start codon and lowers the amount of protein made per "
         f"transcript. To fix: {'; '.join(fixes)}. The simplest change is to insert the "
         f"{thresholds.kozak_consensus_motif[:6]} prefix immediately before the ATG. If the context is "
         f"deliberately weak, for example to tune expression down, this is a Tier B warning to record rather "

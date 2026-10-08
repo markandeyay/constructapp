@@ -1,273 +1,297 @@
-# Construct 5-Minute Demo Script
+# Construct demo runbook
 
-Audience: YC partners, early investors, and scientific collaborators.
+For a presenter following this cold. Everything below was walked in a real
+browser against the local stack on 2026-10-08, and the numbers quoted are the
+ones the app showed. Evidence screenshots are in `docs/demo_evidence/`.
 
-Goal: show that the app is not a generic chatbot. It turns a plain-English plasmid request into a retrieval-grounded design session, supports conversational refinement, displays validation evidence, exports handoff files, and later captures wet-lab outcomes for a feedback loop.
+The product has four capabilities that exist: plasmids, AAV vectors, assembly
+and primers, and guide RNAs. Everything else is on the roadmap.
 
-This script was checked against the current Next.js workspace, the `Makefile` targets, and the `apps/web` UI on branch `demo-punch-list`.
+## READ THIS FIRST: the database port is 55432, not 5432
 
-Use `make serve-local` for the interactive local app. Use `make demo` only for deterministic end-to-end verification against the fixture app.
+Postgres runs on host port **55432**. A native PostgreSQL 18 Windows service on
+this machine owns 5432, so the container was moved. The setting lives in the
+gitignored `.env` (`POSTGRES_PORT=55432` and a `DATABASE_URL` ending in
+`localhost:55432/plasmid_design`).
 
-## Pre-Demo Setup
+If anyone regenerates `.env` from `.env.example`, they get 5432 again, and the
+plasmid flow and the corpus fail with an authentication error because they are
+talking to the wrong Postgres. Do not run `make setup` or copy `.env.example`
+over `.env` before the demo. If you must, set the port back to 55432 afterwards.
+`python scripts/check_services.py` catches this: it must print four `[OK]` lines.
 
-Install dependencies, make sure `.env` exists, and start Postgres/pgvector before using the live local app:
+## ALSO READ THIS: there is no GOOGLE_API_KEY set, and that is fine
+
+`.env` has no `GOOGLE_API_KEY`. Open question Q4 anticipated this and its default
+is to proceed: natural-language intent parsing degrades without the key, and the
+capability validators do not need it at all. So:
+
+* **Nothing in beats 2, 3 or 4 is affected.** AAV, assembly and guide RNA take
+  structured form input and run entirely on deterministic code and the curated
+  part registry. Every number in this runbook was measured with no key set.
+* **Beat 1 is affected only in how the prompt is interpreted.** Retrieval,
+  validation, the map and the export all still work, which is why the beat 1
+  prompt below is a measured PASS. The conversational refinement loop is the part
+  that gets noticeably weaker.
+* If you do set a key before Saturday, re-run beat 1 once beforehand, because a
+  different intent parse can retrieve a different template and the verdict in
+  this runbook was measured without one.
+
+Do not describe the system as needing the key to work. It does not. Say that
+intent parsing uses a hosted model when configured and that the validation engine
+is deterministic either way, which is the honest and the stronger statement.
+
+## 1. Pre-flight, Saturday morning (spec section 15.2)
+
+Run these in order from the repo root. Each line says what healthy looks like.
 
 ```powershell
 docker compose up -d
 ```
-
-The current local app expects the Python dependencies from `requirements.txt`, including the official `google-genai` SDK, and reads environment values from `.env`.
-
-Run the deterministic verification demo with `make demo`. This is the canonical, self-contained verification path: it starts the fixture API (`services.api.e2e_app`) and the web app together and drives the full-stack Playwright flow through a design job that completes, a plasmid map that renders, and a GenBank export that downloads.
+Healthy: postgres, redis and minio containers show as started or running.
 
 ```powershell
-make demo
+python scripts/check_services.py
 ```
+Healthy: four lines, `[OK] docker compose`, `[OK] postgres + pgvector`,
+`[OK] minio`, `[OK] redis`, and exit code 0.
 
-Under the hood, `make demo` runs `make e2e-test`, which invokes the full-stack Playwright config (`apps/web/playwright.fullstack.config.ts`). That config brings up the deterministic fixture API on `127.0.0.1:8000` and the web app on `127.0.0.1:3000`, then exercises the design, retrieval, map, and GenBank export flow against `services.api.e2e_app` rather than the live scaffold.
-
-For the interactive local app, start the API and web separately:
+```powershell
+make test
+```
+Healthy: it runs the service check and then the whole pytest suite, and ends
+green with exit code 0. Do this before you leave the house.
 
 ```powershell
 make serve-local
+```
+Leave it running in its own terminal. Healthy: uvicorn reports it is running on
+`http://127.0.0.1:8000`. Use `serve-local`, not `serve-api`: the default
+scaffold queues plasmid jobs without finishing them.
+
+```powershell
 make serve-web
 ```
+Leave it running in a second terminal. Healthy: Next.js reports `Ready` on
+`http://127.0.0.1:3000`.
 
-The API command behind `make serve-local` is `python -m uvicorn --factory services.api.local_app:build_local_app --host 127.0.0.1 --port 8000`, and the web command behind `make serve-web` is `cd apps/web && npm run dev`. Open `http://127.0.0.1:3000` after both are running.
+Then open `http://127.0.0.1:3000` and run each of the four capabilities once
+using the inputs in section 2. The status line at the bottom of the page may say
+"Offline"; that refers to the outcome feedback service and does not affect the
+four beats. Keep browser zoom at 100%.
 
-Do NOT use `make serve-api` for the interactive app. It runs the default FastAPI scaffold (`services.api.app`), which can queue design jobs without completing them unless a generation worker is wired in. The production queue path remains future Celery plus a durable Postgres-backed job queue deployment.
+Optional deterministic check, for confidence rather than for the stage:
+`make demo` runs the full-stack Playwright flow against a fixture API. It starts
+its own servers on ports 8000 and 3000, so stop `serve-local` and `serve-web`
+first.
 
-Before starting:
+## 2. The script (spec section 15.3)
 
-- Clear old downloads so the GenBank export is easy to find.
-- Keep browser zoom at 100%.
-- If you want to show the outcome follow-up toast path, seed a pending outcome prompt for a stable `design_id` so the bottom-right "Outcome follow-up" toast appears; otherwise use the in-session "Report outcome" path in the right rail.
-- Do not claim full Phase 4/5 production readiness. Auth, primer output, synthesis-provider handoff, deployed hosting, and automated fine-tune promotion are still open.
+The order builds from legible to impressive. The four capability tabs sit at the
+top of the right-hand Conversation panel: Plasmid, AAV vector, Assembly and
+primers, Guide RNA.
 
-## Demo Flow
+### Beat 1. Plasmid, about 30 seconds
 
-### 0:00-0:35 - Set The Frame
+Stay on the Plasmid tab. Type into the Experimental goal box:
 
-Screen: `Design workspace` with the left chat column and right-side `Plasmid map`, `Export`, `Lab outcome`, and `My outcomes` panels.
+```text
+a bacterial cloning vector with ampicillin resistance and a high copy origin
+```
 
-Say:
+Click Design. Measured on 2026-10-08: **overall PASS**, 4 checks, a circular map
+of **2,686 bp** with 4 features. That length is pUC19, which is probably the most
+recognizable plasmid in molecular biology, so the map is immediately legible to
+anyone in the room who has ever cloned anything.
 
-"Construct is a design workspace for molecular biologists. The first wedge is simple: describe the construct, retrieve a grounded template from real plasmid records, generate an annotated candidate, run deterministic validation checks, and export a file a bench scientist can inspect."
+Say: "This is the existing flow. It retrieves a real template instead of
+inventing a backbone, and the checks run separately from generation."
 
-Point out:
+That is the whole of beat 1. Its job is to establish that there is a working
+product underneath before beat 2 does the persuading, so open on the green
+result and move on quickly.
 
-- The first screen is the workspace, not a landing page.
-- The empty plasmid map says: "Submit a design to render the annotated plasmid."
-- The export and outcome panels are disabled until a design exists.
+**A second prompt that also passes**, if you want a larger map: `a GST fusion
+expression vector for E. coli with ampicillin resistance` gives overall PASS,
+4 checks, 5,825 bp.
 
-### 0:35-1:30 - Initial Chat Prompt
-
-Click the prompt box labeled `Experimental goal`.
-
-Type exactly:
+**Optional, only if someone challenges whether the checks really bite.** This
+prompt opens on a genuine FAIL and is worth knowing about rather than
+discovering live:
 
 ```text
 a yeast shuttle vector with URA3 selection and centromere maintenance
 ```
 
-Click `Design`.
+It retrieves pRS416 at score 0.854, renders 4,898 bp with 7 features, and
+reports **FAIL**: a 100 bp window at 11 percent GC, and a lac promoter region
+incompatible with the requested yeast host. Both are the engine doing its job on
+a real retrieved record. If you show it, the line is: "It does not hide a failing
+check behind a fluent answer." Do not open the demo on it.
 
-Expected screen while running:
+### Beat 2. AAV, over the limit, then fixed. This is the moment.
 
-- The user message appears as `Researcher`.
-- A progress card appears with `Starting design job` or `Designing and validating plasmid`.
-- The progress steps read `Retrieving templates`, `Generating candidate`, and `Running checks`.
-- A job ID may appear below the progress bar.
+Click the AAV vector tab. Fill the form with:
 
-Say:
+* Transgene name: `lacZ`
+* Transgene coding sequence: paste the entire contents of
+  `docs/demo_assets/transgene_lacZ_JF300162.1.txt` (3,075 bp, one line)
+* Target tissue: Ubiquitous
+* Promoter: CAG promoter (1,639 bp)
+* PolyA signal: Bovine growth hormone polyadenylation signal
+* Self-complementary: unchecked
+* **Include WPRE if it fits: leave it UNCHECKED, or the numbers below change.**
+  It is checked by default. With it checked the "fixed" cassette picks up a 589
+  bp WPRE and lands at 4,391 bp, not 3,802 bp. Click the checkbox with the
+  mouse so you can see it is empty.
 
-"This is intentionally phrased like a scientist would ask, not like an API payload. The system parses host, vector type, selectable marker, and maintenance constraints, then retrieves a template instead of making up a backbone."
+The transgene must be pasted. No retrieval resolver for transgenes exists, so
+the app cannot look up a gene by name. The generator raises rather than
+inventing a sequence, which is the correct behavior.
 
-When the job completes, expected screen:
+Click Compose cassette. Expected, measured:
 
-- A `Design agent` message appears.
-- The message includes either a generated design summary or recommendation text.
-- A `Validation report` panel appears in the assistant message when validation is returned.
-- A retrieved-template list appears, for example `Retrieved 1: pRS416` or another yeast shuttle template, with a numeric score if available.
-- A `View plasmid map` link appears.
-- The right rail renders a seqviz plasmid map with sequence length, topology, annotation status, and a feature legend.
+* Cassette **5,229 bp**, overall **FAIL**, Packaging limit FAIL.
+* 529 bp over the 4,700 bp target, 329 bp over the 4,900 bp soft limit, and 29
+  bp past the 5,200 bp hard ceiling.
+* The message names the fix itself: replace CAG with EFS, saving 1,427 bp.
+* The length budget table shows the running total going red at the transgene.
 
-Talking points:
+Say: "That is a real, expensive mistake, caught before anyone spent money, and the
+fix is computed. Beta-galactosidase is the classic oversized AAV cargo."
 
-- YC/investor: "The product flow starts with a narrow, high-frequency lab job rather than a broad research assistant."
-- Collaborator: "The app exposes the retrieved template so a scientist can audit the starting point."
-- Technical: "Recommendation text is constrained to retrieved records; missing requirements are stated as adaptations, not hallucinated as existing features."
+Now change Promoter to `EFS, short EF-1 alpha core promoter (212 bp)` and click
+Compose cassette again. Expected, measured:
 
-### 1:30-2:20 - Retrieval-Template-Grounded Design
+* Cassette **3,802 bp**, Packaging limit **PASS**, overall **WARN**.
+* Both ITRs matched, orientation correct, order correct, 14 checks reported.
 
-Scroll within the assistant message if needed.
+The overall is WARN, not PASS, and you should say why before anyone asks. One
+advisory remains, `Kozak initiation context`, Tier B. It is a property of the
+real gene: lacZ begins ATGACC, so the base after the start codon is A where G is
+preferred. The report gives the fix, which is to insert a GCCRCC prefix right
+before the ATG.
 
-Expected screen:
+One sentence to say: "It lands on a warning, not a pass, because the real lacZ
+gene has a weak start context, and the report tells me exactly how to fix it,
+which is the point: a warning with an explanation is the product."
 
-- The assistant result shows the top retrieved templates under the message.
-- The plasmid map shows labeled features in the right rail.
-- The feature legend includes component names, feature types, coordinates, strand, and confidence percentages.
+Request bodies, if you ever drive the API directly (`POST /v1/aav/design`):
+before `{"transgene_name": "lacZ", "transgene_sequence": "<file contents>",
+"target_tissue": "ubiquitous", "promoter_preference": "promoter.cag",
+"include_wpre": false, "polya_preference": "polya.bgh"}`, then the same body with
+`"promoter_preference": "promoter.efs"` for the after state.
 
-Say:
+### Beat 3. Assembly, about 30 seconds
 
-"This is the difference between chat and a design system. We are showing the provenance boundary: parsed intent, retrieved template, generated annotated sequence, and validation report are separate artifacts. That gives us something to test, version, and improve."
+Click the Assembly and primers tab. Strategy: Gibson. Leave Target primer Tm
+empty. There are two fragment cards; fill them in this order.
 
-Point at the right rail:
+Be precise about what this beat is. There is no automatic hand-off from the AAV
+result to this tab, so you paste fragments. And two arbitrary sequence slices do
+not make a clean Gibson pair: an arbitrary pair of promoter slices returns
+overall FAIL, which is correct behavior. The pair below was chosen and verified
+to assemble cleanly. Both fragments are plus strand slices of real promoter
+records.
 
-"The map is not decorative. It is the handoff surface: a scientist can inspect the circular sequence, feature calls, and annotation completeness before downloading anything."
-
-### 2:20-3:05 - Conversational Refinement
-
-Click the same prompt box. The button should now say `Refine`.
-
-Type exactly:
-
-```text
-keep URA3 selection, but add a GFP reporter payload for a fluorescence readout
-```
-
-Click `Refine`.
-
-Expected screen:
-
-- A second `Researcher` message appears.
-- Another progress card appears.
-- A second `Design agent` result appears.
-- The assistant result should reflect the refinement, either in the recommendation text, generated sequence, retrieved template list, feature legend, or validation report.
-- The plasmid map updates if the returned annotated sequence changes.
-
-If a clarification appears instead:
-
-- The UI labels it `Clarification`.
-- A yellow `Clarification needed:` box appears above the text area.
-- Answer with:
-
-```text
-Saccharomyces cerevisiae; use the retrieved yeast shuttle backbone and treat GFP as the payload.
-```
-
-Say:
-
-"The session keeps context. The first turn establishes the yeast shuttle backbone and URA3 constraint; the second turn asks for a payload change. For collaborators, this is where we can add lab-specific defaults without forcing people into a form."
-
-Talking points:
-
-- YC/investor: "Refinement is where retention lives: users iterate on real constraints instead of starting over."
-- Collaborator: "Ambiguous requests can become explicit clarification turns rather than silent assumptions."
-- Technical: "The API stores sessions, turns, jobs, and design artifacts so later export and outcome submission can link back to the exact design."
-
-### 3:05-3:50 - Validation Report And GenBank Export
-
-In the latest assistant message, point to `Validation report`.
-
-Expected screen:
-
-- The validation panel has an overall status badge such as `PASS`, `WARN`, or `FAIL`.
-- Individual checks appear as rows with names, statuses, messages, and sometimes regions.
-- The model/version line may appear as `Model: ...`.
-
-Say:
-
-"Validation is deterministic and separate from generation. Today it checks synthesis and biology constraints such as restriction-site conflicts, repeat or instability patterns, codon usage, and regulatory compatibility. A failed check is not hidden by a fluent answer."
-
-In the right `Export` panel, click `GenBank`.
-
-Expected screen:
-
-- The button may briefly show `Preparing...`.
-- Browser download starts with a filename like `<design_id>.gb`.
-- The panel shows `GenBank download started.` and the button becomes `GenBank ready`.
-
-Say:
-
-"Export matters because the user eventually has to leave the app. GenBank preserves sequence, topology, and annotated features, so a collaborator can open it in their normal plasmid tooling. FASTA is available too, but GenBank is the richer demo handoff."
-
-Investor talk track:
-
-"This is the wedge from assistant to workflow: users get an artifact they can inspect, share, and eventually submit for synthesis, not just prose."
-
-Collaborator talk track:
-
-"The exported record includes Construct metadata and feature qualifiers so auditability survives outside the browser."
-
-### 3:50-4:45 - Later Outcome Submission
-
-Use one of two paths.
-
-Preferred path if a current design exists:
-
-1. In the right rail, find `Lab outcome`.
-2. Click `Report outcome`.
-
-Fast-forward path if seeded:
-
-1. Point to the bottom-right `Outcome follow-up` toast.
-2. It should say `Design <design_id> is ready for lab outcome feedback.`
-3. Click `Report outcome`.
-
-Expected modal:
-
-- Header: `Report outcome`.
-- Title: `What happened in the lab?`
-- Pinned context shows `Design ID:` and `Model version:`.
-- Form fields are:
-  - `What did you test?`
-  - `What sequence evidence do you have?`
-  - `What happened in expression testing?`
-  - `What happened in functional testing?`
-  - `Based on the evidence above, what is your interpretation?`
-  - `Notes`
-  - Training-consent checkbox.
-- The `Evidence category` section updates as choices are made.
-
-Select exactly:
-
-- `What did you test?` -> `Delivered design exactly`
-- `What sequence evidence do you have?` -> `Matches expected regions`
-- `What happened in expression testing?` -> `Met expected expression`
-- `What happened in functional testing?` -> `Met expected function`
-- `Based on the evidence above, what is your interpretation?` -> `Accepted for intended use`
-
-In `Notes`, type exactly:
+Fragment 1: Name `frag_a`, Role Insert, Source
+`GenBank KU341333.1, CBh promoter (part promoter.cbh), plus strand offset 100, 150 bp`,
+Sequence:
 
 ```text
-Clone 2 matched expected reporter function after sequence confirmation.
+CAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTGTGCCCAGTACATGACCTTATGGGACTTTCCTACTTGG
 ```
 
-Check:
+Fragment 2: Name `frag_b`, Role Insert, Source
+`GenBank AF396260.1, CMV promoter (part promoter.cmv), plus strand offset 410, 180 bp`,
+Sequence:
 
 ```text
-I consent to this outcome report and non-sensitive linked design metadata being used to improve future design models.
+ATAGCGGTTTGACTCACGGGGATTTCCAAGTCTCCACCCCATTGACGTCAATGGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCATTGACGCAAATGGGCGGTAGGCGTGTACGGTGGGAGGTCTATATAAGCAGAGCTCGTTTAGTGAAC
 ```
 
-Click `Submit outcome`.
+Click Design primers. Expected, measured: assembly junction map with a 20 bp
+homology arm, `frag_a` as a 170 bp amplicon and `frag_b` as a 200 bp amplicon,
+4 primers, overall **PASS**, **15 checks**, and an Order table CSV and Junction
+map export.
 
-Expected screen:
+Say: "And here is what to order, and what to do at the bench on Monday."
 
-- Confirmation title: `Outcome submitted`.
-- Summary shows interpretation, sequencing, expression, function, consent, and reported timestamp.
-- Text says the report may be reviewed for model improvement if consent was granted.
-- Click `Back to design`.
-- The right rail `Lab outcome` panel changes to an outcome-reported state.
-- `My outcomes` shows the reported design with a positive badge and training-consent status.
+### Beat 4. Guide RNA, 20 seconds, only if time
 
-Say:
+Click the Guide RNA tab. Target name `PUC19_BLA`. Target sequence: paste
+`docs/demo_assets/grna_target_bla_pUC19.txt` (950 bp, the beta-lactamase region
+of pUC19, the same record used by gold case `grna.good.a1.spcas9_forward_bla_guide`).
+Nuclease SpCas9, edit intent Knockout, off-target search space "The target and
+delivery construct only". Click Rank guides.
 
-"The long-term advantage is not just generation. It is attribution. Weeks later, the app can ask what happened in the lab and connect the answer to the design ID, model version, evidence, consent, and provenance."
+Expected, measured: "10 of 216 enumerated guides shown", overall PASS with 10
+checks, a Guide table TSV and an Oligo order TSV, and a banner reading:
 
-Be precise:
+> Off-target search covered the target sequence only, 950 bp in total across 1
+> sequence. No delivery construct sequence was supplied, so self-targeting of the
+> delivery construct was not searched. This is not a genome-wide search.
 
-"This is the foundation of the feedback flywheel. The current repo can store outcomes and derive training-signal snapshots, but automated scheduled retraining and promotion are not complete yet."
+Say the limitation yourself, before being asked: "It searched only the target I
+gave it, and it says so in the report. It is not genome-wide."
 
-### 4:45-5:00 - Close
+## 3. Questions to have answers ready for (spec section 15.4)
 
-Say:
+* **"Isn't this just ChatGPT with a biology prompt?"** The checking is a rules
+  engine, not a model. The validation engine follows fixed rules: the same design
+  produces the same verdict, and every verdict cites its threshold. Open the
+  report and show the Observed and Threshold lines. The biology is not settled
+  science, and we do not claim it is.
+* **"Where does the packaging limit come from?"** It is a band, configurable and
+  cited: a 4,700 bp target, a 4,900 bp soft limit and a 5,200 bp hard ceiling.
+  Labs disagree about the practical ceiling, which is why it is a band.
+* **"What is your off-target search covering?"** Only the sequence you supply,
+  plus the delivery construct if you give one. Not genome-wide. Say it before
+  being pushed, and point at the banner.
+* **"What does 100 percent accuracy mean?" or "How accurate is it?"** Never say
+  100 percent accurate. Give counts and say "curated": it gets 91 of 91 on the
+  curated capability gold set, across three capability types, 46 known-good
+  designs and 45 known-bad designs, assembled by us. The plasmid gold set is
+  separate, 36 known-good and 52 known-bad, and is quoted on its own because an
+  older harness measures it that does not assert the named check. A curated gold
+  set is a regression test, not proof of real-world accuracy.
+* **"Aren't you competing with Benchling?"** Benchling is where designs are
+  recorded and managed. This generates and validates them.
+* **"Where does the AAV transgene come from?"** You paste it. There is no gene
+  lookup yet, and the generator refuses to invent a sequence. The demo payload is
+  a real beta-galactosidase coding sequence, GenBank JF300162.1.
+* **"Is the sequence safe to synthesize?"** For what is implemented on sequence
+  screening, see `progress/WP-08.md`.
+* **"Can it do CAR-T, antibodies, circuits, pathways?"** Not built yet. Here is
+  what we have: plasmids, AAV vectors, assembly and primers, guide RNAs. The rest
+  is on our roadmap.
 
-"In five minutes, we went from a natural-language construct goal to a grounded template, an annotated plasmid map, deterministic validation, GenBank export, and an outcome record that can later improve the model. The next product milestones are production auth, primer and synthesis-provider handoff, and closing the automated training loop."
+## 4. If it breaks
 
-## Backup Prompts
+* **Docker engine wedged.** Symptoms: `docker compose up -d` hangs or errors,
+  `scripts/check_services.py` fails on every line, Docker Desktop looks stuck.
+  This happened during the build. `docker desktop restart` fixed it and the corpus
+  survived the restart. Then rerun `docker compose up -d` and
+  `python scripts/check_services.py`.
+* **Port 55432 trap.** Plasmid beat fails with an authentication error, or the
+  corpus looks empty. `.env` was regenerated and Postgres is being reached on
+  5432, which belongs to the native Windows PostgreSQL service. Set
+  `POSTGRES_PORT=55432` and a `DATABASE_URL` ending `localhost:55432/plasmid_design`.
+  Restart `make serve-local`.
+* **The page loses your input.** Next.js dev mode can reload the page, and the
+  form state is gone. This happened once in the browser walk. Re-enter the form.
+  If it keeps happening, it is the dev server restarting: check the `serve-web`
+  terminal.
+* **Numbers differ from this script.** If the AAV after state shows 4,391 bp,
+  the WPRE box was checked. Untick it and compose again.
+* **Plasmid beat is slow or fails and you are out of time.** Skip it. The AAV
+  beat does not touch the database. Beats 2 to 4 run without Postgres.
+* **Last resort.** `make demo` is the deterministic verification path against the
+  fixture API. It is a test, not a live demo of the real engine.
 
-Use these if the primary prompt does not retrieve cleanly in the current local corpus.
+## 5. Backup prompts for the plasmid beat
+
+Use these if the primary prompt does not retrieve cleanly.
 
 ```text
 a bacterial expression vector for E. coli with ampicillin selection and GFP reporter readout
@@ -281,51 +305,51 @@ a mammalian GFP reporter plasmid for expression analysis in cultured cells
 build a GFP reporter
 ```
 
-Refinement backup:
-
-```text
-switch the backbone to pEGFP-N1 and keep the GFP reporter readout
-```
-
-Clarification backup:
-
-```text
-Use cultured mammalian cells and keep GFP as the reporter payload.
-```
-
-## Claims To Make And Avoid
+## 6. Claims
 
 Make these claims:
 
-- "Retrieval is grounded in indexed plasmid records and templates."
-- "The validation engine is deterministic and reports checks separately from generation."
-- "The current frontend supports chat, refinement, map rendering, GenBank/FASTA export, and outcome capture."
-- "Outcome capture is consent-aware and stores model/design provenance for later training-signal derivation."
+* "Four capabilities exist: plasmids, AAV vectors, assembly and primers, guide
+  RNAs. The rest is on our roadmap."
+* "The validation engine follows fixed rules. The same design produces the same
+  verdict, and every verdict cites its threshold."
+* "On the curated capability gold set it gets 91 of 91, 46 known-good and 45
+  known-bad, across three capability types."
+* "Retrieval is grounded in indexed plasmid records and templates."
+* "Every guide RNA table states exactly what was searched for off-targets, and
+  says it is not genome-wide."
+* "The frontend supports the four capabilities with map or table views and
+  exports: GenBank and FASTA for plasmid and AAV, order table and junction map
+  for assembly, guide table and oligo order for guide RNA."
 
 Avoid these claims:
 
-- "The system is production deployed."
-- "The sequence is guaranteed synthesis-ready."
-- "Primer design and synthesis-provider ordering are complete."
-- "The model is already learning automatically from every reported outcome."
-- "Lentiviral, CRISPR, or Addgene-scale coverage is complete."
+* "100 percent accurate" or any accuracy figure without the word curated and the
+  counts.
+* "Provably correct", "guaranteed valid", or "guaranteed synthesis ready".
+* "The system is production deployed." It runs locally.
+* "The off-target search is genome-wide." It covers only the supplied sequence
+  set.
+* "We cover CAR-T, antibodies, circuits or pathways", or any list of capability
+  types beyond the four. Say not built yet.
+* "You can look up any transgene by name." You paste the sequence.
+* "The AAV design flows automatically into assembly." You paste the fragments;
+  there is no hand-off yet.
+* "Synthesis-provider ordering is complete." The tool produces order tables and
+  oligo order files; it does not place orders.
+* "The model learns automatically from every reported outcome." Outcome capture
+  exists for plasmid designs; automated retraining and promotion are not built.
+* "Auth and deployed hosting are done." They are not.
 
-## Audience-Specific Notes
+## 7. Audience notes
 
-YC/investor:
+Investors: lead with beat 2. A failure caught before money was spent, and the fix
+computed, needs no biology background. Say the Kozak warning yourself.
 
-- Lead with workflow compression: prompt -> grounded design -> validation -> export -> outcome.
-- Emphasize data flywheel defensibility: the valuable asset is linked design provenance plus later wet-lab outcomes, not chat UX alone.
-- Mention current gates honestly: Phase 1 retrieval and Phase 3 validation gates are met; Phase 4/5 productization remains in progress.
+Scientific collaborators: lead with auditability, the Observed and Threshold
+lines, the cited constants, and the off-target statement. Ask which packaging
+ceiling they use in practice.
 
-Scientific collaborator:
-
-- Lead with auditability: retrieved template names, feature coordinates, validation checks, and export metadata are visible.
-- Emphasize conservative behavior: clarification is preferable to guessing, and incomplete annotations are surfaced.
-- Ask for help on supported first profiles, default synthesis-provider constraints, and evidence standards for outcomes.
-
-Technical collaborator:
-
-- Lead with architecture: Next.js workspace, FastAPI session/job/export/outcome endpoints, shared Pydantic schemas, retrieval/generation/validation package boundaries.
-- Emphasize testable interfaces: parser, retriever, generator, constraint engine, export codec, and outcome store are separate contracts.
-- Point to open integration work: job worker wiring, auth/session ownership, primer output, provider handoff, and scheduled outcome-derived training.
+Technical collaborators: the engine is rule based and deterministic, each
+capability has its own validator package and a gold set, and the capability
+endpoints are pure functions of the request body.

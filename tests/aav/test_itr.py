@@ -159,6 +159,20 @@ class TestOrientation:
         assert verdict.arrangement == "tandem"
         assert verdict.method == "d_element"
 
+    def test_both_itrs_flipped_in_place_is_inverted_but_not_canonical(self):
+        """D outward. Still inverted, so the arrangement is not tandem, but flagged.
+
+        `canonical` is what `aav.itr_orientation` turns into a WARN, so this is
+        the layer that has to keep telling the two inverted arrangements apart.
+        """
+        verdict = orientation_of_pair(
+            reverse_complement(LEFT), reverse_complement(RIGHT), self.reference()
+        )
+        assert verdict.arrangement == "inverted"
+        assert verdict.method == "d_element"
+        assert not verdict.canonical
+        assert "face the cassette ends rather than the transgene" in verdict.detail
+
     def test_the_commoner_identical_itr_layout_is_inverted(self):
         """Both ITRs the same sequence, one reverse complemented: the usual plasmid layout."""
         verdict = orientation_of_pair(LEFT, reverse_complement(LEFT), self.reference())

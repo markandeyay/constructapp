@@ -5,7 +5,7 @@
     "expect_overall": "warn",
     "expect_check": "primer.pair_tm_delta",
     "expect_severity": "warn",
-    "rationale": "The two primers of the pair are pinned to real slices whose melting temperatures differ by more than the 5.0 C threshold, while each one stays inside the 10 C band that would make primer.tm_in_range fail. That separation is the whole point: a pair can be individually acceptable and still be unusable together, because one thermocycling program has to serve both and the annealing temperature that suits the hotter primer leaves the cooler one unbound. primer.pair_tm_delta is the only check that compares the two primers of a pair, so it is the only one that can catch this. Every sequence in this case is a plus strand slice of a real GenBank record already in this repository, at the offset the fragment source field records. The offsets are chosen, the bases are not.",
+    "rationale": "The two primers of the pair are pinned to real slices whose melting temperatures differ by 6.0 C, over the 5.0 C threshold, while each one is individually acceptable on every check that looks at a single primer. The forward primer melts at 57.0 C and the reverse at 63.0 C, so both sit inside the 57.0 to 63.0 C window and neither is anywhere near the 10 C band that makes primer.tm_in_range FAIL; GC is 47% and 50%, inside the 40% to 60% window; and neither folds or dimerises past its threshold. primer.pair_tm_delta is the only non-pass check in the report. That separation is the whole point: a pair can be individually acceptable and still be unusable together, because one thermocycling program has to serve both and the annealing temperature that suits the hotter primer leaves the cooler one unbound. primer.pair_tm_delta is the only check that compares the two primers of a pair, so it is the only one that can catch this. The arithmetic also shows why the pair threshold has to be narrower than the single primer window: that window is 6.0 C wide, so without a pair check a mismatch of exactly this size would pass unremarked, which is what this case demonstrates. Every sequence in this case is a plus strand slice of a real GenBank record already in this repository, at the offset the fragment source field records. The offsets are chosen, the bases are not.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {
@@ -14,8 +14,8 @@
         "fragments": [
           {
             "name": "frag",
-            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAATAACTTACGGTAAATGGCCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "a primer pair with a deliberate melting temperature mismatch. The forward primer binds a 18 bp slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 7 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
+            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAACATATCCTGGTGTGGAGTACTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGGTATTACCGCCTTTGAGTGAGCTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
+            "source": "a primer pair with a deliberate melting temperature mismatch, pinned so that each primer on its own is inside every single primer window. The forward primer binds a 19 bp slice of GenBank PZ285974.1, GFAP promoter (part promoter.gfap) at offset 7 and the reverse primer binds a 22 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 747. flanks are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and the interior is a plus strand slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
           }
         ],
         "hairpin_engine": "window"
@@ -26,18 +26,18 @@
           "fragment": "frag",
           "direction": "forward",
           "tail": "",
-          "binding": "TAACTTACGGTAAATGGC",
+          "binding": "CATATCCTGGTGTGGAGTA",
           "binding_start": 40,
-          "binding_end": 58
+          "binding_end": 59
         },
         {
           "name": "frag_R",
           "fragment": "frag",
           "direction": "reverse",
           "tail": "",
-          "binding": "CAAGGCGATTAAGTTGGGTA",
-          "binding_start": 118,
-          "binding_end": 138
+          "binding": "GCTCACTCAAAGGCGGTAATAC",
+          "binding_start": 119,
+          "binding_end": 141
         }
       ],
       "junctions": [],
@@ -52,7 +52,7 @@
     "expect_overall": "fail",
     "expect_check": "primer.hairpin",
     "expect_severity": "fail",
-    "rationale": "The forward primer is a real 22 bp slice that folds back on itself with a stem that includes its own 3' terminus. A 3' stem is the damaging case, because it sequesters the base the polymerase has to extend from, so the primer does not prime at all rather than merely competing with annealing. That is why section 7.5 check 6 is FAIL for a 3' stem past the hard threshold and WARN for an internal one, and primer.hairpin is the only check that folds a primer against itself. hairpin_engine is pinned to window in every assembly gold case. ViennaRNA is an optional import that is not in requirements.txt, so leaving the engine on auto would make the verdict depend on whether the package happens to be installed, which section 3.3 constraint 1 forbids for a gold set.",
+    "rationale": "The forward primer is a real 22 bp slice that folds back on itself with a stem that includes its own 3' terminus. A 3' stem is the damaging case, because it sequesters the base the polymerase has to extend from, so the primer does not prime at all rather than merely competing with annealing. That is why section 7.5 check 6 is FAIL for a 3' stem past the hard threshold and WARN for an internal one, and primer.hairpin is the only check that folds a primer against itself. hairpin_engine is pinned to window in every assembly gold case. ViennaRNA is an optional import that is not in requirements.txt, so leaving the engine on auto would make the verdict depend on whether the package happens to be installed, which section 3.3 constraint 1 forbids for a gold set. primer.self_dimer also WARNs, over a 16 bp overlap ending at the forward primer's own 3' terminus, and it is declared here because it cannot be separated from the defect: a 3' hairpin is intramolecular self complementarity, and the same self complementary bases read between two copies of the oligo are an extendable self dimer. The two checks measure one physical property in two geometries, so any input that fails primer.hairpin on a 3' stem will draw this warning as well. primer.hairpin is the only FAIL in the report.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {
@@ -99,7 +99,7 @@
     "expect_overall": "warn",
     "expect_check": "primer.hetero_dimer",
     "expect_severity": "warn",
-    "rationale": "The forward and reverse primers are complementary across their 3' ends, so the two oligos anneal to each other and each extends on the other. The product is primer dimer, which consumes the primers and the polymerase and competes with the real template, and it amplifies exponentially because it carries both priming sites. primer.hetero_dimer is the only check that aligns the two primers of a pair against each other with the 3' end weighted, which is what section 7.4 says matters, so it is the check that must catch this. Both primers are real slices.",
+    "rationale": "The forward and reverse primers are complementary across their 3' ends, so the two oligos anneal to each other and each extends on the other. The product is primer dimer, which consumes the primers and the polymerase and competes with the real template, and it amplifies exponentially because it carries both priming sites. primer.hetero_dimer is the only check that aligns the two primers of a pair against each other with the 3' end weighted, which is what section 7.4 says matters, so it is the check that must catch this. Both primers are real slices. One further check WARNs and is declared here: primer.tm_in_range, because the forward primer is 18 bp and melts at 54.9 C, 5.1 C under the 60.0 C target and so outside the 57.0 to 63.0 C window, though well inside the 10 C band that would make it a FAIL. That is a property of the slice chosen to put the two 3' ends in register rather than a second defect, and primer.hetero_dimer is the only check that aligns the pair against each other. No check FAILs.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {
@@ -146,7 +146,7 @@
     "expect_overall": "fail",
     "expect_check": "primer.specificity_in_template",
     "expect_severity": "fail",
-    "rationale": "The forward primer's 24 bp binding region occurs twice in the template, because the fragment carries the same real 24 bp stretch at two positions. The PCR would give two products of different lengths and the cloning would be a mixture, which is the kind of failure that is invisible until a gel is run. Every thermodynamic property of the primer is fine, so no Tm, GC, structure or length check can see it: primer.specificity_in_template is the only check that counts occurrences in the supplied template set, on both strands.",
+    "rationale": "The forward primer's 22 bp binding region occurs twice in the template, because the fragment carries the same real 22 bp stretch of the CBh promoter at two positions. The PCR would give two products of different lengths and the cloning would be a mixture, which is the kind of failure that is invisible until a gel is run. Both primers are pinned so that every thermodynamic property of the pair is inside its window, and the claim that no other check can see this defect is therefore a property of the report rather than an assertion about what the other checks ought to do: the forward primer melts at 60.0 C and the reverse at 59.2 C, both inside the 57.0 to 63.0 C window and 0.8 C apart against a 5.0 C pair limit; GC is 41% and 56% against a 40% to 60% window; and neither primer folds or dimerises past its threshold. primer.specificity_in_template is the only non-pass check in the report, and it is the only check that counts occurrences in the supplied template set, on both strands.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {
@@ -155,8 +155,8 @@
         "fragments": [
           {
             "name": "frag",
-            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAACAATGGGTGGAGTATTTACGGTAACTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCAATGGGTGGAGTATTTACGGTAATAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "real slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) and GenBank KU341333.1, CBh promoter (part promoter.cbh), arranged so the forward primer's 24 bp binding region is present twice"
+            "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAGACGTCAATAGTAACGCCAATACTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCGACGTCAATAGTAACGCCAATAGATGTACTGCCAAGTGGGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
+            "source": "real slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) and GenBank KU341333.1, CBh promoter (part promoter.cbh), arranged so the forward primer's 22 bp binding region is present twice. The forward primer binds a 22 bp slice of promoter.cbh at offset 60, placed at fragment offsets 40 and 123; the reverse primer binds a 18 bp slice of promoter.cbh at offset 128, whose reverse complement sits at fragment offset 145. flanks are plus strand slices of promoter.cmv at offsets 462 and 582 and the interior is a plus strand slice of promoter.cbh at offset 572"
           }
         ],
         "hairpin_engine": "window"
@@ -167,18 +167,18 @@
           "fragment": "frag",
           "direction": "forward",
           "tail": "",
-          "binding": "CAATGGGTGGAGTATTTACGGTAA",
+          "binding": "GACGTCAATAGTAACGCCAATA",
           "binding_start": 40,
-          "binding_end": 64
+          "binding_end": 62
         },
         {
           "name": "frag_R",
           "fragment": "frag",
           "direction": "reverse",
           "tail": "",
-          "binding": "TCCAGGCGATCTGACGGTTCACTA",
-          "binding_start": 148,
-          "binding_end": 172
+          "binding": "CCCACTTGGCAGTACATC",
+          "binding_start": 145,
+          "binding_end": 163
         }
       ],
       "junctions": [],
@@ -792,7 +792,7 @@
     "expect_overall": "warn",
     "expect_check": "assembly.amplicon_size",
     "expect_severity": "warn",
-    "rationale": "The fragment is 11,135 bp, over the 10,000 bp ceiling that the standard high fidelity polymerase protocol is documented to. An amplicon this long needs a long range polymerase, a longer extension time and a different protocol, and attempting it with the default program gives either no product or a smear. assembly.amplicon_size is the only check that measures the expected product length, so it is the one that must catch it, and it is a WARN because a long amplicon is achievable with the right enzyme rather than impossible. The fragment is a concatenation of whole real records already in this repository, assembled only to reach a length past the ceiling without inventing a single base; the EF1A record appears twice, in the interior only, so that both primer binding regions stay unique and primer.specificity_in_template is not the check that fires.",
+    "rationale": "The fragment is 11,135 bp, over the 10,000 bp ceiling that the standard high fidelity polymerase protocol is documented to. An amplicon this long needs a long range polymerase, a longer extension time and a different protocol, and attempting it with the default program gives either no product or a smear. assembly.amplicon_size is the only check that measures the expected product length, so it is the one that must catch it, and it is a WARN because a long amplicon is achievable with the right enzyme rather than impossible. The fragment is a concatenation of whole real records already in this repository, assembled only to reach a length past the ceiling without inventing a single base; the EF1A record appears twice, in the interior only, so that both primer binding regions stay unique and primer.specificity_in_template is not the check that fires. Three primer checks WARN as well, and they are declared here rather than left implicit. The primers are pinned to the two ends of the concatenation, so their composition is whatever those real records happen to carry and could not be tuned without moving the ends and changing the length this case is about: primer.tm_in_range on the forward primer at 65.6 C, 5.6 C from the 60.0 C target; primer.pair_tm_delta at 6.8 C between 65.6 C and 58.8 C; and primer.gc_content on both, 61% forward and 38% reverse, just outside the 40% to 60% window. None of them is a FAIL and none of them concerns product length, so assembly.amplicon_size remains the only check that measures the defect and the only non-pass check that is not a side effect of where the primers had to sit.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {
@@ -815,7 +815,7 @@
     "expect_overall": "fail",
     "expect_check": "primer.tm_in_range",
     "expect_severity": "fail",
-    "rationale": "One primer is an AT rich real 18 bp slice whose melting temperature is more than 10 C from the 60 C target. Section 7.5 check 1 grades this in two bands: outside 3 C is a WARN, because a few degrees is recoverable by changing the annealing temperature, and more than 10 C is a FAIL, because no single annealing temperature can serve this primer and the rest of the assembly at the same time. This case pins the FAIL band; the pair_tm_delta case above pins the WARN band of a neighbouring check, so the two together show the grading is real rather than cosmetic.",
+    "rationale": "One primer is a GC rich real 18 bp slice whose melting temperature is more than 10 C above the 60.0 C target. The binding region TGGCCCGCCTGGCTGACC is 14 of 18 bases G or C, 78% GC, and melts at 71.9 C, which is 11.9 C over target. Section 7.5 check 1 grades this in two bands: outside 3 C is a WARN, because a few degrees is recoverable by changing the annealing temperature, and more than 10 C is a FAIL, because no single annealing temperature can serve this primer and the rest of the assembly at the same time. This case pins the FAIL band; the pair_tm_delta case above pins the WARN band of a neighbouring check, so the two together show the grading is real rather than cosmetic. Two further checks WARN, and both are arithmetic consequences of the same 71.9 C primer rather than separate defects, so they are stated here rather than left for a reader to find: primer.gc_content at 78%, over the 60% ceiling, and primer.pair_tm_delta at 12.5 C against the 59.4 C reverse primer. Neither can be removed without removing the defect, because at 18 bp a primer cannot reach 11.9 C above target without being GC rich, and it cannot sit 11.9 C from target while staying within 5.0 C of a reverse primer that is on target. The reverse primer is the same 20 bp pUC19 slice at offset 330 that the hairpin and hetero-dimer cases use, and at 59.4 C and 45% GC it is itself inside every window, so both warnings are attributable to the forward primer alone.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {
@@ -825,7 +825,7 @@
           {
             "name": "frag",
             "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAATGGCCCGCCTGGCTGACCCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "an AT rich primer far below the target melting temperature. The forward primer binds a 18 bp slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 21 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
+            "source": "a GC rich primer far above the target melting temperature, 78% GC and 71.9 C against a 60.0 C target. The forward primer binds a 18 bp slice of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 21 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
           }
         ],
         "hairpin_engine": "window"
@@ -862,7 +862,7 @@
     "expect_overall": "fail",
     "expect_check": "primer.specificity_in_template",
     "expect_severity": "fail",
-    "rationale": "The forward primer's binding region does not occur anywhere in the supplied template set, on either strand. This is the ordinary consequence of designing against the wrong version of a sequence, and the PCR gives no product. Section 7.5 check 9 fails on zero occurrences for the same reason it fails on several: the stated binding region is not a unique site in the template. The companion case to the one where it binds twice, and the only check that looks for the primer in the template at all.",
+    "rationale": "The forward primer's binding region does not occur anywhere in the supplied template set, on either strand. This is the ordinary consequence of designing against the wrong version of a sequence, and the PCR gives no product. Section 7.5 check 9 fails on zero occurrences for the same reason it fails on several: the stated binding region is not a unique site in the template. The companion case to the one where it binds twice, and the only check that looks for the primer in the template at all. primer.specificity_in_template is the only non-pass check in the report. Sequence provenance, stated plainly because section 4.3 requires it: the forward primer ACGTACGTAAGGTTCCAAGG is deliberately synthetic and is declared as such. A primer that binds nowhere cannot also be a real slice of the template it fails to bind, so this is the one place in the assembly set where a real slice would contradict the defect instead of expressing it. Everything else here is real and unedited. In particular the 20 bases at fragment offset 40, which is where the primer record says it binds, are the genuine promoter.cmv slice at offset 502, ATGTCGTAACAACTCCGCCC, an entirely different sequence from the primer; the primer is not that slice and is not presented as it.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {
@@ -872,7 +872,7 @@
           {
             "name": "frag",
             "sequence": "GGGAGTTTGTTTTGCACCAAAATCAACGGGACTTTCCAAAATGTCGTAACAACTCCGCCCCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGTACCCAACTTAATCGCCTTGTAGTGAACCGTCAGATCGCCTGGAGACGCCATCCACGCTGTTTTGACCTC",
-            "source": "a forward primer that binds nowhere in the template. The forward primer binds a 20 bp slice of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offset 502 and the reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
+            "source": "a forward primer that binds nowhere in the template. The forward primer's binding region ACGTACGTAAGGTTCCAAGG is deliberately synthetic and occurs in none of the supplied records on either strand, which is the defect under test. The template itself is real throughout: the 20 bases at fragment offset 40, where the primer claims its site, are the genuine plus strand slice of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offset 502, ATGTCGTAACAACTCCGCCC. The reverse primer binds a 20 bp slice of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb) at offset 330. flanks and interior are plus strand slices of GenBank AF396260.1, CMV promoter (part promoter.cmv) at offsets 462 and 582 and of GenBank KU341333.1, CBh promoter (part promoter.cbh) at offset 572"
           }
         ],
         "hairpin_engine": "window"
@@ -1043,7 +1043,7 @@
     "expect_overall": "fail",
     "expect_check": "assembly.fragment_order_defined",
     "expect_severity": "fail",
-    "rationale": "Simple PCR cloning of two fragments with one enzyme, BsaI, named for both ends. Every junction then carries the same restriction site, so the insert can go into the vector in either orientation and the assembly has no defined order. This is a real and common mistake, and it is the reason directional cloning uses two different enzymes. assembly.fragment_order_defined is the only check that asks whether the junction topology admits exactly one arrangement. It is the one case in the set where that check is the primary failure rather than a documented cascade from an overhang defect, which is why it is here.",
+    "rationale": "Simple PCR cloning of two fragments with one enzyme, BsaI, named for both ends. Every junction then carries the same restriction site, so the insert can go into the vector in either orientation and the assembly has no defined order. This is a real and common mistake, and it is the reason directional cloning uses two different enzymes. assembly.fragment_order_defined is the only check that asks whether the junction topology admits exactly one arrangement. It is the one case in the set where that check is the primary failure rather than a documented cascade from an overhang defect, which is why it is here. This case supplies fragments and an enzyme only, so the primers are composed by the engine rather than pinned, and one further check WARNs on what it composed: primer.hairpin reports that two primers fold, frag_a_F over a 5 bp stem and frag_b_R over a 4 bp stem, with the 3' end outside the stem in both. It is declared here because it is a property of the composed primers and not of the junction topology under test. The fold is internal, so it is a WARN and not a FAIL, and assembly.fragment_order_defined is the only FAIL in the report.",
     "must_also_report": [],
     "allowed_extra_fail": [],
     "input": {

@@ -1,3 +1,5 @@
+> Historical design or research note, kept for the record and not current. Current truth lives in `README.md`, `docs/demo.md` and `PROGRESS.md`.
+
 # Scope
 
 This note defines the deterministic Phase 3 codon-optimization scoring check from `SYSTEM_DESIGN.md` Section 8.2 item 3. The check scores annotated gene-of-interest coding sequence regions against the target organism's codon-usage table and flags rare-codon clusters. It only reports validation status; it must not rewrite or optimize DNA.

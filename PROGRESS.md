@@ -64,6 +64,9 @@ WP-08 DONE by wp08-screening at 2026-10-08T02:40:00Z
 WP-06 DONE by wp06-gold at 2026-10-08T03:05:00Z
   Gold sets for all three new capabilities: 91 cases, 30 Tier A, 16 Tier B, 45 known-bad, every known-bad case naming the check that must catch it. make eval-capabilities 91/91 agree, 0 disagreements, exit 0, and still exit 0 with CAPABILITY_GOLD_REQUIRE=1 so no capability is silently uncovered.
   Full suite unchanged at 1370 passed, 2 skipped. Sequences are slices of data/parts and of pUC19 GenBank L09137.1; one synthetic gRNA target and every synthetic edit is declared in its own rationale. Four uses of allowed_extra_fail, each a genuine two-check cascade, all listed in progress/WP-06.md.
+WP-11 DONE by wp11-demo at 2026-10-08T15:28:17Z
+  Runbook rewritten, historical banners added, all four capabilities walked in a browser with evidence in docs/demo_evidence.
+  Full gate green: make test, eval-all, eval-check, demo, web build, lint, e2e. Details in progress/WP-11.md.
 
 ## Blocked
 BLOCKED worktree checkout in C:\Users\yalam\constructapp denied by the local
@@ -116,6 +119,7 @@ WP-05: the no-personal-names rule and Appendix E's read-not-recalled rule meet i
 WP-08: section 11.1 item 1 names three origins for a base (registry part, retrieved template, user input) and section 4.2 states the same property with a different third (user input, curated part record, published rule). The union is four and the fourth is load bearing: an Appendix D Type IIS recognition site in a primer tail, a published cloning vector overhang in a guide oligo, and the single G the published U6 protocol prepends are each exported and each fully traceable, and none is a part record, a retrieved record or user input. SequenceOrigin therefore has four members. A published_rule span must name its rule, every distinct rule is listed in the audit entry, and the gate writes each rule into the design's provenance, so rule derived bases are enumerated rather than absorbed.
 WP-08: Appendix D fixes how many nucleotides sit between a Type IIS site and the cut but not their identity, which packages/generation/assembly/designer.py::_filler sets by a documented deterministic A, C, G, T scan. Those bases are attributed as published_rule citing that rule by file and function, never as a part or a template, and the rule text appears verbatim in the audit entry and in the provenance.
 WP-08: the declared provenance cross check (a span's source must appear in DesignResult.provenance) is applied to registry, template and user input spans and not to published_rule spans, because a capability's provenance list records the sources it drew sequence from and does not enumerate the rules its composer applied base by base. A rule derived span carries its rule, the assertion lists it, and ScreeningRecord.record_in_design writes it into the design's provenance, so it still reaches the list a user reads.
+WP-03, deferred to after the demo, from the WP-10 review: the AAV composer should place a GCCACC Kozak element between the last upstream element and the CDS when the transgene supplies no 5' context, as a 6 bp cited element in the length budget, the GenBank feature table and AAVDesign.notes. This is not fabrication, because GCCRCC is already a cited constant in packages/validation/aav/constants.py with its Kozak 1987 reference and instantiating R as the preferred purine is ordinary vector design; without it the -3 base is whatever the upstream part's curated feature boundary ends on, and intron.chimeric ending ACCTGC means every cassette including the optional intron draws the aav.kozak_context WARN whichever promoter was chosen. Not done now because it changes the bases of every exported cassette and moves the documented demo numbers, and the present behaviour is honest: it warns, and the message now names the element the base came from and how to fix it.
 
 ## Cross-WP requests
 (none yet)
@@ -544,3 +548,38 @@ PORT 55432, repeated here because it is the single most likely cold start
   the example on THIS machine reintroduces the failure, which presents as a
   Postgres authentication error rather than a connection refusal, because the
   native service answers and then rejects the credentials.
+
+## Recommendations recorded rather than implemented before the demo
+
+RECOMMENDATION 1, to the gold runner, from WP-06. The audit that found nineteen
+  wrong or incomplete case rationales found defects the GATE CANNOT SEE. The
+  runner asserts overall severity, the named check, and the absence of an
+  unexpected FAIL. It does not assert WARNs on known-bad cases. So a rationale
+  claiming a case is isolated when three other checks also warn was invisible to
+  every gate and was caught only by reading. Five of twelve such leaks are now
+  fixed at the input; the remaining nine are declared in prose that nothing
+  checks.
+  The fix is an optional `expected_warnings` assertion on known-bad cases,
+  mirroring what the runner already does for Tier B. Deliberately NOT implemented
+  now: it changes test strictness rather than fixing a defect, it would require
+  re-verifying all 45 known-bad cases against a new assertion, and the window
+  before a live demo is better spent verifying what exists than extending it.
+  Worth doing immediately afterwards.
+
+RECOMMENDATION 2, a coupling nobody had noticed, found by WP-06 while fixing a
+  case. `primer.tm_in_range` warns outside a 6.0 C window, and
+  `primer.pair_tm_delta` fires above 5.0 C. The gap between them is 1.0 C, so a
+  primer pair can only be both individually clean and unusable together inside a
+  1.0 C sliver, and the clean example of that case sits exactly on the window
+  edges at 57.0 and 63.0 C. Not a bug, and no value should change now. But the
+  two thresholds are coupled far more tightly than either docstring suggests, and
+  anyone widening the single-primer window without widening the pair threshold
+  will silently make that defect class unreachable. Recorded in the case
+  rationale and here.
+
+MEASURED FACT worth keeping, since it constrains every future AAV gold case:
+  `promoter.cag` carries a 14 base G run at offset 412 and `promoter.cbh` a 16
+  base G run at offset 393, both over the 8 base homopolymer threshold. Any design
+  using either promoter therefore trips `aav.homopolymer_runs`, which cannot be
+  engineered away without editing a real registry part, which section 4.3
+  forbids. The two CAG sized cases now say so rather than claiming isolation.
