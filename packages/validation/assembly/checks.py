@@ -460,6 +460,49 @@ def check_three_prime_stability(context: Context) -> CheckResult:
 # ---------------------------------------------------------------------------
 
 
+def _hairpin_detail(primer: Primer, fold: structure.HairpinResult, stem_text: str) -> str:
+    """One primer's hairpin finding, with the oligo segment each arm lies in.
+
+    A stem length on its own is not actionable: the reader cannot tell whether
+    the self-complementary stretch is in the fixed 5' tail, where a Gibson
+    homology arm or a Type IIS site plus overhang is set by the assembly
+    standard, or in the template-binding region, which can be walked along the
+    template. The arm positions and their segments say which.
+    """
+    where = structure.arm_segments(fold, tail_nt=len(primer.tail))
+    return f"{stem_text} ({where})" if where else stem_text
+
+
+def _hairpin_segment_advice(offenders: list[tuple[Primer, structure.HairpinResult]]) -> str:
+    """The remedy that follows from where the reported stems actually sit.
+
+    This is the only remedy the message offers, deliberately. A generic "shorten
+    the primer from the 5' end" alongside it would contradict the segment advice
+    whenever the 5' end is a fixed tail, and a reader given two conflicting
+    remedies acts on neither.
+    """
+    if not offenders or any(
+        fold.five_prime_arm is None or fold.three_prime_arm is None for _, fold in offenders
+    ):
+        # No arm coordinates, so nothing can be said about segments. Fall back to
+        # the remedy that holds regardless of where the stem sits.
+        return (
+            " Move the binding region so the self-complementary stretch is broken up, or shorten "
+            "the primer from the 5' end if the stem starts there."
+        )
+    if all(structure.arms_are_movable(fold, tail_nt=len(primer.tail)) for primer, fold in offenders):
+        return (
+            " Both arms of every stem reported lie in the template-binding region, so walking the "
+            "primer a few bases along the template breaks the self-complementary stretch without "
+            "touching the junction."
+        )
+    return (
+        " At least one arm lies in the fixed 5' tail, whose sequence the assembly standard sets, "
+        "so the tail cannot be moved and only the template-binding arm can be redesigned: walk "
+        "the binding region until it no longer pairs with the tail."
+    )
+
+
 def check_hairpin(context: Context) -> CheckResult:
     """Section 7.5 check 6: WARN at or past the threshold, FAIL when a 3' stem
     is past the hard threshold.
@@ -501,28 +544,49 @@ def check_hairpin(context: Context) -> CheckResult:
     fail: list[str] = []
     warn: list[str] = []
     values: list[str] = []
+    offenders: list[tuple[Primer, structure.HairpinResult]] = []
     for primer, fold in folds:
         if free_energy:
             value = fold.delta_g_kcal_per_mol or 0.0
             values.append(f"{primer.name} {value:.1f} kcal/mol")
-            detail = (
+            detail = _hairpin_detail(
+                primer,
+                fold,
                 f"{primer.name} folds to {value:.1f} kcal/mol over a {fold.stem_bp} bp stem "
-                f"({fold.structure})"
+                f"({fold.structure})",
             )
             if fold.three_prime_involved and value <= settings.hairpin_three_prime_dg_fail_kcal_per_mol:
                 fail.append(detail)
+                offenders.append((primer, fold))
             elif value <= settings.hairpin_dg_warn_kcal_per_mol:
                 warn.append(detail)
+                offenders.append((primer, fold))
         else:
-            values.append(f"{primer.name} {fold.stem_bp} bp stem")
-            detail = f"{primer.name} folds over a {fold.stem_bp} bp stem"
-            if (
-                fold.three_prime_involved
-                and fold.stem_bp >= settings.hairpin_window_stem_three_prime_fail_bp
-            ):
-                fail.append(detail)
+            # The 3' threshold is read against the longest 3'-involved stem, not
+            # against the longest stem overall. Reading it against the longest
+            # stem lets a longer internal stem mask a shorter 3'-anchored one and
+            # silently drops a FAIL that section 7.5 check 6 requires, because a
+            # stem sequestering the 3' end is what stops the primer extending.
+            anchored = fold.worst_three_prime
+            if anchored is not None and anchored.stem_bp != fold.stem_bp:
+                values.append(
+                    f"{primer.name} {fold.stem_bp} bp stem, {anchored.stem_bp} bp with the 3' end in it"
+                )
+            else:
+                values.append(f"{primer.name} {fold.stem_bp} bp stem")
+            if anchored is not None and anchored.stem_bp >= settings.hairpin_window_stem_three_prime_fail_bp:
+                fail.append(
+                    _hairpin_detail(
+                        primer, anchored, f"{primer.name} folds over a {anchored.stem_bp} bp stem"
+                    )
+                )
+                offenders.append((primer, anchored))
             elif fold.stem_bp >= settings.hairpin_window_stem_warn_bp:
-                warn.append(detail)
+                warn.append(
+                    _hairpin_detail(primer, fold, f"{primer.name} folds over a {fold.stem_bp} bp stem")
+                )
+                offenders.append((primer, fold))
+    segment_advice = _hairpin_segment_advice(offenders)
 
     metric = (
         f"minimum free energy in kcal/mol, ViennaRNA {structure.viennarna_version()} with DNA "
@@ -546,9 +610,7 @@ def check_hairpin(context: Context) -> CheckResult:
             Severity.FAIL,
             f"{_subject(len(fail), 'primer', 'folds', 'fold')} strongly with the 3' end inside the "
             f"stem: {'; '.join(fail)}. A hairpin that sequesters the 3' end stops the polymerase "
-            "extending the primer, so this will not amplify. Move the binding region so the "
-            "self-complementary stretch is broken up, or shorten the primer from the 5' end if "
-            f"the stem starts there. Measured as {metric}.",
+            f"extending the primer, so this will not amplify.{segment_advice} Measured as {metric}.",
             observed=observed,
             threshold=threshold,
         )
@@ -558,8 +620,8 @@ def check_hairpin(context: Context) -> CheckResult:
             Severity.WARN,
             f"{_subject(len(warn), 'primer', 'folds', 'fold')}: {'; '.join(warn)}. The 3' end is "
             "not in the stem, so the primer can still be extended once it anneals, but the fold "
-            f"competes with annealing and may cost yield. Measured as {metric}. Raising the "
-            "annealing temperature or redesigning the binding region both help.",
+            f"competes with annealing and may cost yield.{segment_advice} Measured as {metric}. "
+            "Raising the annealing temperature also helps.",
             observed=observed,
             threshold=threshold,
             tier="B",
@@ -1185,6 +1247,17 @@ def check_fragment_order_defined(context: Context) -> CheckResult | None:
     sequence appears once, because then each fragment end can anneal to only
     one partner. A sequence appearing twice means two ends compete for the same
     partner and the product is a mixture.
+
+    The remedy is branched on strategy, because the three strategies do not
+    share one. Gibson and Golden Gate both let the designer choose the joining
+    sequence, so moving the junction or adopting a published overhang set fixes
+    the degeneracy at the design stage. Single-enzyme PCR cloning does not: the
+    joining sequence is a restriction site, both ends carry the same one by
+    construction, and no choice of position makes them distinct. There the real
+    options are to use two different enzymes so the ends are no longer
+    interchangeable, or to accept the mixture and screen colonies for
+    orientation. Offering the Gibson remedy there would send the reader after a
+    change that cannot be made.
     """
     junctions = context.design.junctions
     if len(junctions) < 2:
@@ -1201,13 +1274,24 @@ def check_fragment_order_defined(context: Context) -> CheckResult | None:
         detail = "; ".join(
             f"{sequence} joins {' and '.join(labels)}" for sequence, labels in sorted(ambiguous.items())
         )
+        if context.request.strategy == "pcr_cloning":
+            remedy = (
+                "With a single restriction enzyme both fragment ends carry the same site, so no "
+                "junction position makes them distinct. Either cut with two different enzymes so "
+                "the two ends are no longer interchangeable, or run the ligation as it stands and "
+                "screen colonies for the orientation you want, which is the standard way this is "
+                "handled when a second enzyme is not available."
+            )
+        else:
+            remedy = (
+                "Give each junction its own joining sequence by moving the junction position, or "
+                "by supplying a published overhang standard whose set is distinct by construction."
+            )
         return _result(
             "assembly.fragment_order_defined",
             Severity.FAIL,
-            f"The junction topology admits more than one assembly order: {detail}. Give each "
-            "junction its own joining sequence by moving the junction position, or by supplying a "
-            "published overhang standard whose set is distinct by construction. Until then the "
-            "reaction cannot be relied on to produce the intended order.",
+            f"The junction topology admits more than one assembly order: {detail}. {remedy} Until "
+            "then the reaction cannot be relied on to produce the intended order.",
             observed=observed,
             threshold=threshold,
         )

@@ -41,7 +41,7 @@ from typing import Any
 # `THRESHOLD_FINGERPRINTS` pins the thresholds each released version shipped
 # with, and `tests/assembly/test_constants.py` fails if a threshold moves
 # without a bump.
-VALIDATOR_VERSION: str = "assembly-1.0.0"
+VALIDATOR_VERSION: str = "assembly-1.1.0"
 
 
 # ---------------------------------------------------------------------------
@@ -176,18 +176,75 @@ THREE_PRIME_INVOLVEMENT_WINDOW_NT: int = 5
 # Hairpin stem length, in base pairs, at or above which a primer WARNs when no
 # free energy engine is available and the documented sliding-window
 # complementarity score is used instead (section 7.4, open question Q6).
-# CHOSEN DEFAULT: four base pairs. Rationale: three contiguous Watson-Crick
-# pairs closing the minimum 3 nt loop is the shortest fold the geometry allows
-# and occurs by chance in most 20-mers, so flagging at 3 would flag everything;
-# four is the shortest stem that is worth reporting. The units are base pairs,
-# not kcal/mol, and the message and `parameters_used` say so. Configurable.
-HAIRPIN_WINDOW_STEM_WARN_BP: int = 4
+#
+# CHOSEN DEFAULT: six base pairs, calibrated against the free energy threshold
+# the primary engine applies to the same oligo. The whole job of this constant
+# is to express `HAIRPIN_DG_WARN_KCAL_PER_MOL = -2.0` in base pairs, so that the
+# fallback agrees in severity with the engine it stands in for instead of
+# contradicting it.
+#
+# DERIVATION, measured rather than estimated. For random 47 nt oligos the stem
+# this scan reports was rebuilt as a dot-bracket structure and handed to the
+# same DNA energy model the primary engine uses
+# (`RNA.eval_structure_simple` under `dna_mathews2004`), giving the free energy
+# the primary engine assigns to the very stem the fallback found:
+#
+#   stem   mean dG37   fraction at or past -2.0   fraction at or past -3.0
+#   4 bp      -0.4            0.17                       0.04
+#   5 bp      -2.1            0.52                       0.30
+#   6 bp      -3.7            0.88                       0.65
+#   7 bp      -5.0            0.90                       0.86
+#
+# Two readings of that table are possible and they differ by one base pair. On
+# a mean-energy reading the -2.0 crossing is at 5 bp and the -3.0 crossing at
+# 6 bp. On a concurrence reading, which is the one adopted here, the question is
+# the one that matters for a stand-in engine: when the fallback fires, would the
+# primary engine agree? At 5 bp it agrees about half the time, which is a coin
+# flip; at 6 bp it agrees in 0.88 of cases. Six base pairs is therefore the
+# shortest stem at which this check firing is usually right rather than usually
+# arbitrary, and the one base pair of conservatism relative to the mean-energy
+# crossing is spent in the direction that keeps a WARN informative.
+#
+# WHY THE PREVIOUS VALUE OF 4 WAS A DEFECT, not merely a stricter preference.
+# A bare base-pair count is not length normalized, and the old rationale was
+# calibrated on a 20-mer and then applied unchanged to the 40 to 47 nt tailed
+# primers this module designs. Measured on random oligos at 50 percent GC, a
+# stem of 4 bp or more occurs in 0.16 of 20-mers but in 0.90 of 47-mers. A check
+# that fires on nine structureless designs in ten carries no information and is
+# the section 3.4 failure mode: it teaches the reader to ignore the validator,
+# including the checks that matter. At 6 bp the same rate is 0.004 at 20 nt and
+# 0.10 at 47 nt. Raising `HAIRPIN_MIN_LOOP_NT` is not the lever: only about 5
+# percent of qualifying stems in a 47-mer close a 3 nt loop, so the excess comes
+# from stem length, not from minimal loops.
+#
+# The units are base pairs, not kcal/mol, and the message and `parameters_used`
+# say so. Configurable.
+HAIRPIN_WINDOW_STEM_WARN_BP: int = 6
 
 # Hairpin stem length, in base pairs, at or above which a primer FAILS when the
 # stem involves the 3' end and the sliding-window score is in use.
-# CHOSEN DEFAULT: one base pair above the WARN stem, for the 3' reason given
-# for HAIRPIN_THREE_PRIME_DG_FAIL_KCAL_PER_MOL. Configurable.
-HAIRPIN_WINDOW_STEM_THREE_PRIME_FAIL_BP: int = 5
+#
+# CHOSEN DEFAULT: seven base pairs, one base pair above the WARN stem. Both
+# halves of that statement carry weight. The "one above the WARN stem" relation
+# is the same 3' asymmetry given for
+# HAIRPIN_THREE_PRIME_DG_FAIL_KCAL_PER_MOL and is unchanged. The absolute value
+# comes from the same measured table in the WARN constant above: 7 bp is the
+# stem length at which the primary engine's -3.0 kcal/mol FAIL level is reached
+# in 0.86 of cases, against 0.65 at 6 bp and 0.30 at 5 bp. Since this threshold
+# carries FAIL severity and so blocks a design outright, the concurrence
+# reading is the only defensible one: a FAIL that the primary engine would
+# contradict in a third of cases is not a FAIL.
+#
+# WHY THE PREVIOUS VALUE OF 5 WAS A DEFECT. A 5 bp stem touching the last 5
+# bases occurs in roughly 0.12 of random 47 nt oligos, so about one correct
+# tailed primer in eight was at risk of an outright hairpin FAIL, with no
+# redesign available to the user because the oligo cannot be moved off its
+# junction. That is worse than a noisy WARN: it is a FAIL on a design with
+# nothing wrong with it. The previous value shares the WARN constant's root
+# cause, being calibrated for a 20-mer and not length normalized.
+#
+# Configurable.
+HAIRPIN_WINDOW_STEM_THREE_PRIME_FAIL_BP: int = 7
 
 # Maximum self-complementarity score, in base pairs, anywhere in a primer
 # (check 7, WARN). Score definition is in `structure.py`.
@@ -405,6 +462,13 @@ def thresholds() -> dict[str, Any]:
 # without adding a new version here fails `tests/assembly/test_constants.py`.
 THRESHOLD_FINGERPRINTS: dict[str, str] = {
     "assembly-1.0.0": "c379f77561c72a33829a948e0c26097dc6c3af5229ea582330764332f4344db6",
+    # assembly-1.1.0 recalibrated the two sliding-window hairpin stem thresholds
+    # against the free energy levels the primary engine applies, raising
+    # HAIRPIN_WINDOW_STEM_WARN_BP from 4 to 6 and
+    # HAIRPIN_WINDOW_STEM_THREE_PRIME_FAIL_BP from 5 to 7. The derivation is in
+    # the comment above each constant. A report stored under assembly-1.0.0
+    # read its window hairpin verdict against the older, uncalibrated pair.
+    "assembly-1.1.0": "3889464a48cf006b6e5c9b03ee90d5f4afeb1e9566598fc10982a6b3ee434a5e",
 }
 
 # Citations attached to the `CheckResult.citation` field, keyed by check_id
@@ -436,7 +500,12 @@ CITATIONS: dict[str, str] = {
         "Section 7.4. Free energy threshold is a configurable default in the "
         "units IDT OligoAnalyzer reports; Primer3 expresses the same constraint "
         "as PRIMER_MAX_HAIRPIN_TH, a hairpin Tm of 47 C. Minimum loop size 3 nt "
-        "is the standard nucleic acid secondary structure minimum, as in ViennaRNA."
+        "is the standard nucleic acid secondary structure minimum, as in "
+        "ViennaRNA. The sliding-window fallback's stem thresholds of 6 bp and "
+        "7 bp are calibrated so that the stem lengths they flag are the ones "
+        "the free energy engine assigns past -2.0 and -3.0 kcal/mol under the "
+        "same DNA parameters, which is what keeps the two engines from "
+        "contradicting each other."
     ),
     "primer.self_dimer": "Primer3 defaults PRIMER_MAX_SELF_ANY 8.00 and PRIMER_MAX_SELF_END 3.00, in base pairs.",
     "primer.hetero_dimer": (
