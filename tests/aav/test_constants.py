@@ -247,6 +247,21 @@ class TestVersionPin:
             AAV_VALIDATOR_VERSION, AAVThresholds().as_mapping(), PINNED_THRESHOLD_FINGERPRINTS
         )
 
+    def test_the_itr_orientation_severity_change_bumped_the_version(self):
+        """Rule 4 covers a severity change too: a stored PASS must stay readable.
+
+        aav-1.0.0 reported PASS on a D outward ITR pair and aav-1.1.0 reports
+        WARN. No threshold value moved, so the two versions share a fingerprint,
+        and that is the record of what did change.
+        """
+        assert AAV_VALIDATOR_VERSION != "aav-1.0.0"
+        assert AAV_VALIDATOR_VERSION in PINNED_THRESHOLD_FINGERPRINTS
+        assert "aav-1.0.0" in PINNED_THRESHOLD_FINGERPRINTS
+        assert (
+            PINNED_THRESHOLD_FINGERPRINTS[AAV_VALIDATOR_VERSION]
+            == PINNED_THRESHOLD_FINGERPRINTS["aav-1.0.0"]
+        )
+
     def test_changing_a_threshold_changes_the_fingerprint(self):
         baseline = thresholds_fingerprint(AAVThresholds().as_mapping())
         changed = thresholds_fingerprint(AAVThresholds(ss_target_bp=4_701).as_mapping())
