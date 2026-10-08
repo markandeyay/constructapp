@@ -106,3 +106,33 @@ POSTGRES HOST PORT MOVED to 55432 in the gitignored .env only. A native
 GATE STATUS at this point: make test 520 passed 2 skipped exit 0, make demo
   1 passed exit 0, make eval-all exit 0, make eval-check exit 0 on two
   consecutive runs.
+
+## Spec note: the section 2.4 grep pattern, stated precisely
+
+The gate command in section 2.4 is `grep -ri "plasmidai\|plasmid_ai\|PMR" --exclude-dir=.git .`
+Run literally in a tree that has had `npm install`, it returns non-zero hits that
+are NOT branding violations, because `-i` makes the three letters `pmr` match
+inside unrelated words. Both sources are third-party and gitignored:
+
+  1. `pmr` is a real ISO 639-3 language code, so it appears as a data key in
+     `node_modules/language-subtag-registry`, for example `"pmr": 5598`.
+  2. `pmR` appears inside the camel case identifier `NpmRegistry`, for example
+     `getGlobalNpmRegistry` in `node_modules/napi-postinstall`.
+
+The meaningful counts, which are the ones this build is accountable for:
+
+  Tracked files, `git grep -niI "plasmidai\|plasmid_ai\|PMR"`            0 hits
+  Whole tree, case sensitive, for the real tokens
+    (`PlasmidAI`, `plasmidai`, `plasmid_ai`, `PMR Labs`, `PMR `)         0 hits
+  Files this build authored                                              0 hits
+
+No committed file, log line, user-facing string, export or commit message
+contains a retired brand token. The residual literal matches are coincidental
+substrings inside installed dependencies that this build does not author, does
+not commit and does not ship.
+
+Separately, `apps/web/.next` previously contributed hits: Next.js writes the
+absolute build path into its source maps, and the build directory on this
+machine is named after the retired product. That cache was deleted and it is
+gitignored. On the operator path `C:\Users\yalam\constructapp` the embedded path
+contains no retired token, so the issue does not arise there.
