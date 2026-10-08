@@ -8,6 +8,7 @@ WP-09 CLAIMED by wp09-harness at 2026-10-07T22:48:59Z
 WP-03 CLAIMED by wp03-aav at 2026-10-07T23:30:00Z
 WP-04 CLAIMED by wp04-assembly at 2026-10-07T23:40:00Z
 WP-05 CLAIMED by wp05-grna at 2026-10-07T23:30:00Z
+WP-07 CLAIMED by wp07-web at 2026-10-08T00:10:00Z
 
 ## Done
 WP-00 DONE by orchestrator at 2026-10-07T00:00:00Z
@@ -51,6 +52,10 @@ WP-03 DONE by wp03-aav at 2026-10-08T01:05:00Z
 WP-05 DONE by wp05-grna at 2026-10-07T23:59:00Z
   Guide RNA capability complete: both-strand enumeration at the Appendix C PAM offsets, a faithful Rule Set 1 on-target model with domain gating plus a labeled fallback heuristic, a faithful MIT specificity off-target model over a declared non-genome-wide space, all nine section 8.5 checks plus the section 8.6 off-target check, ranked output with per guide reasoning and cloning oligos.
   Full suite 764 passed 2 skipped (WP-02 baseline 520 plus 244 new); tests/grna green; make eval-capabilities exit 0. Detail in progress/WP-05.md.
+
+WP-07 DONE by wp07-web at 2026-10-08T03:10:00Z
+  Capability selector and four result panels wired end to end: linear AAV map with length budget table, assembly junction map and order table, guide RNA strand view and ranked table, one shared validation report.
+  UNKNOWN renders distinctly from PASS, the off-target statement is rendered verbatim, build/lint/e2e/make demo green, pytest 1370 passed 2 skipped. Detail in progress/WP-07.md.
 
 ## Blocked
 BLOCKED worktree checkout in C:\Users\yalam\constructapp denied by the local
