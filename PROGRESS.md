@@ -816,3 +816,46 @@ WHAT MAY BE SAID ON SATURDAY, unchanged by any of this: designs are composed onl
   from curated parts and every base is attributable. Both halves are true today
   and the second is demonstrable live by opening the provenance panel. Nothing
   about screening or logging may be claimed.
+
+## The gold set now covers all four capabilities under one set of assertions
+
+WP-12, the plasmid validator adapter, closes the last structural gap in the
+definition of done. The plasmid capability previously ran through an older
+harness that asserted an aggregate verdict and only that the expected check
+appeared AMONG the failures. It now runs through the same runner as the other
+three, under the three assertions section 9.3 requires.
+
+    plasmid    Tier A 25   Tier B 11   known-bad 52   total  88
+    aav        Tier A 10   Tier B  5   known-bad 17   total  32
+    assembly   Tier A 11   Tier B  5   known-bad 14   total  30
+    grna       Tier A 10   Tier B  5   known-bad 14   total  29
+    TOTAL      Tier A 56   Tier B 26   known-bad 97   total 179
+
+    179 of 179 agree, accuracy 1.000, zero disagreements.
+
+THE ADAPTER CHANGES NO VERDICT, and that is proved rather than asserted. A test
+  drives the raw engine and the adapter over all 88 curated records and compares
+  check ids, severities, messages and coordinates per check, plus the overall
+  verdict: 352 per-check comparisons and 88 overall comparisons, none differing.
+  A second test compares the whole-set distribution of overall verdicts, so a
+  uniform shift could not hide behind per-case equality. The pre-existing path is
+  untouched: `make validate-sample MODE=gold` still exits 0 at accuracy 1.0 with
+  the phase 3 gate met.
+
+WHAT IS NOW KNOWN THAT WAS NOT BEFORE. The old harness could only show that
+  plasmid produced a FAIL with the expected check somewhere among the failures.
+  It is now known that each of the 52 known-bad cases fails on exactly the one
+  check it names and on no other, that each of the 25 Tier A cases validates with
+  no warning, no failure and no unknown, and that each of the 11 Tier B cases
+  warns on exactly its documented set.
+
+A SCOPE ADDITION THE PACKAGE FLAGGED AND I ACCEPTED: `plasmid` was added to the
+  runner's `EXPECTED_CAPABILITIES` rather than relying on directory discovery, so
+  losing the directory reports a capability with zero cases instead of quietly
+  reporting three. That is the correct instinct and it stays.
+
+README CORRECTION CAUGHT BEFORE IT SHIPPED. The updated table first carried
+  assembly as 10 Tier A and 6 Tier B, which were the counts from before that
+  capability's re-grade. Measured and corrected to 11 and 5. Every row now adds
+  up and the headline figure, the known-good total and the known-bad total are
+  all checked against the table programmatically rather than by eye.

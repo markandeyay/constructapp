@@ -68,19 +68,20 @@ Outcome capture links a design, model version, user-reported lab result, consent
 
 Construct uses curated gold sets to check whether the deterministic engine recognizes both good and bad designs. A capability is not considered done because it produces output. It is done when it produces output and correctly rejects bad input.
 
-**The three newer capabilities** are measured by one harness that asserts three things per known-bad case: that the overall severity matches, that the specifically named check reports the expected severity, and that no unexpected failure appears anywhere else. That third assertion is what catches a validator that happens to be right for the wrong reason.
+All four capabilities are measured by one harness, which asserts three things per known-bad case: that the overall severity matches, that the **specifically named** check reports the expected severity, and that no unexpected failure appears anywhere else. The second assertion stops a case passing for the wrong reason. The third catches a validator that happens to be right by accident.
 
-> 91 of 91 on our curated capability gold set, spanning three capability types, with 46 known-good and 45 known-bad cases.
+> 179 of 179 on our curated gold set, spanning four capability types, with 82 known-good and 97 known-bad cases.
 
 | Capability | Tier A | Tier B | Known-bad | Total |
 |---|---|---|---|---|
+| Plasmid | 25 | 11 | 52 | 88 |
 | AAV vector | 10 | 5 | 17 | 32 |
-| Assembly and primers | 10 | 6 | 14 | 30 |
+| Assembly and primers | 11 | 5 | 14 | 30 |
 | Guide RNA | 10 | 5 | 14 | 29 |
 
-**The plasmid capability** has its own older curated set of 36 known-good and 52 known-bad constructs, which it currently passes in full. That set predates the named-check assertion above, so it is measured more weakly and is quoted separately rather than folded into one combined figure.
+Known-bad cases may also declare the incidental warnings they expect, and when they do the warning set is asserted exactly in both directions, so a warning that fires undeclared and a declared warning that stops firing are both failures. That exists because a case description drifting from its own report is otherwise invisible to every gate.
 
-Both sets were assembled by this team and neither has a held-out split, so these numbers describe recognition on a curated set, not generalization to unseen designs.
+The set was assembled by this team and has no held-out split, so this number describes recognition on a curated set, not generalization to unseen designs. Say "curated" when quoting it.
 
 Known-good records are tiered:
 
