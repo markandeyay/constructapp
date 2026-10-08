@@ -2,7 +2,12 @@
 
 from .design_jobs import GenerationDesignJobHandler, build_generation_design_job_handler
 from .designs import DesignRecord, DesignStore, InMemoryDesignStore, PostgresDesignStore
-from .exports import export_annotated_sequence, read_annotated_sequence, validate_export_format
+from .exports import (
+    export_annotated_sequence,
+    export_screened_design,
+    read_annotated_sequence,
+    validate_export_format,
+)
 from .jobs import (
     FakeJobQueue,
     InMemoryJobStore,
@@ -48,6 +53,7 @@ __all__ = [
     "SessionTurn",
     "build_generation_design_job_handler",
     "export_annotated_sequence",
+    "export_screened_design",
     "read_annotated_sequence",
     "validate_export_format",
 ]

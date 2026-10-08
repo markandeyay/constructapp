@@ -1,16 +1,29 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from io import StringIO
-from typing import Literal, cast
+from typing import Callable, Literal, Mapping, cast
 
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqFeature import FeatureLocation, SeqFeature
 from Bio.SeqRecord import SeqRecord
 
+from packages.core.part_registry import PartRecord
 from packages.core.schemas import AnnotatedFeature, AnnotatedSequence
+from packages.core.schemas.capability import Severity
 from packages.data_pipeline.parse.sequence_parser import parse_seqrecord
+
+from .screening import (
+    ExportAuditLog,
+    ExportSubject,
+    ScreenedExport,
+    ScreeningBackend,
+    ScreeningPolicy,
+)
+from .screening import screen_and_export as _screen_and_export
+from .screening.audit import utc_now as _utc_now
 
 
 ExportFormat = Literal["genbank", "fasta"]
@@ -40,10 +53,60 @@ def validate_export_format(value: str) -> ExportFormat:
 
 
 def export_annotated_sequence(sequence: AnnotatedSequence, *, format: str) -> str:
+    """Render one annotated sequence. This is the codec, not the export gate.
+
+    `AnnotatedSequence` carries no base level attribution: it has a sequence,
+    a topology and features, and nothing that says which base came from which
+    source. So this function cannot run the section 11.1 provenance assertion,
+    and it does not pretend to. The gate is `export_screened_design` below, and
+    `progress/WP-08.md` records exactly which capabilities reach it and which
+    do not, rather than leaving the difference implicit.
+    """
     export_format = validate_export_format(format)
     if export_format == "genbank":
         return _export_genbank(sequence)
     return _export_fasta(sequence)
+
+
+def export_screened_design(
+    subject: ExportSubject,
+    *,
+    format: str,
+    payloads: Mapping[str, str],
+    validation_overall: Severity | None = None,
+    backend: ScreeningBackend | None = None,
+    policy: ScreeningPolicy | None = None,
+    parts: dict[str, PartRecord] | None = None,
+    audit_log: ExportAuditLog | None = None,
+    now: Callable[[], datetime] = _utc_now,
+) -> ScreenedExport:
+    """The section 11.1 export hook: screen a design, then release its payloads.
+
+    Every export action a capability offers goes through here. The gate runs
+    the sequence provenance assertion, the registry-only composition assertion
+    and the configured screening backend, writes one audit entry whether the
+    export is allowed or blocked, and raises
+    `packages.application.screening.ExportBlocked` when it refuses.
+
+    `payloads` are the already rendered artifacts, keyed by name, which a
+    capability's own codec produced. The hook does not render anything: the AAV
+    cassette is linear and the plasmid path is circular, so each capability
+    keeps its own codec and this function gates them all identically.
+
+    `format` is validated against `SUPPORTED_EXPORT_FORMATS` here so a blocked
+    or permitted entry always records a format this build can actually write.
+    """
+    return _screen_and_export(
+        subject,
+        export_format=validate_export_format(format),
+        payloads=payloads,
+        validation_overall=validation_overall,
+        backend=backend,
+        policy=policy,
+        parts=parts,
+        audit_log=audit_log,
+        now=now,
+    )
 
 
 def read_annotated_sequence(payload: str, *, format: str) -> AnnotatedSequence:
