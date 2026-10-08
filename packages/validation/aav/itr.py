@@ -42,6 +42,13 @@ The two consequences, implemented below:
    located does the code fall back to an identity margin comparison, and if
    that is also inconclusive the check returns UNKNOWN with a reason rather
    than guessing (section 3.3 constraint 4).
+
+   The D element also separates the two inverted arrangements. A pair whose D
+   sequences face inward, toward the transgene, is the functional one and
+   passes. A pair whose D sequences face the cassette ends is inverted rather
+   than tandem, so it is not the tandem failure, but it is not a functional
+   genome either, and `OrientationVerdict.canonical` is False for it so that
+   `aav.itr_orientation` can report WARN. See that field for why.
 """
 
 from __future__ import annotations
@@ -213,10 +220,16 @@ class OrientationVerdict:
     inverted_identity: float | None = None
     tandem_identity: float | None = None
     canonical: bool = True
-    """False when the pair is inverted but both ITRs are flipped relative to the
-    reference, which happens when the whole cassette is written on the other
-    strand. Still a valid inverted arrangement, so not a failure, but worth
-    saying out loud."""
+    """False for a D outward pair: inverted, but both ITRs reverse complemented
+    in place so that the D sequences face the cassette ends instead of the
+    transgene.
+
+    The arrangement really is inverted rather than tandem, which is why
+    `arrangement` stays `"inverted"`, but a D outward genome is not functional:
+    the D sequence has to face the transgene for the terminal resolution site to
+    be used on the correct side of the hairpin. `aav.itr_orientation` therefore
+    reports WARN on this flag rather than PASS, which keeps the severity decision
+    in the check and the arrangement decision here."""
 
 
 def orientation_of_pair(
@@ -259,11 +272,12 @@ def orientation_of_pair(
                 arrangement="inverted",
                 method="d_element",
                 detail=(
-                    "the two ITRs are inverted relative to each other, but both are reverse complemented "
-                    f"relative to the {reference.serotype} reference records, so the D element faces the "
-                    "cassette ends rather than the transgene. The arrangement is inverted rather than "
-                    "tandem, which is what this check tests, but the outward facing D sequence is unusual "
-                    "and worth confirming"
+                    f"both ITRs are reverse complemented relative to the {reference.serotype} reference "
+                    f"records, so the reverse complement of the "
+                    f"{len(reference.d_element or '')} bp D element reads at the 5' end of the 5' ITR "
+                    f"({identity_5:.1%} identity) and the D element itself reads at the 3' end of the "
+                    f"3' ITR ({identity_3:.1%} identity). Both D sequences therefore face the cassette "
+                    "ends rather than the transgene"
                 ),
                 canonical=False,
             )

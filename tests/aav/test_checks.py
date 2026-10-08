@@ -250,8 +250,8 @@ class TestItrOrientation:
         assert check.severity is Severity.PASS
         assert "faces inward in both ITRs" in check.message
 
-    def test_both_itrs_flipped_in_place_is_inverted_but_flagged_as_unusual(self):
-        """D outward: inverted rather than tandem, so not a failure, but called out."""
+    def _d_outward_design(self):
+        """Both ITRs reverse complemented in place, so the D sequences face outward."""
         design = build_design(itr_5=None, itr_3=None)
         outward_5 = CassetteElement(
             role=CassetteElementRole.ITR_5, name="reverse complemented left ITR",
@@ -261,13 +261,46 @@ class TestItrOrientation:
             role=CassetteElementRole.ITR_3, name="reverse complemented right ITR",
             sequence=reverse_complement(RIGHT_ITR), source="test fixture",
         )
-        design = design.model_copy(
+        return design.model_copy(
             update={"elements": [outward_5] + list(design.elements) + [outward_3]}
         )
-        check = check_of(validate(design), "aav.itr_orientation")
-        assert check.severity is Severity.PASS
-        assert "faces the cassette ends rather than the transgene" in check.message
-        assert "not a failure" in check.message
+
+    def test_both_itrs_flipped_in_place_warns_rather_than_passing(self):
+        """Regression, WP-10 finding 1: a D outward pair must not PASS.
+
+        It is inverted rather than tandem, so it is not the FAIL this check
+        exists to produce, but a D outward genome is not functional and a PASS
+        with a soft note is the one outcome a user could take into production.
+        """
+        check = check_of(validate(self._d_outward_design()), "aav.itr_orientation")
+        assert check.severity is Severity.WARN
+        assert check.severity is not Severity.PASS
+        assert check.severity is not Severity.FAIL
+        assert check.observed == "inverted but D outward (d_element)"
+        assert check.tier == "B"
+
+    def test_the_d_outward_warning_names_the_fault_the_consequence_and_the_fix(self):
+        """Section 5.4 rule 2, on the message a user has to act on."""
+        message = check_of(validate(self._d_outward_design()), "aav.itr_orientation").message
+        # What is wrong.
+        assert "inverted relative to each other" in message
+        assert "D sequences face outward, toward the cassette ends" in message
+        # What it costs.
+        assert "not the functional arrangement" in message
+        assert "will not give functional vector" in message
+        assert "Do not take this design into production" in message
+        # What to do.
+        assert "reverse complement the whole cassette" in message
+        assert "itr.aav2_itr_left" in message and "itr.aav2_itr_right" in message
+
+    def test_the_d_outward_warning_does_not_make_the_overall_verdict_a_failure(self):
+        """It is a WARN, so the tandem FAIL stays the only failing arrangement."""
+        report = validate(self._d_outward_design())
+        assert all(
+            check.severity is not Severity.FAIL
+            for check in report.checks
+            if check.check_id == "aav.itr_orientation"
+        )
 
     def test_one_itr_is_unknown_not_fail(self):
         """Orientation genuinely cannot be measured with one ITR, and check 2 owns the failure."""

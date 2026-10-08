@@ -359,6 +359,18 @@ def check_itr_orientation(context: CheckContext) -> CheckResult:
     configurations, so the flip and flop difference in the reference records
     cannot produce a false verdict. See `packages.validation.aav.itr` for the
     method and for the fallback.
+
+    Four outcomes, all on this one check id, because section 6.4 fixes the check
+    list at fourteen and this is the check whose subject ITR orientation is:
+
+    * PASS, an inverted pair with the D sequences facing the transgene.
+    * WARN, an inverted pair with the D sequences facing the cassette ends.
+      Inverted, so not the tandem failure, but not a functional genome either,
+      and it is the one arrangement a user could otherwise take into production
+      on the strength of a pass.
+    * FAIL, a tandem pair.
+    * UNKNOWN, fewer than two ITRs, no serotype reference, or an arrangement the
+      D element anchor and the identity margin fallback both leave undecided.
     """
     design = context.design
     left = design.first_with_role(CassetteElementRole.ITR_5)
@@ -382,20 +394,32 @@ def check_itr_orientation(context: CheckContext) -> CheckResult:
         )
     verdict = orientation_of_pair(left.sequence, right.sequence, context.itr_reference, context.thresholds)
     observed = f"{verdict.arrangement} ({verdict.method})"
-    if verdict.arrangement == "inverted":
-        extra = (
-            ""
-            if verdict.canonical
-            else " Check 3 tests inverted against tandem, and this pair is inverted, so it is not a "
-            "failure. The outward facing D sequence is still worth confirming: in the reference genome "
-            "the D element of each ITR faces the transgene. If that was not intentional, reverse "
-            "complement the whole cassette, or replace both ITRs with the registry records."
+    if verdict.arrangement == "inverted" and not verdict.canonical:
+        return result(
+            "aav.itr_orientation",
+            Severity.WARN,
+            f"The two ITRs are inverted relative to each other, but they are oriented so that the D "
+            f"sequences face outward, toward the cassette ends, instead of inward toward the transgene: "
+            f"{verdict.detail}. This is not the functional arrangement. The D sequence has to face the "
+            f"transgene for the terminal resolution site to be cut on the correct side of the hairpin, so a "
+            f"D outward pair does not resolve correctly, and a cassette built this way will not give "
+            f"functional vector even though its two ITRs are inverted rather than in tandem. Do not take "
+            f"this design into production as it stands. To fix, either reverse complement the whole "
+            f"cassette, which swaps the two ITRs as well as their sequences and so restores the inward "
+            f"facing arrangement, or replace both ITRs with the registry records: "
+            f"{context.itr_reference.left.id} at the 5' end and {context.itr_reference.right.id} at the "
+            f"3' end, which are already in the correct orientation. This is a warning rather than a failure "
+            f"because the pair is inverted and this check's failure condition is a tandem pair; treat it as "
+            f"a defect to correct, not as a caveat to record.",
+            observed=f"inverted but D outward ({verdict.method})",
+            threshold="inverted arrangement required",
         )
+    if verdict.arrangement == "inverted":
         return result(
             "aav.itr_orientation",
             Severity.PASS,
             f"The ITRs are inverted relative to each other, which is the required arrangement: "
-            f"{verdict.detail}. No change is needed.{extra}",
+            f"{verdict.detail}. No change is needed.",
             observed=observed,
             threshold="inverted arrangement required",
         )
