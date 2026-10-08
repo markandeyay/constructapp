@@ -83,6 +83,29 @@ PLASMID_SPEC = CapabilitySpec(
 CAPABILITY_REGISTRY: dict[CapabilityKind, CapabilitySpec] = {
     CapabilityKind.PLASMID: PLASMID_SPEC,
     # ==== WP-03: AAV. Only WP-03 writes here. ====
+    CapabilityKind.AAV: CapabilitySpec(
+        kind=CapabilityKind.AAV,
+        label="AAV vector",
+        description=(
+            "Compose a recombinant AAV cassette from curated ITR, promoter, polyA and enhancer parts, "
+            "check it against the banded packaging limit and the fourteen structural checks of section "
+            "6.4, and when it does not fit, compute the specific element substitution that makes it fit."
+        ),
+        request_schema="packages.core.schemas.aav:AAVRequest",
+        result_schema="packages.core.schemas.capability:DesignResult",
+        generator="packages.generation.aav.composer:AAVComposer",
+        validator_ref="packages.validation.aav.validator:build_validator",
+        design_model_ref="packages.core.schemas.aav:AAVValidationInput",
+        api_route="/v1/aav",
+        notes=(
+            "design_model is AAVValidationInput, which accepts either a fully specified AAVDesign "
+            "cassette or an AAVRequest that is composed first, so a gold case can use whichever is "
+            "natural: a case about element order has to spell out the cassette, a case about the "
+            "packaging limit reads better as a request. Remediation is reported in "
+            "CheckResult.remediation on aav.packaging_limit and aav.sc_capacity, so a gold case asserts "
+            "it with must_also_report: [\"remediation\"]."
+        ),
+    ),
     # ==== /WP-03 ====
     # ==== WP-04: assembly. Only WP-04 writes here. ====
     # ==== /WP-04 ====
