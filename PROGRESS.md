@@ -10,6 +10,7 @@ WP-04 CLAIMED by wp04-assembly at 2026-10-07T23:40:00Z
 WP-05 CLAIMED by wp05-grna at 2026-10-07T23:30:00Z
 WP-07 CLAIMED by wp07-web at 2026-10-08T00:10:00Z
 WP-08 CLAIMED by wp08-screening at 2026-10-08T01:20:00Z
+WP-06 CLAIMED by wp06-gold at 2026-10-08T02:10:00Z
 
 ## Done
 WP-00 DONE by orchestrator at 2026-10-07T00:00:00Z
@@ -60,6 +61,9 @@ WP-07 DONE by wp07-web at 2026-10-08T03:10:00Z
 WP-08 DONE by wp08-screening at 2026-10-08T02:40:00Z
   Section 11 complete: a base level provenance assertion that BLOCKS export for any base tracing to no curated part, no retrieved record, no user input and no named rule, the registry-only composition assertion, the documented screening hook with an explicitly named no-op default that records that no external screening ran, and an append only export audit log entry per export whether permitted or blocked.
   Full suite 1477 passed 2 skipped (baseline 1370/2); tests/screening 107 passed; make eval-capabilities exit 0. The one sentence that may be claimed, the interface, the audit entry verbatim and the plasmid attribution gap are in progress/WP-08.md.
+WP-06 DONE by wp06-gold at 2026-10-08T03:05:00Z
+  Gold sets for all three new capabilities: 91 cases, 30 Tier A, 16 Tier B, 45 known-bad, every known-bad case naming the check that must catch it. make eval-capabilities 91/91 agree, 0 disagreements, exit 0, and still exit 0 with CAPABILITY_GOLD_REQUIRE=1 so no capability is silently uncovered.
+  Full suite unchanged at 1370 passed, 2 skipped. Sequences are slices of data/parts and of pUC19 GenBank L09137.1; one synthetic gRNA target and every synthetic edit is declared in its own rationale. Four uses of allowed_extra_fail, each a genuine two-check cascade, all listed in progress/WP-06.md.
 
 ## Blocked
 BLOCKED worktree checkout in C:\Users\yalam\constructapp denied by the local
@@ -135,6 +139,9 @@ WP-04 to the orchestrator: the literal grep gate in this worktree reports one hi
 WP-05 to WP-04, optional and not blocking: section 8 needs no melting temperature and nothing in the guide RNA package computes one. The one place the shared nearest-neighbor implementation would help is check 6, grna.self_complementarity, which currently reports a stem length against a documented Construct convention and says explicitly that it is not a free energy calculation. It is isolated in packages/validation/grna/selfcomp.py so a hairpin free energy can replace it after the merge.
 WP-05 to WP-07: render off_target_space_statement verbatim wherever guides appear and in every export, and render UNKNOWN check rows visually distinct from PASS rows. Both are already in the payload, and GET /v1/grna/reference serves the Appendix C nuclease table, the thresholds, the cloning vectors, and every score's name, kind, citation, validity domain and allowed wording, which is what section 10.4 needs.
 WP-05 to WP-06: the guide RNA design_model is packages.core.schemas.grna:GuideRNADesign, so a gold case input is {"request": {...}, "guide": {"spacer": ..., "pam": ..., "strand": 1}}. guide.spacer_start is optional and is resolved by locating the spacer, so a case can name a guide by sequence; supplying it forces a placement, which is how a deliberately mis-placed guide is expressed. The section 9.4 Cas12a 3' PAM offset case exists as a unit test in tests/grna/test_checks.py and can be lifted directly.
+
+WP-06 to WP-04 and WP-11: under the sliding-window hairpin engine (the documented fallback when ViennaRNA is absent) every clean two-fragment Gibson and Golden Gate design draws a primer.hairpin WARN, because a 4 bp stem closing a 3 nt loop occurs by chance in nearly every 40 to 47 nt tailed primer and a tailed primer cannot be moved off its junction; the same primers are clean under ViennaRNA. That is the section 3.4 failure mode for the fallback path. Either raise HAIRPIN_WINDOW_STEM_WARN_BP for tailed primers or land the open request to add ViennaRNA to requirements.txt. The gold set pins hairpin_engine to window so its verdicts are deterministic either way, and documents the warning as Tier B case assembly.good.b1 rather than hiding it.
+WP-06 to WP-02: aav.kozak_context can only pass when the element immediately upstream of the coding sequence ends with a purine three bases before the ATG. Of the eight registry promoters only cag, gfap and mecp2_mini do; cag warns on its own 14 bp G run and duplicated enhancer motif, and mecp2_mini at 225 bp cannot lift any available real reading frame over the 2,000 bp minimum genome size. promoter.gfap is therefore the only promoter in the registry that can produce a warning-free AAV cassette, and every Tier A AAV gold case uses it. Nothing is broken; one more compact promoter whose 3' end carries a purine at -3 would widen the clean design space considerably.
 
 ## Defaults taken, per section 17
 Q1 local directory was not empty, it held the spec only. Reconciled by git init

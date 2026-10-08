@@ -1,0 +1,151 @@
+[
+  {
+    "case_id": "aav.good.b1.native_initiation_context_preserved",
+    "capability": "aav",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "aav.kozak_context",
+        "justification": "The payload is the complete 861 bp beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), ATG through TAA, cloned with its own initiation codon and nothing inserted in front of it. Its fourth base is A, not the G of the Kozak consensus, so the context scores as adequate rather than optimal. Keeping a transgene's native start context is a deliberate and common choice: inserting a GCCACC linker changes the second codon of the protein, and when the native 5' end matters more than maximal initiation efficiency the correct answer is to accept a weaker Kozak and be told about it. Severity WARN, with the loss quantified as leaky scanning rather than failure, is exactly the section 3.4 outcome."
+      }
+    ],
+    "rationale": "A 2,656 bp cassette, otherwise identical to the Tier A set, carrying a complete real reading frame with a suboptimal native Kozak context.",
+    "input": {
+      "transgene_name": "bla_beta_lactamase_orf",
+      "transgene_sequence": "ATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "cns_astrocyte",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.bgh",
+      "include_wpre": true
+    }
+  },
+  {
+    "case_id": "aav.good.b2.gfap_in_a_retina_vector",
+    "capability": "aav",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "aav.promoter_tissue_match",
+        "justification": "The GFAP promoter is annotated cns_astrocyte and the target tissue is retina, so the strict compatibility table warns. The design is intentional: GFAP drives expression in retinal Mueller glia, which are the macroglia of the retina, so a retina-targeted glial vector built on GFAP is a real and deliberate choice. The table is deliberately strict because only the designer knows the intended cell type, and the severity is WARN and never FAIL for that reason. Surfacing it is right; failing it would be wrong."
+      }
+    ],
+    "rationale": "2,200 bp, every structural and length check clean, one promoter and tissue annotation mismatch that reflects a real cell type choice rather than an error.",
+    "input": {
+      "transgene_name": "orf405_bla_segment",
+      "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "retina",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.bgh",
+      "include_wpre": true
+    }
+  },
+  {
+    "case_id": "aav.good.b3.authentic_cmv_promoter",
+    "capability": "aav",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "aav.internal_repeats",
+        "justification": "The authentic CMV immediate early promoter contains the 21 bp enhancer motif ACGGTAAATGGCCCGCCTGGC twice. That duplication is a property of the real part, not of this design: the enhancer repeat is what makes CMV strong, and removing a copy would change the part. A recombination warning on a 21 bp direct repeat is correct information to surface for a production run, and the designer's options are to accept it or to choose a different promoter."
+      },
+      {
+        "check": "aav.kozak_context",
+        "justification": "The CMV part ends GCCTCC, so the base three before the ATG is T rather than a purine. The coding sequence is placed directly against the promoter 3' end, which is what a scarless clone does, and the only way to score a purine at -3 would be to insert synthetic linker bases between the promoter and the start codon. The warning is the honest report of that tradeoff."
+      }
+    ],
+    "rationale": "A 2,172 bp ubiquitous cassette on the real CMV promoter. Two warnings, both intrinsic to the authentic part rather than to the design.",
+    "input": {
+      "transgene_name": "orf405_bla_segment",
+      "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "ubiquitous",
+      "promoter_preference": "promoter.cmv",
+      "polya_preference": "polya.bgh",
+      "include_wpre": true
+    }
+  },
+  {
+    "case_id": "aav.good.b4.authentic_cag_promoter",
+    "capability": "aav",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "aav.internal_repeats",
+        "justification": "CAG is a hybrid promoter built on the CMV enhancer, so it carries the same 21 bp enhancer motif twice. Same reasoning as b3: the repeat is in the real part."
+      },
+      {
+        "check": "aav.homopolymer_runs",
+        "justification": "The real CAG promoter carries a 14 bp run of G, which is over the 8 bp synthesis stability threshold. CAG is one of the most widely used promoters in AAV work and this run is part of its sequence, so the warning is a true statement about a synthesis and replication risk that the designer is accepting knowingly, not a defect introduced here."
+      }
+    ],
+    "rationale": "A 2,559 bp ubiquitous cassette on the real CAG promoter, no WPRE. The Kozak context passes here because CAG ends GGCAAA, so -3 is a purine, which isolates the two warnings that are genuinely properties of the part.",
+    "input": {
+      "transgene_name": "orf405_bla_segment",
+      "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "ubiquitous",
+      "promoter_preference": "promoter.cag",
+      "polya_preference": "polya.bgh",
+      "include_wpre": false
+    }
+  },
+  {
+    "case_id": "aav.good.b5.self_complementary_over_target_under_soft_limit",
+    "capability": "aav",
+    "tier": "B",
+    "expected_warnings": [
+      {
+        "check": "aav.sc_capacity",
+        "justification": "2,435 bp is 35 bp over the 2,400 bp self complementary target and 65 bp under the 2,500 bp soft limit. Accepting a small overage is a real self complementary design decision: scAAV expresses faster and at lower dose because it skips second strand synthesis, and a few percent of titer is often worth that. The band exists so this case is a quantified warning rather than a rejection, and the message says how many base pairs over it is."
+      },
+      {
+        "check": "aav.kozak_context",
+        "justification": "The EF1A part ends TCGTGA, so -3 is T. Same scarless-clone tradeoff as b3, and the same reason not to insert synthetic linker bases."
+      }
+    ],
+    "rationale": "An explicit 2,435 bp self complementary cassette, EF1A promoter, WPRE and SV40 polyA, sitting deliberately inside the WARN band of the halved capacity.",
+    "input": {
+      "design_id": "aav-gold-b5",
+      "transgene_name": "orf237_bla_segment",
+      "target_tissue": "ubiquitous",
+      "serotype": "AAV2",
+      "self_complementary": true,
+      "elements": [
+        {
+          "role": "itr_5",
+          "name": "AAV2 left ITR",
+          "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+          "part_id": "itr.aav2_itr_left"
+        },
+        {
+          "role": "promoter",
+          "name": "EF1A promoter",
+          "sequence": "CGTGAGGCTCCGGTGCCCGTCAGTGGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGGTAAGTGCCGTGTGTGGTTCCCGCGGGCCTGGCCTCTTTACGGGTTATGGCCCTTGCGTGCCTTGAATTACTTCCACCTGGCTGCAGTACGTGATTCTTGATCCCGAGCTTCGGGTTGGAAGTGGGTGGGAGAGTTCGAGGCCTTGCGCTTAAGGAGCCCCTTCGCCTCGTGCTTGAGTTGAGGCCTGGCCTGGGCGCTGGGGCCGCCGCGTGCGAATCTGGTGGCACCTTCGCGCCTGTCTCGCTGCTTTCGATAAGTCTCTAGCCATTTAAAATTTTTGATGACCTGCTGCGACGCTTTTTTTCTGGCAAGATAGTCTTGTAAATGCGGGCCAAGATCTGCACACTGGTATTTCGGTTTTTGGGGCCGCGGGCGGCGACGGGGCCCGTGCGTCCCAGCGCACATGTTCGGCGAGGCGGGGCCTGCGAGCGCGGCCACCGAGAATCGGACGGGGGTAGTCTCAAGCTGGCCGGCCTGCTCTGGTGCCTGGCCTCGCGCCGCCGTGTATCGCCCCGCCCTGGGCGGCAAGGCTGGCCCGGTCGGCACCAGTTGCGTGAGCGGAAAGATGGCCGCTTCCCGGCCCTGCTGCAGGGAGCTCAAAATGGAGGACGCGGCGCTCGGGAGAGCGGGCGGGTGAGTCACCCACACAAAGGAAAAGGGCCTTTCCGTCCTCAGCCGTCGCTTCATGTGACTCCACGGAGTACCGGGCGCCGTCCAGGCACCTCGATTAGTTCTCGAGCTTTTGGAGTACGTCGTCTTTAGGTTGGGGGGAGGGGTTTTATGCGATGGAGTTTCCCCACACTGAGTGGGTGGAGACTGAAGTTAGGCCAGCTTGGCACTTGATGTAATTCTCCTTGGAATTTGCCCTTTTTGAGTTTGGATCTTGGTTCATTCTCAAGCCTCAGACAGTGGTTCAAAGTTTTTTTCTTCCATTTCAGGTGTCGTGA",
+          "part_id": "promoter.ef1a"
+        },
+        {
+          "role": "cds",
+          "name": "orf237_bla_segment",
+          "sequence": "ATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+          "source": "pUC19 beta-lactamase open reading frame, GenBank L09137.1 minus strand"
+        },
+        {
+          "role": "wpre",
+          "name": "WPRE",
+          "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+          "part_id": "enhancer.wpre"
+        },
+        {
+          "role": "polya",
+          "name": "SV40 polyA",
+          "sequence": "AACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATC",
+          "part_id": "polya.sv40"
+        },
+        {
+          "role": "itr_3",
+          "name": "AAV2 right ITR",
+          "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+          "part_id": "itr.aav2_itr_right"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,472 @@
+[
+  {
+    "case_id": "grna.bad.no_pam_present",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.pam_valid",
+    "expect_severity": "fail",
+    "rationale": "The guide names TCG as its PAM, which is the real sequence immediately 3' of the chosen protospacer in the target but is neither NGG nor the tolerated NAG. Without a PAM the nuclease does not bind and does not cut, so the guide does nothing at all, and no amount of good composition or good positioning changes that. grna.pam_valid is the check that must catch it: it is the only one that asks both whether the PAM matches the nuclease motif and whether the target really carries it at the offset the geometry requires. The protospacer and its flank are real sequence, unedited. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGGAGTATTCAACATTTCCGTGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "GAGTATTCAACATTTCCGTG",
+        "pam": "TCG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.spacer_length_wrong_for_the_nuclease",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.spacer_length",
+    "expect_severity": "fail",
+    "rationale": "A 20 nt spacer submitted for SaCas9, which Appendix C gives a 21 nt spacer. This is the mistake of carrying an SpCas9 guide over to a different nuclease, and it is easy to make because the spacer looks completely normal: the GC fraction, the motifs and the position are all fine, and the PAM is a genuine SaCas9 NNGRRT. grna.spacer_length is the only check that compares the spacer against the length the chosen nuclease requires, so it is the one that must catch it, and its message says how many nucleotides to add. The spacer is the real 21 nt SaCas9 protospacer with its first base dropped, so the defect is the length and only the length.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SaCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGGCTGAAGATCAGTTGGGTGCGTTTTAGAGCTAGAAATAGCAAG",
+        "cloning_vector": "px601"
+      },
+      "guide": {
+        "spacer": "GCTGAAGATCAGTTGGGTGC",
+        "pam": "ACGAGT",
+        "strand": 1,
+        "spacer_start": 149
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.u6_terminator_in_spacer",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.u6_terminator",
+    "expect_severity": "fail",
+    "rationale": "The spacer is the real sequence TTTTGCTCACCCAGAAACGC, which contains TTTT, and the guide is expressed from a U6 promoter. U6 is transcribed by RNA polymerase III, and a run of four T residues is its termination signal, so transcription stops inside the spacer and the guide produced is too short to direct cutting. The construct is built, the plasmid sequences correctly, and nothing works, which is the expensive kind of failure. grna.u6_terminator is the only check that reads the spacer for the polymerase III terminator, and section 8.5 check 4 makes it FAIL under U6 rather than WARN because the guide is not merely weakened, it is not made. The companion Tier B case is the same motif under T7 transcription, where it is a warning. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGTTTTGCTCACCCAGAAACGCGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "TTTTGCTCACCCAGAAACGC",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.guide_targets_its_own_delivery_plasmid",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.self_targeting",
+    "expect_severity": "fail",
+    "rationale": "The delivery construct carries the target site as well as the guide cassette, which is what happens when a knock in donor or a reporter copy of the locus is cloned into the same plasmid. The site in the construct is the real 80 bp of target sequence around the protospacer, so it carries the real PAM, which means the nuclease cuts its own delivery plasmid. The plasmid is linearised and degraded before it has expressed enough nuclease to edit the genome, so editing efficiency collapses for a reason that looks like nothing at all in the sequence of the guide. grna.self_targeting is the check that must catch it, and it is written to require a PAM beside the match, which is why it does not fire on the spacer copy inside every guide cassette. grna.off_target_hits also fails, and that is a genuine cascade rather than a second defect: the delivery construct is inside the searched off-target space by definition under the construct_only scope, so the same cut site is correctly reported twice, once as self targeting and once as a near perfect off target. It is listed in allowed_extra_fail rather than hidden.",
+    "must_also_report": [
+      {
+        "check": "grna.off_target_hits",
+        "severity": "fail"
+      }
+    ],
+    "allowed_extra_fail": [
+      "grna.off_target_hits"
+    ],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAGTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCT"
+      },
+      "guide": {
+        "spacer": "AGATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.close_off_target_in_the_searched_space",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.off_target_hits",
+    "expect_severity": "fail",
+    "rationale": "A second site in the searched space differs from the protospacer at one position, and that position is at the PAM distal end, so the whole 12 nt PAM proximal seed is matched and a real PAM sits beside it. A seed matched single mismatch site is cut efficiently, so this guide edits two places and any phenotype is uninterpretable. Nothing about the spacer itself is wrong, so no sequence feature check can see it: grna.off_target_hits is the only check that searches the declared space, and section 8.6 makes a site with very few mismatches concentrated outside the seed a FAIL rather than a WARN. The near site is the real protospacer with one base substituted, followed by its own real PAM and set in real flanking sequence from the next part of the same record, so only the single substituted base is synthetic. The off-target statement the report prints names the space that was searched and says it is not a genome-wide search.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGACGATCAGTTGGGTGCACGAGTGGTCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGA",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "AGATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.cas12a_scored_with_a_cas9_pam_offset",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.pam_valid",
+    "expect_severity": "fail",
+    "rationale": "A LbCas12a request whose PAM was taken from the 3' side of the spacer, which is where Cas9's PAM lives and is not where Cas12a's lives. Appendix C calls this the single most likely integration bug in the capability, and the case is built so that a motif only check cannot catch it: the supplied PAM satisfies TTTV perfectly, it is simply in the wrong place, while the correct TTTV PAM sits 5' of the spacer. A guide designed this way is garbage that looks valid on paper. grna.pam_valid is the check that must catch it, because it is the only one that verifies the PAM is present at the offset and orientation the nuclease geometry requires rather than merely matching the motif, and its message names the correct PAM and says the PAM belongs 5' of the spacer. No position in the pUC19 window carries a TTTV PAM 5' of a 23 nt protospacer with a second TTTV immediately 3' of it, so this one target is synthetic and is declared as such. It is the minimum needed to isolate the defect: a left flank, a TTTA PAM, exactly 23 nt of spacer, a decoy TTTC immediately 3' of the spacer, and a right flank. Nothing here is presented as a real gene. Three checks report UNKNOWN because this request supplies no coding sequence annotation, no delivery construct and a Cas12a vector with no declared digest enzyme; UNKNOWN is the correct answer in each case and none of them reads as a pass.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "expected_unknown": [
+      "grna.position_in_cds",
+      "grna.self_targeting",
+      "grna.restriction_in_spacer"
+    ],
+    "input": {
+      "request": {
+        "target_sequence": "CCAGGCACCAGGCACCTTTAGCACGTCAGTCAGGATCCAGTCCTTTCAGGCACCAGGCACC",
+        "target_name": "CAS12A_OFFSET_TARGET",
+        "nuclease": "LbCas12a",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10
+      },
+      "guide": {
+        "spacer": "GCACGTCAGTCAGGATCCAGTCC",
+        "pam": "TTTC",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.guide_in_the_final_exon_for_a_knockout",
+    "capability": "guide_rna",
+    "expect_overall": "warn",
+    "expect_check": "grna.position_in_cds",
+    "expect_severity": "warn",
+    "rationale": "A knockout guide whose cut site falls inside the declared final exon. A frameshift in the last exon is the classic way to produce a construct that looks edited and is not a knockout: the transcript escapes nonsense mediated decay, and the protein made from it often keeps most of its sequence and some of its function. Every sequence feature of the guide is correct, so only a positional check can see it, and grna.position_in_cds is the only check that compares the cut site against the coding sequence, the final exon and the constitutive regions. It is a WARN because the guide does cut, and because for an intent other than a clean null, for example truncating a C terminal domain on purpose, it may be exactly what was wanted. Honest note: the sequence is real but pUC19 is a bacterial plasmid and its beta-lactamase gene has no exons, so final_exon_region here is an annotation supplied by the case to exercise the rule. The DNA is real; the exon boundary is a test annotation and is not presented as anything else. The target is the 950 bp minus strand window 150 to 1100 of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb). The beta-lactamase reading frame starts at minus strand 200 and ends at 1061, so cds_region 50 to 911 is the real coding sequence of a real gene, not an annotation invented for the case.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG",
+        "final_exon_region": [
+          50,
+          911
+        ]
+      },
+      "guide": {
+        "spacer": "AGATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.gc_far_outside_the_window",
+    "capability": "guide_rna",
+    "expect_overall": "warn",
+    "expect_check": "grna.gc_content",
+    "expect_severity": "warn",
+    "rationale": "The spacer is the real sequence TGGTTTATTGCTGATAAATC, GC fraction 0.30, well under the 0.40 floor of the Appendix C window. An AT rich spacer forms a weak, short lived duplex with its target, so cutting efficiency drops and the edit may simply not be recovered. Nothing structural is wrong with the guide, so grna.gc_content is the only check that can catch it, and its message says which of the two failure modes applies, weak binding below the window or raised off target tolerance above it. It is a WARN rather than a FAIL because a low GC guide does work, less often, and the designer may have no alternative within range of the cut site. This case uses the minus strand window 750 to 1100 of the same record, 350 bp. The part of the beta-lactamase reading frame inside that window runs from base 0 to base 311, which is what cds_region states: a real coding sequence truncated by the window, not an invented span.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          0,
+          311
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGTGGTTTATTGCTGATAAATCGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "TGGTTTATTGCTGATAAATC",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.homopolymer_run_in_spacer",
+    "capability": "guide_rna",
+    "expect_overall": "warn",
+    "expect_check": "grna.homopolymer",
+    "expect_severity": "warn",
+    "rationale": "The spacer is the real sequence CGAAAGGGGGATGTGCTGCA, which carries a run longer than the Appendix C maximum of four identical bases. Long runs are synthesised less accurately, so the ordered oligo pool contains guides of the wrong length, and they also pair less specifically with the target. grna.homopolymer is the only check that measures single base runs in the spacer. It is a WARN because the guide usually still works and the remedy is to shift the guide or to order a higher grade oligo, not to abandon the design. The target is the first 400 bp of pUC19, GenBank L09137.1, plus strand. The intent is knock-in, so grna.position_in_cds passes with its reason stated and no coding sequence annotation is supplied or invented. A guide with a non-T homopolymer run does not exist inside the beta-lactamase reading frame, because every run of five there is a run of T and would fail grna.u6_terminator as well.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TCGCGCGTTTCGGTGATGACGGTGAAAACCTCTGACACATGCAGCTCCCGGAGACGGTCACAGCTTGTCTGTAAGCGGATGCCGGGAGCAGACAAGCCCGTCAGGGCGCGTCAGCGGGTGTTGGCGGGTGTCGGGGCTGGCTTAACTATGCGGCATCAGAGCAGATTGTACTGAGAGTGCACCATATGCGGTGTGAAATACCGCACAGATGCGTAAGGAGAAAATACCGCATCAGGCGCCATTCGCCATTCAGGCTGCGCAACTGTTGGGAAGGGCGATCGGTGCGGGCCTCTTCGCTATTACGCCAGCTGGCGAAAGGGGGATGTGCTGCAAGGCGATTAAGTTGGGTAACGCCAGGGTTTTCCCAGTCACGACGTTGTAAAACGACGGCCAGTGAATT",
+        "target_name": "PUC19_LOCUS",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockin",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGCGAAAGGGGGATGTGCTGCAGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "CGAAAGGGGGATGTGCTGCA",
+        "pam": "AGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.self_complementary_spacer",
+    "capability": "guide_rna",
+    "expect_overall": "warn",
+    "expect_check": "grna.self_complementarity",
+    "expect_severity": "warn",
+    "rationale": "The spacer GCGCGCGATCAAGATCGCGC folds back on itself with a stem at or above the reporting length. A spacer that pairs with itself competes with the scaffold fold that the nuclease has to recognise, and with target binding, so the guide loads and cuts poorly. grna.self_complementarity is the only check that folds the spacer against itself. Two honest limits are stated in the check's own message and repeated here: the threshold is a documented Construct convention rather than a published value, and the result is reported as a stem length in base pairs and not as a free energy, because no free energy was computed. The spacer is synthetic and is declared as such, substituted into the real target window: a stem this long does not occur in any real guide in this record, and the point of the case is the defect.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAGCGCGCGATCAAGATCGCGCTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGGCGCGCGATCAAGATCGCGCGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "GCGCGCGATCAAGATCGCGC",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.moderate_off_target_with_seed_mismatches",
+    "capability": "guide_rna",
+    "expect_overall": "warn",
+    "expect_check": "grna.off_target_hits",
+    "expect_severity": "warn",
+    "rationale": "A second site in the searched space differs from the protospacer at three positions, all of them inside the 12 nt PAM proximal seed. Section 8.6 requires the implementation to weight PAM proximal mismatches far more heavily than distal ones, because the seed is where binding is decided, so a site with a disrupted seed is a moderate risk rather than a likely cut. This case is the pair to the seed matched single mismatch case above: same check, same searched space, different severity, and the difference comes entirely from where the mismatches sit. If the position weighting were ever flattened the two cases would converge and one of them would fail, which is what makes the pair worth having. Only the three substituted bases are synthetic.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGAAGATCAGTTGGGTTCAAGATTGGTCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGA",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "AGATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.spacer_one_nucleotide_short_for_spcas9",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.spacer_length",
+    "expect_severity": "fail",
+    "rationale": "A 19 nt spacer for SpCas9, which Appendix C gives 20 nt. A single base lost from an oligo order or a truncated copy and paste gives exactly this, and the guide is still close enough to the real protospacer to look right. Shortening the spacer moves the register against the PAM and reduces activity sharply. grna.spacer_length is the check that must catch it; it is a separate case from the SaCas9 length case because that one tests the per nuclease table and this one tests the off by one, which is the commoner mistake. spacer_start is supplied so the placement is forced rather than inferred, which is how a deliberately mis-registered guide is expressed.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          50,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "GATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1,
+        "spacer_start": 155
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.cas12a_pam_fourth_base_is_t",
+    "capability": "guide_rna",
+    "expect_overall": "fail",
+    "expect_check": "grna.pam_valid",
+    "expect_severity": "fail",
+    "rationale": "A LbCas12a guide whose PAM is given as TTTT. Appendix C's motif is TTTV, and the IUPAC code V means A, C or G and excludes T, so TTTT is not a Cas12a PAM even though it is one base away from three that are. This is the mistake of reading TTTV as four T residues or as any T rich tetramer. grna.pam_valid is the check that must catch it, and this case is the complement of the offset case: there the motif was satisfied and the position was wrong, here the position is right and the motif is not, so between them they show the check tests both halves of the requirement rather than one.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "expected_unknown": [
+      "grna.position_in_cds",
+      "grna.self_targeting",
+      "grna.restriction_in_spacer"
+    ],
+    "input": {
+      "request": {
+        "target_sequence": "CCAGGCACCAGGCACCTTTAGCACGTCAGTCAGGATCCAGTCCTTTCAGGCACCAGGCACC",
+        "target_name": "CAS12A_OFFSET_TARGET",
+        "nuclease": "LbCas12a",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10
+      },
+      "guide": {
+        "spacer": "GCACGTCAGTCAGGATCCAGTCC",
+        "pam": "TTTT",
+        "strand": 1
+      }
+    }
+  },
+  {
+    "case_id": "grna.bad.cut_outside_the_coding_sequence_for_a_knockout",
+    "capability": "guide_rna",
+    "expect_overall": "warn",
+    "expect_check": "grna.position_in_cds",
+    "expect_severity": "warn",
+    "rationale": "A knockout guide whose cut site lands past the end of the declared coding sequence, in the 3' region. A cut outside the coding sequence is repaired without changing the protein, so the knockout does not happen and the experiment reads as a failed transfection rather than as a design error. grna.position_in_cds is the only check that knows where the coding sequence is. It is the pair to the Tier B case where a cut upstream of the coding sequence is deliberate: the same check, the same severity, and the difference is entirely in the designer's intent, which is why the severity is WARN and the message names the distance rather than rejecting the guide.",
+    "must_also_report": [],
+    "allowed_extra_fail": [],
+    "input": {
+      "request": {
+        "target_sequence": "TGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTATTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGAT",
+        "target_name": "PUC19_BLA",
+        "nuclease": "SpCas9",
+        "edit_intent": "knockout",
+        "off_target_space": {
+          "scope": "construct_only"
+        },
+        "max_guides_returned": 10,
+        "cds_region": [
+          231,
+          911
+        ],
+        "delivery_construct_name": "pX330_sgRNA_expression_construct",
+        "delivery_construct_sequence": "CACCGAGATCAGTTGGGTGCACGAGGTTTTAGAGCTAGAAATAGCAAG"
+      },
+      "guide": {
+        "spacer": "AGATCAGTTGGGTGCACGAG",
+        "pam": "TGG",
+        "strand": 1
+      }
+    }
+  }
+]
