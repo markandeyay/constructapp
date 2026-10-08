@@ -912,6 +912,48 @@ def check_homopolymer_runs(context: CheckContext) -> CheckResult:
 # ---------------------------------------------------------------------------
 
 
+def _describe_upstream_source(context: CheckContext, position: int, cds_index: int) -> str:
+    """Name the cassette element that supplies the base at `position`.
+
+    The composer places no initiation context element between the last upstream
+    element and the ATG, so position -3 of the transcript is whatever that
+    element happens to end on. A user told only that "position -3 is C" cannot
+    tell whose C it is, so every message that quotes the -3 base names its owner.
+    Returns "" when no element covers the position, which happens only for an
+    explicit cassette whose elements do not tile the sequence.
+    """
+    owner = next(
+        (item for item in context.layout if item.start <= position < item.end and item.index != cds_index),
+        None,
+    )
+    if owner is None:
+        return ""
+    from_end = owner.end - position
+    identifier = f" ({owner.part_id})" if owner.part_id else ""
+    where = (
+        f"the last base of {owner.name}{identifier}"
+        if from_end == 1
+        else f"{from_end} bases from the 3' end of {owner.name}{identifier}"
+    )
+    sentence = (
+        f" That base is {where}, the element immediately 5' of the coding sequence: the cassette carries "
+        f"no initiation context element between the two, so the last bases of that element become the "
+        f"5' UTR and set this position."
+    )
+    if owner.role == CassetteElementRole.INTRON:
+        sentence += (
+            " Note that the intron, not the promoter, is the last element before the coding sequence "
+            "whenever it is included, so it sets position -3 whichever promoter was chosen. Removing the "
+            "intron hands the position back to the promoter."
+        )
+    elif owner.role == CassetteElementRole.PROMOTER:
+        sentence += (
+            " It is a promoter feature boundary rather than anything chosen for translation, so changing "
+            "promoter changes this base by coincidence, not by design."
+        )
+    return sentence
+
+
 def check_kozak_context(context: CheckContext) -> CheckResult:
     """Check 11: an ATG with a recognisable Kozak context precedes the CDS.
 
@@ -920,6 +962,15 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
     separately. UNKNOWN when there is no CDS, when the CDS does not start with
     ATG (which aav.cds_integrity already reports), or when fewer than three
     bases precede the start codon, because then position -3 does not exist.
+
+    The bases immediately 5' of the ATG really are the transcript's 5' UTR: the
+    transcription start site sits inside the promoter, so everything from there
+    to the ATG is transcribed and `cassette[start - 3]` is the mRNA's -3
+    position. What that base *is*, though, is an accident of where a curator drew
+    the upstream part's feature boundary, because nothing places an initiation
+    context element between the two. So the message names the element the base
+    came from: see `_describe_upstream_source`. Without that, a user told
+    "position -3 is C" has no way to find out whose C it is.
     """
     thresholds = context.thresholds
     purines = " or ".join(thresholds.kozak_minus3_purines)
@@ -986,6 +1037,17 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
             else f" The full {thresholds.kozak_consensus_motif} consensus is not matched at every position, "
             f"which is common and not a problem once -3 and +4 are right."
         )
+        # The consensus is written R at -3, so A and G both satisfy this check and
+        # the threshold is the same for either. The cited analysis nonetheless
+        # finds A the commoner purine there, which is worth saying when the base
+        # is G so that a designer starting from scratch knows which to choose.
+        if minus3 == "G" and "A" in thresholds.kozak_minus3_purines:
+            extra += (
+                " One refinement, which does not change this verdict: the consensus is written with a "
+                "purine at -3 and A and G both satisfy it, so this check accepts either and the threshold "
+                "is the same for both, but A is the commoner of the two in the cited analysis. If the "
+                "context is being designed rather than inherited, prefer A at -3."
+            )
         return result(
             "aav.kozak_context",
             Severity.PASS,
@@ -997,9 +1059,11 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
         )
     weak: list[str] = []
     fixes: list[str] = []
+    source = ""
     if not minus3_ok:
         weak.append(f"position -3 is {minus3}, where a purine ({purines}) is required")
         fixes.append(f"change the base 3 nt upstream of the ATG to {purines}")
+        source = _describe_upstream_source(context, start - 3, cds_layout.index)
     if not plus4_ok:
         weak.append(
             f"position +4 is {plus4} rather than {thresholds.kozak_plus4_base}, which is the first base of "
@@ -1009,12 +1073,12 @@ def check_kozak_context(context: CheckContext) -> CheckResult:
             f"choose a second codon beginning with {thresholds.kozak_plus4_base}, which for most residues is "
             f"a synonymous change and does not alter the protein"
         )
-    strength = "adequate but not optimal" if (minus3_ok or plus4_ok) else "weak"
+    strength = "an adequate but not optimal" if (minus3_ok or plus4_ok) else "a weak"
     return result(
         "aav.kozak_context",
         Severity.WARN,
-        f"The initiator ATG sits in a {strength} Kozak context ({window}): {' and '.join(weak)}. A weak "
-        f"context allows leaky scanning past the start codon and lowers the amount of protein made per "
+        f"The initiator ATG sits in {strength} Kozak context ({window}): {' and '.join(weak)}.{source} A "
+        f"weak context allows leaky scanning past the start codon and lowers the amount of protein made per "
         f"transcript. To fix: {'; '.join(fixes)}. The simplest change is to insert the "
         f"{thresholds.kozak_consensus_motif[:6]} prefix immediately before the ATG. If the context is "
         f"deliberately weak, for example to tune expression down, this is a Tier B warning to record rather "

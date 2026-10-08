@@ -699,6 +699,62 @@ class TestKozakContext:
         thresholds = AAVThresholds(kozak_minus3_purines=("C",))
         assert sev(design, "aav.kozak_context", thresholds=thresholds) == "warn"
 
+    def test_the_warning_names_the_promoter_that_supplied_the_minus_three_base(self):
+        """Regression, WP-10 finding 2: a user cannot act on "position -3 is C" alone.
+
+        The base is the third from the end of promoter.efs, which is a curated
+        feature boundary and nothing the user chose, so the message has to say so.
+        """
+        design = build_design(promoter="promoter.efs", target_tissue="ubiquitous")
+        check = check_of(validate(design), "aav.kozak_context")
+        assert check.severity is Severity.WARN
+        assert "position -3 is C" in check.message
+        assert "promoter.efs" in check.message
+        assert "3 bases from the 3' end of" in check.message
+        assert "immediately 5' of the coding sequence" in check.message
+
+    def test_the_warning_names_the_intron_when_the_intron_supplies_the_minus_three_base(self):
+        """intron.chimeric ends ACCTGC, so -3 is T whatever the promoter is.
+
+        The intron is the last element before the coding sequence whenever it is
+        included, so including it warns even on a promoter that would otherwise
+        pass. promoter.gfap ends CAAGCT and does pass on its own, which is what
+        makes this the case a user would otherwise find undiagnosable.
+        """
+        without = check_of(
+            validate(build_design(promoter="promoter.gfap", target_tissue="cns_astrocyte")),
+            "aav.kozak_context",
+        )
+        assert without.severity is Severity.PASS
+
+        design = build_design(
+            promoter="promoter.gfap", intron="intron.chimeric", target_tissue="cns_astrocyte"
+        )
+        check = check_of(validate(design), "aav.kozak_context")
+        assert check.severity is Severity.WARN
+        assert "position -3 is T" in check.message
+        assert "intron.chimeric" in check.message
+        assert "the intron, not the promoter, is the last element" in check.message
+        assert "whichever promoter was chosen" in check.message
+
+    def test_the_pass_message_records_that_a_is_the_preferred_purine_without_moving_the_bar(self):
+        """promoter.gfap ends CAAGCT, so -3 is G, the tolerated purine rather than the commoner one."""
+        check = check_of(
+            validate(build_design(promoter="promoter.gfap", target_tissue="cns_astrocyte")),
+            "aav.kozak_context",
+        )
+        assert check.severity is Severity.PASS
+        assert "A is the commoner of the two in the cited analysis" in check.message
+        assert "the threshold is the same for both" in check.message
+        # The preference is a note on a PASS, not a second bar: a purine is still
+        # the whole requirement, and the A case says nothing about preference.
+        assert check.threshold == (
+            "purine (A or G) at -3 and G at +4; full consensus GCCRCCATGG"
+        )
+        on_a = check_of(validate(build_design()), "aav.kozak_context")
+        assert on_a.severity is Severity.PASS
+        assert "commoner of the two" not in on_a.message
+
 
 # ---------------------------------------------------------------------------
 # 12. aav.polya_present_functional
