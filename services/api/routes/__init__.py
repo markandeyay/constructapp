@@ -36,6 +36,7 @@ CAPABILITY_ROUTERS: tuple[RouterInclude, ...] = (
     # ==== WP-04: assembly. Only WP-04 writes here. ====
     # ==== /WP-04 ====
     # ==== WP-05: guide RNA. Only WP-05 writes here. ====
+    RouterInclude("guide_rna", "services.api.routes.grna:router"),
     # ==== /WP-05 ====
 )
 
