@@ -1,0 +1,124 @@
+[
+  {
+    "case_id": "aav.good.a1.gfap_bgh_wpre_astrocyte",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "A 2,200 bp single stranded cassette composed from registry parts only: AAV2 ITRs, the GFAP promoter for a cns_astrocyte target, WPRE and the bGH polyA. The payload is the in-frame 405 bp 3' segment of the beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), minus strand positions 1626 to 2030. Inside the 2,000 to 4,700 bp band, promoter matched to the target tissue, strong Kozak context (G at -3 from the promoter, G at +4 from the reading frame), clean open reading frame, so every one of the fourteen checks passes.",
+    "input": {
+      "transgene_name": "orf405_bla_segment",
+      "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "cns_astrocyte",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.bgh",
+      "include_wpre": true
+    }
+  },
+  {
+    "case_id": "aav.good.a2.gfap_sv40_wpre_astrocyte",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "The same cassette with the 135 bp SV40 polyA in place of the 225 bp bGH polyA, 2,110 bp total. Proves the smaller functional polyA signal is recognised by aav.polya_present_functional and that the shorter cassette still clears the 2,000 bp minimum genome size.",
+    "input": {
+      "transgene_name": "orf405_bla_segment",
+      "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "cns_astrocyte",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.sv40",
+      "include_wpre": true
+    }
+  },
+  {
+    "case_id": "aav.good.a3.gfap_bgh_wpre_orf312",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "A 2,107 bp cassette carrying a shorter real payload, the in-frame 312 bp 3' segment of the beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb), which also begins ATGG so the Kozak +4 position is satisfied. A second payload length through the same element set.",
+    "input": {
+      "transgene_name": "orf312_bla_segment",
+      "transgene_sequence": "ATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "cns_astrocyte",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.bgh",
+      "include_wpre": true
+    }
+  },
+  {
+    "case_id": "aav.good.a4.gfap_bgh_wpre_orf237_near_minimum",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "2,032 bp, 32 bp above the 2,000 bp minimum genome size. The boundary case for aav.minimum_genome_size on the passing side: it must not warn here. Payload is the in-frame 237 bp 3' segment of the beta-lactamase reading frame of pUC19, GenBank L09137.1 (tests/fixtures/parser/puc19.gb).",
+    "input": {
+      "transgene_name": "orf237_bla_segment",
+      "transgene_sequence": "ATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "cns_astrocyte",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.bgh",
+      "include_wpre": true
+    }
+  },
+  {
+    "case_id": "aav.good.a5.self_complementary_gfap_bgh",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "The same 2,200 bp cassette declared self complementary. 2,200 bp is at or under the 2,400 bp self complementary target, so aav.sc_capacity passes as well as aav.packaging_limit. This is the case that shows the halved band is applied rather than merely available.",
+    "input": {
+      "transgene_name": "orf405_bla_segment",
+      "transgene_sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+      "target_tissue": "cns_astrocyte",
+      "promoter_preference": "promoter.gfap",
+      "polya_preference": "polya.bgh",
+      "include_wpre": true,
+      "self_complementary": true
+    }
+  },
+  {
+    "case_id": "aav.good.a6.explicit_cassette_gfap_bgh",
+    "capability": "aav",
+    "tier": "A",
+    "rationale": "The 2,200 bp cassette spelled out element by element as an AAVDesign rather than left to the composer, so the gold set exercises both arms of AAVValidationInput. Same verdict as a1, which is the point: validation is a pure function of the cassette.",
+    "input": {
+      "design_id": "aav-gold-a6",
+      "transgene_name": "orf405_bla_segment",
+      "target_tissue": "cns_astrocyte",
+      "serotype": "AAV2",
+      "self_complementary": false,
+      "elements": [
+        {
+          "role": "itr_5",
+          "name": "AAV2 left ITR",
+          "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+          "part_id": "itr.aav2_itr_left"
+        },
+        {
+          "role": "promoter",
+          "name": "GFAP promoter",
+          "sequence": "GATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGCAAGCT",
+          "part_id": "promoter.gfap"
+        },
+        {
+          "role": "cds",
+          "name": "orf405_bla_segment",
+          "sequence": "ATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGTCTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAA",
+          "source": "pUC19 beta-lactamase open reading frame, GenBank L09137.1 minus strand"
+        },
+        {
+          "role": "wpre",
+          "name": "WPRE",
+          "sequence": "AATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAATCATCGTCCTTTCCTTGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGC",
+          "part_id": "enhancer.wpre"
+        },
+        {
+          "role": "polya",
+          "name": "bGH polyA",
+          "sequence": "CTGTGCCTTCTAGTTGCCAGCCATCTGTTGTTTGCCCCTCCCCCGTGCCTTCCTTGACCCTGGAAGGTGCCACTCCCACTGTCCTTTCCTAATAAAATGAGGAAATTGCATCGCATTGTCTGAGTAGGTGTCATTCTATTCTGGGGGGTGGGGTGGGGCAGGACAGCAAGGGGGAGGATTGGGAAGACAATAGCAGGCATGCTGGGGATGCGGTGGGCTCTATGG",
+          "part_id": "polya.bgh"
+        },
+        {
+          "role": "itr_3",
+          "name": "AAV2 right ITR",
+          "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+          "part_id": "itr.aav2_itr_right"
+        }
+      ]
+    }
+  }
+]
