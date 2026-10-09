@@ -43,7 +43,32 @@ REQUIRED_CORPUS_TABLES = ("plasmids", "plasmid_embeddings")
 REQUIRED_APP_TABLES = ("sessions", "session_turns", "jobs", "designs", "outcomes")
 
 
-def build_local_app() -> FastAPI:
+QUEUE_BACKEND_ENV = "CONSTRUCT_QUEUE_BACKEND"
+QUEUE_BACKEND_INLINE = "inline"
+QUEUE_BACKEND_CELERY = "celery"
+
+
+def queue_backend() -> str:
+    """Which job queue the local app wires, chosen by CONSTRUCT_QUEUE_BACKEND.
+
+    Defaults to the synchronous in-process queue so that every existing caller
+    and test is unchanged. An unknown value is an error rather than a silent
+    fallback: someone who typed "celry" and got the inline queue would believe
+    their jobs were durable when they were not.
+    """
+    value = (os.environ.get(QUEUE_BACKEND_ENV) or QUEUE_BACKEND_INLINE).strip().lower()
+    if value not in {QUEUE_BACKEND_INLINE, QUEUE_BACKEND_CELERY}:
+        raise RuntimeError(f"{QUEUE_BACKEND_ENV} must be '{QUEUE_BACKEND_INLINE}' or '{QUEUE_BACKEND_CELERY}', got {value!r}.")
+    return value
+
+
+def build_job_runtime(*, with_handler: bool = True) -> tuple[EmbedCorpusConfig, dict[str, Any], GenerationDesignJobHandler | None]:
+    """Build the stores and design handler shared by the API and the worker.
+
+    Both processes call this so they read the same Postgres tables and run the
+    same pipeline. The API process needs the stores to serve reads; the worker
+    needs the handler to execute jobs.
+    """
     _load_env_defaults(Path(".env"))
     config = EmbedCorpusConfig.from_env(
         batch_size=1,
@@ -57,9 +82,30 @@ def build_local_app() -> FastAPI:
     _assert_corpus_ready(config.database_url)
     _run_app_migrations()
     stores = _build_application_stores(config.database_url)
+    if not with_handler:
+        return config, stores, None
     pipeline = _build_local_pipeline(config)
     handler = GenerationDesignJobHandler(pipeline=pipeline, design_store=stores["design_store"])
-    queue = FakeJobQueue(store=stores["job_store"], handler=handler)
+    return config, stores, handler
+
+
+def build_local_app() -> FastAPI:
+    use_celery = queue_backend() == QUEUE_BACKEND_CELERY
+    # With celery the API never runs a job, so it skips building the pipeline
+    # (embedding model load) that only the worker process needs.
+    config, stores, handler = build_job_runtime(with_handler=not use_celery)
+    if use_celery:
+        # The in-memory stores are a fallback for a Postgres without the app
+        # tables. A worker is a separate process and cannot see this process's
+        # memory, so with them the job would be created where nobody can read it.
+        if not isinstance(stores["job_store"], PostgresJobStore):
+            raise RuntimeError("The celery queue backend requires Postgres-backed stores; app tables were not found.")
+        from services.worker import CeleryJobQueue, build_celery_app
+
+        queue: Any = CeleryJobQueue(store=stores["job_store"], celery_app=build_celery_app())
+    else:
+        assert handler is not None
+        queue = FakeJobQueue(store=stores["job_store"], handler=handler)
     return create_app(
         session_store=stores["session_store"],
         job_queue=queue,

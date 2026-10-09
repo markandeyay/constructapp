@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any
 import importlib
 
 import pytest
@@ -128,3 +129,78 @@ def test_build_local_app_runs_design_synchronously(monkeypatch: pytest.MonkeyPat
     assert design["job_id"] == job_id
     assert design["annotated_sequence"]["vector_profile"] == "bacterial_cloning_vector"
     assert migration_calls == [True]
+
+
+def test_queue_backend_defaults_to_inline_and_rejects_unknown_values(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv(local_app.QUEUE_BACKEND_ENV, raising=False)
+    assert local_app.queue_backend() == "inline"
+    monkeypatch.setenv(local_app.QUEUE_BACKEND_ENV, " Celery ")
+    assert local_app.queue_backend() == "celery"
+    monkeypatch.setenv(local_app.QUEUE_BACKEND_ENV, "celry")
+    with pytest.raises(RuntimeError, match="CONSTRUCT_QUEUE_BACKEND"):
+        local_app.queue_backend()
+
+
+def _stub_runtime(monkeypatch: pytest.MonkeyPatch, stores: dict[str, Any], built: list[bool]) -> None:
+    def fake_runtime(*, with_handler: bool = True) -> Any:
+        built.append(with_handler)
+        return local_app.EmbedCorpusConfig(database_url="postgresql://example", use_fake=False), stores, (
+            object() if with_handler else None
+        )
+
+    monkeypatch.setattr(local_app, "build_job_runtime", fake_runtime)
+    monkeypatch.setattr(local_app, "_build_template_reader", lambda database_url: (lambda ids: {}))
+
+
+def test_build_local_app_celery_backend_wires_celery_queue_without_pipeline(monkeypatch: pytest.MonkeyPatch) -> None:
+    from packages.application import PostgresJobStore
+    from services.worker import CeleryJobQueue
+
+    monkeypatch.setenv(local_app.QUEUE_BACKEND_ENV, "celery")
+    built: list[bool] = []
+    stores = {
+        "session_store": InMemorySessionStore(),
+        "job_store": PostgresJobStore("postgresql://example"),
+        "design_store": InMemoryDesignStore(),
+        "outcome_store": InMemoryOutcomeStore(),
+    }
+    _stub_runtime(monkeypatch, stores, built)
+    monkeypatch.setattr("services.worker.build_celery_app", lambda **kwargs: object())
+
+    app = local_app.build_local_app()
+
+    assert isinstance(app.state.job_queue, CeleryJobQueue)
+    # The API never runs a job in this mode, so it must not pay for the pipeline.
+    assert built == [False]
+
+
+def test_build_local_app_celery_backend_refuses_in_memory_job_store(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv(local_app.QUEUE_BACKEND_ENV, "celery")
+    stores = {
+        "session_store": InMemorySessionStore(),
+        "job_store": InMemoryJobStore(),
+        "design_store": InMemoryDesignStore(),
+        "outcome_store": InMemoryOutcomeStore(),
+    }
+    _stub_runtime(monkeypatch, stores, [])
+    with pytest.raises(RuntimeError, match="Postgres-backed stores"):
+        local_app.build_local_app()
+
+
+def test_build_local_app_defaults_to_inline_fake_queue(monkeypatch: pytest.MonkeyPatch) -> None:
+    from packages.application import FakeJobQueue
+
+    monkeypatch.delenv(local_app.QUEUE_BACKEND_ENV, raising=False)
+    stores = {
+        "session_store": InMemorySessionStore(),
+        "job_store": InMemoryJobStore(),
+        "design_store": InMemoryDesignStore(),
+        "outcome_store": InMemoryOutcomeStore(),
+    }
+    built: list[bool] = []
+    _stub_runtime(monkeypatch, stores, built)
+
+    app = local_app.build_local_app()
+
+    assert isinstance(app.state.job_queue, FakeJobQueue)
+    assert built == [True]

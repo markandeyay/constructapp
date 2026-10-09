@@ -15,12 +15,27 @@ DEFAULT_REDIS_URL = "redis://localhost:6379/0"
 def build_celery_app(*, redis_url: str | None = None, celery_factory: Callable[..., Any] | None = None) -> Any:
     factory = celery_factory or _import_celery_factory()
     broker_url = redis_url or os.environ.get("REDIS_URL", DEFAULT_REDIS_URL)
-    return factory(
+    app = factory(
         "construct-worker",
         broker=broker_url,
         backend=broker_url,
         include=("services.worker.celery_app",),
     )
+    conf = getattr(app, "conf", None)
+    if conf is not None and hasattr(conf, "update"):
+        conf.update(
+            # Acknowledge only after the task finishes, and put the message back
+            # if the worker process dies mid-task. Without this a worker killed
+            # during a run loses the message and the job stays "running" forever.
+            # The cost is at-least-once delivery: a redelivered job may run twice.
+            task_acks_late=True,
+            task_reject_on_worker_lost=True,
+            # One message at a time per worker process: design jobs are long, so
+            # prefetching would park queued jobs behind a busy worker while an
+            # idle one sits empty.
+            worker_prefetch_multiplier=1,
+        )
+    return app
 
 
 class CeleryJobQueue:
@@ -87,7 +102,15 @@ def register_job_task(
     task = create_job_task(store=store, handler=handler, metrics=metrics)
     decorator = getattr(celery_app, "task", None)
     if callable(decorator):
-        return decorator(name=task_name)(task)
+        def celery_task(**kwargs: Any) -> None:
+            # Return nothing to Celery. The JobRecord is already in Postgres, and
+            # a dataclass holding datetimes is not JSON serializable, so handing
+            # it back made Celery's result backend raise EncodeError after every
+            # successful run (seen against a live worker). Setting
+            # task_ignore_result on the app did not prevent it.
+            task(**kwargs)
+
+        return decorator(name=task_name)(celery_task)
     return task
 
 
