@@ -62,6 +62,7 @@ from packages.validation.grna import (
 from packages.validation.grna.enumeration import EnumeratedGuide
 from packages.validation.grna.offtarget import collect_sources, space_statement
 
+from .azimuth import apply_rule_set_2, batch_score
 from .cloning import cloning_plan
 
 #: Order used when ranking by verdict. FAIL sorts last. UNKNOWN sorts after
@@ -77,6 +78,9 @@ SEVERITY_ORDER: dict[Severity, int] = {
 DEFAULT_CANDIDATE_POOL_MULTIPLIER = 4
 DEFAULT_CANDIDATE_POOL_FLOOR = 30
 MAX_REJECTED_REPORTED = 50
+
+
+_RULE_1_SCALE = "0 to 100, higher is more active"
 
 
 def _ranking_score(published: OnTargetScore, heuristic: OnTargetScore) -> tuple[int, float, str]:
@@ -149,8 +153,13 @@ def _reasoning(
         + "."
     )
     if published.score is not None:
+        magnitude = (
+            f"{published.score:.1f} out of 100"
+            if published.score_scale == _RULE_1_SCALE
+            else f"{published.score:.3f} ({published.score_scale})"
+        )
         lines.append(
-            f"{published.model_name}: {published.score:.1f} out of 100. "
+            f"{published.model_name}: {magnitude}. "
             f"{published.disclaimer} Validity domain: {published.validity_domain}"
         )
     else:
@@ -257,6 +266,8 @@ class GuideRNAGenerator:
                 str(request.max_guides_returned),
                 self.validator.version,
             ]
+            # Appended only when non default so Rule Set 1 design ids are unchanged.
+            + ([f"on_target:{request.on_target_model}"] if request.on_target_model != "rule_set_1" else [])
         )
         return "grna_" + sha256(payload.encode("utf-8")).hexdigest()[:16]
 
@@ -274,6 +285,14 @@ class GuideRNAGenerator:
         get_nuclease(request.nuclease)
         guides = enumerate_guides(request.target_sequence, request.nuclease)
 
+        # Rule Set 2 runs in a container, so every context of this request goes
+        # in ONE call instead of one container start per guide.
+        rule2 = (
+            batch_score([g.placement.context_30mer for g in guides])
+            if request.on_target_model == "rule_set_2"
+            else None
+        )
+
         scored: list[tuple[EnumeratedGuide, OnTargetScore, OnTargetScore, int, float, str]] = []
         for guide in guides:
             published, heuristic = score_on_target(
@@ -283,7 +302,19 @@ class GuideRNAGenerator:
                 guide.pam_is_alternative,
                 thresholds=self.thresholds,
             )
+            if rule2 is not None:
+                published = apply_rule_set_2(published, guide.placement.context_30mer, rule2)
             tier, value, ranked_by = _ranking_score(published, heuristic)
+            if rule2 is not None:
+                # Rule Set 2 and a Rule Set 1 fallback sit on different scales
+                # and must never be compared, so they get separate tiers, and
+                # the heuristic is pushed below both.
+                if published.score is None:
+                    tier = 2
+                elif published.model_name.startswith("Rule Set 2"):
+                    tier = 0
+                else:
+                    tier = 1
             scored.append((guide, published, heuristic, tier, value, ranked_by))
 
         scored.sort(
@@ -527,6 +558,10 @@ class GuideRNAGenerator:
         from packages.validation.grna.ontarget import HEURISTIC_CITATION, RULE_SET_1_CITATION
 
         entries.append(f"on_target_model:{RULE_SET_1_CITATION}")
+        if request.on_target_model == "rule_set_2":
+            from .azimuth import RULE_SET_2_CITATION
+
+            entries.append(f"on_target_model_requested:{RULE_SET_2_CITATION}")
         entries.append(f"on_target_fallback:{HEURISTIC_CITATION}")
         entries.append(f"off_target_model:{MIT_CITATION}")
         return entries

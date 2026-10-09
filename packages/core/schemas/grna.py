@@ -113,6 +113,10 @@ class GuideRNARequest(CapabilityModel):
     edit_intent: EditIntent
     off_target_space: OffTargetSpace
     max_guides_returned: int = Field(default=10, ge=1, le=1000)
+    # Rule Set 1 stays the default so existing requests behave exactly as before.
+    # "rule_set_2" asks for the 2016 Azimuth model, which runs in a container and
+    # falls back to Rule Set 1 with the fallback named in the score if unavailable.
+    on_target_model: Literal["rule_set_1", "rule_set_2"] = "rule_set_1"
 
     expression_system: ExpressionSystem = "u6_plasmid"
     host_context: HostContext = "human_cell_line"

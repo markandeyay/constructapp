@@ -46,6 +46,11 @@ from packages.validation.grna import (
     geometry_facts,
 )
 from services.api.routes._screening import mark_blocked, screen_export
+from packages.generation.grna.azimuth import (
+    RULE_SET_2_CITATION,
+    RULE_SET_2_DOMAIN,
+    RULE_SET_2_NAME,
+)
 from packages.validation.grna.ontarget import (
     HEURISTIC_CITATION,
     HEURISTIC_DOMAIN,
@@ -170,14 +175,19 @@ def reference() -> dict[str, Any]:
                 "threshold": "on_target_model",
                 "value": RULE_SET_1_NAME,
                 "disclosure": (
-                    "Rule Set 1, the 2014 model, is implemented and cited. The 2016 rule set "
-                    "is the more widely used one today. Rule Set 1 was chosen because it can "
-                    "be implemented faithfully from a readable reference, whereas the 2016 "
-                    "model carries a much larger coefficient set plus a gradient boosted "
-                    "component that cannot be transcribed by hand, and a half correct 2016 "
-                    "implementation would be worse than a fully correct 2014 one. Nothing "
-                    "here is miscited; this records the choice so it is not mistaken for an "
-                    "oversight."
+                    "Two on-target models are implemented and the request chooses between them "
+                    "with on_target_model. Rule Set 1 (Doench 2014) is the default: it is a "
+                    "faithful implementation from a readable reference, pinned by tests. Rule "
+                    "Set 2 (Doench 2016, run through the authors' Azimuth 2.0 package) is the "
+                    "more widely used model today and is opt in, because Azimuth is Python 2 "
+                    "with model files that only load on scikit-learn 0.17.1, so it runs in a "
+                    "container built from docker/azimuth/Dockerfile. No coefficient is "
+                    "transcribed in this repository. It is a generator recommendation, not a "
+                    "validator check. If Docker is absent, the image is not built, or the "
+                    "container errors, the guide is scored with Rule Set 1 and the score's "
+                    "model name says the fallback happened; a Rule Set 1 number is never shown "
+                    "as a 2016 score. Rule Set 2 returns a point estimate with no interval, "
+                    "on a roughly 0 to 1 scale that is not comparable to Rule Set 1."
                 ),
             },
         ],
@@ -204,6 +214,17 @@ def reference() -> dict[str, Any]:
                 "citation": RULE_SET_1_CITATION,
                 "validity_domain": RULE_SET_1_DOMAIN,
                 "wording": "a prediction from a published model, not a measurement",
+            },
+            {
+                "name": RULE_SET_2_NAME,
+                "kind": "published_model",
+                "role": "on-target activity, opt in via on_target_model=rule_set_2, container backed",
+                "citation": RULE_SET_2_CITATION,
+                "validity_domain": RULE_SET_2_DOMAIN,
+                "wording": (
+                    "a prediction from a published model, not a measurement; falls back to Rule "
+                    "Set 1 with the fallback named in the score when the container is unavailable"
+                ),
             },
             {
                 "name": HEURISTIC_NAME,

@@ -72,7 +72,16 @@ The retrieval layer embeds natural-language summaries of plasmid records and sto
 
 ### Generation Layer
 
-The local app uses a synchronous `FakeJobQueue` and `FakeGenerator` today, with deterministic validation, real export, and real Postgres/pgvector retrieval wired through the app. The production queue path is still future work: Celery plus a durable Postgres-backed job queue.
+The local app uses a synchronous `FakeJobQueue` and `FakeGenerator` today, with deterministic validation, real export, and real Postgres/pgvector retrieval wired through the app. A durable queue path is also available and selectable, with the synchronous queue remaining the default. Set `CONSTRUCT_QUEUE_BACKEND=celery` and the API writes each job to the Postgres `jobs` table and publishes it to Redis through Celery, and a separate worker process executes it and writes the result back to the same row, so `GET /v1/jobs/{job_id}` reports it and a queued job survives an API restart. The generator is still `FakeGenerator`, and the worker is a single process; retries, dead-letter handling and multiple workers are not built.
+
+To run it (Postgres and Redis up via `docker compose up -d`, `DATABASE_URL` and `REDIS_URL` set in `.env`):
+
+```
+CONSTRUCT_QUEUE_BACKEND=celery python -m uvicorn --factory services.api.local_app:build_local_app --port 8000
+python -m services.worker.run
+```
+
+The worker uses Celery's `solo` pool on Windows, because the default prefork pool does not work there. Delivery is at least once (`task_acks_late`), so a job whose worker dies mid-run may be executed twice.
 
 ### Validation Layer
 
@@ -152,6 +161,16 @@ docker compose up -d
 make serve-local
 make serve-web
 ```
+
+### Optional: the 2016 on-target model (Rule Set 2, Azimuth)
+
+The guide RNA generator scores with Rule Set 1 (Doench 2014) by default. Setting `on_target_model` to `rule_set_2` on a `POST /v1/grna/design` request asks for the Doench 2016 model instead (Nat Biotechnol 2016;34(2):184-191, doi:10.1038/nbt.3437). It is Python 2 code that needs scikit-learn 0.17.1, so it runs in a container and is entirely optional. Build the image once:
+
+```bash
+docker build -t construct-azimuth:2.0 docker/azimuth
+```
+
+The scorer is called once per request with every spacer batched. It is a generator recommendation, never a validator check. If Docker is absent, the image is not built, or the container errors, each guide is scored with Rule Set 1 and the score's model name says so (for example "Rule Set 1 ... (fallback, Rule Set 2 (Azimuth) ... not used: scorer image not built)"); a Rule Set 1 number is never shown as a 2016 score. Set `CONSTRUCT_AZIMUTH_IMAGE` to use a differently tagged image. Tests that need the image skip when it is missing. Rule Set 2 scores are on a roughly 0 to 1 scale and are predictions, not measurements.
 
 API startup command:
 
