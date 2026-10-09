@@ -1250,3 +1250,52 @@ LINT. `make lint` exited 2 on master with three findings in files WP-18 was
 Gates after all of it: pytest 1627 passed 2 skipped; `ruff check .` all checks
 passed; `make eval-capabilities` 179 of 179; `make eval-check` exit 0 with all
 three halves PASS; capabilities e2e 5 passed; full stack e2e passed; tsc exit 0.
+
+## WP-20: the corpus is now fully embedded, and it cost retrieval quality
+
+SUPERSEDES the "STILL DELIBERATELY NOT REMEDIATED" passage above, which recorded
+that embedding the rest of the corpus was deliberately not done. The operator
+asked for it to be done anyway. It was done, and the predicted consequence
+happened and is recorded here rather than buried.
+
+Embeddings went from 194 to 4,455 against 4,455 plasmid records, verified by
+querying Postgres directly: 4,455 rows, 4,455 distinct plasmid ids. The job
+reported 4,261 inserted, 194 skipped, 0 parse failures, with real vectors from
+NeuML/pubmedbert-base-embeddings, not the fake embedder. Wall clock about 23.5
+minutes. Nothing was deleted, truncated or re-ingested.
+
+MEASURED COST, from `make eval-check` before and after:
+
+| Metric | Before | After | Delta |
+|---|---|---|---|
+| Top 1 hit rate | 0.750 | 0.700 | -0.050 |
+| Top 5 hit rate | 0.850 | 0.800 | -0.050 |
+| MRR | 0.792 | 0.742 | -0.050 |
+
+This is a regression, not an improvement, and it matches the mechanism predicted
+when the work was first deferred: the 4,261 newly embedded records are semantic
+distractors against a gold set built for a corpus of about 82, and the gold
+targets were already embedded, so nothing on the gold side gained. One query, a
+low copy bacterial cloning plasmid with chloramphenicol resistance, went from a
+hit at rank 2 to a miss, and that single query is the whole top 5 drop. A second
+slipped from rank 1 to rank 2.
+
+THE GATE PASSES WITH NO HEADROOM, which is the part worth acting on. The
+threshold is a top 5 drop of 0.05 and the measured drop is exactly 0.05. It
+passes because the comparison is a strict inequality, `delta < threshold`, and
+that was checked in exact decimal arithmetic rather than assumed from floating
+point: it is a real pass, not a rounding artifact. But the margin is now zero. On
+a 20 query scored set each query is worth 0.05, so ONE further lost query fails
+`make eval-check`. The MRR drop of 0.050 against its 0.10 allowance keeps half
+its margin.
+
+Thresholds and gold cases were NOT touched. Making a gate pass by moving its
+threshold would defeat the purpose of having one.
+
+THE REAL DEFECT THIS EXPOSES, recorded for whoever picks it up: the retrieval
+gold set has 21 queries of which 20 are scored, and it was built against a corpus
+roughly two percent of the present size. It is now measuring recall against a
+haystack it was never designed for, which is why full coverage reads as a
+regression. The principled fix is to expand the retrieval gold set to match the
+corpus that actually exists, not to shrink the corpus back to fit the gold set.
+Until that happens the top 5 figure should be read as a number with no margin.
