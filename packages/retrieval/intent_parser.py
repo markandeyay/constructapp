@@ -641,6 +641,72 @@ def _normalize_publication_doi(doi: str | None) -> str | None:
     return value.lower() or None
 
 
+#: Whole-word forms that actually denote the tetracycline-controlled expression
+#: system. The previous test was `"tet" in normalized_text`, a raw substring
+#: check, so every tetracycline resistance gene name (tetA, tetG, tetL, tetM) and
+#: the word "tetracycline" itself asked the user to choose Tet-On or Tet-Off. A
+#: resistance gene is not an inducible promoter system.
+#:
+#: OPEN QUESTION, left for a human: with this narrowed, the clarification below
+#: may be unreachable. A whole-word "tet" also matches the tetracycline entry in
+#: MARKER_TERMS, and "tet on"/"tet off"/"tre" set promoter_type through
+#: PROMOTER_TYPE_TERMS; the clarification is guarded against both. In the
+#: 2026-10-09 retrieval eval the only two queries that reached it were the tetM
+#: and tetL false positives, so the bug may have been its only live path. It is
+#: kept rather than deleted because removing a clarification branch is a
+#: behaviour change that should be made against a test run, and no test asserts
+#: this question is ever produced.
+TET_SYSTEM_PHRASES: tuple[str, ...] = ("tet", "tet on", "tet off", "teton", "tetoff", "tre", "tet regulated")
+
+
+def _mentions_tet_system(normalized_text: str) -> bool:
+    """True when the text names the Tet expression system, not a tet marker.
+
+    Matching is whole-word against already-normalized text, so "tetm" and
+    "tetracycline" do not match while "tet" and "tet on" do.
+    """
+    padded = f" {normalized_text} "
+    return any(f" {phrase} " in padded for phrase in TET_SYSTEM_PHRASES)
+
+
+#: Openings that make a request a corpus lookup rather than a design request.
+#: A lookup names something to search for and does not need a host organism: a
+#: retrieval system asked which plasmid carries a gene should search for it, not
+#: ask the user what cell line they had in mind.
+#:
+#: These are matched as PREFIXES, not as substrings anywhere in the text. An
+#: earlier version of this list used phrases like "which plasmid" and matched
+#: them with `in`, which failed on exactly the queries it was written for: in
+#: "Which Lactiplantibacillus plantarum plasmid carries tetM?" the species name
+#: sits between the two words, so the phrase never appears contiguously.
+LOOKUP_OPENINGS: tuple[str, ...] = (
+    "which",
+    "is there",
+    "are there",
+    "find",
+    "show me",
+    "do you have",
+    "i am looking for",
+    "looking for",
+    "can you pull",
+    "retrieve",
+    "list",
+)
+
+#: Phrases that mark a lookup wherever they appear, because they refer to the
+#: corpus itself rather than to a construct the user wants built.
+LOOKUP_PHRASES: tuple[str, ...] = ("in the collection", "in the corpus")
+
+
+def _is_corpus_lookup(normalized_text: str) -> bool:
+    if any(phrase in normalized_text for phrase in LOOKUP_PHRASES):
+        return True
+    return any(
+        normalized_text == opening or normalized_text.startswith(f"{opening} ")
+        for opening in LOOKUP_OPENINGS
+    )
+
+
 def _clarification_question(
     normalized_text: str,
     *,
@@ -659,17 +725,39 @@ def _clarification_question(
     if "inducible" in normalized_text and promoter_type is None:
         return "Which inducible promoter system should be used, such as doxycycline/Tet-On, IPTG/lac, or arabinose/pBAD?"
     if (
-        "tet" in normalized_text
+        _mentions_tet_system(normalized_text)
         and "tetracycline resistance" not in normalized_text
         and "tetracycline" not in markers
         and promoter_type not in {"doxycycline-inducible", "Tet-off"}
     ):
         return "Should the Tet-regulated design be Tet-On or Tet-Off?"
+    # A corpus lookup is a request to search, not a request to design, so none of
+    # the rules below apply to it. Every one of them asks the user to supply
+    # something a DESIGN needs: a host organism, a vector type, a payload gene. A
+    # lookup has already named what it wants, and most of what it names is
+    # outside the controlled vocabularies ("ethidium bromide resistance
+    # determinant", "nickel/cobalt resistance gene cluster"), which is exactly
+    # what semantic retrieval is for. Answering these with a question returned
+    # nothing at all for 16 of 16 natural-plasmid queries in the 2026-10-09 eval.
+    #
+    # The specific rules above this line still apply, because each one catches a
+    # request that names a system without saying which variant of it, and that
+    # ambiguity is real whether the user is designing or searching.
+    if _is_corpus_lookup(normalized_text):
+        return None
     if organism is None and cell_line is None:
         if vector_type in {"bacterial_cloning_vector", "bacterial_expression_vector", "yeast_shuttle_vector"}:
             return None
         if "mammalian" in normalized_text and (vector_type or application or genes):
             return None
+        # Reached only by design requests now, since lookups returned above. A
+        # design request with no host and no bacterial or yeast vector type
+        # genuinely cannot proceed, so this question stands.
+        #
+        # Enumerating more species in ORGANISM_TERMS is NOT the fix for the
+        # natural-plasmid misses: that is what produced the two ad-hoc entries
+        # already sitting in that tuple, and it generalizes no further than the
+        # one gold case that prompted each.
         return "Which target organism or cell line should this plasmid design use?"
     if not any([vector_type, genes, application, promoter_type, markers, cell_line]):
         return "What plasmid purpose, vector type, payload gene, marker, or application should retrieval target?"

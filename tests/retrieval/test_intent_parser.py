@@ -7,7 +7,13 @@ import pytest
 
 from packages.core.schemas import DesignSpec
 from packages.retrieval.gemini_client import GeminiIntentClient
-from packages.retrieval.intent_parser import FakeIntentParser, LLMIntentParser, OpenAIIntentClient, build_intent_parser
+from packages.retrieval.intent_parser import (
+    FakeIntentParser,
+    LLMIntentParser,
+    OpenAIIntentClient,
+    build_intent_parser,
+    parse_design_spec_heuristic,
+)
 
 
 def test_fake_intent_parser_normalizes_lentiviral_dox_hek293_and_tagged_gene() -> None:
@@ -228,3 +234,76 @@ def test_openai_intent_client_smoke() -> None:
 
     assert spec.organism == "Escherichia coli"
     assert spec.vector_type == "bacterial_expression_vector"
+
+
+# ---------------------------------------------------------------------------
+# WP-21 regressions. The 2026-10-09 retrieval eval on the expanded gold set
+# found that all 16 natural-plasmid queries retrieved NOTHING: the parser
+# short-circuited into a clarification question instead of searching. Neither
+# defect was caught by the 1648-test suite, so both are pinned here.
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("gene", ["tetA", "tetG", "tetL", "tetM"])
+def test_tet_resistance_gene_is_a_marker_and_not_the_tet_expression_system(gene: str) -> None:
+    """A tetracycline resistance gene must not be read as Tet-On/Tet-Off.
+
+    The test was `"tet" in normalized_text`, a raw substring check, and `tetM`
+    normalizes to `tetm`. Every tet resistance gene name asked the user to pick
+    Tet-On or Tet-Off, and the query returned no results at all.
+    """
+    spec = parse_design_spec_heuristic(f"Which Lactiplantibacillus plantarum plasmid carries {gene}?")
+
+    assert "tetracycline" in spec.markers
+    assert spec.clarification_question != "Should the Tet-regulated design be Tet-On or Tet-Off?"
+    assert not spec.clarification_needed
+
+
+@pytest.mark.parametrize(
+    "query",
+    [
+        "Is there a Staphylococcus epidermidis plasmid with an ethidium bromide resistance determinant?",
+        "Which plasmid carries the CTX-M-17 extended-spectrum beta-lactamase?",
+        "Find a Klebsiella plasmid with a complete arsenic resistance operon.",
+        "I am looking for the Staphylococcus aureus conjugative multiresistance plasmid pSK41.",
+        "Which plasmid carries a nickel and cobalt resistance gene cluster?",
+    ],
+)
+def test_corpus_lookup_naming_a_non_model_organism_is_searched_not_questioned(query: str) -> None:
+    """A lookup must search, even when its host is outside ORGANISM_TERMS.
+
+    ORGANISM_TERMS covers nine model organisms. Any other named species parsed
+    as NO organism, and the clarification branch then blocked retrieval, so a
+    query naming both a species and a gene returned nothing. This covers roughly
+    98 percent of the corpus.
+    """
+    spec = parse_design_spec_heuristic(query)
+
+    assert not spec.clarification_needed
+    assert spec.clarification_question is None
+
+
+@pytest.mark.parametrize(
+    ("query", "expected_question"),
+    [
+        (
+            "Can you recommend a plasmid for my experiment?",
+            "Which target organism or cell line should this plasmid design use?",
+        ),
+        (
+            "I need a viral vector with antibiotic resistance.",
+            "Which viral vector type should this use: lentiviral, retroviral, AAV, or another system?",
+        ),
+    ],
+)
+def test_genuinely_underspecified_requests_still_clarify(query: str, expected_question: str) -> None:
+    """Non-vacuity guard for the two tests above.
+
+    Both fixes widen the path to retrieval, so they could be satisfied by simply
+    never clarifying. These two requests name no host, no application and no
+    feature to search for, and must still be questioned rather than guessed at.
+    """
+    spec = parse_design_spec_heuristic(query)
+
+    assert spec.clarification_needed
+    assert spec.clarification_question == expected_question

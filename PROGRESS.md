@@ -1299,3 +1299,121 @@ haystack it was never designed for, which is why full coverage reads as a
 regression. The principled fix is to expand the retrieval gold set to match the
 corpus that actually exists, not to shrink the corpus back to fit the gold set.
 Until that happens the top 5 figure should be read as a number with no margin.
+
+## WP-21: the retrieval gold set was grown to match the corpus
+
+This is the defect WP-20 named, taken up. The scored set goes from 20 queries to
+55 and the clarification cases from 1 to 2, so the file goes from 21 records to
+57. At 55 scored queries each query is worth 0.0182 top 5 instead of 0.05, so the
+0.05 threshold absorbs two lost queries and breaches on the third rather than
+breaching on the first.
+
+The 36 new cases are authored and verified by
+`scripts/build_retrieval_gold_candidates.py`. Two rules govern them, both there to
+stop an expansion from being a way of making a number look better. Selection is
+outcome blind: the candidate pool was fixed from corpus strata, the indexed
+vector profile and then organism, before any retrieval was run, and no candidate
+was removed because retrieval misses it. Every biological claim is checked against
+the corpus: each case declares the substrings its rationale rests on and the
+script asserts they appear in that target's own indexed document read from
+Postgres. Nothing was written from memory.
+
+Sixteen of the new cases sit in the `unknown` profile stratum, which is 4,354 of
+4,455 records. The previous gold set had no case anywhere in it, so it was not
+measuring the corpus the system actually searches.
+
+Two gaps the 2026-05-31 expansion recorded as absent are now covered, because the
+records now exist: one retroviral transfer vector, and CRISPR. The line 21
+clarification case asserted the corpus had no indexed lentiviral or CRISPR
+records. That was true when written and is now false, so the rationale was
+corrected instead of left standing.
+
+Writing the cases surfaced parser misclassifications, and none were used as gold
+labels for the profile the parser assigned. The seven `crispr_vector` records are
+natural plasmids carrying cas loci, not editing vectors, so the query is written
+as a cas locus lookup. `genbank:FJ172221.1` is indexed `mammalian_reporter_vector`
+but is a bacterial GFP plasmid from Neisseria gonorrhoeae, so the query asks for
+the `cat` marker that is really there. `genbank:CP002966.1` and
+`genbank:CP016642.1` are indexed `mammalian_reporter_vector` on the strength of a
+protein annotated "luciferase", and got no gold case at all because no honest
+query fits them. Only 101 of 4,455 records carry any profile but `unknown`: the
+corpus grew about 23 fold in WP-20 and classification coverage did not follow.
+That is a separate defect and is NOT fixed here.
+
+The candidate verifier passed: all 36 cases checked against the live corpus, every
+declared substring present in its target's own indexed document. So the biology in
+the new cases is quoted from the corpus, not recalled.
+
+MEASURED, and the number went down hard. `make eval-retrieval` on the expanded set
+gives top 1 0.291, top 5 0.418, MRR 0.333, clarification 2 of 2, in
+`data/eval/retrieval/2026-10-09-023638-retrieval-baseline.md`. That is NOT
+comparable to the old 0.750/0.800/0.742 and must not be read as a regression: the
+system did not change between the runs, the measuring instrument did. 23 of 55
+scored queries hit in the top 5.
+
+The expansion did its job. ALL 16 natural plasmid cases missed, and all 16
+retrieved nothing whatsoever, because the pipeline short circuited into a
+clarification question instead of searching. Two defects in
+`packages/retrieval/intent_parser.py`, neither visible to the old 20 query set:
+
+1. A named host that is not a model organism parsed as NO host. A query naming
+   Staphylococcus epidermidis was answered with "Which target organism or cell
+   line should this plasmid design use?" and zero results. `ORGANISM_TERMS` covers
+   nine model organisms and the clarification branch then blocked retrieval.
+2. `tetM` false matched the Tet-On/Tet-Off system. The test was `"tet" in
+   normalized_text`, a raw substring check, and `tetM` normalizes to `tetm`. A
+   tetracycline resistance gene is not an inducible promoter. Every tet resistance
+   gene name hit this, as did the word "tetracycline".
+
+Together these made about 98 percent of the corpus unreachable through the
+natural language path.
+
+Three fixes were applied: the tetracycline marker term in
+`packages/core/vocabularies.py` gained the standard efflux and ribosomal
+protection gene names, needed because `contains_term` matches whole words; the Tet
+system test became a whole word match against `TET_SYSTEM_PHRASES`; and the
+organism clarification no longer blocks a corpus lookup that names something
+concrete to search for. Enumerating species one gold case at a time is what
+produced the two ad hoc entries already sitting in `ORGANISM_TERMS` and does not
+generalize.
+
+All three are verified. Both defects are pinned by 11 tests in
+`tests/retrieval/test_intent_parser.py` and both pins were proven non vacuous by
+tamper: restoring the substring check and removing the tet gene synonyms fails 4,
+neutering the lookup bypass fails 9. Suite 1648 to 1659 passing, 2 skipped, ruff
+clean. The pins include a non vacuity guard, because both fixes widen the path to
+retrieval and could otherwise be satisfied by never clarifying at all.
+
+One fix was wrong on the first attempt, recorded because the mistake is easy to
+repeat: the lookup phrases were contiguous strings matched with `in`, which failed
+on the very queries they were for, since a species name sits between "which" and
+"plasmid". The eval came back byte identical, which is what a no op looks like.
+
+AND THE FIXES MOVED ONE QUERY. After them, top 1 0.309, top 5 0.436, MRR 0.351,
+in `data/eval/retrieval/2026-10-09-025502-retrieval-baseline.md`. All 16 natural
+plasmid queries now search instead of returning nothing, which is what the fixes
+were for, but 15 still miss. The parser defects were MASKING a larger problem, not
+causing the misses.
+
+The shape of the remaining misses is the useful finding. The ethidium bromide
+query returns Streptococcus, Streptomyces and Sulfolobus records: the ranker is
+matching surface similarity between genus names and ignoring the discriminating
+feature, even though "ethidium bromide resistance determinant" appears verbatim in
+exactly one document in the corpus. The CTX-M-17 query returns only two results,
+both unrelated luciferase plasmids, so the structured filters are probably also
+over restricting the candidate set before ranking. The open defect is therefore
+retrieval quality, not intent parsing: a dense only ranker over these documents
+does not discriminate rare exact identifiers like gene names. Every one of these
+queries names a token literally present in its target document, so a lexical or
+hybrid component is the obvious thing to evaluate. That is much larger than these
+three fixes and was NOT attempted.
+
+Also note `make eval-check` will now breach: it compares against the previous
+dashboard and the gold set changed underneath it, so it sees a top 5 drop near
+0.38. That is the gate working correctly on an invalid comparison. No threshold
+was moved and no gold case was altered to make it pass. Resolving it needs a
+deliberate decision, either fix retrieval until the new set scores well or record
+a new baseline explicitly labeled an instrument change, and the second resets a
+safety net so it should not happen silently. The rationale, the stratum table and
+the commands to run are in
+`data/eval/retrieval/2026-10-08-gold-expansion-wp21.md`.

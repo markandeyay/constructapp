@@ -79,7 +79,33 @@ MARKER_TERMS: tuple[ControlledTerm, ...] = (
     ControlledTerm("kanamycin", ("kanamycin", "kan", "kanr", "kan r", "neor/kanr", "neo kan", "aph", "nptii")),
     ControlledTerm("neomycin/G418", ("neomycin", "g418", "neo", "neor", "neo r", "neomycin phosphotransferase")),
     ControlledTerm("chloramphenicol", ("chloramphenicol", "cam", "cmr", "cm r", "cat")),
-    ControlledTerm("tetracycline", ("tetracycline", "tet", "tetr", "tet r", "tetracycline resistance")),
+    # The tet efflux and ribosomal-protection gene names are listed explicitly
+    # because `contains_term` matches whole words: "tetM" normalizes to "tetm",
+    # which the bare "tet" synonym does NOT match. Without them a query naming a
+    # real tetracycline resistance gene parsed as having no marker at all, and
+    # then tripped the Tet-On/Tet-Off clarification because the raw text happens
+    # to start with "tet". These are the standard names for the class, not
+    # entries added to satisfy particular gold cases.
+    ControlledTerm(
+        "tetracycline",
+        (
+            "tetracycline",
+            "tet",
+            "tetr",
+            "tet r",
+            "tetracycline resistance",
+            "teta",
+            "tetb",
+            "tetc",
+            "tetd",
+            "tetg",
+            "tetk",
+            "tetl",
+            "tetm",
+            "tetw",
+            "tetx",
+        ),
+    ),
     ControlledTerm("spectinomycin", ("spectinomycin", "spec", "specr", "spec r")),
     ControlledTerm("streptomycin", ("streptomycin", "strep", "strepr", "strep r")),
     ControlledTerm("puromycin", ("puromycin", "puro", "puror", "puro r", "pac")),
