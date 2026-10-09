@@ -99,7 +99,7 @@ def _template_reader(template_ids: Sequence[str]) -> Mapping[str, str]:
     lookup comes back empty.
     """
     sequence = _annotated_sequence().sequence
-    return {TEMPLATE_ID: sequence for template_id in template_ids if template_id == TEMPLATE_ID}
+    return {template_id: sequence for template_id in template_ids if template_id == TEMPLATE_ID}
 
 
 app = create_app(

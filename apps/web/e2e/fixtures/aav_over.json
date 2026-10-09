@@ -1,720 +1,737 @@
 {
- "design_id": "aav-11ce53849305",
- "capability": "aav",
- "topology": "linear",
- "design": {
   "design_id": "aav-11ce53849305",
-  "transgene_name": "TG",
-  "target_tissue": "ubiquitous",
-  "serotype": "AAV2",
-  "self_complementary": false,
-  "promoter_preference": "promoter.cag",
-  "polya_preference": null,
-  "packaging_limit_bp": null,
-  "elements": [
-   {
-    "role": "itr_5",
-    "name": "AAV2 inverted terminal repeat, left (5' ITR)",
-    "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
-    "part_id": "itr.aav2_itr_left",
-    "source": null,
-    "notes": "GenBank NC_001401.2, repeat_region feature 1..145"
-   },
-   {
-    "role": "promoter",
-    "name": "CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)",
-    "sequence": "CGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAATGACGTATGTTCCCATAGTAACGTCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGGTCGAGGTGAGCCCCACGTTCTGCTTCACTCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTTTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGAGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCGAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGTTGCCTTCGCCCCGTGCCCCGCTCCGCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCGCTTGGTTTAATGACGGCTCGTTTCTTTTCTGTGGCTGCGTGAAAGCCTTAAAGGGCTCCGGGAGGGCCCTTTGTGCGGGGGGGAGCGGCTCGGGGGGTGCGTGCGTGTGTGTGTGCGTGGGGAGCGCCGCGTGCGGCCCGCGCTGCCCGGCGGCTGTGAGCGCTGCGGGCGCGGCGCGGGGCTTTGTGCGCTCCGCGTGTGCGCGAGGGGAGCGCGGCCGGGGGCGGTGCCCCGCGGTGCGGGGGGGCTGCGAGGGGAACAAAGGCTGCGTGCGGGGTGTGTGCGTGGGGGGGTGAGCAGGGGGTGTGGGCGCGGCGGTCGGGCTGTAACCCCCCCCTGCACCCCCCTCCCCGAGTTGCTGAGCACGGCCCGGCTTCGGGTGCGGGGCTCCGTGCGGGGCGTGGCGCGGGGCTCGCCGTGCCGGGCGGGGGGTGGCGGCAGGTGGGGGTGCCGGGCGGGGCGGGGCCGCCTCGGGCCGGGGAGGGCTCGGGGGAGGGGCGCGGCGGCCCCGGAGCGCCGGCGGCTGTCGAGGCGCGGCGAGCCGCAGCCATTGCCTTTTATGGTAATCGTGCGAGAGGGCGCAGGGACTTCCTTTGTCCCAAATCTGGCGGAGCCGAAATCTGGGAGGCGCCGCCGCACCCCCTCTAGCGGGCGCGGGCGAAGCGGTGCGGCGCCGGCAGGAAGGAAATGGGCGGGGAGGGCCTTCGTGCGTCGCCGCGCCGCCGTCCCCTTCTCCATCTCCAGCCTCGGGGCTGCCGCAGGGGGACGGCTGCCTTCGGGGGGGACGGGGCAGGGCGGGGTTCGGCTTCTGGCGTGTGACCGGCGGCTCTAGAGCCTCTGCTAACCATGTTCATGCCTTCTTCTTTTTCCTACAGCTCCTGGGCAACGTGCTGGTTATTGTGCTGTCTCATCATTTTGGCAAA",
-    "part_id": "promoter.cag",
-    "source": null,
-    "notes": "GenBank ON785708.1, regulatory (promoter) feature 221..1859"
-   },
-   {
-    "role": "cds",
-    "name": "TG coding sequence",
-    "sequence": "ATGGCTGTGTACCACAACCGAGGCCGAAACACAGGAGAGTTGCACGACCAGCATTATCGAGATAACGGAGCCCTCGTGTCCGGTTTATCGCCTCAATATGGACATTCGGGCATACCAGACAAACTAGACGGCTTTCCATTCGAGCGAGATCTGACCACGAAATCTCCCCTTGTTTGTGCTGCACGTGGGTATCTACTAGAAGAAGCGTCGACGACTGTGGCACTCGCCGTTGGTCGCAAGCGACCTACGTTGTGGTTCTGGTTAATTGTCACACATCCCGTCTGGGAGCCGGCACCCAGGCACAATTCCGAGAGCGTCTGTTCAGCCAAGGCATACAAAGACCCCGTGGAGACCAAGCAGAACGACAATCCTATGGGTATCACTATACTCAGATGCGGTACCTTGGGTGACCCCCCAATGTTGCCCTACCCTTCAAGGCAGTGGGCGGTTAAGATCATCCACAACATCCCAGATAGCTCTGAAGTGGTACCGTGTCGTCGTACAATGAGGGCTGATCGCTTATCATTACGACGGCTACTGGCCGCATTGTTTACGCAAGGATACGCCGCTGTATCGTCCATTCCGACTTGCGTGGCTTGTCTTAAGATGATCCCCCAATGGCGGATGTACTCGCCATGGCACCTGGTCTTATGCAAGTCGTGTCTGCCTTCCGGATTTGTCCAACTATGGCCGACTGACAAATGCAGGAGATTTGGTCGAGGTTCATCCTCTTCGGTTGCAAGTTCATGCGCGTACAGATGCTTTATGCATAGCTGTGCCCTCTTATATCACCTACAGTCCATGACTTGCCCGACTCAACCCCACCAGGTGATGGGTGTGTGTAACCGTGGGAAGGTCTGGAGCAGGAGAGATGGCGTAACAGTAGGCCCACGGGTATATCTGAATCCGGACACTCCACTACGTTCGTTTTATGCCATACCTTCGCATCCAAGGTCGCCCCTCGACGCAGGCTCCGGCAGGCAGAGCTTCGTAAAACTCGGAGGGCAGGATTTCACGTCCCATCTGAGCGAAGGGAGTGGGAGGGGCCGTAATCCTCTCACACTGCGTCTTCCGGTCTACTGCGTCCCAGCGATAACTTACGTCGTGGACCCGGTGATCCTCGAGACACAATACATACCCGCTACCAGACCCCAAGTCACTGCCCATTTGCGCCTGCCTGGTGACATAGGTAAACTGTCTTATGGCTACACGGGATACATCCCAGTGTATACGGTCTACGTGAGGAGTTTGGGCGTTCCTGTCCGGGCCCTACTGACTTATTGGTTGAATACACGAGTTACACTACGGGAGGACGTGCACAAAAATGAATCAGAGCCAGCCCGAGAGAGGAGTGTGATGTGGAGTCGCTTACACTGGGATTTACAGCAGGGGGCTGGATCCACCTCGTTTCATCGGGGTCGGAATTCGCCCTCCCTCATAAAGGTAGCCCCAAGTGTGCTCGGTCGCTACATGGTTCTTTATCAATGGCCAGAGTCAAAGCGGCTGCGCAATCTTACTGGGGGGCTGGATACTGATCAAACGGCGCGCTTACTTATACTCGAGCGCCTAGTTCGTTTGGCTGTAGGGAAAGTGTTAAACGTTTTGACAAACCTCTTATTACAGTGGCCGACCACTAGGCACACAGTATGCGACGAATGTAAGGTTCTTGACATTCGGGCCGACGAACGAAGACGCGCGCGAACGGTCAATGCATGCTTACTCCGTAATCAGTTGACGTTCGTGTATAGACAGAAGTACTACGACCGGCGGACTGTGGCTTCAAAAGGAATTAATGAACTTATCCTGACACTGGCCACCACCCGTGATGTTAATCGTAGGCCTAACTTACATAACGACATCGTTCCGGCGTTGGCTGGGATCCAGAGCATCGCGATGTACGTCACTCGACGAGTCCGATTGGAGACCCGTGGCAAGTGCGGCCCAAGGATCCTTGAAACGAGACAAGTGAGAAGTAGCCGAGCGGACCGTAAGTCCTGGTGGTGTCAAGCATTTTTATCGCTGAGACCACCGGTTAAGTTGTCTAATGCTAGGTGTAACTCTCCAGGTGAGCAAACCAGGGAGACGATAGCTATTACAACTCAATTTTACCTATTATATCCCTGCAGAGTCCTGACCGGTCCTCAACTCGGACTAGGCGATTCAATGGCGAGTATCAATAGGTCTCGTATCGTGGGGATGGAACCAATACATACGGTGCTCAGTGCGTCCGATTCGCAGATCGAAGGGAGACAGAATTGGTACGACACGAGATTAGGTGTCCCGCTGCGAAAGAACTGTCTAGCTCCGCTTGACTGTCCGCTACACACCCTAAACGGCACACATTCTTCGACCCCCAAGTTAACAAGACGAAGCCAGCTTTGTTTTATGCGGACGCTGTCGCGACTCATGGTGCGCCTCGAGTCGGACAAACCGCTTTATGGCTGTGATCGCTTCAAGTTAGACGGCCCTGCTTTACTTTGGACCAGTATAAGGGGCGGGGAATCAACTACCACAGTCTCCAGCTCGCCTAACCCAGTCCGGATACGAGTCGATAGTCTCCCCGTTGCCGCACTAAAAAACTGCCTCGGTGACCTACTAGTGTTCTTCTCACGCGTGATGCGAATGCATAAACTGTATCAACGAGGTGTCACGACAAATACAGCTCGAATCCTTATCAGGCTAGTTGGCTCGATGTGCTATGCCGAGGAATCTGCCGCGTTGTTGTGCCTGTCTTACGATCGCACCGATCCAGGGCTGTTTATACCAAGGCTTGAATATCCCTGTTTCTTGGATTTAGCACAAGAGCACAGGGTATTCAGCTTGGAAAAACTGTTAGCGGGCATCATGCCGGGTGAATACGCTACCCGACTACGGAAGTATGTCTTTGAACAGCCAAATCCCGGGGCAACCAATGGTATCGATTCCGTTGACATATGTCATGTGCAATACTACTGCAAGTCAACTCATCACGGTGCAATGTATTTCCTGATACCAAGTTAA",
-    "part_id": null,
-    "source": "user_input:transgene_sequence",
-    "notes": "transgene TG"
-   },
-   {
-    "role": "polya",
-    "name": "SV40 polyadenylation signal",
-    "sequence": "AACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATC",
-    "part_id": "polya.sv40",
-    "source": null,
-    "notes": "GenBank KX449554.1, regulatory (polyA_signal_sequence) feature 4852..4986"
-   },
-   {
-    "role": "itr_3",
-    "name": "AAV2 inverted terminal repeat, right (3' ITR)",
-    "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
-    "part_id": "itr.aav2_itr_right",
-    "source": null,
-    "notes": "GenBank NC_001401.2, repeat_region feature 4535..4679"
-   }
-  ],
-  "provenance": [
-   "user_input:transgene_sequence",
-   "part:itr.aav2_itr_left",
-   "part:promoter.cag",
-   "part:polya.sv40",
-   "part:itr.aav2_itr_right",
-   "serotype_reference:NC_001401.2"
-  ],
-  "notes": [
-   "polyA polya.sv40 was auto-selected as the most compact functional signal (135 bp). Alternatives: polya.bgh (225 bp). Set polya_preference to choose one.",
-   "include_wpre was requested but WPRE (enhancer.wpre, 589 bp) was omitted because adding it would take the cassette to 5,653 bp against the 4,700 bp target. The cassette is 5,064 bp without it."
-  ]
- },
- "report": {
   "capability": "aav",
-  "overall": "fail",
-  "checks": [
-   {
-    "check_id": "aav.packaging_limit",
-    "label": "Packaging limit",
-    "severity": "fail",
-    "message": "Cassette is 5,064 bp. The single stranded packaging target is 4,700 bp, so the design is 364 bp over the target, 164 bp above the 4,900 bp soft limit, and 136 bp under the hard ceiling of 5,200 bp. One change closes it: replace CAG (promoter.cag, 1,639 bp) with EFS (promoter.efs, 212 bp), which saves 1,427 bp, bringing the cassette to 3,637 bp, 1,063 bp under the 4,700 bp target. EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG. Alternative: replace CAG (promoter.cag, 1,639 bp) with CMV (promoter.cmv, 663 bp), which saves 976 bp, giving 4,088 bp, 612 bp under the target. No option keeps the stated promoter preference promoter.cag: the savings available without touching the promoter total 0 bp against a 364 bp overage, so the promoter has to change or the transgene has to shrink to at most 4,063 bp. 4 ranked options are reported in the structured remediation field. This is a failure rather than a warning because the cassette is above the 4,900 bp soft limit.",
-    "coordinates": [
-     0,
-     5064
+  "topology": "linear",
+  "design": {
+    "design_id": "aav-11ce53849305",
+    "transgene_name": "TG",
+    "target_tissue": "ubiquitous",
+    "serotype": "AAV2",
+    "self_complementary": false,
+    "promoter_preference": "promoter.cag",
+    "polya_preference": null,
+    "packaging_limit_bp": null,
+    "elements": [
+      {
+        "role": "itr_5",
+        "name": "AAV2 inverted terminal repeat, left (5' ITR)",
+        "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+        "part_id": "itr.aav2_itr_left",
+        "source": null,
+        "notes": "GenBank NC_001401.2, repeat_region feature 1..145"
+      },
+      {
+        "role": "promoter",
+        "name": "CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)",
+        "sequence": "CGTTACATAACTTACGGTAAATGGCCCGCCTGGCTGACCGCCCAACGACCCCCGCCCATTGACGTCAATAATGACGTATGTTCCCATAGTAACGTCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGGTCGAGGTGAGCCCCACGTTCTGCTTCACTCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTTTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGAGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCGAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGTTGCCTTCGCCCCGTGCCCCGCTCCGCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCGCTTGGTTTAATGACGGCTCGTTTCTTTTCTGTGGCTGCGTGAAAGCCTTAAAGGGCTCCGGGAGGGCCCTTTGTGCGGGGGGGAGCGGCTCGGGGGGTGCGTGCGTGTGTGTGTGCGTGGGGAGCGCCGCGTGCGGCCCGCGCTGCCCGGCGGCTGTGAGCGCTGCGGGCGCGGCGCGGGGCTTTGTGCGCTCCGCGTGTGCGCGAGGGGAGCGCGGCCGGGGGCGGTGCCCCGCGGTGCGGGGGGGCTGCGAGGGGAACAAAGGCTGCGTGCGGGGTGTGTGCGTGGGGGGGTGAGCAGGGGGTGTGGGCGCGGCGGTCGGGCTGTAACCCCCCCCTGCACCCCCCTCCCCGAGTTGCTGAGCACGGCCCGGCTTCGGGTGCGGGGCTCCGTGCGGGGCGTGGCGCGGGGCTCGCCGTGCCGGGCGGGGGGTGGCGGCAGGTGGGGGTGCCGGGCGGGGCGGGGCCGCCTCGGGCCGGGGAGGGCTCGGGGGAGGGGCGCGGCGGCCCCGGAGCGCCGGCGGCTGTCGAGGCGCGGCGAGCCGCAGCCATTGCCTTTTATGGTAATCGTGCGAGAGGGCGCAGGGACTTCCTTTGTCCCAAATCTGGCGGAGCCGAAATCTGGGAGGCGCCGCCGCACCCCCTCTAGCGGGCGCGGGCGAAGCGGTGCGGCGCCGGCAGGAAGGAAATGGGCGGGGAGGGCCTTCGTGCGTCGCCGCGCCGCCGTCCCCTTCTCCATCTCCAGCCTCGGGGCTGCCGCAGGGGGACGGCTGCCTTCGGGGGGGACGGGGCAGGGCGGGGTTCGGCTTCTGGCGTGTGACCGGCGGCTCTAGAGCCTCTGCTAACCATGTTCATGCCTTCTTCTTTTTCCTACAGCTCCTGGGCAACGTGCTGGTTATTGTGCTGTCTCATCATTTTGGCAAA",
+        "part_id": "promoter.cag",
+        "source": null,
+        "notes": "GenBank ON785708.1, regulatory (promoter) feature 221..1859"
+      },
+      {
+        "role": "kozak",
+        "name": "Kozak initiation context",
+        "sequence": "GCCACC",
+        "part_id": null,
+        "source": "published_rule:kozak_1987",
+        "notes": "Kozak 1987 vertebrate translation initiation consensus, positions -6 to -1 of GCCRCCATGG with the purine at -3 instantiated as A (Nucleic Acids Research 1987, 15:8125-8148, doi:10.1093/nar/15.20.8125)"
+      },
+      {
+        "role": "cds",
+        "name": "TG coding sequence",
+        "sequence": "ATGGCTGTGTACCACAACCGAGGCCGAAACACAGGAGAGTTGCACGACCAGCATTATCGAGATAACGGAGCCCTCGTGTCCGGTTTATCGCCTCAATATGGACATTCGGGCATACCAGACAAACTAGACGGCTTTCCATTCGAGCGAGATCTGACCACGAAATCTCCCCTTGTTTGTGCTGCACGTGGGTATCTACTAGAAGAAGCGTCGACGACTGTGGCACTCGCCGTTGGTCGCAAGCGACCTACGTTGTGGTTCTGGTTAATTGTCACACATCCCGTCTGGGAGCCGGCACCCAGGCACAATTCCGAGAGCGTCTGTTCAGCCAAGGCATACAAAGACCCCGTGGAGACCAAGCAGAACGACAATCCTATGGGTATCACTATACTCAGATGCGGTACCTTGGGTGACCCCCCAATGTTGCCCTACCCTTCAAGGCAGTGGGCGGTTAAGATCATCCACAACATCCCAGATAGCTCTGAAGTGGTACCGTGTCGTCGTACAATGAGGGCTGATCGCTTATCATTACGACGGCTACTGGCCGCATTGTTTACGCAAGGATACGCCGCTGTATCGTCCATTCCGACTTGCGTGGCTTGTCTTAAGATGATCCCCCAATGGCGGATGTACTCGCCATGGCACCTGGTCTTATGCAAGTCGTGTCTGCCTTCCGGATTTGTCCAACTATGGCCGACTGACAAATGCAGGAGATTTGGTCGAGGTTCATCCTCTTCGGTTGCAAGTTCATGCGCGTACAGATGCTTTATGCATAGCTGTGCCCTCTTATATCACCTACAGTCCATGACTTGCCCGACTCAACCCCACCAGGTGATGGGTGTGTGTAACCGTGGGAAGGTCTGGAGCAGGAGAGATGGCGTAACAGTAGGCCCACGGGTATATCTGAATCCGGACACTCCACTACGTTCGTTTTATGCCATACCTTCGCATCCAAGGTCGCCCCTCGACGCAGGCTCCGGCAGGCAGAGCTTCGTAAAACTCGGAGGGCAGGATTTCACGTCCCATCTGAGCGAAGGGAGTGGGAGGGGCCGTAATCCTCTCACACTGCGTCTTCCGGTCTACTGCGTCCCAGCGATAACTTACGTCGTGGACCCGGTGATCCTCGAGACACAATACATACCCGCTACCAGACCCCAAGTCACTGCCCATTTGCGCCTGCCTGGTGACATAGGTAAACTGTCTTATGGCTACACGGGATACATCCCAGTGTATACGGTCTACGTGAGGAGTTTGGGCGTTCCTGTCCGGGCCCTACTGACTTATTGGTTGAATACACGAGTTACACTACGGGAGGACGTGCACAAAAATGAATCAGAGCCAGCCCGAGAGAGGAGTGTGATGTGGAGTCGCTTACACTGGGATTTACAGCAGGGGGCTGGATCCACCTCGTTTCATCGGGGTCGGAATTCGCCCTCCCTCATAAAGGTAGCCCCAAGTGTGCTCGGTCGCTACATGGTTCTTTATCAATGGCCAGAGTCAAAGCGGCTGCGCAATCTTACTGGGGGGCTGGATACTGATCAAACGGCGCGCTTACTTATACTCGAGCGCCTAGTTCGTTTGGCTGTAGGGAAAGTGTTAAACGTTTTGACAAACCTCTTATTACAGTGGCCGACCACTAGGCACACAGTATGCGACGAATGTAAGGTTCTTGACATTCGGGCCGACGAACGAAGACGCGCGCGAACGGTCAATGCATGCTTACTCCGTAATCAGTTGACGTTCGTGTATAGACAGAAGTACTACGACCGGCGGACTGTGGCTTCAAAAGGAATTAATGAACTTATCCTGACACTGGCCACCACCCGTGATGTTAATCGTAGGCCTAACTTACATAACGACATCGTTCCGGCGTTGGCTGGGATCCAGAGCATCGCGATGTACGTCACTCGACGAGTCCGATTGGAGACCCGTGGCAAGTGCGGCCCAAGGATCCTTGAAACGAGACAAGTGAGAAGTAGCCGAGCGGACCGTAAGTCCTGGTGGTGTCAAGCATTTTTATCGCTGAGACCACCGGTTAAGTTGTCTAATGCTAGGTGTAACTCTCCAGGTGAGCAAACCAGGGAGACGATAGCTATTACAACTCAATTTTACCTATTATATCCCTGCAGAGTCCTGACCGGTCCTCAACTCGGACTAGGCGATTCAATGGCGAGTATCAATAGGTCTCGTATCGTGGGGATGGAACCAATACATACGGTGCTCAGTGCGTCCGATTCGCAGATCGAAGGGAGACAGAATTGGTACGACACGAGATTAGGTGTCCCGCTGCGAAAGAACTGTCTAGCTCCGCTTGACTGTCCGCTACACACCCTAAACGGCACACATTCTTCGACCCCCAAGTTAACAAGACGAAGCCAGCTTTGTTTTATGCGGACGCTGTCGCGACTCATGGTGCGCCTCGAGTCGGACAAACCGCTTTATGGCTGTGATCGCTTCAAGTTAGACGGCCCTGCTTTACTTTGGACCAGTATAAGGGGCGGGGAATCAACTACCACAGTCTCCAGCTCGCCTAACCCAGTCCGGATACGAGTCGATAGTCTCCCCGTTGCCGCACTAAAAAACTGCCTCGGTGACCTACTAGTGTTCTTCTCACGCGTGATGCGAATGCATAAACTGTATCAACGAGGTGTCACGACAAATACAGCTCGAATCCTTATCAGGCTAGTTGGCTCGATGTGCTATGCCGAGGAATCTGCCGCGTTGTTGTGCCTGTCTTACGATCGCACCGATCCAGGGCTGTTTATACCAAGGCTTGAATATCCCTGTTTCTTGGATTTAGCACAAGAGCACAGGGTATTCAGCTTGGAAAAACTGTTAGCGGGCATCATGCCGGGTGAATACGCTACCCGACTACGGAAGTATGTCTTTGAACAGCCAAATCCCGGGGCAACCAATGGTATCGATTCCGTTGACATATGTCATGTGCAATACTACTGCAAGTCAACTCATCACGGTGCAATGTATTTCCTGATACCAAGTTAA",
+        "part_id": null,
+        "source": "user_input:transgene_sequence",
+        "notes": "transgene TG"
+      },
+      {
+        "role": "polya",
+        "name": "SV40 polyadenylation signal",
+        "sequence": "AACTTGTTTATTGCAGCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTTCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATC",
+        "part_id": "polya.sv40",
+        "source": null,
+        "notes": "GenBank KX449554.1, regulatory (polyA_signal_sequence) feature 4852..4986"
+      },
+      {
+        "role": "itr_3",
+        "name": "AAV2 inverted terminal repeat, right (3' ITR)",
+        "sequence": "AGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAA",
+        "part_id": "itr.aav2_itr_right",
+        "source": null,
+        "notes": "GenBank NC_001401.2, repeat_region feature 4535..4679"
+      }
     ],
-    "observed": "5,064 bp",
-    "threshold": "target 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
-    "citation": "System design section 6.5 (banded packaging limit). Wild-type AAV2 genome NC_001401.2 is 4,679 bp; the capsid ceiling sits near that size. The band exists because the practical ceiling is contested in the literature.",
-    "tier": null,
-    "remediation": [
-     "overage_bp=364 | total_bp=5064 | target_bp=4700 | soft_limit_bp=4900 | hard_limit_bp=5200 | plans=4 | max_available_saving_bp=1427 | preference_preserving_saving_bp=0 | promoter_preference=promoter.cag | max_transgene_bp=4063",
-     "plan=1 | changes=1 | saves_bp=1427 | result_bp=3637 | headroom_bp=1063 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.efs (saves 1427 bp) | tradeoff=EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG.",
-     "plan=2 | changes=1 | saves_bp=976 | result_bp=4088 | headroom_bp=612 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cmv (saves 976 bp) | tradeoff=CMV is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Strong, ubiquitous expression. Can silence over time in some tissues (Appendix B).",
-     "plan=3 | changes=1 | saves_bp=840 | result_bp=4224 | headroom_bp=476 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cbh (saves 840 bp) | tradeoff=CBH is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Hybrid, ubiquitous (Appendix B). The CBh promoter is described in a 2011 Human Gene Therapy paper as a hybrid form of the chicken beta-actin promoter of roughly 800 bp.",
-     "plan=4 | changes=1 | saves_bp=455 | result_bp=4609 | headroom_bp=91 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.ef1a (saves 455 bp) | tradeoff=EF1A is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Ubiquitous, durable expression (Appendix B). Contains the EFS core promoter sequence within it."
+    "provenance": [
+      "user_input:transgene_sequence",
+      "part:itr.aav2_itr_left",
+      "part:promoter.cag",
+      "part:polya.sv40",
+      "part:itr.aav2_itr_right",
+      "serotype_reference:NC_001401.2"
+    ],
+    "notes": [
+      "polyA polya.sv40 was auto-selected as the most compact functional signal (135 bp). Alternatives: polya.bgh (225 bp). Set polya_preference to choose one.",
+      "include_wpre was requested but WPRE (enhancer.wpre, 589 bp) was omitted because adding it would take the cassette to 5,653 bp against the 4,700 bp target. The cassette is 5,064 bp without it."
     ]
-   },
-   {
-    "check_id": "aav.itr_present_both",
-    "label": "Both ITRs present and matched",
-    "severity": "pass",
-    "message": "Both ITRs are present and match the AAV2 reference above the 95% threshold (5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)). Each ITR was compared with the serotype reference records in both orientations, not with the other ITR, because the left ITR reads core plus D and the right reads reverse complement of D plus core, so that comparison scores only 88.3 percent even when both ITRs are correct. Keep the registry records as they are.",
-    "coordinates": null,
-    "observed": "5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)",
-    "threshold": "95% identity to the serotype reference",
-    "citation": "System design section 6.2 (ITRs are required in cis for replication and packaging) and section 6.5 (ITR_IDENTITY_THRESHOLD). Reference ITRs: NC_001401.2 positions 1..145 and 4535..4679, see data/parts/PROVENANCE.md.",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.itr_orientation",
-    "label": "ITR orientation",
-    "severity": "pass",
-    "message": "The ITRs are inverted relative to each other, which is the required arrangement: the 20 bp D element faces inward in both ITRs: it reads at the 3' end of the 5' ITR (100.0% identity) and its reverse complement reads at the 5' end of the 3' ITR (100.0% identity). No change is needed.",
-    "coordinates": null,
-    "observed": "inverted (d_element)",
-    "threshold": "inverted arrangement required",
-    "citation": "System design section 6.4 check 3. ITR terminal repeat structure including the D element: Srivastava and colleagues, Journal of Virology 1983, 45:555-564 (doi:10.1128/JVI.45.2.555-564.1983).",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.required_elements",
-    "label": "Required elements present",
-    "severity": "pass",
-    "message": "Promoter, coding sequence and polyA are all present (cds, itr_3, itr_5, polya, promoter). No change is needed.",
-    "coordinates": null,
-    "observed": "present: cds, itr_3, itr_5, polya, promoter",
-    "threshold": "promoter, cds and polya all required",
-    "citation": "System design section 6.2 (cassette order) and section 6.4 check 4.",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.element_order",
-    "label": "Functional element order",
-    "severity": "pass",
-    "message": "Elements appear in the required functional order: itr_5 -> promoter -> cds -> polya -> itr_3. No change is needed.",
-    "coordinates": null,
-    "observed": "itr_5 -> promoter -> cds -> polya -> itr_3",
-    "threshold": "itr_5 -> enhancer -> promoter -> intron -> cds -> wpre -> polya -> itr_3",
-    "citation": "System design section 6.2 functional order and section 6.4 check 5.",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.cds_integrity",
-    "label": "Coding sequence integrity",
-    "severity": "pass",
-    "message": "The coding sequence for TG is a clean open reading frame: 3,000 bp, divisible by 3, ATG start, a single in-frame stop at the 3' end, and 999 coding codons. No change is needed.",
-    "coordinates": [
-     1784,
-     4784
-    ],
-    "observed": "3,000 bp, 1000 codons, 1 in-frame stop(s)",
-    "threshold": "ATG start, length divisible by 3, single in-frame stop at the 3' end",
-    "citation": "System design section 6.4 check 6. Standard genetic code, NCBI translation table 1, as implemented in packages/core/sequence/codon.py.",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.sc_capacity",
-    "label": "Self complementary capacity",
-    "severity": "pass",
-    "message": "The design is single stranded, so the halved self complementary capacity does not apply and the 4,700 bp single stranded target was used by aav.packaging_limit instead. If you switch to self complementary, the cassette would be measured against 2,400 bp, and at 5,064 bp it would be 2,664 bp over that target, so the cassette would have to shrink first. No change is needed for the current single stranded design.",
-    "coordinates": null,
-    "observed": "5,064 bp, single stranded",
-    "threshold": "target 2,400 bp, soft limit 2,500 bp, hard limit 2,600 bp",
-    "citation": "System design section 6.2 (self complementary genomes are effectively duplicated, halving usable capacity) and section 6.5 self complementary band.",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.promoter_tissue_match",
-    "label": "Promoter and target tissue match",
-    "severity": "pass",
-    "message": "Promoter promoter.cag is annotated ubiquitous, which is compatible with the ubiquitous target. No change is needed.",
-    "coordinates": [
-     145,
-     1784
-    ],
-    "observed": "promoter.cag is ubiquitous, target is ubiquitous",
-    "threshold": "promoter tissue_specificity in {ubiquitous} for target ubiquitous",
-    "citation": "System design section 6.2 (promoter choice encodes tissue specificity) and section 6.4 check 8. Promoter annotations from data/parts, each with its own citation.",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.internal_repeats",
-    "label": "Internal direct repeats",
-    "severity": "warn",
-    "message": "1 direct repeat(s) longer than 20 bp occur in the 4,774 bp region between the two ITRs. The longest is 21 bp, present at cassette positions 159 and 352 (in promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)) and promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron))). Direct repeats in the same orientation are recombination substrates during vector production and yield deleted species, so this lowers the fraction of full length genomes. Either accept it, which is normal for standard parts (the 21 bp sequence ACGGTAAATGGCCCGCCTGGC occurs twice inside promoter.cmv, promoter.cag and promoter.cbh because all three carry the repeated CMV enhancer motif), or substitute a part that does not carry the repeat: promoter.efs, promoter.ef1a, promoter.gfap, promoter.hsyn1 and promoter.mecp2_mini carry none. This is a Tier B warning, not a failure.",
-    "coordinates": [
-     158,
-     179
-    ],
-    "observed": "1 repeat(s), longest 21 bp",
-    "threshold": "no direct repeat longer than 20 bp",
-    "citation": "System design section 6.4 check 9 and MAX_DIRECT_REPEAT_BP in section 6.5. Direct repeats are recombination substrates during vector production.",
-    "tier": "B",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.homopolymer_runs",
-    "label": "Homopolymer runs",
-    "severity": "warn",
-    "message": "1 homopolymer run(s) longer than 8 bp occur inside the cassette. The longest is 14 consecutive G at cassette position 558 inside promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)). Long single base runs destabilise synthesis and replication and are a common cause of indels in the ordered DNA. If the run sits in your own transgene, break it with synonymous codon changes. If it sits in a registry part, it is expected and documented: promoter.cag carries a 14 bp G run and promoter.cbh a 16 bp G run in their GC rich cores. This is a Tier B warning, not a failure.",
-    "coordinates": [
-     557,
-     571
-    ],
-    "observed": "1 run(s), longest 14 bp of G",
-    "threshold": "no single base run longer than 8 bp",
-    "citation": "System design section 6.4 check 10 and MAX_HOMOPOLYMER_RUN in section 6.5. Long homopolymers destabilise synthesis and replication.",
-    "tier": "B",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.kozak_context",
-    "label": "Kozak initiation context",
-    "severity": "pass",
-    "message": "The initiator ATG sits in a strong Kozak context: a purine (A) at -3 and G at +4, reading GGCAAAATGG. No change is needed. The full GCCRCCATGG consensus is not matched at every position, which is common and not a problem once -3 and +4 are right.",
-    "coordinates": [
-     1778,
-     1788
-    ],
-    "observed": "-3 is A, +4 is G, context GGCAAAATGG",
-    "threshold": "purine (A or G) at -3 and G at +4; full consensus GCCRCCATGG",
-    "citation": "System design section 6.4 check 11. Initiation consensus and the -3 and +4 hierarchy: Kozak, Nucleic Acids Research 1987, 15:8125-8148 (doi:10.1093/nar/15.20.8125).",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.polya_present_functional",
-    "label": "Functional polyadenylation signal",
-    "severity": "pass",
-    "message": "The polyA element (SV40 polyadenylation signal, 135 bp) carries a recognised polyadenylation hexamer: AATAAA at position 32 of the element, cassette position 4,816, and 1 further occurrence(s). No change is needed.",
-    "coordinates": [
-     4815,
-     4821
-    ],
-    "observed": "AATAAA at element position 32 (2 occurrence(s))",
-    "threshold": "one of AATAAA, ATTAAA present in the polyA element",
-    "citation": "System design section 6.4 check 12. AATAAA: Proudfoot and Brownlee, Nature 1976, 263:211-214. ATTAAA variant usage: Beaudoing and colleagues, Genome Research 2000, 10:1001-1010.",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.minimum_genome_size",
-    "label": "Minimum genome size",
-    "severity": "pass",
-    "message": "The cassette is 5,064 bp, which is at or above the 2,000 bp minimum, so packaging efficiency is not degraded by under-length genomes. No change is needed.",
-    "coordinates": null,
-    "observed": "5,064 bp",
-    "threshold": "at least 2,000 bp",
-    "citation": "System design section 6.4 check 13 and AAV_MIN_GENOME_BP in section 6.5. Below the minimum, packaging efficiency degrades and the empty capsid fraction rises.",
-    "tier": "A",
-    "remediation": null
-   },
-   {
-    "check_id": "aav.itr_internal_sites",
-    "label": "Internal ITR motifs",
-    "severity": "pass",
-    "message": "No 20 bp window of a AAV2 ITR occurs in the 4,774 bp region between the two ITRs, on either strand. There is no internal terminal repeat copy to remove. No change is needed.",
-    "coordinates": null,
-    "observed": "0 internal ITR motifs in 4,774 bp",
-    "threshold": "no 20 bp window of a AAV2 ITR present between the ITRs",
-    "citation": "System design section 6.4 check 14. Motif set is derived from the serotype ITR reference records in data/parts, not written into code.",
-    "tier": "A",
-    "remediation": null
-   }
-  ],
-  "evaluated_at": "2026-10-08T02:43:28.475522Z",
-  "validator_version": "aav-1.0.0"
- },
- "result": {
-  "capability": "aav",
-  "design_id": "aav-11ce53849305",
+  },
   "report": {
-   "capability": "aav",
-   "overall": "fail",
-   "checks": [
-    {
-     "check_id": "aav.packaging_limit",
-     "label": "Packaging limit",
-     "severity": "fail",
-     "message": "Cassette is 5,064 bp. The single stranded packaging target is 4,700 bp, so the design is 364 bp over the target, 164 bp above the 4,900 bp soft limit, and 136 bp under the hard ceiling of 5,200 bp. One change closes it: replace CAG (promoter.cag, 1,639 bp) with EFS (promoter.efs, 212 bp), which saves 1,427 bp, bringing the cassette to 3,637 bp, 1,063 bp under the 4,700 bp target. EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG. Alternative: replace CAG (promoter.cag, 1,639 bp) with CMV (promoter.cmv, 663 bp), which saves 976 bp, giving 4,088 bp, 612 bp under the target. No option keeps the stated promoter preference promoter.cag: the savings available without touching the promoter total 0 bp against a 364 bp overage, so the promoter has to change or the transgene has to shrink to at most 4,063 bp. 4 ranked options are reported in the structured remediation field. This is a failure rather than a warning because the cassette is above the 4,900 bp soft limit.",
-     "coordinates": [
-      0,
-      5064
-     ],
-     "observed": "5,064 bp",
-     "threshold": "target 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
-     "citation": "System design section 6.5 (banded packaging limit). Wild-type AAV2 genome NC_001401.2 is 4,679 bp; the capsid ceiling sits near that size. The band exists because the practical ceiling is contested in the literature.",
-     "tier": null,
-     "remediation": [
+    "capability": "aav",
+    "overall": "fail",
+    "checks": [
+      {
+        "check_id": "aav.packaging_limit",
+        "label": "Packaging limit",
+        "severity": "fail",
+        "message": "Cassette is 5,064 bp. The single stranded packaging target is 4,700 bp, so the design is 364 bp over the target, 164 bp above the 4,900 bp soft limit, and 136 bp under the hard ceiling of 5,200 bp. One change closes it: replace CAG (promoter.cag, 1,639 bp) with EFS (promoter.efs, 212 bp), which saves 1,427 bp, bringing the cassette to 3,637 bp, 1,063 bp under the 4,700 bp target. EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG. Alternative: replace CAG (promoter.cag, 1,639 bp) with CMV (promoter.cmv, 663 bp), which saves 976 bp, giving 4,088 bp, 612 bp under the target. No option keeps the stated promoter preference promoter.cag: the savings available without touching the promoter total 0 bp against a 364 bp overage, so the promoter has to change or the transgene has to shrink to at most 4,063 bp. 4 ranked options are reported in the structured remediation field. This is a failure rather than a warning because the cassette is above the 4,900 bp soft limit.",
+        "coordinates": [
+          0,
+          5064
+        ],
+        "observed": "5,064 bp",
+        "threshold": "target 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
+        "citation": "System design section 6.5 (banded packaging limit). Wild-type AAV2 genome NC_001401.2 is 4,679 bp; the capsid ceiling sits near that size. The band exists because the practical ceiling is contested in the literature.",
+        "tier": null,
+        "remediation": [
+          "overage_bp=364 | total_bp=5064 | target_bp=4700 | soft_limit_bp=4900 | hard_limit_bp=5200 | plans=4 | max_available_saving_bp=1427 | preference_preserving_saving_bp=0 | promoter_preference=promoter.cag | max_transgene_bp=4063",
+          "plan=1 | changes=1 | saves_bp=1427 | result_bp=3637 | headroom_bp=1063 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.efs (saves 1427 bp) | tradeoff=EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG.",
+          "plan=2 | changes=1 | saves_bp=976 | result_bp=4088 | headroom_bp=612 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cmv (saves 976 bp) | tradeoff=CMV is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Strong, ubiquitous expression. Can silence over time in some tissues (Appendix B).",
+          "plan=3 | changes=1 | saves_bp=840 | result_bp=4224 | headroom_bp=476 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cbh (saves 840 bp) | tradeoff=CBH is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Hybrid, ubiquitous (Appendix B). The CBh promoter is described in a 2011 Human Gene Therapy paper as a hybrid form of the chicken beta-actin promoter of roughly 800 bp.",
+          "plan=4 | changes=1 | saves_bp=455 | result_bp=4609 | headroom_bp=91 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.ef1a (saves 455 bp) | tradeoff=EF1A is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Ubiquitous, durable expression (Appendix B). Contains the EFS core promoter sequence within it."
+        ]
+      },
+      {
+        "check_id": "aav.itr_present_both",
+        "label": "Both ITRs present and matched",
+        "severity": "pass",
+        "message": "Both ITRs are present and match the AAV2 reference above the 95% threshold (5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)). Each ITR was compared with the serotype reference records in both orientations, not with the other ITR, because the left ITR reads core plus D and the right reads reverse complement of D plus core, so that comparison scores only 88.3 percent even when both ITRs are correct. Keep the registry records as they are.",
+        "coordinates": null,
+        "observed": "5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)",
+        "threshold": "95% identity to the serotype reference",
+        "citation": "System design section 6.2 (ITRs are required in cis for replication and packaging) and section 6.5 (ITR_IDENTITY_THRESHOLD). Reference ITRs: NC_001401.2 positions 1..145 and 4535..4679, see data/parts/PROVENANCE.md.",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.itr_orientation",
+        "label": "ITR orientation",
+        "severity": "pass",
+        "message": "The ITRs are inverted relative to each other, which is the required arrangement: the 20 bp D element faces inward in both ITRs: it reads at the 3' end of the 5' ITR (100.0% identity) and its reverse complement reads at the 5' end of the 3' ITR (100.0% identity). No change is needed.",
+        "coordinates": null,
+        "observed": "inverted (d_element)",
+        "threshold": "inverted arrangement required",
+        "citation": "System design section 6.4 check 3. ITR terminal repeat structure including the D element: Srivastava and colleagues, Journal of Virology 1983, 45:555-564 (doi:10.1128/JVI.45.2.555-564.1983).",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.required_elements",
+        "label": "Required elements present",
+        "severity": "pass",
+        "message": "Promoter, coding sequence and polyA are all present (cds, itr_3, itr_5, polya, promoter). No change is needed.",
+        "coordinates": null,
+        "observed": "present: cds, itr_3, itr_5, polya, promoter",
+        "threshold": "promoter, cds and polya all required",
+        "citation": "System design section 6.2 (cassette order) and section 6.4 check 4.",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.element_order",
+        "label": "Functional element order",
+        "severity": "pass",
+        "message": "Elements appear in the required functional order: itr_5 -> promoter -> cds -> polya -> itr_3. No change is needed.",
+        "coordinates": null,
+        "observed": "itr_5 -> promoter -> cds -> polya -> itr_3",
+        "threshold": "itr_5 -> enhancer -> promoter -> intron -> cds -> wpre -> polya -> itr_3",
+        "citation": "System design section 6.2 functional order and section 6.4 check 5.",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.cds_integrity",
+        "label": "Coding sequence integrity",
+        "severity": "pass",
+        "message": "The coding sequence for TG is a clean open reading frame: 3,000 bp, divisible by 3, ATG start, a single in-frame stop at the 3' end, and 999 coding codons. No change is needed.",
+        "coordinates": [
+          1784,
+          4784
+        ],
+        "observed": "3,000 bp, 1000 codons, 1 in-frame stop(s)",
+        "threshold": "ATG start, length divisible by 3, single in-frame stop at the 3' end",
+        "citation": "System design section 6.4 check 6. Standard genetic code, NCBI translation table 1, as implemented in packages/core/sequence/codon.py.",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.sc_capacity",
+        "label": "Self complementary capacity",
+        "severity": "pass",
+        "message": "The design is single stranded, so the halved self complementary capacity does not apply and the 4,700 bp single stranded target was used by aav.packaging_limit instead. If you switch to self complementary, the cassette would be measured against 2,400 bp, and at 5,064 bp it would be 2,664 bp over that target, so the cassette would have to shrink first. No change is needed for the current single stranded design.",
+        "coordinates": null,
+        "observed": "5,064 bp, single stranded",
+        "threshold": "target 2,400 bp, soft limit 2,500 bp, hard limit 2,600 bp",
+        "citation": "System design section 6.2 (self complementary genomes are effectively duplicated, halving usable capacity) and section 6.5 self complementary band.",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.promoter_tissue_match",
+        "label": "Promoter and target tissue match",
+        "severity": "pass",
+        "message": "Promoter promoter.cag is annotated ubiquitous, which is compatible with the ubiquitous target. No change is needed.",
+        "coordinates": [
+          145,
+          1784
+        ],
+        "observed": "promoter.cag is ubiquitous, target is ubiquitous",
+        "threshold": "promoter tissue_specificity in {ubiquitous} for target ubiquitous",
+        "citation": "System design section 6.2 (promoter choice encodes tissue specificity) and section 6.4 check 8. Promoter annotations from data/parts, each with its own citation.",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.internal_repeats",
+        "label": "Internal direct repeats",
+        "severity": "warn",
+        "message": "1 direct repeat(s) longer than 20 bp occur in the 4,774 bp region between the two ITRs. The longest is 21 bp, present at cassette positions 159 and 352 (in promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)) and promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron))). Direct repeats in the same orientation are recombination substrates during vector production and yield deleted species, so this lowers the fraction of full length genomes. Either accept it, which is normal for standard parts (the 21 bp sequence ACGGTAAATGGCCCGCCTGGC occurs twice inside promoter.cmv, promoter.cag and promoter.cbh because all three carry the repeated CMV enhancer motif), or substitute a part that does not carry the repeat: promoter.efs, promoter.ef1a, promoter.gfap, promoter.hsyn1 and promoter.mecp2_mini carry none. This is a Tier B warning, not a failure.",
+        "coordinates": [
+          158,
+          179
+        ],
+        "observed": "1 repeat(s), longest 21 bp",
+        "threshold": "no direct repeat longer than 20 bp",
+        "citation": "System design section 6.4 check 9 and MAX_DIRECT_REPEAT_BP in section 6.5. Direct repeats are recombination substrates during vector production.",
+        "tier": "B",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.homopolymer_runs",
+        "label": "Homopolymer runs",
+        "severity": "warn",
+        "message": "1 homopolymer run(s) longer than 8 bp occur inside the cassette. The longest is 14 consecutive G at cassette position 558 inside promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)). Long single base runs destabilise synthesis and replication and are a common cause of indels in the ordered DNA. If the run sits in your own transgene, break it with synonymous codon changes. If it sits in a registry part, it is expected and documented: promoter.cag carries a 14 bp G run and promoter.cbh a 16 bp G run in their GC rich cores. This is a Tier B warning, not a failure.",
+        "coordinates": [
+          557,
+          571
+        ],
+        "observed": "1 run(s), longest 14 bp of G",
+        "threshold": "no single base run longer than 8 bp",
+        "citation": "System design section 6.4 check 10 and MAX_HOMOPOLYMER_RUN in section 6.5. Long homopolymers destabilise synthesis and replication.",
+        "tier": "B",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.kozak_context",
+        "label": "Kozak initiation context",
+        "severity": "pass",
+        "message": "The initiator ATG sits in a strong Kozak context: a purine (A) at -3 and G at +4, reading GGCAAAATGG. No change is needed. The full GCCRCCATGG consensus is not matched at every position, which is common and not a problem once -3 and +4 are right.",
+        "coordinates": [
+          1778,
+          1788
+        ],
+        "observed": "-3 is A, +4 is G, context GGCAAAATGG",
+        "threshold": "purine (A or G) at -3 and G at +4; full consensus GCCRCCATGG",
+        "citation": "System design section 6.4 check 11. Initiation consensus and the -3 and +4 hierarchy: Kozak, Nucleic Acids Research 1987, 15:8125-8148 (doi:10.1093/nar/15.20.8125).",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.polya_present_functional",
+        "label": "Functional polyadenylation signal",
+        "severity": "pass",
+        "message": "The polyA element (SV40 polyadenylation signal, 135 bp) carries a recognised polyadenylation hexamer: AATAAA at position 32 of the element, cassette position 4,816, and 1 further occurrence(s). No change is needed.",
+        "coordinates": [
+          4815,
+          4821
+        ],
+        "observed": "AATAAA at element position 32 (2 occurrence(s))",
+        "threshold": "one of AATAAA, ATTAAA present in the polyA element",
+        "citation": "System design section 6.4 check 12. AATAAA: Proudfoot and Brownlee, Nature 1976, 263:211-214. ATTAAA variant usage: Beaudoing and colleagues, Genome Research 2000, 10:1001-1010.",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.minimum_genome_size",
+        "label": "Minimum genome size",
+        "severity": "pass",
+        "message": "The cassette is 5,064 bp, which is at or above the 2,000 bp minimum, so packaging efficiency is not degraded by under-length genomes. No change is needed.",
+        "coordinates": null,
+        "observed": "5,064 bp",
+        "threshold": "at least 2,000 bp",
+        "citation": "System design section 6.4 check 13 and AAV_MIN_GENOME_BP in section 6.5. Below the minimum, packaging efficiency degrades and the empty capsid fraction rises.",
+        "tier": "A",
+        "remediation": null
+      },
+      {
+        "check_id": "aav.itr_internal_sites",
+        "label": "Internal ITR motifs",
+        "severity": "pass",
+        "message": "No 20 bp window of a AAV2 ITR occurs in the 4,774 bp region between the two ITRs, on either strand. There is no internal terminal repeat copy to remove. No change is needed.",
+        "coordinates": null,
+        "observed": "0 internal ITR motifs in 4,774 bp",
+        "threshold": "no 20 bp window of a AAV2 ITR present between the ITRs",
+        "citation": "System design section 6.4 check 14. Motif set is derived from the serotype ITR reference records in data/parts, not written into code.",
+        "tier": "A",
+        "remediation": null
+      }
+    ],
+    "evaluated_at": "2026-10-08T02:43:28.475522Z",
+    "validator_version": "aav-1.0.0"
+  },
+  "result": {
+    "capability": "aav",
+    "design_id": "aav-11ce53849305",
+    "report": {
+      "capability": "aav",
+      "overall": "fail",
+      "checks": [
+        {
+          "check_id": "aav.packaging_limit",
+          "label": "Packaging limit",
+          "severity": "fail",
+          "message": "Cassette is 5,064 bp. The single stranded packaging target is 4,700 bp, so the design is 364 bp over the target, 164 bp above the 4,900 bp soft limit, and 136 bp under the hard ceiling of 5,200 bp. One change closes it: replace CAG (promoter.cag, 1,639 bp) with EFS (promoter.efs, 212 bp), which saves 1,427 bp, bringing the cassette to 3,637 bp, 1,063 bp under the 4,700 bp target. EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG. Alternative: replace CAG (promoter.cag, 1,639 bp) with CMV (promoter.cmv, 663 bp), which saves 976 bp, giving 4,088 bp, 612 bp under the target. No option keeps the stated promoter preference promoter.cag: the savings available without touching the promoter total 0 bp against a 364 bp overage, so the promoter has to change or the transgene has to shrink to at most 4,063 bp. 4 ranked options are reported in the structured remediation field. This is a failure rather than a warning because the cassette is above the 4,900 bp soft limit.",
+          "coordinates": [
+            0,
+            5064
+          ],
+          "observed": "5,064 bp",
+          "threshold": "target 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
+          "citation": "System design section 6.5 (banded packaging limit). Wild-type AAV2 genome NC_001401.2 is 4,679 bp; the capsid ceiling sits near that size. The band exists because the practical ceiling is contested in the literature.",
+          "tier": null,
+          "remediation": [
+            "overage_bp=364 | total_bp=5064 | target_bp=4700 | soft_limit_bp=4900 | hard_limit_bp=5200 | plans=4 | max_available_saving_bp=1427 | preference_preserving_saving_bp=0 | promoter_preference=promoter.cag | max_transgene_bp=4063",
+            "plan=1 | changes=1 | saves_bp=1427 | result_bp=3637 | headroom_bp=1063 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.efs (saves 1427 bp) | tradeoff=EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG.",
+            "plan=2 | changes=1 | saves_bp=976 | result_bp=4088 | headroom_bp=612 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cmv (saves 976 bp) | tradeoff=CMV is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Strong, ubiquitous expression. Can silence over time in some tissues (Appendix B).",
+            "plan=3 | changes=1 | saves_bp=840 | result_bp=4224 | headroom_bp=476 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cbh (saves 840 bp) | tradeoff=CBH is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Hybrid, ubiquitous (Appendix B). The CBh promoter is described in a 2011 Human Gene Therapy paper as a hybrid form of the chicken beta-actin promoter of roughly 800 bp.",
+            "plan=4 | changes=1 | saves_bp=455 | result_bp=4609 | headroom_bp=91 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.ef1a (saves 455 bp) | tradeoff=EF1A is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Ubiquitous, durable expression (Appendix B). Contains the EFS core promoter sequence within it."
+          ]
+        },
+        {
+          "check_id": "aav.itr_present_both",
+          "label": "Both ITRs present and matched",
+          "severity": "pass",
+          "message": "Both ITRs are present and match the AAV2 reference above the 95% threshold (5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)). Each ITR was compared with the serotype reference records in both orientations, not with the other ITR, because the left ITR reads core plus D and the right reads reverse complement of D plus core, so that comparison scores only 88.3 percent even when both ITRs are correct. Keep the registry records as they are.",
+          "coordinates": null,
+          "observed": "5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)",
+          "threshold": "95% identity to the serotype reference",
+          "citation": "System design section 6.2 (ITRs are required in cis for replication and packaging) and section 6.5 (ITR_IDENTITY_THRESHOLD). Reference ITRs: NC_001401.2 positions 1..145 and 4535..4679, see data/parts/PROVENANCE.md.",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.itr_orientation",
+          "label": "ITR orientation",
+          "severity": "pass",
+          "message": "The ITRs are inverted relative to each other, which is the required arrangement: the 20 bp D element faces inward in both ITRs: it reads at the 3' end of the 5' ITR (100.0% identity) and its reverse complement reads at the 5' end of the 3' ITR (100.0% identity). No change is needed.",
+          "coordinates": null,
+          "observed": "inverted (d_element)",
+          "threshold": "inverted arrangement required",
+          "citation": "System design section 6.4 check 3. ITR terminal repeat structure including the D element: Srivastava and colleagues, Journal of Virology 1983, 45:555-564 (doi:10.1128/JVI.45.2.555-564.1983).",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.required_elements",
+          "label": "Required elements present",
+          "severity": "pass",
+          "message": "Promoter, coding sequence and polyA are all present (cds, itr_3, itr_5, polya, promoter). No change is needed.",
+          "coordinates": null,
+          "observed": "present: cds, itr_3, itr_5, polya, promoter",
+          "threshold": "promoter, cds and polya all required",
+          "citation": "System design section 6.2 (cassette order) and section 6.4 check 4.",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.element_order",
+          "label": "Functional element order",
+          "severity": "pass",
+          "message": "Elements appear in the required functional order: itr_5 -> promoter -> cds -> polya -> itr_3. No change is needed.",
+          "coordinates": null,
+          "observed": "itr_5 -> promoter -> cds -> polya -> itr_3",
+          "threshold": "itr_5 -> enhancer -> promoter -> intron -> cds -> wpre -> polya -> itr_3",
+          "citation": "System design section 6.2 functional order and section 6.4 check 5.",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.cds_integrity",
+          "label": "Coding sequence integrity",
+          "severity": "pass",
+          "message": "The coding sequence for TG is a clean open reading frame: 3,000 bp, divisible by 3, ATG start, a single in-frame stop at the 3' end, and 999 coding codons. No change is needed.",
+          "coordinates": [
+            1784,
+            4784
+          ],
+          "observed": "3,000 bp, 1000 codons, 1 in-frame stop(s)",
+          "threshold": "ATG start, length divisible by 3, single in-frame stop at the 3' end",
+          "citation": "System design section 6.4 check 6. Standard genetic code, NCBI translation table 1, as implemented in packages/core/sequence/codon.py.",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.sc_capacity",
+          "label": "Self complementary capacity",
+          "severity": "pass",
+          "message": "The design is single stranded, so the halved self complementary capacity does not apply and the 4,700 bp single stranded target was used by aav.packaging_limit instead. If you switch to self complementary, the cassette would be measured against 2,400 bp, and at 5,064 bp it would be 2,664 bp over that target, so the cassette would have to shrink first. No change is needed for the current single stranded design.",
+          "coordinates": null,
+          "observed": "5,064 bp, single stranded",
+          "threshold": "target 2,400 bp, soft limit 2,500 bp, hard limit 2,600 bp",
+          "citation": "System design section 6.2 (self complementary genomes are effectively duplicated, halving usable capacity) and section 6.5 self complementary band.",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.promoter_tissue_match",
+          "label": "Promoter and target tissue match",
+          "severity": "pass",
+          "message": "Promoter promoter.cag is annotated ubiquitous, which is compatible with the ubiquitous target. No change is needed.",
+          "coordinates": [
+            145,
+            1784
+          ],
+          "observed": "promoter.cag is ubiquitous, target is ubiquitous",
+          "threshold": "promoter tissue_specificity in {ubiquitous} for target ubiquitous",
+          "citation": "System design section 6.2 (promoter choice encodes tissue specificity) and section 6.4 check 8. Promoter annotations from data/parts, each with its own citation.",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.internal_repeats",
+          "label": "Internal direct repeats",
+          "severity": "warn",
+          "message": "1 direct repeat(s) longer than 20 bp occur in the 4,774 bp region between the two ITRs. The longest is 21 bp, present at cassette positions 159 and 352 (in promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)) and promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron))). Direct repeats in the same orientation are recombination substrates during vector production and yield deleted species, so this lowers the fraction of full length genomes. Either accept it, which is normal for standard parts (the 21 bp sequence ACGGTAAATGGCCCGCCTGGC occurs twice inside promoter.cmv, promoter.cag and promoter.cbh because all three carry the repeated CMV enhancer motif), or substitute a part that does not carry the repeat: promoter.efs, promoter.ef1a, promoter.gfap, promoter.hsyn1 and promoter.mecp2_mini carry none. This is a Tier B warning, not a failure.",
+          "coordinates": [
+            158,
+            179
+          ],
+          "observed": "1 repeat(s), longest 21 bp",
+          "threshold": "no direct repeat longer than 20 bp",
+          "citation": "System design section 6.4 check 9 and MAX_DIRECT_REPEAT_BP in section 6.5. Direct repeats are recombination substrates during vector production.",
+          "tier": "B",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.homopolymer_runs",
+          "label": "Homopolymer runs",
+          "severity": "warn",
+          "message": "1 homopolymer run(s) longer than 8 bp occur inside the cassette. The longest is 14 consecutive G at cassette position 558 inside promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)). Long single base runs destabilise synthesis and replication and are a common cause of indels in the ordered DNA. If the run sits in your own transgene, break it with synonymous codon changes. If it sits in a registry part, it is expected and documented: promoter.cag carries a 14 bp G run and promoter.cbh a 16 bp G run in their GC rich cores. This is a Tier B warning, not a failure.",
+          "coordinates": [
+            557,
+            571
+          ],
+          "observed": "1 run(s), longest 14 bp of G",
+          "threshold": "no single base run longer than 8 bp",
+          "citation": "System design section 6.4 check 10 and MAX_HOMOPOLYMER_RUN in section 6.5. Long homopolymers destabilise synthesis and replication.",
+          "tier": "B",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.kozak_context",
+          "label": "Kozak initiation context",
+          "severity": "pass",
+          "message": "The initiator ATG sits in a strong Kozak context: a purine (A) at -3 and G at +4, reading GGCAAAATGG. No change is needed. The full GCCRCCATGG consensus is not matched at every position, which is common and not a problem once -3 and +4 are right.",
+          "coordinates": [
+            1778,
+            1788
+          ],
+          "observed": "-3 is A, +4 is G, context GGCAAAATGG",
+          "threshold": "purine (A or G) at -3 and G at +4; full consensus GCCRCCATGG",
+          "citation": "System design section 6.4 check 11. Initiation consensus and the -3 and +4 hierarchy: Kozak, Nucleic Acids Research 1987, 15:8125-8148 (doi:10.1093/nar/15.20.8125).",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.polya_present_functional",
+          "label": "Functional polyadenylation signal",
+          "severity": "pass",
+          "message": "The polyA element (SV40 polyadenylation signal, 135 bp) carries a recognised polyadenylation hexamer: AATAAA at position 32 of the element, cassette position 4,816, and 1 further occurrence(s). No change is needed.",
+          "coordinates": [
+            4815,
+            4821
+          ],
+          "observed": "AATAAA at element position 32 (2 occurrence(s))",
+          "threshold": "one of AATAAA, ATTAAA present in the polyA element",
+          "citation": "System design section 6.4 check 12. AATAAA: Proudfoot and Brownlee, Nature 1976, 263:211-214. ATTAAA variant usage: Beaudoing and colleagues, Genome Research 2000, 10:1001-1010.",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.minimum_genome_size",
+          "label": "Minimum genome size",
+          "severity": "pass",
+          "message": "The cassette is 5,064 bp, which is at or above the 2,000 bp minimum, so packaging efficiency is not degraded by under-length genomes. No change is needed.",
+          "coordinates": null,
+          "observed": "5,064 bp",
+          "threshold": "at least 2,000 bp",
+          "citation": "System design section 6.4 check 13 and AAV_MIN_GENOME_BP in section 6.5. Below the minimum, packaging efficiency degrades and the empty capsid fraction rises.",
+          "tier": "A",
+          "remediation": null
+        },
+        {
+          "check_id": "aav.itr_internal_sites",
+          "label": "Internal ITR motifs",
+          "severity": "pass",
+          "message": "No 20 bp window of a AAV2 ITR occurs in the 4,774 bp region between the two ITRs, on either strand. There is no internal terminal repeat copy to remove. No change is needed.",
+          "coordinates": null,
+          "observed": "0 internal ITR motifs in 4,774 bp",
+          "threshold": "no 20 bp window of a AAV2 ITR present between the ITRs",
+          "citation": "System design section 6.4 check 14. Motif set is derived from the serotype ITR reference records in data/parts, not written into code.",
+          "tier": "A",
+          "remediation": null
+        }
+      ],
+      "evaluated_at": "2026-10-08T02:43:28.475522Z",
+      "validator_version": "aav-1.0.0"
+    },
+    "artifacts": {
+      "genbank": "LOCUS       aav_11ce53849305        5064 bp    ds-DNA  linear   SYN 01-JAN-1980\nDEFINITION  Construct AAV cassette: TG, AAV2 ITRs, single stranded, ubiquitous\n            target.\nACCESSION   aav-11ce53849305\nVERSION     aav-11ce53849305\nKEYWORDS    CONSTRUCT_AAV_CASSETTE; capability=aav; serotype=AAV2;\n            self_complementary=false; target_tissue=ubiquitous; total_bp=5064.\nSOURCE      .\n  ORGANISM  .\n            .\nCOMMENT     Composed by Construct from curated registry parts. Linear cassette,\n            5' ITR to 3' ITR.\n            Provenance, one entry per source:\n            user_input:transgene_sequence\n            part:itr.aav2_itr_left\n            part:promoter.cag\n            part:polya.sv40\n            part:itr.aav2_itr_right\n            serotype_reference:NC_001401.2\n            Notes:\n            polyA polya.sv40 was auto-selected as the most compact functional\n            signal (135 bp). Alternatives: polya.bgh (225 bp). Set\n            polya_preference to choose one.\n            include_wpre was requested but WPRE (enhancer.wpre, 589 bp) was\n            omitted because adding it would take the cassette to 5,653 bp\n            against the 4,700 bp target. The cassette is 5,064 bp without it.\nFEATURES             Location/Qualifiers\n     source          1..5064\n                     /organism=\"synthetic construct\"\n                     /mol_type=\"other DNA\"\n                     /note=\"recombinant AAV2 cassette\"\n     repeat_region   1..145\n                     /label=\"AAV2 inverted terminal repeat, left (5' ITR)\"\n                     /note=\"inverted terminal repeat, 5' end\"\n                     /construct_role=\"itr_5\"\n                     /construct_part_id=\"itr.aav2_itr_left\"\n     regulatory      146..1784\n                     /label=\"CAG promoter (CMV enhancer, chicken beta-actin\n                     promoter and intron)\"\n                     /note=\"promoter\"\n                     /construct_role=\"promoter\"\n                     /regulatory_class=\"promoter\"\n                     /construct_part_id=\"promoter.cag\"\n     CDS             1785..4784\n                     /label=\"TG coding sequence\"\n                     /note=\"transgene coding sequence\"\n                     /construct_role=\"cds\"\n                     /construct_part_id=\"none\"\n                     /construct_source=\"user_input:transgene_sequence\"\n                     /codon_start=1\n                     /transl_table=1\n                     /gene=\"TG\"\n     regulatory      4785..4919\n                     /label=\"SV40 polyadenylation signal\"\n                     /note=\"polyadenylation signal\"\n                     /construct_role=\"polya\"\n                     /regulatory_class=\"polyA_signal_sequence\"\n                     /construct_part_id=\"polya.sv40\"\n     repeat_region   4920..5064\n                     /label=\"AAV2 inverted terminal repeat, right (3' ITR)\"\n                     /note=\"inverted terminal repeat, 3' end\"\n                     /construct_role=\"itr_3\"\n                     /construct_part_id=\"itr.aav2_itr_right\"\nORIGIN\n        1 ttggccactc cctctctgcg cgctcgctcg ctcactgagg ccgggcgacc aaaggtcgcc\n       61 cgacgcccgg gctttgcccg ggcggcctca gtgagcgagc gagcgcgcag agagggagtg\n      121 gccaactcca tcactagggg ttcctcgtta cataacttac ggtaaatggc ccgcctggct\n      181 gaccgcccaa cgacccccgc ccattgacgt caataatgac gtatgttccc atagtaacgt\n      241 caatagggac tttccattga cgtcaatggg tggagtattt acggtaaact gcccacttgg\n      301 cagtacatca agtgtatcat atgccaagta cgccccctat tgacgtcaat gacggtaaat\n      361 ggcccgcctg gcattatgcc cagtacatga ccttatggga ctttcctact tggcagtaca\n      421 tctacgtatt agtcatcgct attaccatgg gtcgaggtga gccccacgtt ctgcttcact\n      481 ctccccatct cccccccctc cccaccccca attttgtatt tatttatttt ttaattattt\n      541 tgtgcagcga tgggggcggg gggggggggg gcgcgcgcca ggcggggcgg ggcggggcga\n      601 ggggcggggc ggggcgaggc ggagaggtgc ggcggcagcc aatcagagcg gcgcgctccg\n      661 aaagtttcct tttatggcga ggcggcggcg gcggcggccc tataaaaagc gaagcgcgcg\n      721 gcgggcggga gtcgctgcgt tgccttcgcc ccgtgccccg ctccgcgccg cctcgcgccg\n      781 cccgccccgg ctctgactga ccgcgttact cccacaggtg agcgggcggg acggcccttc\n      841 tcctccgggc tgtaattagc gcttggttta atgacggctc gtttcttttc tgtggctgcg\n      901 tgaaagcctt aaagggctcc gggagggccc tttgtgcggg ggggagcggc tcggggggtg\n      961 cgtgcgtgtg tgtgtgcgtg gggagcgccg cgtgcggccc gcgctgcccg gcggctgtga\n     1021 gcgctgcggg cgcggcgcgg ggctttgtgc gctccgcgtg tgcgcgaggg gagcgcggcc\n     1081 gggggcggtg ccccgcggtg cgggggggct gcgaggggaa caaaggctgc gtgcggggtg\n     1141 tgtgcgtggg ggggtgagca gggggtgtgg gcgcggcggt cgggctgtaa cccccccctg\n     1201 cacccccctc cccgagttgc tgagcacggc ccggcttcgg gtgcggggct ccgtgcgggg\n     1261 cgtggcgcgg ggctcgccgt gccgggcggg gggtggcggc aggtgggggt gccgggcggg\n     1321 gcggggccgc ctcgggccgg ggagggctcg ggggaggggc gcggcggccc cggagcgccg\n     1381 gcggctgtcg aggcgcggcg agccgcagcc attgcctttt atggtaatcg tgcgagaggg\n     1441 cgcagggact tcctttgtcc caaatctggc ggagccgaaa tctgggaggc gccgccgcac\n     1501 cccctctagc gggcgcgggc gaagcggtgc ggcgccggca ggaaggaaat gggcggggag\n     1561 ggccttcgtg cgtcgccgcg ccgccgtccc cttctccatc tccagcctcg gggctgccgc\n     1621 agggggacgg ctgccttcgg gggggacggg gcagggcggg gttcggcttc tggcgtgtga\n     1681 ccggcggctc tagagcctct gctaaccatg ttcatgcctt cttctttttc ctacagctcc\n     1741 tgggcaacgt gctggttatt gtgctgtctc atcattttgg caaaatggct gtgtaccaca\n     1801 accgaggccg aaacacagga gagttgcacg accagcatta tcgagataac ggagccctcg\n     1861 tgtccggttt atcgcctcaa tatggacatt cgggcatacc agacaaacta gacggctttc\n     1921 cattcgagcg agatctgacc acgaaatctc cccttgtttg tgctgcacgt gggtatctac\n     1981 tagaagaagc gtcgacgact gtggcactcg ccgttggtcg caagcgacct acgttgtggt\n     2041 tctggttaat tgtcacacat cccgtctggg agccggcacc caggcacaat tccgagagcg\n     2101 tctgttcagc caaggcatac aaagaccccg tggagaccaa gcagaacgac aatcctatgg\n     2161 gtatcactat actcagatgc ggtaccttgg gtgacccccc aatgttgccc tacccttcaa\n     2221 ggcagtgggc ggttaagatc atccacaaca tcccagatag ctctgaagtg gtaccgtgtc\n     2281 gtcgtacaat gagggctgat cgcttatcat tacgacggct actggccgca ttgtttacgc\n     2341 aaggatacgc cgctgtatcg tccattccga cttgcgtggc ttgtcttaag atgatccccc\n     2401 aatggcggat gtactcgcca tggcacctgg tcttatgcaa gtcgtgtctg ccttccggat\n     2461 ttgtccaact atggccgact gacaaatgca ggagatttgg tcgaggttca tcctcttcgg\n     2521 ttgcaagttc atgcgcgtac agatgcttta tgcatagctg tgccctctta tatcacctac\n     2581 agtccatgac ttgcccgact caaccccacc aggtgatggg tgtgtgtaac cgtgggaagg\n     2641 tctggagcag gagagatggc gtaacagtag gcccacgggt atatctgaat ccggacactc\n     2701 cactacgttc gttttatgcc ataccttcgc atccaaggtc gcccctcgac gcaggctccg\n     2761 gcaggcagag cttcgtaaaa ctcggagggc aggatttcac gtcccatctg agcgaaggga\n     2821 gtgggagggg ccgtaatcct ctcacactgc gtcttccggt ctactgcgtc ccagcgataa\n     2881 cttacgtcgt ggacccggtg atcctcgaga cacaatacat acccgctacc agaccccaag\n     2941 tcactgccca tttgcgcctg cctggtgaca taggtaaact gtcttatggc tacacgggat\n     3001 acatcccagt gtatacggtc tacgtgagga gtttgggcgt tcctgtccgg gccctactga\n     3061 cttattggtt gaatacacga gttacactac gggaggacgt gcacaaaaat gaatcagagc\n     3121 cagcccgaga gaggagtgtg atgtggagtc gcttacactg ggatttacag cagggggctg\n     3181 gatccacctc gtttcatcgg ggtcggaatt cgccctccct cataaaggta gccccaagtg\n     3241 tgctcggtcg ctacatggtt ctttatcaat ggccagagtc aaagcggctg cgcaatctta\n     3301 ctggggggct ggatactgat caaacggcgc gcttacttat actcgagcgc ctagttcgtt\n     3361 tggctgtagg gaaagtgtta aacgttttga caaacctctt attacagtgg ccgaccacta\n     3421 ggcacacagt atgcgacgaa tgtaaggttc ttgacattcg ggccgacgaa cgaagacgcg\n     3481 cgcgaacggt caatgcatgc ttactccgta atcagttgac gttcgtgtat agacagaagt\n     3541 actacgaccg gcggactgtg gcttcaaaag gaattaatga acttatcctg acactggcca\n     3601 ccacccgtga tgttaatcgt aggcctaact tacataacga catcgttccg gcgttggctg\n     3661 ggatccagag catcgcgatg tacgtcactc gacgagtccg attggagacc cgtggcaagt\n     3721 gcggcccaag gatccttgaa acgagacaag tgagaagtag ccgagcggac cgtaagtcct\n     3781 ggtggtgtca agcattttta tcgctgagac caccggttaa gttgtctaat gctaggtgta\n     3841 actctccagg tgagcaaacc agggagacga tagctattac aactcaattt tacctattat\n     3901 atccctgcag agtcctgacc ggtcctcaac tcggactagg cgattcaatg gcgagtatca\n     3961 ataggtctcg tatcgtgggg atggaaccaa tacatacggt gctcagtgcg tccgattcgc\n     4021 agatcgaagg gagacagaat tggtacgaca cgagattagg tgtcccgctg cgaaagaact\n     4081 gtctagctcc gcttgactgt ccgctacaca ccctaaacgg cacacattct tcgaccccca\n     4141 agttaacaag acgaagccag ctttgtttta tgcggacgct gtcgcgactc atggtgcgcc\n     4201 tcgagtcgga caaaccgctt tatggctgtg atcgcttcaa gttagacggc cctgctttac\n     4261 tttggaccag tataaggggc ggggaatcaa ctaccacagt ctccagctcg cctaacccag\n     4321 tccggatacg agtcgatagt ctccccgttg ccgcactaaa aaactgcctc ggtgacctac\n     4381 tagtgttctt ctcacgcgtg atgcgaatgc ataaactgta tcaacgaggt gtcacgacaa\n     4441 atacagctcg aatccttatc aggctagttg gctcgatgtg ctatgccgag gaatctgccg\n     4501 cgttgttgtg cctgtcttac gatcgcaccg atccagggct gtttatacca aggcttgaat\n     4561 atccctgttt cttggattta gcacaagagc acagggtatt cagcttggaa aaactgttag\n     4621 cgggcatcat gccgggtgaa tacgctaccc gactacggaa gtatgtcttt gaacagccaa\n     4681 atcccggggc aaccaatggt atcgattccg ttgacatatg tcatgtgcaa tactactgca\n     4741 agtcaactca tcacggtgca atgtatttcc tgataccaag ttaaaacttg tttattgcag\n     4801 cttataatgg ttacaaataa agcaatagca tcacaaattt cacaaataaa gcattttttt\n     4861 cactgcattc tagttgtggt ttgtccaaac tcatcaatgt atcttatcat gtctggatca\n     4921 ggaaccccta gtgatggagt tggccactcc ctctctgcgc gctcgctcgc tcactgaggc\n     4981 cgggcgacca aaggtcgccc gacgcccggg ctttgcccgg gcggcctcag tgagcgagcg\n     5041 agcgcgcaga gagggagtgg ccaa\n//",
+      "fasta": ">aav-11ce53849305 Construct AAV cassette | TG | AAV2 | ss | 5064 bp | linear | itr_5:1-145 promoter:146-1784 cds:1785-4784 polya:4785-4919 itr_3:4920-5064\nTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCC\nCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTG\nGCCAACTCCATCACTAGGGGTTCCTCGTTACATAACTTACGGTAAATGGCCCGCCTGGCT\nGACCGCCCAACGACCCCCGCCCATTGACGTCAATAATGACGTATGTTCCCATAGTAACGT\nCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGG\nCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAAT\nGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACA\nTCTACGTATTAGTCATCGCTATTACCATGGGTCGAGGTGAGCCCCACGTTCTGCTTCACT\nCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTT\nTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGA\nGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCG\nAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCG\nGCGGGCGGGAGTCGCTGCGTTGCCTTCGCCCCGTGCCCCGCTCCGCGCCGCCTCGCGCCG\nCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTC\nTCCTCCGGGCTGTAATTAGCGCTTGGTTTAATGACGGCTCGTTTCTTTTCTGTGGCTGCG\nTGAAAGCCTTAAAGGGCTCCGGGAGGGCCCTTTGTGCGGGGGGGAGCGGCTCGGGGGGTG\nCGTGCGTGTGTGTGTGCGTGGGGAGCGCCGCGTGCGGCCCGCGCTGCCCGGCGGCTGTGA\nGCGCTGCGGGCGCGGCGCGGGGCTTTGTGCGCTCCGCGTGTGCGCGAGGGGAGCGCGGCC\nGGGGGCGGTGCCCCGCGGTGCGGGGGGGCTGCGAGGGGAACAAAGGCTGCGTGCGGGGTG\nTGTGCGTGGGGGGGTGAGCAGGGGGTGTGGGCGCGGCGGTCGGGCTGTAACCCCCCCCTG\nCACCCCCCTCCCCGAGTTGCTGAGCACGGCCCGGCTTCGGGTGCGGGGCTCCGTGCGGGG\nCGTGGCGCGGGGCTCGCCGTGCCGGGCGGGGGGTGGCGGCAGGTGGGGGTGCCGGGCGGG\nGCGGGGCCGCCTCGGGCCGGGGAGGGCTCGGGGGAGGGGCGCGGCGGCCCCGGAGCGCCG\nGCGGCTGTCGAGGCGCGGCGAGCCGCAGCCATTGCCTTTTATGGTAATCGTGCGAGAGGG\nCGCAGGGACTTCCTTTGTCCCAAATCTGGCGGAGCCGAAATCTGGGAGGCGCCGCCGCAC\nCCCCTCTAGCGGGCGCGGGCGAAGCGGTGCGGCGCCGGCAGGAAGGAAATGGGCGGGGAG\nGGCCTTCGTGCGTCGCCGCGCCGCCGTCCCCTTCTCCATCTCCAGCCTCGGGGCTGCCGC\nAGGGGGACGGCTGCCTTCGGGGGGGACGGGGCAGGGCGGGGTTCGGCTTCTGGCGTGTGA\nCCGGCGGCTCTAGAGCCTCTGCTAACCATGTTCATGCCTTCTTCTTTTTCCTACAGCTCC\nTGGGCAACGTGCTGGTTATTGTGCTGTCTCATCATTTTGGCAAAATGGCTGTGTACCACA\nACCGAGGCCGAAACACAGGAGAGTTGCACGACCAGCATTATCGAGATAACGGAGCCCTCG\nTGTCCGGTTTATCGCCTCAATATGGACATTCGGGCATACCAGACAAACTAGACGGCTTTC\nCATTCGAGCGAGATCTGACCACGAAATCTCCCCTTGTTTGTGCTGCACGTGGGTATCTAC\nTAGAAGAAGCGTCGACGACTGTGGCACTCGCCGTTGGTCGCAAGCGACCTACGTTGTGGT\nTCTGGTTAATTGTCACACATCCCGTCTGGGAGCCGGCACCCAGGCACAATTCCGAGAGCG\nTCTGTTCAGCCAAGGCATACAAAGACCCCGTGGAGACCAAGCAGAACGACAATCCTATGG\nGTATCACTATACTCAGATGCGGTACCTTGGGTGACCCCCCAATGTTGCCCTACCCTTCAA\nGGCAGTGGGCGGTTAAGATCATCCACAACATCCCAGATAGCTCTGAAGTGGTACCGTGTC\nGTCGTACAATGAGGGCTGATCGCTTATCATTACGACGGCTACTGGCCGCATTGTTTACGC\nAAGGATACGCCGCTGTATCGTCCATTCCGACTTGCGTGGCTTGTCTTAAGATGATCCCCC\nAATGGCGGATGTACTCGCCATGGCACCTGGTCTTATGCAAGTCGTGTCTGCCTTCCGGAT\nTTGTCCAACTATGGCCGACTGACAAATGCAGGAGATTTGGTCGAGGTTCATCCTCTTCGG\nTTGCAAGTTCATGCGCGTACAGATGCTTTATGCATAGCTGTGCCCTCTTATATCACCTAC\nAGTCCATGACTTGCCCGACTCAACCCCACCAGGTGATGGGTGTGTGTAACCGTGGGAAGG\nTCTGGAGCAGGAGAGATGGCGTAACAGTAGGCCCACGGGTATATCTGAATCCGGACACTC\nCACTACGTTCGTTTTATGCCATACCTTCGCATCCAAGGTCGCCCCTCGACGCAGGCTCCG\nGCAGGCAGAGCTTCGTAAAACTCGGAGGGCAGGATTTCACGTCCCATCTGAGCGAAGGGA\nGTGGGAGGGGCCGTAATCCTCTCACACTGCGTCTTCCGGTCTACTGCGTCCCAGCGATAA\nCTTACGTCGTGGACCCGGTGATCCTCGAGACACAATACATACCCGCTACCAGACCCCAAG\nTCACTGCCCATTTGCGCCTGCCTGGTGACATAGGTAAACTGTCTTATGGCTACACGGGAT\nACATCCCAGTGTATACGGTCTACGTGAGGAGTTTGGGCGTTCCTGTCCGGGCCCTACTGA\nCTTATTGGTTGAATACACGAGTTACACTACGGGAGGACGTGCACAAAAATGAATCAGAGC\nCAGCCCGAGAGAGGAGTGTGATGTGGAGTCGCTTACACTGGGATTTACAGCAGGGGGCTG\nGATCCACCTCGTTTCATCGGGGTCGGAATTCGCCCTCCCTCATAAAGGTAGCCCCAAGTG\nTGCTCGGTCGCTACATGGTTCTTTATCAATGGCCAGAGTCAAAGCGGCTGCGCAATCTTA\nCTGGGGGGCTGGATACTGATCAAACGGCGCGCTTACTTATACTCGAGCGCCTAGTTCGTT\nTGGCTGTAGGGAAAGTGTTAAACGTTTTGACAAACCTCTTATTACAGTGGCCGACCACTA\nGGCACACAGTATGCGACGAATGTAAGGTTCTTGACATTCGGGCCGACGAACGAAGACGCG\nCGCGAACGGTCAATGCATGCTTACTCCGTAATCAGTTGACGTTCGTGTATAGACAGAAGT\nACTACGACCGGCGGACTGTGGCTTCAAAAGGAATTAATGAACTTATCCTGACACTGGCCA\nCCACCCGTGATGTTAATCGTAGGCCTAACTTACATAACGACATCGTTCCGGCGTTGGCTG\nGGATCCAGAGCATCGCGATGTACGTCACTCGACGAGTCCGATTGGAGACCCGTGGCAAGT\nGCGGCCCAAGGATCCTTGAAACGAGACAAGTGAGAAGTAGCCGAGCGGACCGTAAGTCCT\nGGTGGTGTCAAGCATTTTTATCGCTGAGACCACCGGTTAAGTTGTCTAATGCTAGGTGTA\nACTCTCCAGGTGAGCAAACCAGGGAGACGATAGCTATTACAACTCAATTTTACCTATTAT\nATCCCTGCAGAGTCCTGACCGGTCCTCAACTCGGACTAGGCGATTCAATGGCGAGTATCA\nATAGGTCTCGTATCGTGGGGATGGAACCAATACATACGGTGCTCAGTGCGTCCGATTCGC\nAGATCGAAGGGAGACAGAATTGGTACGACACGAGATTAGGTGTCCCGCTGCGAAAGAACT\nGTCTAGCTCCGCTTGACTGTCCGCTACACACCCTAAACGGCACACATTCTTCGACCCCCA\nAGTTAACAAGACGAAGCCAGCTTTGTTTTATGCGGACGCTGTCGCGACTCATGGTGCGCC\nTCGAGTCGGACAAACCGCTTTATGGCTGTGATCGCTTCAAGTTAGACGGCCCTGCTTTAC\nTTTGGACCAGTATAAGGGGCGGGGAATCAACTACCACAGTCTCCAGCTCGCCTAACCCAG\nTCCGGATACGAGTCGATAGTCTCCCCGTTGCCGCACTAAAAAACTGCCTCGGTGACCTAC\nTAGTGTTCTTCTCACGCGTGATGCGAATGCATAAACTGTATCAACGAGGTGTCACGACAA\nATACAGCTCGAATCCTTATCAGGCTAGTTGGCTCGATGTGCTATGCCGAGGAATCTGCCG\nCGTTGTTGTGCCTGTCTTACGATCGCACCGATCCAGGGCTGTTTATACCAAGGCTTGAAT\nATCCCTGTTTCTTGGATTTAGCACAAGAGCACAGGGTATTCAGCTTGGAAAAACTGTTAG\nCGGGCATCATGCCGGGTGAATACGCTACCCGACTACGGAAGTATGTCTTTGAACAGCCAA\nATCCCGGGGCAACCAATGGTATCGATTCCGTTGACATATGTCATGTGCAATACTACTGCA\nAGTCAACTCATCACGGTGCAATGTATTTCCTGATACCAAGTTAAAACTTGTTTATTGCAG\nCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTT\nCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATCA\nGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGC\nCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCG\nAGCGCGCAGAGAGGGAGTGGCCAA",
+      "length_budget": "#  element                    part                        bp   running  headroom\n---------------------------------------------------------------------------------\n 1  AAV2 inverted terminal rep itr.aav2_itr_left          145       145     4,555\n 2  CAG promoter (CMV enhancer promoter.cag             1,639     1,784     2,916\n 3  TG coding sequence         user supplied            3,000     4,784       -84\n 4  SV40 polyadenylation signa polya.sv40                 135     4,919      -219\n 5  AAV2 inverted terminal rep itr.aav2_itr_right         145     5,064      -364\n---------------------------------------------------------------------------------\n    TOTAL                                               5,064     5,064      -364\n\nSingle stranded design: the single stranded band applies.\ntarget 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
+      "linear_map_json": "{\n \"design_id\": \"aav-11ce53849305\",\n \"elements\": [\n  {\n   \"end\": 145,\n   \"end_1based\": 145,\n   \"fraction_of_cassette\": 0.0286,\n   \"index\": 0,\n   \"length_bp\": 145,\n   \"name\": \"AAV2 inverted terminal repeat, left (5' ITR)\",\n   \"part_id\": \"itr.aav2_itr_left\",\n   \"role\": \"itr_5\",\n   \"start\": 0,\n   \"start_1based\": 1\n  },\n  {\n   \"end\": 1784,\n   \"end_1based\": 1784,\n   \"fraction_of_cassette\": 0.323274,\n   \"index\": 1,\n   \"length_bp\": 1639,\n   \"name\": \"CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)\",\n   \"part_id\": \"promoter.cag\",\n   \"role\": \"promoter\",\n   \"start\": 145,\n   \"start_1based\": 146\n  },\n  {\n   \"end\": 1790,\n   \"end_1based\": 1790,\n   \"fraction_of_cassette\": 0.001183,\n   \"index\": 2,\n   \"length_bp\": 6,\n   \"name\": \"Kozak initiation context\",\n   \"part_id\": null,\n   \"role\": \"kozak\",\n   \"start\": 1784,\n   \"start_1based\": 1785\n  },\n  {\n   \"end\": 4790,\n   \"end_1based\": 4790,\n   \"fraction_of_cassette\": 0.591716,\n   \"index\": 3,\n   \"length_bp\": 3000,\n   \"name\": \"TG coding sequence\",\n   \"part_id\": null,\n   \"role\": \"cds\",\n   \"start\": 1790,\n   \"start_1based\": 1791\n  },\n  {\n   \"end\": 4925,\n   \"end_1based\": 4925,\n   \"fraction_of_cassette\": 0.026627,\n   \"index\": 4,\n   \"length_bp\": 135,\n   \"name\": \"SV40 polyadenylation signal\",\n   \"part_id\": \"polya.sv40\",\n   \"role\": \"polya\",\n   \"start\": 4790,\n   \"start_1based\": 4791\n  },\n  {\n   \"end\": 5070,\n   \"end_1based\": 5070,\n   \"fraction_of_cassette\": 0.0286,\n   \"index\": 5,\n   \"length_bp\": 145,\n   \"name\": \"AAV2 inverted terminal repeat, right (3' ITR)\",\n   \"part_id\": \"itr.aav2_itr_right\",\n   \"role\": \"itr_3\",\n   \"start\": 4925,\n   \"start_1based\": 4926\n  }\n ],\n \"hard_limit_bp\": 5200,\n \"self_complementary\": false,\n \"serotype\": \"AAV2\",\n \"soft_limit_bp\": 4900,\n \"target_bp\": 4700,\n \"target_tissue\": \"ubiquitous\",\n \"topology\": \"linear\",\n \"total_bp\": 5070,\n \"transgene_name\": \"TG\"\n}"
+    },
+    "provenance": [
+      "user_input:transgene_sequence",
+      "part:itr.aav2_itr_left",
+      "part:promoter.cag",
+      "part:polya.sv40",
+      "part:itr.aav2_itr_right",
+      "serotype_reference:NC_001401.2"
+    ],
+    "parameters_used": {
+      "ss_target_bp": 4700,
+      "ss_soft_limit_bp": 4900,
+      "ss_hard_limit_bp": 5200,
+      "sc_target_bp": 2400,
+      "sc_soft_limit_bp": 2500,
+      "sc_hard_limit_bp": 2600,
+      "min_genome_bp": 2000,
+      "itr_identity_threshold": 0.95,
+      "max_direct_repeat_bp": 20,
+      "max_homopolymer_run": 8,
+      "itr_d_element_bp": 20,
+      "itr_orientation_margin": 0.05,
+      "itr_internal_motif_bp": 20,
+      "kozak_consensus_motif": "GCCRCCATGG",
+      "kozak_minus3_purines": [
+        "A",
+        "G"
+      ],
+      "kozak_plus4_base": "G",
+      "polya_signal_motifs": [
+        "AATAAA",
+        "ATTAAA"
+      ],
+      "tissue_compatibility": {
+        "cardiac": [
+          "cardiac",
+          "ubiquitous"
+        ],
+        "cns_astrocyte": [
+          "cns_astrocyte",
+          "ubiquitous"
+        ],
+        "cns_neuron": [
+          "cns_neuron",
+          "ubiquitous"
+        ],
+        "liver": [
+          "liver",
+          "ubiquitous"
+        ],
+        "muscle": [
+          "muscle",
+          "ubiquitous"
+        ],
+        "retina": [
+          "retina",
+          "ubiquitous"
+        ],
+        "ubiquitous": [
+          "ubiquitous"
+        ]
+      },
+      "remediation_max_plans": 5,
+      "remediation_max_changes": 3,
+      "validator_version": "aav-1.0.0",
+      "serotype": "AAV2",
+      "self_complementary": false,
+      "target_tissue": "ubiquitous",
+      "packaging_limit_bp_override": null,
+      "applied_target_bp": 4700,
+      "applied_soft_limit_bp": 4900,
+      "applied_hard_limit_bp": 5200
+    }
+  },
+  "length_budget": {
+    "rows": [
+      {
+        "index": 0,
+        "role": "itr_5",
+        "name": "AAV2 inverted terminal repeat, left (5' ITR)",
+        "part_id": "itr.aav2_itr_left",
+        "length_bp": 145,
+        "running_total_bp": 145,
+        "headroom_bp": 4555
+      },
+      {
+        "index": 1,
+        "role": "promoter",
+        "name": "CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)",
+        "part_id": "promoter.cag",
+        "length_bp": 1639,
+        "running_total_bp": 1784,
+        "headroom_bp": 2916
+      },
+      {
+        "role": "kozak",
+        "name": "Kozak initiation context",
+        "part_id": null,
+        "length_bp": 6,
+        "index": 2,
+        "running_total_bp": 1790,
+        "headroom_bp": 2910
+      },
+      {
+        "index": 3,
+        "role": "cds",
+        "name": "TG coding sequence",
+        "part_id": null,
+        "length_bp": 3000,
+        "running_total_bp": 4790,
+        "headroom_bp": -90
+      },
+      {
+        "index": 4,
+        "role": "polya",
+        "name": "SV40 polyadenylation signal",
+        "part_id": "polya.sv40",
+        "length_bp": 135,
+        "running_total_bp": 4925,
+        "headroom_bp": -225
+      },
+      {
+        "index": 5,
+        "role": "itr_3",
+        "name": "AAV2 inverted terminal repeat, right (3' ITR)",
+        "part_id": "itr.aav2_itr_right",
+        "length_bp": 145,
+        "running_total_bp": 5070,
+        "headroom_bp": -370
+      }
+    ],
+    "total_bp": 5070,
+    "target_bp": 4700,
+    "soft_limit_bp": 4900,
+    "hard_limit_bp": 5200,
+    "headroom_bp": -370,
+    "self_complementary": false,
+    "limit_basis": "Single stranded design: the single stranded band applies."
+  },
+  "length_budget_text": " #  element                    part                        bp   running  headroom\n---------------------------------------------------------------------------------\n 1  AAV2 inverted terminal rep itr.aav2_itr_left          145       145     4,555\n 2  CAG promoter (CMV enhancer promoter.cag             1,639     1,784     2,916\n 3  TG coding sequence         user supplied            3,000     4,784       -84\n 4  SV40 polyadenylation signa polya.sv40                 135     4,919      -219\n 5  AAV2 inverted terminal rep itr.aav2_itr_right         145     5,064      -364\n---------------------------------------------------------------------------------\n    TOTAL                                               5,064     5,064      -364\n\nSingle stranded design: the single stranded band applies.\ntarget 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
+  "remediation": {
+    "total_bp": 5064,
+    "target_bp": 4700,
+    "soft_limit_bp": 4900,
+    "hard_limit_bp": 5200,
+    "overage_bp": 364,
+    "plans": [
+      {
+        "changes": [
+          {
+            "kind": "substitute",
+            "role": "promoter",
+            "from_part_id": "promoter.cag",
+            "from_name": "CAG (promoter.cag, 1,639 bp)",
+            "from_bp": 1639,
+            "to_part_id": "promoter.efs",
+            "to_name": "EFS (promoter.efs, 212 bp)",
+            "to_bp": 212,
+            "saved_bp": 1427,
+            "tradeoff": "EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG."
+          }
+        ],
+        "saved_bp": 1427,
+        "resulting_bp": 3637,
+        "resulting_headroom_bp": 1063,
+        "preserves_promoter_preference": false
+      },
+      {
+        "changes": [
+          {
+            "kind": "substitute",
+            "role": "promoter",
+            "from_part_id": "promoter.cag",
+            "from_name": "CAG (promoter.cag, 1,639 bp)",
+            "from_bp": 1639,
+            "to_part_id": "promoter.cmv",
+            "to_name": "CMV (promoter.cmv, 663 bp)",
+            "to_bp": 663,
+            "saved_bp": 976,
+            "tradeoff": "CMV is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Strong, ubiquitous expression. Can silence over time in some tissues (Appendix B)."
+          }
+        ],
+        "saved_bp": 976,
+        "resulting_bp": 4088,
+        "resulting_headroom_bp": 612,
+        "preserves_promoter_preference": false
+      },
+      {
+        "changes": [
+          {
+            "kind": "substitute",
+            "role": "promoter",
+            "from_part_id": "promoter.cag",
+            "from_name": "CAG (promoter.cag, 1,639 bp)",
+            "from_bp": 1639,
+            "to_part_id": "promoter.cbh",
+            "to_name": "CBH (promoter.cbh, 799 bp)",
+            "to_bp": 799,
+            "saved_bp": 840,
+            "tradeoff": "CBH is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Hybrid, ubiquitous (Appendix B). The CBh promoter is described in a 2011 Human Gene Therapy paper as a hybrid form of the chicken beta-actin promoter of roughly 800 bp."
+          }
+        ],
+        "saved_bp": 840,
+        "resulting_bp": 4224,
+        "resulting_headroom_bp": 476,
+        "preserves_promoter_preference": false
+      },
+      {
+        "changes": [
+          {
+            "kind": "substitute",
+            "role": "promoter",
+            "from_part_id": "promoter.cag",
+            "from_name": "CAG (promoter.cag, 1,639 bp)",
+            "from_bp": 1639,
+            "to_part_id": "promoter.ef1a",
+            "to_name": "EF1A (promoter.ef1a, 1,184 bp)",
+            "to_bp": 1184,
+            "saved_bp": 455,
+            "tradeoff": "EF1A is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Ubiquitous, durable expression (Appendix B). Contains the EFS core promoter sequence within it."
+          }
+        ],
+        "saved_bp": 455,
+        "resulting_bp": 4609,
+        "resulting_headroom_bp": 91,
+        "preserves_promoter_preference": false
+      }
+    ],
+    "max_available_saving_bp": 1427,
+    "preference_preserving_saving_bp": 0,
+    "promoter_preference": "promoter.cag",
+    "remaining_deficit_bp": 0,
+    "max_transgene_bp": 4063,
+    "considered_change_count": 4,
+    "entries": [
       "overage_bp=364 | total_bp=5064 | target_bp=4700 | soft_limit_bp=4900 | hard_limit_bp=5200 | plans=4 | max_available_saving_bp=1427 | preference_preserving_saving_bp=0 | promoter_preference=promoter.cag | max_transgene_bp=4063",
       "plan=1 | changes=1 | saves_bp=1427 | result_bp=3637 | headroom_bp=1063 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.efs (saves 1427 bp) | tradeoff=EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG.",
       "plan=2 | changes=1 | saves_bp=976 | result_bp=4088 | headroom_bp=612 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cmv (saves 976 bp) | tradeoff=CMV is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Strong, ubiquitous expression. Can silence over time in some tissues (Appendix B).",
       "plan=3 | changes=1 | saves_bp=840 | result_bp=4224 | headroom_bp=476 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cbh (saves 840 bp) | tradeoff=CBH is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Hybrid, ubiquitous (Appendix B). The CBh promoter is described in a 2011 Human Gene Therapy paper as a hybrid form of the chicken beta-actin promoter of roughly 800 bp.",
       "plan=4 | changes=1 | saves_bp=455 | result_bp=4609 | headroom_bp=91 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.ef1a (saves 455 bp) | tradeoff=EF1A is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Ubiquitous, durable expression (Appendix B). Contains the EFS core promoter sequence within it."
-     ]
-    },
-    {
-     "check_id": "aav.itr_present_both",
-     "label": "Both ITRs present and matched",
-     "severity": "pass",
-     "message": "Both ITRs are present and match the AAV2 reference above the 95% threshold (5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)). Each ITR was compared with the serotype reference records in both orientations, not with the other ITR, because the left ITR reads core plus D and the right reads reverse complement of D plus core, so that comparison scores only 88.3 percent even when both ITRs are correct. Keep the registry records as they are.",
-     "coordinates": null,
-     "observed": "5' ITR 100.0% identity to itr.aav2_itr_left (as written); 3' ITR 100.0% identity to itr.aav2_itr_right (as written)",
-     "threshold": "95% identity to the serotype reference",
-     "citation": "System design section 6.2 (ITRs are required in cis for replication and packaging) and section 6.5 (ITR_IDENTITY_THRESHOLD). Reference ITRs: NC_001401.2 positions 1..145 and 4535..4679, see data/parts/PROVENANCE.md.",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.itr_orientation",
-     "label": "ITR orientation",
-     "severity": "pass",
-     "message": "The ITRs are inverted relative to each other, which is the required arrangement: the 20 bp D element faces inward in both ITRs: it reads at the 3' end of the 5' ITR (100.0% identity) and its reverse complement reads at the 5' end of the 3' ITR (100.0% identity). No change is needed.",
-     "coordinates": null,
-     "observed": "inverted (d_element)",
-     "threshold": "inverted arrangement required",
-     "citation": "System design section 6.4 check 3. ITR terminal repeat structure including the D element: Srivastava and colleagues, Journal of Virology 1983, 45:555-564 (doi:10.1128/JVI.45.2.555-564.1983).",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.required_elements",
-     "label": "Required elements present",
-     "severity": "pass",
-     "message": "Promoter, coding sequence and polyA are all present (cds, itr_3, itr_5, polya, promoter). No change is needed.",
-     "coordinates": null,
-     "observed": "present: cds, itr_3, itr_5, polya, promoter",
-     "threshold": "promoter, cds and polya all required",
-     "citation": "System design section 6.2 (cassette order) and section 6.4 check 4.",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.element_order",
-     "label": "Functional element order",
-     "severity": "pass",
-     "message": "Elements appear in the required functional order: itr_5 -> promoter -> cds -> polya -> itr_3. No change is needed.",
-     "coordinates": null,
-     "observed": "itr_5 -> promoter -> cds -> polya -> itr_3",
-     "threshold": "itr_5 -> enhancer -> promoter -> intron -> cds -> wpre -> polya -> itr_3",
-     "citation": "System design section 6.2 functional order and section 6.4 check 5.",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.cds_integrity",
-     "label": "Coding sequence integrity",
-     "severity": "pass",
-     "message": "The coding sequence for TG is a clean open reading frame: 3,000 bp, divisible by 3, ATG start, a single in-frame stop at the 3' end, and 999 coding codons. No change is needed.",
-     "coordinates": [
-      1784,
-      4784
-     ],
-     "observed": "3,000 bp, 1000 codons, 1 in-frame stop(s)",
-     "threshold": "ATG start, length divisible by 3, single in-frame stop at the 3' end",
-     "citation": "System design section 6.4 check 6. Standard genetic code, NCBI translation table 1, as implemented in packages/core/sequence/codon.py.",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.sc_capacity",
-     "label": "Self complementary capacity",
-     "severity": "pass",
-     "message": "The design is single stranded, so the halved self complementary capacity does not apply and the 4,700 bp single stranded target was used by aav.packaging_limit instead. If you switch to self complementary, the cassette would be measured against 2,400 bp, and at 5,064 bp it would be 2,664 bp over that target, so the cassette would have to shrink first. No change is needed for the current single stranded design.",
-     "coordinates": null,
-     "observed": "5,064 bp, single stranded",
-     "threshold": "target 2,400 bp, soft limit 2,500 bp, hard limit 2,600 bp",
-     "citation": "System design section 6.2 (self complementary genomes are effectively duplicated, halving usable capacity) and section 6.5 self complementary band.",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.promoter_tissue_match",
-     "label": "Promoter and target tissue match",
-     "severity": "pass",
-     "message": "Promoter promoter.cag is annotated ubiquitous, which is compatible with the ubiquitous target. No change is needed.",
-     "coordinates": [
-      145,
-      1784
-     ],
-     "observed": "promoter.cag is ubiquitous, target is ubiquitous",
-     "threshold": "promoter tissue_specificity in {ubiquitous} for target ubiquitous",
-     "citation": "System design section 6.2 (promoter choice encodes tissue specificity) and section 6.4 check 8. Promoter annotations from data/parts, each with its own citation.",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.internal_repeats",
-     "label": "Internal direct repeats",
-     "severity": "warn",
-     "message": "1 direct repeat(s) longer than 20 bp occur in the 4,774 bp region between the two ITRs. The longest is 21 bp, present at cassette positions 159 and 352 (in promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)) and promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron))). Direct repeats in the same orientation are recombination substrates during vector production and yield deleted species, so this lowers the fraction of full length genomes. Either accept it, which is normal for standard parts (the 21 bp sequence ACGGTAAATGGCCCGCCTGGC occurs twice inside promoter.cmv, promoter.cag and promoter.cbh because all three carry the repeated CMV enhancer motif), or substitute a part that does not carry the repeat: promoter.efs, promoter.ef1a, promoter.gfap, promoter.hsyn1 and promoter.mecp2_mini carry none. This is a Tier B warning, not a failure.",
-     "coordinates": [
-      158,
-      179
-     ],
-     "observed": "1 repeat(s), longest 21 bp",
-     "threshold": "no direct repeat longer than 20 bp",
-     "citation": "System design section 6.4 check 9 and MAX_DIRECT_REPEAT_BP in section 6.5. Direct repeats are recombination substrates during vector production.",
-     "tier": "B",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.homopolymer_runs",
-     "label": "Homopolymer runs",
-     "severity": "warn",
-     "message": "1 homopolymer run(s) longer than 8 bp occur inside the cassette. The longest is 14 consecutive G at cassette position 558 inside promoter (CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)). Long single base runs destabilise synthesis and replication and are a common cause of indels in the ordered DNA. If the run sits in your own transgene, break it with synonymous codon changes. If it sits in a registry part, it is expected and documented: promoter.cag carries a 14 bp G run and promoter.cbh a 16 bp G run in their GC rich cores. This is a Tier B warning, not a failure.",
-     "coordinates": [
-      557,
-      571
-     ],
-     "observed": "1 run(s), longest 14 bp of G",
-     "threshold": "no single base run longer than 8 bp",
-     "citation": "System design section 6.4 check 10 and MAX_HOMOPOLYMER_RUN in section 6.5. Long homopolymers destabilise synthesis and replication.",
-     "tier": "B",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.kozak_context",
-     "label": "Kozak initiation context",
-     "severity": "pass",
-     "message": "The initiator ATG sits in a strong Kozak context: a purine (A) at -3 and G at +4, reading GGCAAAATGG. No change is needed. The full GCCRCCATGG consensus is not matched at every position, which is common and not a problem once -3 and +4 are right.",
-     "coordinates": [
-      1778,
-      1788
-     ],
-     "observed": "-3 is A, +4 is G, context GGCAAAATGG",
-     "threshold": "purine (A or G) at -3 and G at +4; full consensus GCCRCCATGG",
-     "citation": "System design section 6.4 check 11. Initiation consensus and the -3 and +4 hierarchy: Kozak, Nucleic Acids Research 1987, 15:8125-8148 (doi:10.1093/nar/15.20.8125).",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.polya_present_functional",
-     "label": "Functional polyadenylation signal",
-     "severity": "pass",
-     "message": "The polyA element (SV40 polyadenylation signal, 135 bp) carries a recognised polyadenylation hexamer: AATAAA at position 32 of the element, cassette position 4,816, and 1 further occurrence(s). No change is needed.",
-     "coordinates": [
-      4815,
-      4821
-     ],
-     "observed": "AATAAA at element position 32 (2 occurrence(s))",
-     "threshold": "one of AATAAA, ATTAAA present in the polyA element",
-     "citation": "System design section 6.4 check 12. AATAAA: Proudfoot and Brownlee, Nature 1976, 263:211-214. ATTAAA variant usage: Beaudoing and colleagues, Genome Research 2000, 10:1001-1010.",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.minimum_genome_size",
-     "label": "Minimum genome size",
-     "severity": "pass",
-     "message": "The cassette is 5,064 bp, which is at or above the 2,000 bp minimum, so packaging efficiency is not degraded by under-length genomes. No change is needed.",
-     "coordinates": null,
-     "observed": "5,064 bp",
-     "threshold": "at least 2,000 bp",
-     "citation": "System design section 6.4 check 13 and AAV_MIN_GENOME_BP in section 6.5. Below the minimum, packaging efficiency degrades and the empty capsid fraction rises.",
-     "tier": "A",
-     "remediation": null
-    },
-    {
-     "check_id": "aav.itr_internal_sites",
-     "label": "Internal ITR motifs",
-     "severity": "pass",
-     "message": "No 20 bp window of a AAV2 ITR occurs in the 4,774 bp region between the two ITRs, on either strand. There is no internal terminal repeat copy to remove. No change is needed.",
-     "coordinates": null,
-     "observed": "0 internal ITR motifs in 4,774 bp",
-     "threshold": "no 20 bp window of a AAV2 ITR present between the ITRs",
-     "citation": "System design section 6.4 check 14. Motif set is derived from the serotype ITR reference records in data/parts, not written into code.",
-     "tier": "A",
-     "remediation": null
-    }
-   ],
-   "evaluated_at": "2026-10-08T02:43:28.475522Z",
-   "validator_version": "aav-1.0.0"
-  },
-  "artifacts": {
-   "genbank": "LOCUS       aav_11ce53849305        5064 bp    ds-DNA  linear   SYN 01-JAN-1980\nDEFINITION  Construct AAV cassette: TG, AAV2 ITRs, single stranded, ubiquitous\n            target.\nACCESSION   aav-11ce53849305\nVERSION     aav-11ce53849305\nKEYWORDS    CONSTRUCT_AAV_CASSETTE; capability=aav; serotype=AAV2;\n            self_complementary=false; target_tissue=ubiquitous; total_bp=5064.\nSOURCE      .\n  ORGANISM  .\n            .\nCOMMENT     Composed by Construct from curated registry parts. Linear cassette,\n            5' ITR to 3' ITR.\n            Provenance, one entry per source:\n            user_input:transgene_sequence\n            part:itr.aav2_itr_left\n            part:promoter.cag\n            part:polya.sv40\n            part:itr.aav2_itr_right\n            serotype_reference:NC_001401.2\n            Notes:\n            polyA polya.sv40 was auto-selected as the most compact functional\n            signal (135 bp). Alternatives: polya.bgh (225 bp). Set\n            polya_preference to choose one.\n            include_wpre was requested but WPRE (enhancer.wpre, 589 bp) was\n            omitted because adding it would take the cassette to 5,653 bp\n            against the 4,700 bp target. The cassette is 5,064 bp without it.\nFEATURES             Location/Qualifiers\n     source          1..5064\n                     /organism=\"synthetic construct\"\n                     /mol_type=\"other DNA\"\n                     /note=\"recombinant AAV2 cassette\"\n     repeat_region   1..145\n                     /label=\"AAV2 inverted terminal repeat, left (5' ITR)\"\n                     /note=\"inverted terminal repeat, 5' end\"\n                     /construct_role=\"itr_5\"\n                     /construct_part_id=\"itr.aav2_itr_left\"\n     regulatory      146..1784\n                     /label=\"CAG promoter (CMV enhancer, chicken beta-actin\n                     promoter and intron)\"\n                     /note=\"promoter\"\n                     /construct_role=\"promoter\"\n                     /regulatory_class=\"promoter\"\n                     /construct_part_id=\"promoter.cag\"\n     CDS             1785..4784\n                     /label=\"TG coding sequence\"\n                     /note=\"transgene coding sequence\"\n                     /construct_role=\"cds\"\n                     /construct_part_id=\"none\"\n                     /construct_source=\"user_input:transgene_sequence\"\n                     /codon_start=1\n                     /transl_table=1\n                     /gene=\"TG\"\n     regulatory      4785..4919\n                     /label=\"SV40 polyadenylation signal\"\n                     /note=\"polyadenylation signal\"\n                     /construct_role=\"polya\"\n                     /regulatory_class=\"polyA_signal_sequence\"\n                     /construct_part_id=\"polya.sv40\"\n     repeat_region   4920..5064\n                     /label=\"AAV2 inverted terminal repeat, right (3' ITR)\"\n                     /note=\"inverted terminal repeat, 3' end\"\n                     /construct_role=\"itr_3\"\n                     /construct_part_id=\"itr.aav2_itr_right\"\nORIGIN\n        1 ttggccactc cctctctgcg cgctcgctcg ctcactgagg ccgggcgacc aaaggtcgcc\n       61 cgacgcccgg gctttgcccg ggcggcctca gtgagcgagc gagcgcgcag agagggagtg\n      121 gccaactcca tcactagggg ttcctcgtta cataacttac ggtaaatggc ccgcctggct\n      181 gaccgcccaa cgacccccgc ccattgacgt caataatgac gtatgttccc atagtaacgt\n      241 caatagggac tttccattga cgtcaatggg tggagtattt acggtaaact gcccacttgg\n      301 cagtacatca agtgtatcat atgccaagta cgccccctat tgacgtcaat gacggtaaat\n      361 ggcccgcctg gcattatgcc cagtacatga ccttatggga ctttcctact tggcagtaca\n      421 tctacgtatt agtcatcgct attaccatgg gtcgaggtga gccccacgtt ctgcttcact\n      481 ctccccatct cccccccctc cccaccccca attttgtatt tatttatttt ttaattattt\n      541 tgtgcagcga tgggggcggg gggggggggg gcgcgcgcca ggcggggcgg ggcggggcga\n      601 ggggcggggc ggggcgaggc ggagaggtgc ggcggcagcc aatcagagcg gcgcgctccg\n      661 aaagtttcct tttatggcga ggcggcggcg gcggcggccc tataaaaagc gaagcgcgcg\n      721 gcgggcggga gtcgctgcgt tgccttcgcc ccgtgccccg ctccgcgccg cctcgcgccg\n      781 cccgccccgg ctctgactga ccgcgttact cccacaggtg agcgggcggg acggcccttc\n      841 tcctccgggc tgtaattagc gcttggttta atgacggctc gtttcttttc tgtggctgcg\n      901 tgaaagcctt aaagggctcc gggagggccc tttgtgcggg ggggagcggc tcggggggtg\n      961 cgtgcgtgtg tgtgtgcgtg gggagcgccg cgtgcggccc gcgctgcccg gcggctgtga\n     1021 gcgctgcggg cgcggcgcgg ggctttgtgc gctccgcgtg tgcgcgaggg gagcgcggcc\n     1081 gggggcggtg ccccgcggtg cgggggggct gcgaggggaa caaaggctgc gtgcggggtg\n     1141 tgtgcgtggg ggggtgagca gggggtgtgg gcgcggcggt cgggctgtaa cccccccctg\n     1201 cacccccctc cccgagttgc tgagcacggc ccggcttcgg gtgcggggct ccgtgcgggg\n     1261 cgtggcgcgg ggctcgccgt gccgggcggg gggtggcggc aggtgggggt gccgggcggg\n     1321 gcggggccgc ctcgggccgg ggagggctcg ggggaggggc gcggcggccc cggagcgccg\n     1381 gcggctgtcg aggcgcggcg agccgcagcc attgcctttt atggtaatcg tgcgagaggg\n     1441 cgcagggact tcctttgtcc caaatctggc ggagccgaaa tctgggaggc gccgccgcac\n     1501 cccctctagc gggcgcgggc gaagcggtgc ggcgccggca ggaaggaaat gggcggggag\n     1561 ggccttcgtg cgtcgccgcg ccgccgtccc cttctccatc tccagcctcg gggctgccgc\n     1621 agggggacgg ctgccttcgg gggggacggg gcagggcggg gttcggcttc tggcgtgtga\n     1681 ccggcggctc tagagcctct gctaaccatg ttcatgcctt cttctttttc ctacagctcc\n     1741 tgggcaacgt gctggttatt gtgctgtctc atcattttgg caaaatggct gtgtaccaca\n     1801 accgaggccg aaacacagga gagttgcacg accagcatta tcgagataac ggagccctcg\n     1861 tgtccggttt atcgcctcaa tatggacatt cgggcatacc agacaaacta gacggctttc\n     1921 cattcgagcg agatctgacc acgaaatctc cccttgtttg tgctgcacgt gggtatctac\n     1981 tagaagaagc gtcgacgact gtggcactcg ccgttggtcg caagcgacct acgttgtggt\n     2041 tctggttaat tgtcacacat cccgtctggg agccggcacc caggcacaat tccgagagcg\n     2101 tctgttcagc caaggcatac aaagaccccg tggagaccaa gcagaacgac aatcctatgg\n     2161 gtatcactat actcagatgc ggtaccttgg gtgacccccc aatgttgccc tacccttcaa\n     2221 ggcagtgggc ggttaagatc atccacaaca tcccagatag ctctgaagtg gtaccgtgtc\n     2281 gtcgtacaat gagggctgat cgcttatcat tacgacggct actggccgca ttgtttacgc\n     2341 aaggatacgc cgctgtatcg tccattccga cttgcgtggc ttgtcttaag atgatccccc\n     2401 aatggcggat gtactcgcca tggcacctgg tcttatgcaa gtcgtgtctg ccttccggat\n     2461 ttgtccaact atggccgact gacaaatgca ggagatttgg tcgaggttca tcctcttcgg\n     2521 ttgcaagttc atgcgcgtac agatgcttta tgcatagctg tgccctctta tatcacctac\n     2581 agtccatgac ttgcccgact caaccccacc aggtgatggg tgtgtgtaac cgtgggaagg\n     2641 tctggagcag gagagatggc gtaacagtag gcccacgggt atatctgaat ccggacactc\n     2701 cactacgttc gttttatgcc ataccttcgc atccaaggtc gcccctcgac gcaggctccg\n     2761 gcaggcagag cttcgtaaaa ctcggagggc aggatttcac gtcccatctg agcgaaggga\n     2821 gtgggagggg ccgtaatcct ctcacactgc gtcttccggt ctactgcgtc ccagcgataa\n     2881 cttacgtcgt ggacccggtg atcctcgaga cacaatacat acccgctacc agaccccaag\n     2941 tcactgccca tttgcgcctg cctggtgaca taggtaaact gtcttatggc tacacgggat\n     3001 acatcccagt gtatacggtc tacgtgagga gtttgggcgt tcctgtccgg gccctactga\n     3061 cttattggtt gaatacacga gttacactac gggaggacgt gcacaaaaat gaatcagagc\n     3121 cagcccgaga gaggagtgtg atgtggagtc gcttacactg ggatttacag cagggggctg\n     3181 gatccacctc gtttcatcgg ggtcggaatt cgccctccct cataaaggta gccccaagtg\n     3241 tgctcggtcg ctacatggtt ctttatcaat ggccagagtc aaagcggctg cgcaatctta\n     3301 ctggggggct ggatactgat caaacggcgc gcttacttat actcgagcgc ctagttcgtt\n     3361 tggctgtagg gaaagtgtta aacgttttga caaacctctt attacagtgg ccgaccacta\n     3421 ggcacacagt atgcgacgaa tgtaaggttc ttgacattcg ggccgacgaa cgaagacgcg\n     3481 cgcgaacggt caatgcatgc ttactccgta atcagttgac gttcgtgtat agacagaagt\n     3541 actacgaccg gcggactgtg gcttcaaaag gaattaatga acttatcctg acactggcca\n     3601 ccacccgtga tgttaatcgt aggcctaact tacataacga catcgttccg gcgttggctg\n     3661 ggatccagag catcgcgatg tacgtcactc gacgagtccg attggagacc cgtggcaagt\n     3721 gcggcccaag gatccttgaa acgagacaag tgagaagtag ccgagcggac cgtaagtcct\n     3781 ggtggtgtca agcattttta tcgctgagac caccggttaa gttgtctaat gctaggtgta\n     3841 actctccagg tgagcaaacc agggagacga tagctattac aactcaattt tacctattat\n     3901 atccctgcag agtcctgacc ggtcctcaac tcggactagg cgattcaatg gcgagtatca\n     3961 ataggtctcg tatcgtgggg atggaaccaa tacatacggt gctcagtgcg tccgattcgc\n     4021 agatcgaagg gagacagaat tggtacgaca cgagattagg tgtcccgctg cgaaagaact\n     4081 gtctagctcc gcttgactgt ccgctacaca ccctaaacgg cacacattct tcgaccccca\n     4141 agttaacaag acgaagccag ctttgtttta tgcggacgct gtcgcgactc atggtgcgcc\n     4201 tcgagtcgga caaaccgctt tatggctgtg atcgcttcaa gttagacggc cctgctttac\n     4261 tttggaccag tataaggggc ggggaatcaa ctaccacagt ctccagctcg cctaacccag\n     4321 tccggatacg agtcgatagt ctccccgttg ccgcactaaa aaactgcctc ggtgacctac\n     4381 tagtgttctt ctcacgcgtg atgcgaatgc ataaactgta tcaacgaggt gtcacgacaa\n     4441 atacagctcg aatccttatc aggctagttg gctcgatgtg ctatgccgag gaatctgccg\n     4501 cgttgttgtg cctgtcttac gatcgcaccg atccagggct gtttatacca aggcttgaat\n     4561 atccctgttt cttggattta gcacaagagc acagggtatt cagcttggaa aaactgttag\n     4621 cgggcatcat gccgggtgaa tacgctaccc gactacggaa gtatgtcttt gaacagccaa\n     4681 atcccggggc aaccaatggt atcgattccg ttgacatatg tcatgtgcaa tactactgca\n     4741 agtcaactca tcacggtgca atgtatttcc tgataccaag ttaaaacttg tttattgcag\n     4801 cttataatgg ttacaaataa agcaatagca tcacaaattt cacaaataaa gcattttttt\n     4861 cactgcattc tagttgtggt ttgtccaaac tcatcaatgt atcttatcat gtctggatca\n     4921 ggaaccccta gtgatggagt tggccactcc ctctctgcgc gctcgctcgc tcactgaggc\n     4981 cgggcgacca aaggtcgccc gacgcccggg ctttgcccgg gcggcctcag tgagcgagcg\n     5041 agcgcgcaga gagggagtgg ccaa\n//",
-   "fasta": ">aav-11ce53849305 Construct AAV cassette | TG | AAV2 | ss | 5064 bp | linear | itr_5:1-145 promoter:146-1784 cds:1785-4784 polya:4785-4919 itr_3:4920-5064\nTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCC\nCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTG\nGCCAACTCCATCACTAGGGGTTCCTCGTTACATAACTTACGGTAAATGGCCCGCCTGGCT\nGACCGCCCAACGACCCCCGCCCATTGACGTCAATAATGACGTATGTTCCCATAGTAACGT\nCAATAGGGACTTTCCATTGACGTCAATGGGTGGAGTATTTACGGTAAACTGCCCACTTGG\nCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAAT\nGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACA\nTCTACGTATTAGTCATCGCTATTACCATGGGTCGAGGTGAGCCCCACGTTCTGCTTCACT\nCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTT\nTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGA\nGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCG\nAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCG\nGCGGGCGGGAGTCGCTGCGTTGCCTTCGCCCCGTGCCCCGCTCCGCGCCGCCTCGCGCCG\nCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTC\nTCCTCCGGGCTGTAATTAGCGCTTGGTTTAATGACGGCTCGTTTCTTTTCTGTGGCTGCG\nTGAAAGCCTTAAAGGGCTCCGGGAGGGCCCTTTGTGCGGGGGGGAGCGGCTCGGGGGGTG\nCGTGCGTGTGTGTGTGCGTGGGGAGCGCCGCGTGCGGCCCGCGCTGCCCGGCGGCTGTGA\nGCGCTGCGGGCGCGGCGCGGGGCTTTGTGCGCTCCGCGTGTGCGCGAGGGGAGCGCGGCC\nGGGGGCGGTGCCCCGCGGTGCGGGGGGGCTGCGAGGGGAACAAAGGCTGCGTGCGGGGTG\nTGTGCGTGGGGGGGTGAGCAGGGGGTGTGGGCGCGGCGGTCGGGCTGTAACCCCCCCCTG\nCACCCCCCTCCCCGAGTTGCTGAGCACGGCCCGGCTTCGGGTGCGGGGCTCCGTGCGGGG\nCGTGGCGCGGGGCTCGCCGTGCCGGGCGGGGGGTGGCGGCAGGTGGGGGTGCCGGGCGGG\nGCGGGGCCGCCTCGGGCCGGGGAGGGCTCGGGGGAGGGGCGCGGCGGCCCCGGAGCGCCG\nGCGGCTGTCGAGGCGCGGCGAGCCGCAGCCATTGCCTTTTATGGTAATCGTGCGAGAGGG\nCGCAGGGACTTCCTTTGTCCCAAATCTGGCGGAGCCGAAATCTGGGAGGCGCCGCCGCAC\nCCCCTCTAGCGGGCGCGGGCGAAGCGGTGCGGCGCCGGCAGGAAGGAAATGGGCGGGGAG\nGGCCTTCGTGCGTCGCCGCGCCGCCGTCCCCTTCTCCATCTCCAGCCTCGGGGCTGCCGC\nAGGGGGACGGCTGCCTTCGGGGGGGACGGGGCAGGGCGGGGTTCGGCTTCTGGCGTGTGA\nCCGGCGGCTCTAGAGCCTCTGCTAACCATGTTCATGCCTTCTTCTTTTTCCTACAGCTCC\nTGGGCAACGTGCTGGTTATTGTGCTGTCTCATCATTTTGGCAAAATGGCTGTGTACCACA\nACCGAGGCCGAAACACAGGAGAGTTGCACGACCAGCATTATCGAGATAACGGAGCCCTCG\nTGTCCGGTTTATCGCCTCAATATGGACATTCGGGCATACCAGACAAACTAGACGGCTTTC\nCATTCGAGCGAGATCTGACCACGAAATCTCCCCTTGTTTGTGCTGCACGTGGGTATCTAC\nTAGAAGAAGCGTCGACGACTGTGGCACTCGCCGTTGGTCGCAAGCGACCTACGTTGTGGT\nTCTGGTTAATTGTCACACATCCCGTCTGGGAGCCGGCACCCAGGCACAATTCCGAGAGCG\nTCTGTTCAGCCAAGGCATACAAAGACCCCGTGGAGACCAAGCAGAACGACAATCCTATGG\nGTATCACTATACTCAGATGCGGTACCTTGGGTGACCCCCCAATGTTGCCCTACCCTTCAA\nGGCAGTGGGCGGTTAAGATCATCCACAACATCCCAGATAGCTCTGAAGTGGTACCGTGTC\nGTCGTACAATGAGGGCTGATCGCTTATCATTACGACGGCTACTGGCCGCATTGTTTACGC\nAAGGATACGCCGCTGTATCGTCCATTCCGACTTGCGTGGCTTGTCTTAAGATGATCCCCC\nAATGGCGGATGTACTCGCCATGGCACCTGGTCTTATGCAAGTCGTGTCTGCCTTCCGGAT\nTTGTCCAACTATGGCCGACTGACAAATGCAGGAGATTTGGTCGAGGTTCATCCTCTTCGG\nTTGCAAGTTCATGCGCGTACAGATGCTTTATGCATAGCTGTGCCCTCTTATATCACCTAC\nAGTCCATGACTTGCCCGACTCAACCCCACCAGGTGATGGGTGTGTGTAACCGTGGGAAGG\nTCTGGAGCAGGAGAGATGGCGTAACAGTAGGCCCACGGGTATATCTGAATCCGGACACTC\nCACTACGTTCGTTTTATGCCATACCTTCGCATCCAAGGTCGCCCCTCGACGCAGGCTCCG\nGCAGGCAGAGCTTCGTAAAACTCGGAGGGCAGGATTTCACGTCCCATCTGAGCGAAGGGA\nGTGGGAGGGGCCGTAATCCTCTCACACTGCGTCTTCCGGTCTACTGCGTCCCAGCGATAA\nCTTACGTCGTGGACCCGGTGATCCTCGAGACACAATACATACCCGCTACCAGACCCCAAG\nTCACTGCCCATTTGCGCCTGCCTGGTGACATAGGTAAACTGTCTTATGGCTACACGGGAT\nACATCCCAGTGTATACGGTCTACGTGAGGAGTTTGGGCGTTCCTGTCCGGGCCCTACTGA\nCTTATTGGTTGAATACACGAGTTACACTACGGGAGGACGTGCACAAAAATGAATCAGAGC\nCAGCCCGAGAGAGGAGTGTGATGTGGAGTCGCTTACACTGGGATTTACAGCAGGGGGCTG\nGATCCACCTCGTTTCATCGGGGTCGGAATTCGCCCTCCCTCATAAAGGTAGCCCCAAGTG\nTGCTCGGTCGCTACATGGTTCTTTATCAATGGCCAGAGTCAAAGCGGCTGCGCAATCTTA\nCTGGGGGGCTGGATACTGATCAAACGGCGCGCTTACTTATACTCGAGCGCCTAGTTCGTT\nTGGCTGTAGGGAAAGTGTTAAACGTTTTGACAAACCTCTTATTACAGTGGCCGACCACTA\nGGCACACAGTATGCGACGAATGTAAGGTTCTTGACATTCGGGCCGACGAACGAAGACGCG\nCGCGAACGGTCAATGCATGCTTACTCCGTAATCAGTTGACGTTCGTGTATAGACAGAAGT\nACTACGACCGGCGGACTGTGGCTTCAAAAGGAATTAATGAACTTATCCTGACACTGGCCA\nCCACCCGTGATGTTAATCGTAGGCCTAACTTACATAACGACATCGTTCCGGCGTTGGCTG\nGGATCCAGAGCATCGCGATGTACGTCACTCGACGAGTCCGATTGGAGACCCGTGGCAAGT\nGCGGCCCAAGGATCCTTGAAACGAGACAAGTGAGAAGTAGCCGAGCGGACCGTAAGTCCT\nGGTGGTGTCAAGCATTTTTATCGCTGAGACCACCGGTTAAGTTGTCTAATGCTAGGTGTA\nACTCTCCAGGTGAGCAAACCAGGGAGACGATAGCTATTACAACTCAATTTTACCTATTAT\nATCCCTGCAGAGTCCTGACCGGTCCTCAACTCGGACTAGGCGATTCAATGGCGAGTATCA\nATAGGTCTCGTATCGTGGGGATGGAACCAATACATACGGTGCTCAGTGCGTCCGATTCGC\nAGATCGAAGGGAGACAGAATTGGTACGACACGAGATTAGGTGTCCCGCTGCGAAAGAACT\nGTCTAGCTCCGCTTGACTGTCCGCTACACACCCTAAACGGCACACATTCTTCGACCCCCA\nAGTTAACAAGACGAAGCCAGCTTTGTTTTATGCGGACGCTGTCGCGACTCATGGTGCGCC\nTCGAGTCGGACAAACCGCTTTATGGCTGTGATCGCTTCAAGTTAGACGGCCCTGCTTTAC\nTTTGGACCAGTATAAGGGGCGGGGAATCAACTACCACAGTCTCCAGCTCGCCTAACCCAG\nTCCGGATACGAGTCGATAGTCTCCCCGTTGCCGCACTAAAAAACTGCCTCGGTGACCTAC\nTAGTGTTCTTCTCACGCGTGATGCGAATGCATAAACTGTATCAACGAGGTGTCACGACAA\nATACAGCTCGAATCCTTATCAGGCTAGTTGGCTCGATGTGCTATGCCGAGGAATCTGCCG\nCGTTGTTGTGCCTGTCTTACGATCGCACCGATCCAGGGCTGTTTATACCAAGGCTTGAAT\nATCCCTGTTTCTTGGATTTAGCACAAGAGCACAGGGTATTCAGCTTGGAAAAACTGTTAG\nCGGGCATCATGCCGGGTGAATACGCTACCCGACTACGGAAGTATGTCTTTGAACAGCCAA\nATCCCGGGGCAACCAATGGTATCGATTCCGTTGACATATGTCATGTGCAATACTACTGCA\nAGTCAACTCATCACGGTGCAATGTATTTCCTGATACCAAGTTAAAACTTGTTTATTGCAG\nCTTATAATGGTTACAAATAAAGCAATAGCATCACAAATTTCACAAATAAAGCATTTTTTT\nCACTGCATTCTAGTTGTGGTTTGTCCAAACTCATCAATGTATCTTATCATGTCTGGATCA\nGGAACCCCTAGTGATGGAGTTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGC\nCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCG\nAGCGCGCAGAGAGGGAGTGGCCAA",
-   "length_budget": "#  element                    part                        bp   running  headroom\n---------------------------------------------------------------------------------\n 1  AAV2 inverted terminal rep itr.aav2_itr_left          145       145     4,555\n 2  CAG promoter (CMV enhancer promoter.cag             1,639     1,784     2,916\n 3  TG coding sequence         user supplied            3,000     4,784       -84\n 4  SV40 polyadenylation signa polya.sv40                 135     4,919      -219\n 5  AAV2 inverted terminal rep itr.aav2_itr_right         145     5,064      -364\n---------------------------------------------------------------------------------\n    TOTAL                                               5,064     5,064      -364\n\nSingle stranded design: the single stranded band applies.\ntarget 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
-   "linear_map_json": "{\n  \"design_id\": \"aav-11ce53849305\",\n  \"elements\": [\n    {\n      \"end\": 145,\n      \"end_1based\": 145,\n      \"fraction_of_cassette\": 0.028633,\n      \"index\": 0,\n      \"length_bp\": 145,\n      \"name\": \"AAV2 inverted terminal repeat, left (5' ITR)\",\n      \"part_id\": \"itr.aav2_itr_left\",\n      \"role\": \"itr_5\",\n      \"start\": 0,\n      \"start_1based\": 1\n    },\n    {\n      \"end\": 1784,\n      \"end_1based\": 1784,\n      \"fraction_of_cassette\": 0.323657,\n      \"index\": 1,\n      \"length_bp\": 1639,\n      \"name\": \"CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)\",\n      \"part_id\": \"promoter.cag\",\n      \"role\": \"promoter\",\n      \"start\": 145,\n      \"start_1based\": 146\n    },\n    {\n      \"end\": 4784,\n      \"end_1based\": 4784,\n      \"fraction_of_cassette\": 0.592417,\n      \"index\": 2,\n      \"length_bp\": 3000,\n      \"name\": \"TG coding sequence\",\n      \"part_id\": null,\n      \"role\": \"cds\",\n      \"start\": 1784,\n      \"start_1based\": 1785\n    },\n    {\n      \"end\": 4919,\n      \"end_1based\": 4919,\n      \"fraction_of_cassette\": 0.026659,\n      \"index\": 3,\n      \"length_bp\": 135,\n      \"name\": \"SV40 polyadenylation signal\",\n      \"part_id\": \"polya.sv40\",\n      \"role\": \"polya\",\n      \"start\": 4784,\n      \"start_1based\": 4785\n    },\n    {\n      \"end\": 5064,\n      \"end_1based\": 5064,\n      \"fraction_of_cassette\": 0.028633,\n      \"index\": 4,\n      \"length_bp\": 145,\n      \"name\": \"AAV2 inverted terminal repeat, right (3' ITR)\",\n      \"part_id\": \"itr.aav2_itr_right\",\n      \"role\": \"itr_3\",\n      \"start\": 4919,\n      \"start_1based\": 4920\n    }\n  ],\n  \"hard_limit_bp\": 5200,\n  \"self_complementary\": false,\n  \"serotype\": \"AAV2\",\n  \"soft_limit_bp\": 4900,\n  \"target_bp\": 4700,\n  \"target_tissue\": \"ubiquitous\",\n  \"topology\": \"linear\",\n  \"total_bp\": 5064,\n  \"transgene_name\": \"TG\"\n}"
-  },
-  "provenance": [
-   "user_input:transgene_sequence",
-   "part:itr.aav2_itr_left",
-   "part:promoter.cag",
-   "part:polya.sv40",
-   "part:itr.aav2_itr_right",
-   "serotype_reference:NC_001401.2"
-  ],
-  "parameters_used": {
-   "ss_target_bp": 4700,
-   "ss_soft_limit_bp": 4900,
-   "ss_hard_limit_bp": 5200,
-   "sc_target_bp": 2400,
-   "sc_soft_limit_bp": 2500,
-   "sc_hard_limit_bp": 2600,
-   "min_genome_bp": 2000,
-   "itr_identity_threshold": 0.95,
-   "max_direct_repeat_bp": 20,
-   "max_homopolymer_run": 8,
-   "itr_d_element_bp": 20,
-   "itr_orientation_margin": 0.05,
-   "itr_internal_motif_bp": 20,
-   "kozak_consensus_motif": "GCCRCCATGG",
-   "kozak_minus3_purines": [
-    "A",
-    "G"
-   ],
-   "kozak_plus4_base": "G",
-   "polya_signal_motifs": [
-    "AATAAA",
-    "ATTAAA"
-   ],
-   "tissue_compatibility": {
-    "cardiac": [
-     "cardiac",
-     "ubiquitous"
-    ],
-    "cns_astrocyte": [
-     "cns_astrocyte",
-     "ubiquitous"
-    ],
-    "cns_neuron": [
-     "cns_neuron",
-     "ubiquitous"
-    ],
-    "liver": [
-     "liver",
-     "ubiquitous"
-    ],
-    "muscle": [
-     "muscle",
-     "ubiquitous"
-    ],
-    "retina": [
-     "retina",
-     "ubiquitous"
-    ],
-    "ubiquitous": [
-     "ubiquitous"
     ]
-   },
-   "remediation_max_plans": 5,
-   "remediation_max_changes": 3,
-   "validator_version": "aav-1.0.0",
-   "serotype": "AAV2",
-   "self_complementary": false,
-   "target_tissue": "ubiquitous",
-   "packaging_limit_bp_override": null,
-   "applied_target_bp": 4700,
-   "applied_soft_limit_bp": 4900,
-   "applied_hard_limit_bp": 5200
-  }
- },
- "length_budget": {
-  "rows": [
-   {
-    "index": 0,
-    "role": "itr_5",
-    "name": "AAV2 inverted terminal repeat, left (5' ITR)",
-    "part_id": "itr.aav2_itr_left",
-    "length_bp": 145,
-    "running_total_bp": 145,
-    "headroom_bp": 4555
-   },
-   {
-    "index": 1,
-    "role": "promoter",
-    "name": "CAG promoter (CMV enhancer, chicken beta-actin promoter and intron)",
-    "part_id": "promoter.cag",
-    "length_bp": 1639,
-    "running_total_bp": 1784,
-    "headroom_bp": 2916
-   },
-   {
-    "index": 2,
-    "role": "cds",
-    "name": "TG coding sequence",
-    "part_id": null,
-    "length_bp": 3000,
-    "running_total_bp": 4784,
-    "headroom_bp": -84
-   },
-   {
-    "index": 3,
-    "role": "polya",
-    "name": "SV40 polyadenylation signal",
-    "part_id": "polya.sv40",
-    "length_bp": 135,
-    "running_total_bp": 4919,
-    "headroom_bp": -219
-   },
-   {
-    "index": 4,
-    "role": "itr_3",
-    "name": "AAV2 inverted terminal repeat, right (3' ITR)",
-    "part_id": "itr.aav2_itr_right",
-    "length_bp": 145,
-    "running_total_bp": 5064,
-    "headroom_bp": -364
-   }
-  ],
-  "total_bp": 5064,
-  "target_bp": 4700,
-  "soft_limit_bp": 4900,
-  "hard_limit_bp": 5200,
-  "headroom_bp": -364,
-  "self_complementary": false,
-  "limit_basis": "Single stranded design: the single stranded band applies."
- },
- "length_budget_text": " #  element                    part                        bp   running  headroom\n---------------------------------------------------------------------------------\n 1  AAV2 inverted terminal rep itr.aav2_itr_left          145       145     4,555\n 2  CAG promoter (CMV enhancer promoter.cag             1,639     1,784     2,916\n 3  TG coding sequence         user supplied            3,000     4,784       -84\n 4  SV40 polyadenylation signa polya.sv40                 135     4,919      -219\n 5  AAV2 inverted terminal rep itr.aav2_itr_right         145     5,064      -364\n---------------------------------------------------------------------------------\n    TOTAL                                               5,064     5,064      -364\n\nSingle stranded design: the single stranded band applies.\ntarget 4,700 bp, soft limit 4,900 bp, hard limit 5,200 bp",
- "remediation": {
-  "total_bp": 5064,
-  "target_bp": 4700,
-  "soft_limit_bp": 4900,
-  "hard_limit_bp": 5200,
-  "overage_bp": 364,
-  "plans": [
-   {
-    "changes": [
-     {
-      "kind": "substitute",
-      "role": "promoter",
-      "from_part_id": "promoter.cag",
-      "from_name": "CAG (promoter.cag, 1,639 bp)",
-      "from_bp": 1639,
-      "to_part_id": "promoter.efs",
-      "to_name": "EFS (promoter.efs, 212 bp)",
-      "to_bp": 212,
-      "saved_bp": 1427,
-      "tradeoff": "EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG."
-     }
-    ],
-    "saved_bp": 1427,
-    "resulting_bp": 3637,
-    "resulting_headroom_bp": 1063,
-    "preserves_promoter_preference": false
-   },
-   {
-    "changes": [
-     {
-      "kind": "substitute",
-      "role": "promoter",
-      "from_part_id": "promoter.cag",
-      "from_name": "CAG (promoter.cag, 1,639 bp)",
-      "from_bp": 1639,
-      "to_part_id": "promoter.cmv",
-      "to_name": "CMV (promoter.cmv, 663 bp)",
-      "to_bp": 663,
-      "saved_bp": 976,
-      "tradeoff": "CMV is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Strong, ubiquitous expression. Can silence over time in some tissues (Appendix B)."
-     }
-    ],
-    "saved_bp": 976,
-    "resulting_bp": 4088,
-    "resulting_headroom_bp": 612,
-    "preserves_promoter_preference": false
-   },
-   {
-    "changes": [
-     {
-      "kind": "substitute",
-      "role": "promoter",
-      "from_part_id": "promoter.cag",
-      "from_name": "CAG (promoter.cag, 1,639 bp)",
-      "from_bp": 1639,
-      "to_part_id": "promoter.cbh",
-      "to_name": "CBH (promoter.cbh, 799 bp)",
-      "to_bp": 799,
-      "saved_bp": 840,
-      "tradeoff": "CBH is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Hybrid, ubiquitous (Appendix B). The CBh promoter is described in a 2011 Human Gene Therapy paper as a hybrid form of the chicken beta-actin promoter of roughly 800 bp."
-     }
-    ],
-    "saved_bp": 840,
-    "resulting_bp": 4224,
-    "resulting_headroom_bp": 476,
-    "preserves_promoter_preference": false
-   },
-   {
-    "changes": [
-     {
-      "kind": "substitute",
-      "role": "promoter",
-      "from_part_id": "promoter.cag",
-      "from_name": "CAG (promoter.cag, 1,639 bp)",
-      "from_bp": 1639,
-      "to_part_id": "promoter.ef1a",
-      "to_name": "EF1A (promoter.ef1a, 1,184 bp)",
-      "to_bp": 1184,
-      "saved_bp": 455,
-      "tradeoff": "EF1A is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Ubiquitous, durable expression (Appendix B). Contains the EFS core promoter sequence within it."
-     }
-    ],
-    "saved_bp": 455,
-    "resulting_bp": 4609,
-    "resulting_headroom_bp": 91,
-    "preserves_promoter_preference": false
-   }
-  ],
-  "max_available_saving_bp": 1427,
-  "preference_preserving_saving_bp": 0,
-  "promoter_preference": "promoter.cag",
-  "remaining_deficit_bp": 0,
-  "max_transgene_bp": 4063,
-  "considered_change_count": 4,
-  "entries": [
-   "overage_bp=364 | total_bp=5064 | target_bp=4700 | soft_limit_bp=4900 | hard_limit_bp=5200 | plans=4 | max_available_saving_bp=1427 | preference_preserving_saving_bp=0 | promoter_preference=promoter.cag | max_transgene_bp=4063",
-   "plan=1 | changes=1 | saves_bp=1427 | result_bp=3637 | headroom_bp=1063 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.efs (saves 1427 bp) | tradeoff=EFS is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: The compact ubiquitous option. Weaker than CAG.",
-   "plan=2 | changes=1 | saves_bp=976 | result_bp=4088 | headroom_bp=612 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cmv (saves 976 bp) | tradeoff=CMV is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Strong, ubiquitous expression. Can silence over time in some tissues (Appendix B).",
-   "plan=3 | changes=1 | saves_bp=840 | result_bp=4224 | headroom_bp=476 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.cbh (saves 840 bp) | tradeoff=CBH is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Hybrid, ubiquitous (Appendix B). The CBh promoter is described in a 2011 Human Gene Therapy paper as a hybrid form of the chicken beta-actin promoter of roughly 800 bp.",
-   "plan=4 | changes=1 | saves_bp=455 | result_bp=4609 | headroom_bp=91 | preserves_promoter_preference=no | actions=substitute promoter.cag -> promoter.ef1a (saves 455 bp) | tradeoff=EF1A is annotated ubiquitous like CAG, so tissue specificity is preserved. Registry note: Ubiquitous, durable expression (Appendix B). Contains the EFS core promoter sequence within it."
+  },
+  "notes": [
+    "polyA polya.sv40 was auto-selected as the most compact functional signal (135 bp). Alternatives: polya.bgh (225 bp). Set polya_preference to choose one.",
+    "include_wpre was requested but WPRE (enhancer.wpre, 589 bp) was omitted because adding it would take the cassette to 5,653 bp against the 4,700 bp target. The cassette is 5,064 bp without it."
   ]
- },
- "notes": [
-  "polyA polya.sv40 was auto-selected as the most compact functional signal (135 bp). Alternatives: polya.bgh (225 bp). Set polya_preference to choose one.",
-  "include_wpre was requested but WPRE (enhancer.wpre, 589 bp) was omitted because adding it would take the cassette to 5,653 bp against the 4,700 bp target. The cassette is 5,064 bp without it."
- ]
 }

@@ -23,7 +23,6 @@ from packages.application import (
     InMemoryJobQueue,
     InMemoryOutcomeStore,
     InMemorySessionStore,
-    JobQueue,
     OutcomeStore,
     SessionJobResult,
     SessionStore,
@@ -503,7 +502,11 @@ def create_app(
         )
 
     @app.get("/v1/designs/{design_id}/export")
-    def export_design(design_id: str, format: Literal["genbank", "fasta"], request: Request) -> Response:
+    def export_design(
+        design_id: str,
+        format: Literal["genbank", "fasta"],  # noqa: A002 - `format` is the public query parameter name, so renaming it would change the HTTP API
+        request: Request,
+    ) -> Response:
         """Export a persisted annotated design as GenBank or FASTA."""
 
         # TODO: enforce bearer auth, durable account-aware rate limits, and usage metering.
