@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-from packages.core.schemas import DesignSpec, Plasmid, PlasmidRecommendation, RetrievedPlasmid
+from packages.core.schemas import DesignSpec, Plasmid, RetrievedPlasmid
 from packages.retrieval.gemini_client import GeminiRecommendationClient
 from packages.retrieval.recommender import (
     LLMRecommendationGenerator,

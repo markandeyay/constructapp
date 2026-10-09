@@ -37,7 +37,7 @@ from typing import Any, Mapping
 
 from packages.application import export_screened_design
 from packages.application.exports import SUPPORTED_EXPORT_FORMATS
-from packages.application.screening import ExportBlocked, JsonlExportAuditLog, block_findings
+from packages.application.screening import ExportBlocked, JsonlExportAuditLog
 
 # The artifact keys that carry an orderable sequence record. Used only by the
 # capabilities whose exports ARE sequence records, which is AAV today.

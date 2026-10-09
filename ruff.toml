@@ -1,0 +1,58 @@
+# Lint configuration for the whole repository. Kept in its own ruff.toml rather
+# than a pyproject.toml because none exists in this repo and creating one could
+# change packaging and other tooling behaviour. Run it with `make lint`.
+#
+# The rule set was selected by measurement, not by taste: it is the set of rules
+# that find real defects (unused or undefined names, bad escapes, latent closure
+# bugs, builtin shadowing) and deliberately leaves out pure formatting. Every
+# exclusion below is a load bearing decision, so each one records its reason.
+
+# README.md line 119 says "Python 3.11 or newer", the only declared target.
+target-version = "py311"
+
+# Informational only, because E501 is deliberately NOT selected. Measured over
+# 254 tracked Python files and 60,955 lines: the 95th percentile line is 92
+# characters, the 99th is 111, the longest is 295, and 274 lines exceed 120.
+# The long lines are deliberate single line strings, data tables and
+# explanatory prose. Line length is the pure formatting preference this rule
+# set is meant to leave out.
+line-length = 120
+
+[lint]
+# F      pyflakes: unused imports and variables, undefined names, f-strings
+#        without placeholders.
+# E401   multiple imports on one line. Only E401 of the E4 family: E402 (import
+#        not at top of file) reports 46 findings on deliberate conditional and
+#        path setup imports and is stylistic.
+# E7     statement level problems. Carries E722, true bare `except:`, so a real
+#        bare except can never land unnoticed. Reports zero today.
+# E9     syntax and IO errors.
+# W605   invalid escape sequence in a string, a real bug class. The rest of W is
+#        whitespace formatting.
+# B      flake8-bugbear: latent bugs such as B023 (loop variable not bound in a
+#        closure) and B017 (blind exception in a test).
+# A      flake8-builtins: shadowing of builtins.
+#
+# Deliberately NOT selected, with the reasons:
+#   BLE001   reports 27 findings. The design requires broad catches at
+#            evaluation boundaries so a check reports UNKNOWN with a reason
+#            rather than crashing (specification section 3.3 constraint 4), so
+#            the rule fights the architecture, and silencing 27 deliberate
+#            boundary handlers with noqa comments would be blanket silencing.
+#            E722 reports zero, so there is no actual bare except in the tree.
+#   PLC0415  reports 110 findings on lazy local imports the codebase uses on
+#            purpose and documents, for example coerce_design importing the
+#            composer inside the function so packages.validation.aav carries no
+#            import time dependency on packages.generation.aav.
+#   RUF100   unused noqa. KNOWN GAP. The tree carries 9 `# noqa` comments for
+#            BLE001, PLC0415 and E402, each with a recorded reason. RUF100 flags
+#            all 9 as non enabled even when those codes are listed under
+#            ignore, so enabling it would mean deleting 9 comments that carry
+#            real reasoning. It becomes available the day BLE, PLC0415 and E402
+#            are taken on.
+select = ["F", "E401", "E7", "E9", "W605", "B", "A"]
+
+# B905, zip without explicit strict, reports 21 findings that cannot be fixed
+# without either changing behaviour (strict=True can raise) or adding a no op
+# annotation.
+ignore = ["B905"]

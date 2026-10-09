@@ -57,7 +57,7 @@ e2e-test:
 demo: e2e-test
 
 lint:
-	@echo "No lint configured yet."
+	$(PYTHON) -m ruff check .
 
 ingest-all:
 	@echo "TODO: run all Phase 0 ingestion jobs"

@@ -3,9 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 from dataclasses import dataclass
-from io import StringIO
 from pathlib import Path
-from typing import Any, Protocol, Sequence
+from typing import Any, Protocol
 
 import boto3
 from Bio.Seq import Seq

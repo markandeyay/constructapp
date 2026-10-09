@@ -227,7 +227,6 @@ def _why_relevant(item: RetrievedPlasmid, spec: DesignSpec) -> str:
 
 
 def _suggested_adaptations(item: RetrievedPlasmid, spec: DesignSpec) -> list[str]:
-    plasmid = item.plasmid
     changes: list[str] = []
     record_text = _record_text(item)
     for gene in spec.genes:

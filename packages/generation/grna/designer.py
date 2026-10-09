@@ -266,7 +266,12 @@ class GuideRNAGenerator:
         """Enumerate, score, search, validate, rank (sections 8.3, 8.4, 8.6, 8.7)."""
         if not isinstance(request, GuideRNARequest):
             request = GuideRNARequest.model_validate(request)
-        spec = get_nuclease(request.nuclease)
+        # Called for its exception, not its value: get_nuclease raises KeyError
+        # naming every supported nuclease, and running it here means an unknown
+        # name is rejected with that message before any enumeration happens. Do
+        # not delete this as a no-op; the result is genuinely unused but the
+        # check is the point.
+        get_nuclease(request.nuclease)
         guides = enumerate_guides(request.target_sequence, request.nuclease)
 
         scored: list[tuple[EnumeratedGuide, OnTargetScore, OnTargetScore, int, float, str]] = []

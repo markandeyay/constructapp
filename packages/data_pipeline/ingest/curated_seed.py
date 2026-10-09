@@ -4,7 +4,7 @@ import argparse
 import json
 import time
 from dataclasses import dataclass, field
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Iterable, Protocol
 from urllib.error import HTTPError, URLError

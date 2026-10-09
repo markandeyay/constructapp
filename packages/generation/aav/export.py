@@ -71,7 +71,7 @@ def _record(design: AAVDesign) -> SeqRecord:
     record.annotations["data_file_division"] = "SYN"
     record.annotations["keywords"] = [
         "CONSTRUCT_AAV_CASSETTE",
-        f"capability=aav",
+        "capability=aav",
         f"serotype={design.serotype}",
         f"self_complementary={str(design.self_complementary).lower()}",
         f"target_tissue={design.target_tissue}",

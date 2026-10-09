@@ -1121,3 +1121,85 @@ self consistent with their own spec file, so the e2e suite passes against them,
 but they no longer match what the real API returns. The two AAV screenshots in
 `docs/demo_evidence/` likewise show the old totals and cannot be corrected as
 text. Full report in `progress/WP-17.md`.
+
+## WP-18: `make lint` is real, with a rule set chosen by measurement
+
+Closes the deferral recorded above under "Performance and code quality,
+measured rather than assumed", whose stated reason, being two days from a demo,
+has expired. `make lint` ran `@echo "No lint configured yet."`; it now runs
+`$(PYTHON) -m ruff check .`.
+
+ruff is pinned EXACTLY, `ruff==0.16.10`, which deviates on purpose from the
+`>=X.Y,<N+1` style every other line in requirements.txt uses. ruff's rule
+behaviour changes between releases, so a floating version makes the gate non
+deterministic across machines and across time; a gate must pin the version
+whose findings were triaged. Config is in `ruff.toml` at the root, not a
+`pyproject.toml`, because none exists here and adding one could change packaging
+behaviour.
+
+Rule set, selected by running candidates over the tree and reading the findings:
+`select = ["F", "E401", "E7", "E9", "W605", "B", "A"]`, `ignore = ["B905"]`,
+`target-version = "py311"` (the only declared target, README line 119).
+
+The exclusions are the real decisions and each is recorded in `ruff.toml` with
+its measured count. E501 is NOT selected: measured over 254 files and 60,955
+lines the 95th percentile line is 92 characters, the 99th is 111, the longest is
+295 and 274 lines exceed 120, and those long lines are deliberate strings, data
+tables and prose, so any line length would have been the formatting fight to
+avoid. BLE001 is not selected: 27 findings on broad boundary catches that
+section 3.3 constraint 4 actually requires, so the rule fights the design, and
+notably E722, a genuine bare `except:`, reports ZERO, so the thing it was meant
+to catch is already absent. PLC0415 is not selected: 110 findings on documented
+deliberate lazy imports. E402 is not selected: 46 findings, stylistic. B905 is
+ignored: 21 findings, unfixable without changing behaviour or adding a no op.
+RUF100 is not selected and is recorded as a KNOWN GAP: it was verified
+empirically that it flags all 9 existing `# noqa` comments as non enabled even
+when their codes are listed under `ignore`, so enabling it would mean deleting 9
+comments that carry real reasoning, one of them in a file this package could not
+touch.
+
+Findings 32 before, 3 after. Fixed: 10 unused imports (each checked by an AST
+scan for re-export before deletion), 7 f-strings without placeholders, 3
+undefined `Mapping` annotations in `packages/retrieval/eval.py` (a real defect,
+invisible only because that module has `from __future__ import annotations`), 3
+unused variables, 2 late-binding closure captures in
+`packages/data_pipeline/ingest/genbank.py`, 1 `pytest.raises(Exception)`
+narrowed to `dataclasses.FrozenInstanceError`, and 3 `A002` builtin-shadowing
+arguments given targeted `# noqa: A002 - reason` comments because `format` is
+the public keyword those codecs have always taken.
+
+Code changed in 18 files. Nothing was reformatted, reordered or renamed, no
+behaviour changed, and no blanket suppression was added anywhere: no bare
+`# noqa`, no file level `# ruff: noqa`, no `per-file-ignores`, no `exclude`.
+Where a rule was wrong for this codebase it was left out of `select` with its
+reason written down.
+
+One `F841` was NOT fixed by deleting the line. In
+`packages/generation/grna/designer.py` the binding was dropped but the call
+kept, because `get_nuclease` raises a `KeyError` naming every supported
+nuclease and running it first means an unknown name is rejected with that
+message before any enumeration. A bare call whose result is discarded reads like
+dead code, so a comment now records that it is called for its exception and must
+not be removed as a no op.
+
+`make lint` EXITS NON ZERO today, exit 2, on exactly 3 findings in two files
+this package was forbidden to edit because another worker owned them and was
+editing them concurrently. They are reported rather than worked around, and no
+mechanism was added to hide them:
+  services/api/app.py:26    F401 JobQueue, verified genuinely unused, one line
+                            deletion.
+  services/api/app.py:506   A002 format. Must NOT be renamed: it is a FastAPI
+                            route parameter, so the name is the public HTTP
+                            query parameter. Needs a targeted noqa.
+  services/api/e2e_app.py:102  B035 static key. READ, and NOT a bug: the
+                            `if template_id == TEMPLATE_ID` filter pins the loop
+                            variable to the same constant, so the at most one
+                            entry result is exactly what the docstring
+                            specifies. Cleanest fix is to key on `template_id`.
+
+Gates: `python -m pytest -q` 1589 passed, 2 skipped, unchanged by this package,
+which is the point of a pass that changes no behaviour; `make eval-capabilities`
+179 of 179, accuracy 1.000, 0 disagreements; `make eval-check` exit 0, all three
+halves PASS, 0 regressions. `python -m ruff check .` and the same config over
+`git ls-files '*.py'` report the same count, so no `exclude` was needed. No CI
+exists in this repo to wire into. Full report in `progress/WP-18.md`.

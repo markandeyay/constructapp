@@ -19,7 +19,7 @@ from packages.core.vocabularies import (
 )
 from packages.retrieval.document_composer import DOCUMENT_VERSION
 from packages.retrieval.embedder import Embedder
-from packages.retrieval.vector_store import VectorIndex, VectorMatch
+from packages.retrieval.vector_store import VectorIndex
 
 
 DEFAULT_RETRIEVAL_K = 5

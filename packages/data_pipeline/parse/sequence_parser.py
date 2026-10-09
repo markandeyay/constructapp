@@ -4,7 +4,7 @@ import json
 from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Iterable
 
 from Bio import SeqIO
 from Bio.Align import PairwiseAligner

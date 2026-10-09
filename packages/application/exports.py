@@ -87,7 +87,7 @@ def validate_auditable_export_format(value: str) -> str:
     return normalized
 
 
-def export_annotated_sequence(sequence: AnnotatedSequence, *, format: str) -> str:
+def export_annotated_sequence(sequence: AnnotatedSequence, *, format: str) -> str:  # noqa: A002 - `format` is the public keyword these codecs have always taken; renaming it would break callers
     """Render one annotated sequence. This is the codec, not the export gate.
 
     `AnnotatedSequence` carries no base level attribution: it has a sequence,
@@ -106,7 +106,7 @@ def export_annotated_sequence(sequence: AnnotatedSequence, *, format: str) -> st
 def export_screened_design(
     subject: ExportSubject,
     *,
-    format: str,
+    format: str,  # noqa: A002 - `format` is the public keyword these codecs have always taken; renaming it would break callers
     payloads: Mapping[str, str],
     validation_overall: Severity | None = None,
     backend: ScreeningBackend | None = None,
@@ -147,7 +147,7 @@ def export_screened_design(
     )
 
 
-def read_annotated_sequence(payload: str, *, format: str) -> AnnotatedSequence:
+def read_annotated_sequence(payload: str, *, format: str) -> AnnotatedSequence:  # noqa: A002 - `format` is the public keyword these codecs have always taken; renaming it would break callers
     export_format = validate_export_format(format)
     if export_format == "genbank":
         return _read_genbank(payload)

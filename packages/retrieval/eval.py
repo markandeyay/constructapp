@@ -5,7 +5,7 @@ import json
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Protocol, Sequence
+from typing import Any, Mapping, Protocol, Sequence
 
 from packages.core.schemas import RetrievalResult
 from packages.retrieval.pipeline import RetrievalPipeline, build_default_pipeline

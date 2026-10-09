@@ -13,6 +13,7 @@ this test.
 from __future__ import annotations
 
 import ast
+import dataclasses
 import re
 from pathlib import Path
 
@@ -280,5 +281,5 @@ def test_settings_is_frozen_so_a_check_cannot_mutate_a_threshold() -> None:
     """Determinism: one check must not be able to change what a later one measures."""
     settings = settings_for(clean_request())
     assert isinstance(settings, Settings)
-    with pytest.raises(Exception):
+    with pytest.raises(dataclasses.FrozenInstanceError):
         settings.primer_tm_warn_tolerance_c = 1.0  # type: ignore[misc]

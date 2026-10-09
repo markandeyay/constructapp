@@ -263,7 +263,7 @@ class EntrezNcbiClient:
             if retmax <= 0:
                 return
             search = self._entrez_read(
-                lambda: Entrez.esearch(
+                lambda retstart=retstart, retmax=retmax: Entrez.esearch(
                     db="nuccore",
                     term=self.query,
                     retstart=retstart,

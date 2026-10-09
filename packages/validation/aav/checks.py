@@ -1276,10 +1276,10 @@ def check_itr_internal_sites(context: CheckContext) -> CheckResult:
         f"{len(hits)} ITR motif(s) of {width:,} bp also occur inside the cassette. The first is {motif} at "
         f"cassette position {position + 1:,}{located}, on the "
         + ("plus" if strand == 1 else "minus")
-        + f" strand. An internal copy of terminal repeat sequence is a substrate for aberrant resolution "
-        f"during production and yields truncated genomes, so it lowers the fraction of full length vector. "
-        f"Check whether the element carrying it can be substituted, or whether the match is incidental GC "
-        f"rich sequence. This is a Tier B warning, not a failure.",
+        + " strand. An internal copy of terminal repeat sequence is a substrate for aberrant resolution "
+        "during production and yields truncated genomes, so it lowers the fraction of full length vector. "
+        "Check whether the element carrying it can be substituted, or whether the match is incidental GC "
+        "rich sequence. This is a Tier B warning, not a failure.",
         observed=f"{len(hits)} internal ITR motif(s), first {motif} at {position + 1:,}",
         threshold=threshold,
         coordinates=(position, position + width),

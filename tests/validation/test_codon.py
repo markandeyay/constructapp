@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from packages.validation.codon import codon_adaptation_index, run_codon_check
+from packages.validation.codon import run_codon_check
 from tests.validation.helpers import annotated, feature, spec
 
 

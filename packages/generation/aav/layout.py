@@ -64,8 +64,8 @@ def length_budget(design: AAVDesign, thresholds: AAVThresholds = DEFAULT_THRESHO
     total = design.total_bp
     if design.self_complementary:
         basis = (
-            f"Self complementary design: the halved self complementary band applies, because the packaged "
-            f"genome is the cassette duplicated."
+            "Self complementary design: the halved self complementary band applies, because the packaged "
+            "genome is the cassette duplicated."
         )
     else:
         basis = "Single stranded design: the single stranded band applies."

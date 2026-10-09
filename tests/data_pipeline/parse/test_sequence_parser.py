@@ -41,7 +41,6 @@ def test_puc19_trusted_annotations_detect_expected_components() -> None:
 
 
 def test_reference_matching_finds_unannotated_puc19_components() -> None:
-    record_text = (FIXTURES / "puc19.gb").read_text(encoding="utf-8")
     from Bio import SeqIO
 
     record = SeqIO.read(FIXTURES / "puc19.gb", "genbank")
